@@ -6,7 +6,103 @@ registry:
   status: "draft"
   description: >
     Compact controlled registry for project capabilities, decisions,
-    document types, body profiles, graph node types, and graph predicates.
+    document types, body profiles, taxonomies, graph node types, and graph
+    predicates.
+
+taxonomies:
+  capability_status:
+    - id: "proposed"
+      description: "Capability proposed but not yet accepted as binding."
+    - id: "accepted"
+      description: "Capability accepted as part of the governed product model."
+    - id: "implemented"
+      description: "Capability has implementation and verification traceability."
+    - id: "deprecated"
+      description: "Capability is no longer recommended for new work."
+    - id: "superseded"
+      description: "Capability has been replaced by another capability."
+
+  decision_status:
+    - id: "proposed"
+      description: "Decision under discussion."
+    - id: "accepted"
+      description: "Decision accepted as binding."
+    - id: "rejected"
+      description: "Decision explicitly rejected."
+    - id: "superseded"
+      description: "Decision replaced by a later decision."
+
+  requirement_status:
+    - id: "proposed"
+      description: "Requirement proposed but not yet accepted as binding."
+    - id: "accepted"
+      description: "Requirement accepted as binding."
+    - id: "implemented"
+      description: "Requirement implemented and traceable."
+    - id: "deprecated"
+      description: "Requirement no longer recommended."
+    - id: "superseded"
+      description: "Requirement replaced by another requirement."
+
+  priority:
+    - id: "must"
+      description: "Mandatory requirement."
+    - id: "should"
+      description: "Important but not mandatory yet."
+    - id: "could"
+      description: "Optional improvement."
+    - id: "wont"
+      description: "Explicitly excluded for now."
+
+  requirement_type:
+    - id: "functional"
+      description: "Observable product behavior."
+    - id: "non-functional"
+      description: "Quality attribute or constraint."
+    - id: "documentation"
+      description: "Documentation corpus or documentation governance requirement."
+    - id: "data"
+      description: "Data structure, registry, matrix, or graph model requirement."
+    - id: "operational"
+      description: "Tooling, workflow, validation, or repository operation requirement."
+
+  scope:
+    - id: "repository"
+      description: "Applies to the repository as a whole."
+    - id: "documentation-corpus"
+      description: "Applies to governed documentation under docs."
+    - id: "project-model"
+      description: "Applies to the compact project model files."
+    - id: "tooling"
+      description: "Applies to deterministic tools and validation commands."
+
+  verification_method:
+    - id: "inspection"
+      description: "Verified by human or deterministic inspection."
+    - id: "test"
+      description: "Verified by automated test or executable check."
+    - id: "analysis"
+      description: "Verified through deterministic analysis."
+    - id: "manual-review"
+      description: "Verified by explicit human review."
+
+  evidence_type:
+    - id: "repository-path"
+      description: "Evidence based on a repository-relative path."
+    - id: "document"
+      description: "Evidence based on a governed documentation artifact."
+    - id: "yaml"
+      description: "Evidence based on a YAML registry or matrix."
+    - id: "registry-entry"
+      description: "Evidence based on an entry in a governed registry."
+    - id: "command"
+      description: "Evidence based on an executable command."
+    - id: "tool-output"
+      description: "Evidence based on deterministic tool output."
+    - id: "git-hook"
+      description: "Evidence based on a versioned Git hook."
+    - id: "source-comment"
+      description: "Evidence based on a parseable source-file comment."
 
 capabilities:
   - id: "CAP-DOCUMENTATION-GOVERNANCE"
@@ -93,6 +189,21 @@ decisions:
       - "Validation commands are represented as Command nodes."
       - "Validation tools are represented as ValidationTool nodes."
       - "Gates, commands, tools, and config files are linked in graph.matrix.yml."
+
+  - id: "DEC-0005"
+    title: "Bidirectional implementation traceability"
+    status: "accepted"
+    statement: >
+      Implementation relationships must be consistent in both directions between
+      graph.matrix.yml and source-file comments.
+    rationale: >
+      Traceability degrades if the graph matrix claims a source file implements a
+      requirement while the source file does not declare that traceability, or if
+      source comments claim implementation that the matrix does not contain.
+    consequences:
+      - "IMPLEMENTED_BY triples from requirements to source files must be mirrored by source-file comments."
+      - "Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY triples."
+      - "The initial validation level is file-level traceability; code-symbol traceability may be added later."
 
 document_types:
   - id: "tutorial"
@@ -201,6 +312,9 @@ node_types:
 
   - id: "ValidationTool"
     description: "Deterministic tool used to validate repository artifacts."
+
+  - id: "CodeSymbol"
+    description: "Future function, class, method, or exported symbol inside a source file."
 
   - id: "AcceptanceCriterion"
     description: "Observable criterion used to accept a requirement."
@@ -319,7 +433,7 @@ predicates:
       - "Document"
 
   - id: "IMPLEMENTED_BY"
-    description: "The subject is implemented by a source file or configuration file."
+    description: "The subject is implemented by a source file, configuration file, or future code symbol."
     allowed_subject_types:
       - "Requirement"
       - "Gate"
@@ -327,6 +441,7 @@ predicates:
     allowed_object_types:
       - "SourceFile"
       - "ConfigFile"
+      - "CodeSymbol"
 
   - id: "VERIFIED_BY"
     description: "The requirement or acceptance criterion is verified by a test file or validation gate."

@@ -22,6 +22,10 @@ nodes:
     type: "Gate"
     description: "Git pre-commit gate that runs documentation checks."
 
+  - id: "GATE-PROJECT-MODEL"
+    type: "Gate"
+    description: "Planned gate that validates the compact project model and bidirectional traceability."
+
   - id: "CMD-DOCS-CHECK-STRUCTURE"
     type: "Command"
     command: "npm run docs:check:structure"
@@ -37,10 +41,20 @@ nodes:
     command: "npm run precommit"
     description: "Runs the repository pre-commit validation command."
 
+  - id: "CMD-PROJECT-MODEL-CHECK"
+    type: "Command"
+    command: "npm run docs:check:model"
+    description: "Planned command for compact project model and bidirectional traceability validation."
+
   - id: "TOOL-DOCS-STRUCTURE-GUARD"
     type: "ValidationTool"
     path: "tools/docs/check-docs-structure.mjs"
     description: "Deterministic documentation structure guard."
+
+  - id: "TOOL-PROJECT-MODEL-CHECK"
+    type: "ValidationTool"
+    path: "tools/docs/check-project-model.mjs"
+    description: "Planned deterministic project model and bidirectional traceability validator."
 
 triples:
   - subject:
@@ -76,6 +90,14 @@ triples:
       type: "Requirement"
 
   - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0005"
+      type: "Requirement"
+
+  - subject:
       id: "REQ-0001"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
@@ -105,6 +127,14 @@ triples:
     predicate: "BELONGS_TO_CAPABILITY"
     object:
       id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0005"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-REQUIREMENTS-MANAGEMENT"
       type: "Capability"
 
   - subject:
@@ -164,6 +194,22 @@ triples:
       type: "Requirement"
 
   - subject:
+      id: "DEC-0005"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0005"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0005"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+
+  - subject:
       id: "REQ-0001"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
@@ -204,6 +250,22 @@ triples:
       type: "Document"
 
   - subject:
+      id: "REQ-0005"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0005"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
       id: "REQ-0004"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
@@ -244,6 +306,14 @@ triples:
       type: "Gate"
 
   - subject:
+      id: "REQ-0005"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+
+  - subject:
       id: "GATE-DOCS-STRUCTURE"
       type: "Gate"
     predicate: "HAS_COMMAND"
@@ -268,6 +338,14 @@ triples:
       type: "Command"
 
   - subject:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-PROJECT-MODEL-CHECK"
+      type: "Command"
+
+  - subject:
       id: "CMD-DOCS-CHECK-STRUCTURE"
       type: "Command"
     predicate: "RUNS_TOOL"
@@ -292,6 +370,14 @@ triples:
       type: "ValidationTool"
 
   - subject:
+      id: "CMD-PROJECT-MODEL-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+
+  - subject:
       id: "CMD-DOCS-CHECK-STRUCTURE"
       type: "Command"
     predicate: "DECLARED_IN"
@@ -309,6 +395,14 @@ triples:
 
   - subject:
       id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "CMD-PROJECT-MODEL-CHECK"
       type: "Command"
     predicate: "DECLARED_IN"
     object:
@@ -345,4 +439,28 @@ triples:
     predicate: "VALIDATES"
     object:
       id: "docs/reference/project-model"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
       type: "Document"
