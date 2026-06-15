@@ -18,6 +18,6 @@ Define the new product boundary, architecture, and development workflow before i
 
 - Do not import old repository history.
 - Do not copy old documentation blindly.
-- Do not preserve old branch/tag structure.
+- Do not preserve old branch or tag structure.
 - Do not keep old runtime assumptions.
 - Do not introduce implementation code before defining the first product slice.

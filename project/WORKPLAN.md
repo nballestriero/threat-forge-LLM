@@ -6,6 +6,12 @@ Goal: create a clean repository with no dependency on the abandoned threat-forge
 
 Status: in progress.
 
+## M000.002 - Documentation directory structure
+
+Goal: reorganize the initial repository documentation into a clean Diátaxis structure and prepare empty requirements and traceability reference files for future deterministic validation and graph import.
+
+Status: proposed.
+
 ## M001 - Product boundary
 
 Goal: define what threat-forge-LLM is, what it is not, and what the first usable product slice should be.
