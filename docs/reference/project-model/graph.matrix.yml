@@ -6,8 +6,41 @@ matrix:
   status: "draft"
   description: >
     Canonical matrix of governed Subject-Predicate-Object relationships for
-    traceability, coherence, conflicts, implementation links, test links, and
-    future graph import.
+    traceability, coherence, conflicts, implementation links, test links,
+    validation commands, and future graph import.
+
+nodes:
+  - id: "GATE-DOCS-STRUCTURE"
+    type: "Gate"
+    description: "Gate that validates the governed documentation folder and file layout."
+
+  - id: "GATE-DOCS-CHECK"
+    type: "Gate"
+    description: "Aggregate documentation gate."
+
+  - id: "GATE-PRE-COMMIT"
+    type: "Gate"
+    description: "Git pre-commit gate that runs documentation checks."
+
+  - id: "CMD-DOCS-CHECK-STRUCTURE"
+    type: "Command"
+    command: "npm run docs:check:structure"
+    description: "Runs the documentation structure guard."
+
+  - id: "CMD-DOCS-CHECK"
+    type: "Command"
+    command: "npm run docs:check"
+    description: "Runs all documentation checks."
+
+  - id: "CMD-PRECOMMIT"
+    type: "Command"
+    command: "npm run precommit"
+    description: "Runs the repository pre-commit validation command."
+
+  - id: "TOOL-DOCS-STRUCTURE-GUARD"
+    type: "ValidationTool"
+    path: "tools/docs/check-docs-structure.mjs"
+    description: "Deterministic documentation structure guard."
 
 triples:
   - subject:
@@ -35,6 +68,14 @@ triples:
       type: "Requirement"
 
   - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0004"
+      type: "Requirement"
+
+  - subject:
       id: "REQ-0001"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
@@ -52,6 +93,14 @@ triples:
 
   - subject:
       id: "REQ-0003"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0004"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -99,6 +148,22 @@ triples:
       type: "Requirement"
 
   - subject:
+      id: "DEC-0004"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "CMD-DOCS-CHECK-STRUCTURE"
+      type: "Command"
+
+  - subject:
+      id: "DEC-0004"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "REQ-0004"
+      type: "Requirement"
+
+  - subject:
       id: "REQ-0001"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
@@ -128,4 +193,156 @@ triples:
     predicate: "SPECIFIED_BY"
     object:
       id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0004"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0004"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-structure.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0004"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0004"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: ".githooks/pre-commit"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0004"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-STRUCTURE"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0004"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PRE-COMMIT"
+      type: "Gate"
+
+  - subject:
+      id: "GATE-DOCS-STRUCTURE"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-DOCS-CHECK-STRUCTURE"
+      type: "Command"
+
+  - subject:
+      id: "GATE-DOCS-CHECK"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+
+  - subject:
+      id: "GATE-PRE-COMMIT"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+
+  - subject:
+      id: "CMD-DOCS-CHECK-STRUCTURE"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-CHECK-STRUCTURE"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "GATE-PRE-COMMIT"
+      type: "Gate"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: ".githooks/pre-commit"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-structure.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model"
       type: "Document"

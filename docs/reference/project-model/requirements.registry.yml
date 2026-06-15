@@ -216,3 +216,99 @@ requirements:
       required_evidence:
         - "registry-entry"
         - "document"
+
+  - id: "REQ-0004"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Documentation structure guard"
+    statement: >
+      The repository shall provide a deterministic validation tool that checks
+      the governed documentation folder structure and required canonical files.
+    rationale: >
+      The documentation corpus must not drift from the agreed Diátaxis structure
+      or from the compact project-model layout without an explicit governed
+      change.
+    status: "proposed"
+    priority: "must"
+    type: "operational"
+    scope: "repository"
+
+    preconditions:
+      - id: "PRE-REQ-0004-001"
+        statement: "The repository contains the governed documentation corpus."
+
+      - id: "PRE-REQ-0004-002"
+        statement: "The canonical project model files are expected under docs/reference/project-model."
+
+    main_flow:
+      - id: "FLOW-REQ-0004-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Runs the documentation structure check command."
+        expected_result: "The deterministic structure guard starts."
+
+      - id: "FLOW-REQ-0004-002"
+        step: 2
+        actor: "Validation tool"
+        action: "Checks required documentation directories."
+        expected_result: "Required Diátaxis and project-model directories exist."
+
+      - id: "FLOW-REQ-0004-003"
+        step: 3
+        actor: "Validation tool"
+        action: "Checks required canonical files."
+        expected_result: "Required project files, documentation files, and tool files exist."
+
+      - id: "FLOW-REQ-0004-004"
+        step: 4
+        actor: "Validation tool"
+        action: "Checks forbidden legacy or uncontrolled paths."
+        expected_result: "Forbidden paths are reported as validation errors."
+
+    alternative_flows:
+      - id: "ALT-REQ-0004-001"
+        title: "Structure violation"
+        trigger: "A required directory or file is missing, or a forbidden path exists."
+        steps:
+          - id: "FLOW-REQ-0004-ALT-001"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the structure violation."
+            expected_result: "The check exits with a non-zero status."
+
+          - id: "FLOW-REQ-0004-ALT-002"
+            step: 2
+            actor: "Git hook"
+            action: "Blocks the commit when the validation command fails."
+            expected_result: "The invalid structure is not committed."
+
+    postconditions:
+      - id: "POST-REQ-0004-001"
+        statement: "The documentation structure is confirmed valid or the check fails explicitly."
+
+      - id: "POST-REQ-0004-002"
+        statement: "Commits are blocked when the structure guard fails and the hook is enabled."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0004-001"
+        statement: "The repository provides a docs:check:structure command."
+
+      - id: "AC-REQ-0004-002"
+        statement: "The structure guard checks required Diátaxis directories."
+
+      - id: "AC-REQ-0004-003"
+        statement: "The structure guard checks required canonical project-model files."
+
+      - id: "AC-REQ-0004-004"
+        statement: "The structure guard rejects forbidden legacy paths."
+
+      - id: "AC-REQ-0004-005"
+        statement: "The pre-commit hook runs the documentation checks."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "tool-output"
+        - "git-hook"

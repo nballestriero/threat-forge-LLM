@@ -80,6 +80,20 @@ decisions:
       - "Grouped fields are allowed only as derived or validated views."
       - "Future code must validate predicates and subject/object type compatibility."
 
+  - id: "DEC-0004"
+    title: "Validation commands as graph nodes"
+    status: "accepted"
+    statement: >
+      Commands used to run validation checks are represented as governed graph
+      nodes and linked through SPO triples.
+    rationale: >
+      Command tracking must remain compatible with the canonical SPO model and
+      must not become a parallel free-form verification field.
+    consequences:
+      - "Validation commands are represented as Command nodes."
+      - "Validation tools are represented as ValidationTool nodes."
+      - "Gates, commands, tools, and config files are linked in graph.matrix.yml."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
@@ -168,7 +182,7 @@ node_types:
     description: "Accepted, proposed, superseded, or rejected project decision."
 
   - id: "Document"
-    description: "Governed documentation artifact."
+    description: "Governed documentation artifact or documentation directory."
 
   - id: "SourceFile"
     description: "Implementation source file."
@@ -176,8 +190,17 @@ node_types:
   - id: "TestFile"
     description: "Automated test file."
 
+  - id: "ConfigFile"
+    description: "Configuration file, package manifest, hook, or tool configuration."
+
   - id: "Gate"
-    description: "Validation gate or command."
+    description: "Validation gate or commit-blocking check."
+
+  - id: "Command"
+    description: "Executable command used to run a validation tool or gate."
+
+  - id: "ValidationTool"
+    description: "Deterministic tool used to validate repository artifacts."
 
   - id: "AcceptanceCriterion"
     description: "Observable criterion used to accept a requirement."
@@ -225,6 +248,9 @@ predicates:
       - "MacroRequirement"
       - "Document"
       - "Capability"
+      - "ValidationTool"
+      - "Gate"
+      - "Command"
 
   - id: "SUPPORTS"
     description: "The subject supports the object."
@@ -238,6 +264,8 @@ predicates:
       - "Requirement"
       - "MacroRequirement"
       - "Document"
+      - "Gate"
+      - "ValidationTool"
 
   - id: "CONFLICTS_WITH"
     description: "The subject conflicts with the object and requires review."
@@ -270,8 +298,12 @@ predicates:
       - "MacroRequirement"
       - "Requirement"
       - "Decision"
+      - "Gate"
+      - "ValidationTool"
+      - "Command"
     allowed_object_types:
       - "Document"
+      - "ConfigFile"
 
   - id: "EXPLAINED_BY"
     description: "The subject is explained by an explanatory document."
@@ -280,21 +312,62 @@ predicates:
       - "MacroRequirement"
       - "Requirement"
       - "Decision"
+      - "Gate"
+      - "ValidationTool"
+      - "Command"
     allowed_object_types:
       - "Document"
 
   - id: "IMPLEMENTED_BY"
-    description: "The requirement is implemented by a source file."
+    description: "The subject is implemented by a source file or configuration file."
     allowed_subject_types:
       - "Requirement"
+      - "Gate"
+      - "ValidationTool"
     allowed_object_types:
       - "SourceFile"
+      - "ConfigFile"
 
   - id: "VERIFIED_BY"
-    description: "The requirement is verified by a test file or validation gate."
+    description: "The requirement or acceptance criterion is verified by a test file or validation gate."
     allowed_subject_types:
       - "Requirement"
       - "AcceptanceCriterion"
     allowed_object_types:
       - "TestFile"
       - "Gate"
+
+  - id: "HAS_COMMAND"
+    description: "The subject exposes or is executed through the command."
+    allowed_subject_types:
+      - "Gate"
+      - "ValidationTool"
+    allowed_object_types:
+      - "Command"
+
+  - id: "RUNS_TOOL"
+    description: "The command runs the validation tool."
+    allowed_subject_types:
+      - "Command"
+    allowed_object_types:
+      - "ValidationTool"
+
+  - id: "DECLARED_IN"
+    description: "The subject is declared in a configuration file."
+    allowed_subject_types:
+      - "Command"
+      - "Gate"
+    allowed_object_types:
+      - "ConfigFile"
+
+  - id: "VALIDATES"
+    description: "The validation tool or gate validates the object."
+    allowed_subject_types:
+      - "ValidationTool"
+      - "Gate"
+    allowed_object_types:
+      - "Document"
+      - "ConfigFile"
+      - "SourceFile"
+      - "Requirement"
+      - "MacroRequirement"

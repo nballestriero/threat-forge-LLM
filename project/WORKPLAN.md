@@ -11,21 +11,26 @@ Status: in progress.
 - M000.001 - Initial clean repository files.
 - M000.002 - Diátaxis documentation folder structure.
 - M000.003 - Compact governed project model files.
+- M000.004 - Documentation structure guard.
+- M000.005 - Documentation structure guard requirement traceability.
 
 ## Next steps
 
-### M000.004 - Documentation structure guard
+### M000.006 - Project model consistency validator
 
-Goal: introduce a deterministic tool that checks the documentation folder structure and prevents uncontrolled changes to the Diátaxis corpus layout.
+Goal: introduce a deterministic tool that validates the compact project model.
 
 Expected scope:
 
-- allowed top-level documentation sections
-- allowed reference subdirectories
-- project-model directory presence
-- no implementation code yet unless needed for the validation tool
+- governance.registry.yml can be parsed
+- requirements.registry.yml can be parsed
+- graph.matrix.yml can be parsed
+- graph predicates used by triples are registered
+- subject/object types are compatible with predicate rules
+- requirements reference existing macro requirements and capabilities
+- command, gate, and validation tool nodes remain represented through SPO
 
-### M000.005 - File format validation baseline
+### M000.007 - File format validation baseline
 
 Goal: introduce deterministic validation for governed file formats.
 
