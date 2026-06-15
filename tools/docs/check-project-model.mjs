@@ -5,9 +5,9 @@
  * Validates the compact governed project model, including controlled
  * taxonomies, requirement implementation lifecycle, governed ID uniqueness, ID format patterns, requirement
  * references, SPO predicate compatibility, command/gate/tool relationships,
- * mandatory registration of governed source files, and file-level
- * bidirectional traceability between graph.matrix.yml and source-file JSDoc
- * comments.
+ * mandatory registration of governed source files, governed baseline artifact
+ * change-control markers, and file-level bidirectional traceability between
+ * graph.matrix.yml and source-file JSDoc comments.
  *
  * Canonical references:
  * - docs/reference/project-model/governance.registry.yml
@@ -17,6 +17,7 @@
  * Related requirements:
  * - REQ-0005
  * - REQ-0006
+ * - REQ-0022
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -50,6 +51,14 @@ const MODEL_FILES = {
   matrix: "docs/reference/project-model/graph.matrix.yml",
   packageJson: "package.json"
 };
+
+const GOVERNED_BASELINE_ARTIFACTS = [
+  MODEL_FILES.governance,
+  MODEL_FILES.requirements,
+  MODEL_FILES.matrix
+];
+
+const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022"]);
 
 const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
 const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
@@ -356,6 +365,27 @@ function checkJSDocCompleteness(sourceFile, jsdoc) {
       errors.push(`Source file ${sourceFile} JSDoc is missing required fragment: ${fragment}`);
     }
   }
+}
+
+
+/**
+ * Returns true when a value is a plain object.
+ *
+ * @param {unknown} value - Value to inspect.
+ * @returns {boolean} True when the value is a non-array object.
+ */
+function isObject(value) {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Returns an array of string values.
+ *
+ * @param {unknown} value - Value to inspect.
+ * @returns {string[]} String values when the value is an array, otherwise an empty array.
+ */
+function stringArray(value) {
+  return Array.isArray(value) ? value.filter((entry) => typeof entry === "string") : [];
 }
 
 /**
@@ -753,6 +783,100 @@ function validatePackageScripts(indexes, packageJson) {
   }
 }
 
+
+/**
+ * Checks that governed baseline artifacts contain file-local change-control
+ * markers and that graph.matrix.yml confirms those markers.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @param {Map<string, object>} baselineDocuments - Baseline artifact path to parsed document.
+ * @returns {void}
+ */
+function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments) {
+  for (const artifactPath of GOVERNED_BASELINE_ARTIFACTS) {
+    const document = baselineDocuments.get(artifactPath);
+    const changeControl = document?.change_control;
+
+    if (!isObject(changeControl)) {
+      errors.push(`Governed baseline artifact ${artifactPath} is missing change_control metadata`);
+      continue;
+    }
+
+    const satisfies = stringArray(changeControl.satisfies);
+    const decidedBy = stringArray(changeControl.decided_by);
+
+    if (satisfies.length === 0) {
+      errors.push(`Governed baseline artifact ${artifactPath} change_control.satisfies must contain at least one requirement id`);
+    }
+
+    if (decidedBy.length === 0) {
+      errors.push(`Governed baseline artifact ${artifactPath} change_control.decided_by must contain at least one decision id`);
+    }
+
+    for (const requirementId of satisfies) {
+      if (!indexes.requirementIds.has(requirementId)) {
+        errors.push(`Governed baseline artifact ${artifactPath} change_control.satisfies references unknown requirement ${requirementId}`);
+        continue;
+      }
+
+      const hasSpecifiedBy = indexes.triples.some(
+        (triple) =>
+          triple?.subject?.type === "Requirement" &&
+          triple?.subject?.id === requirementId &&
+          triple?.predicate === "SPECIFIED_BY" &&
+          triple?.object?.id === artifactPath &&
+          triple?.object?.type === "Document"
+      );
+
+      if (!hasSpecifiedBy) {
+        errors.push(`Governed baseline artifact ${artifactPath} change_control.satisfies cites ${requirementId}, but graph.matrix.yml has no matching SPECIFIED_BY triple`);
+      }
+
+      for (const decisionId of decidedBy) {
+        if (!indexes.decisionIds.has(decisionId)) {
+          errors.push(`Governed baseline artifact ${artifactPath} change_control.decided_by references unknown decision ${decisionId}`);
+          continue;
+        }
+
+        const decisionConfirmsRequirement = indexes.triples.some(
+          (triple) =>
+            triple?.subject?.type === "Decision" &&
+            triple?.subject?.id === decisionId &&
+            triple?.predicate === "DECIDES" &&
+            triple?.object?.type === "Requirement" &&
+            triple?.object?.id === requirementId
+        );
+
+        if (!decisionConfirmsRequirement) {
+          errors.push(`Governed baseline artifact ${artifactPath} change_control.decided_by cites ${decisionId}, but graph.matrix.yml does not show ${decisionId} DECIDES ${requirementId}`);
+        }
+      }
+    }
+  }
+
+  for (const triple of indexes.triples) {
+    const requirementId = triple?.subject?.id;
+    const artifactPath = triple?.object?.id;
+
+    if (
+      triple?.subject?.type !== "Requirement" ||
+      triple?.predicate !== "SPECIFIED_BY" ||
+      triple?.object?.type !== "Document" ||
+      !BASELINE_TRACEABILITY_REQUIREMENTS.has(requirementId) ||
+      !GOVERNED_BASELINE_ARTIFACTS.includes(artifactPath)
+    ) {
+      continue;
+    }
+
+    const document = baselineDocuments.get(artifactPath);
+    const satisfies = stringArray(document?.change_control?.satisfies);
+
+    if (!satisfies.includes(requirementId)) {
+      errors.push(`graph.matrix.yml says ${requirementId} SPECIFIED_BY ${artifactPath}, but the artifact change_control.satisfies marker does not cite ${requirementId}`);
+    }
+  }
+}
+
 /**
  * Gets IMPLEMENTED_BY triples that point at source files.
  *
@@ -886,6 +1010,11 @@ if (governance && requirements && matrix && packageJson) {
   validateRegistryReferences(indexes);
   validateTriples(indexes);
   validatePackageScripts(indexes, packageJson);
+  validateBidirectionalBaselineArtifactTraceability(indexes, new Map([
+    [MODEL_FILES.governance, governance],
+    [MODEL_FILES.requirements, requirements],
+    [MODEL_FILES.matrix, matrix]
+  ]));
   validateBidirectionalSourceTraceability(indexes);
 }
 

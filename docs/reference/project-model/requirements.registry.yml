@@ -1,5 +1,15 @@
 schema_version: "1.0"
 
+change_control:
+  decided_by:
+    - "DEC-0013"
+  satisfies:
+    - "REQ-0022"
+  rationale: >
+    This governed baseline artifact declares its internal traceability marker so
+    deterministic validation can compare file-local change-control metadata with
+    graph.matrix.yml relationships.
+
 registry:
   id: "requirements-registry"
   title: "Requirements registry"
@@ -1804,3 +1814,98 @@ requirements:
         - "yaml"
         - "registry-entry"
         - "tool-output"
+
+  - id: "REQ-0022"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Governed baseline artifact bidirectional traceability"
+    statement: >
+      The project shall require governed baseline artifacts to declare internal
+      change-control markers that identify the governing requirement and
+      decision, and the project graph shall contain matching relationships for
+      those artifacts. Deterministic validation shall reject baseline artifacts
+      whose file-local markers and graph relationships do not agree.
+    rationale: >
+      Registry, graph, schema, and contract files define the governance system
+      itself. If they can be added or modified without internal traceability, the
+      graph may look complete while the artifact body remains ungoverned, or the
+      artifact may claim a requirement that the graph does not confirm.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0022-001"
+        statement: "The project model registry, requirements registry, and graph matrix exist as governed baseline artifacts."
+
+      - id: "PRE-REQ-0022-002"
+        statement: "The project model validator already validates graph relationships and source-file traceability."
+
+    main_flow:
+      - id: "FLOW-REQ-0022-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Adds file-local change_control metadata to governed baseline artifacts."
+        expected_result: "Each baseline artifact identifies the decision and requirement governing its baseline role."
+
+      - id: "FLOW-REQ-0022-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Adds matching graph.matrix.yml triples from the governing requirement to each baseline artifact."
+        expected_result: "The project graph confirms the artifact-local traceability claim."
+
+      - id: "FLOW-REQ-0022-003"
+        step: 3
+        actor: "Project model validator"
+        action: "Checks marker-to-graph and graph-to-marker consistency for governed baseline artifacts."
+        expected_result: "A baseline artifact without bidirectional traceability is rejected."
+
+    alternative_flows:
+      - id: "ALT-REQ-0022-001"
+        title: "Missing baseline marker"
+        trigger: "A governed baseline artifact has no change_control metadata."
+        steps:
+          - id: "FLOW-REQ-0022-ALT-001"
+            step: 1
+            actor: "Project model validator"
+            action: "Reports the missing file-local marker."
+            expected_result: "The project model check fails before the artifact can be accepted."
+
+      - id: "ALT-REQ-0022-002"
+        title: "Graph mismatch"
+        trigger: "A baseline artifact marker names a requirement or decision that is not confirmed by graph.matrix.yml."
+        steps:
+          - id: "FLOW-REQ-0022-ALT-002"
+            step: 1
+            actor: "Project model validator"
+            action: "Reports the mismatched marker and graph relationship."
+            expected_result: "The drift between artifact metadata and graph traceability is visible and blocking."
+
+    postconditions:
+      - id: "POST-REQ-0022-001"
+        statement: "Project-model baseline artifacts have bidirectional marker and graph traceability."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0022-001"
+        statement: "governance.registry.yml, requirements.registry.yml, and graph.matrix.yml declare change_control.decided_by and change_control.satisfies markers."
+
+      - id: "AC-REQ-0022-002"
+        statement: "graph.matrix.yml contains matching SPECIFIED_BY relationships for each baseline artifact marker."
+
+      - id: "AC-REQ-0022-003"
+        statement: "The project model validator rejects a governed baseline artifact with missing or mismatched change_control metadata."
+
+      - id: "AC-REQ-0022-004"
+        statement: "A controlled negative fixture proves that baseline artifact marker removal is rejected."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "yaml"
+        - "registry-entry"
+        - "command"
+        - "tool-output"
+

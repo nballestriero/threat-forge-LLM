@@ -1,0 +1,12 @@
+{
+  "id": "missing-baseline-change-control",
+  "validator": "model",
+  "expected_error": "Governed baseline artifact docs/reference/project-model/governance.registry.yml change_control.satisfies must contain at least one requirement id",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/governance.registry.yml",
+      "replace": "change_control:\n  decided_by:\n    - \"DEC-0013\"\n  satisfies:\n    - \"REQ-0022\"",
+      "with": "change_control:\n  decided_by:\n    - \"DEC-0013\"\n  satisfies: []"
+    }
+  ]
+}

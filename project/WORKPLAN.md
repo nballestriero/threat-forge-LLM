@@ -28,10 +28,11 @@ Status: in progress.
 - M000.018 - Project handoff ZIP project-model registration.
 - M000.019 - Mandatory governed source-file registration guard.
 - M000.020 - Explicit governed registry schemas requirement.
+- M000.021 - Governed baseline artifact bidirectional traceability.
 
 ## Next steps
 
-### M000.021 - Registry schema contracts
+### M000.022 - Registry schema contracts
 
 Goal: create explicit machine-readable schema files for governed registries and the graph matrix.
 
@@ -44,7 +45,7 @@ Expected scope:
 - controlled value meaning, rationale, and validation impact
 - validator updated to read canonical registry schemas
 
-### M000.022 - Protected baseline artifact roots
+### M000.023 - Protected baseline artifact roots
 
 Goal: define protected roots for contracts, registry schemas, project-model registries, and future API contracts.
 
@@ -55,7 +56,7 @@ Expected scope:
 - traceability requirements for protected contract/schema changes
 - no manual bypass when protected artifact checks fail
 
-### M000.023 - Governance control report and page negative fixtures
+### M000.024 - Governance control report and page negative fixtures
 
 Goal: add controlled negative coverage for report and page generation.
 

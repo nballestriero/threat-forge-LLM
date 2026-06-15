@@ -1,5 +1,15 @@
 schema_version: "1.0"
 
+change_control:
+  decided_by:
+    - "DEC-0013"
+  satisfies:
+    - "REQ-0022"
+  rationale: >
+    This governed baseline artifact declares its internal traceability marker so
+    deterministic validation can compare file-local change-control metadata with
+    graph.matrix.yml relationships.
+
 registry:
   id: "project-governance-registry"
   title: "Project governance registry"
@@ -367,6 +377,21 @@ decisions:
       - "Fields with controlled values must declare the authoritative dataset or taxonomy they use."
       - "Controlled value sets must document meaning, rationale, and validation impact before they become binding."
 
+  - id: "DEC-0013"
+    title: "Baseline artifacts require bidirectional traceability"
+    status: "accepted"
+    statement: >
+      Governed baseline artifacts shall carry file-local change-control markers
+      that identify the decision and requirement governing their current
+      baseline role, and graph.matrix.yml shall contain matching relationships.
+    rationale: >
+      Source-file traceability alone does not protect registry, contract, schema,
+      and graph artifacts. A baseline file can otherwise be modified or added
+      without an internal marker that can be compared against the project graph.
+    consequences:
+      - "Governed baseline artifacts declare decided_by and satisfies markers."
+      - "The project model validator checks marker-to-graph and graph-to-marker consistency."
+      - "The initial enforcement covers the project-model registry files and can be extended to contract/schema roots."
 
 
 document_types:
