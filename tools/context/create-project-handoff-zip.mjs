@@ -22,6 +22,29 @@
  *   npm run context:zip:handoff
  *   npm run context:zip:handoff:dry-run
  *   npm run context:zip:handoff -- --output ./handoff.zip
+ *
+ * Canonical references:
+ * - docs/reference/project-model/governance.registry.yml
+ * - docs/reference/project-model/requirements.registry.yml
+ * - docs/reference/project-model/graph.matrix.yml
+ *
+ * Related requirements:
+ * - REQ-0020
+ *
+ * Supports capabilities:
+ * - CAP-DOCUMENTATION-GOVERNANCE
+ *
+ * Provides graph nodes:
+ * - TOOL-PROJECT-HANDOFF-ZIP-BUILDER
+ * - CMD-CONTEXT-ZIP-HANDOFF
+ * - CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN
+ *
+ * Failure behavior:
+ * - Prints a readable error when archive generation fails.
+ * - Exits with status code 1 when argument validation, filesystem traversal, or
+ *   ZIP writing fails.
+ * - Exits with status code 0 when dry-run inspection or archive generation
+ *   succeeds.
  */
 
 import fs from "node:fs";

@@ -127,6 +127,25 @@ nodes:
     path: "tools/docs/generate-governance-control-page.mjs"
     description: "Deterministic static Governance Control Page renderer that consumes the Governance Control Report."
 
+  - id: "GATE-PROJECT-HANDOFF-ZIP"
+    type: "Gate"
+    description: "Gate that verifies the repository can produce a policy-compliant handoff ZIP archive."
+
+  - id: "CMD-CONTEXT-ZIP-HANDOFF"
+    type: "Command"
+    command: "npm run context:zip:handoff"
+    description: "Generates a local project handoff ZIP archive under artifacts/handoff."
+
+  - id: "CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN"
+    type: "Command"
+    command: "npm run context:zip:handoff:dry-run"
+    description: "Reports the handoff ZIP archive plan without writing an archive."
+
+  - id: "TOOL-PROJECT-HANDOFF-ZIP-BUILDER"
+    type: "ValidationTool"
+    path: "tools/context/create-project-handoff-zip.mjs"
+    description: "Deterministic cross-platform project handoff ZIP builder."
+
 triples:
   - subject:
       id: "MR-0001"
@@ -1918,3 +1937,163 @@ triples:
     object:
       id: "GATE-GOVERNANCE-CONTROL-REPORT"
       type: "Gate"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0020"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0020"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0011"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0020"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0011"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "GATE-PROJECT-HANDOFF-ZIP"
+      type: "Gate"
+
+  - subject:
+      id: "DEC-0011"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "TOOL-PROJECT-HANDOFF-ZIP-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "DEC-0011"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "CMD-CONTEXT-ZIP-HANDOFF"
+      type: "Command"
+
+  - subject:
+      id: "DEC-0011"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN"
+      type: "Command"
+
+  - subject:
+      id: "REQ-0020"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0020"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0020"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/context/create-project-handoff-zip.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0020"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0020"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-HANDOFF-ZIP"
+      type: "Gate"
+
+  - subject:
+      id: "GATE-PROJECT-HANDOFF-ZIP"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN"
+      type: "Command"
+
+  - subject:
+      id: "GATE-PROJECT-HANDOFF-ZIP"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-CONTEXT-ZIP-HANDOFF"
+      type: "Command"
+
+  - subject:
+      id: "CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-PROJECT-HANDOFF-ZIP-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-CONTEXT-ZIP-HANDOFF"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-PROJECT-HANDOFF-ZIP-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "CMD-CONTEXT-ZIP-HANDOFF"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-PROJECT-HANDOFF-ZIP-BUILDER"
+      type: "ValidationTool"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/context/create-project-handoff-zip.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-PROJECT-HANDOFF-ZIP-BUILDER"
+      type: "ValidationTool"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"

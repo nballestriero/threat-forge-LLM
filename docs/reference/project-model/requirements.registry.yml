@@ -1572,3 +1572,98 @@ requirements:
         - "command"
         - "tool-output"
         - "json-schema"
+
+
+  - id: "REQ-0020"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Project handoff ZIP command"
+    statement: >
+      The project shall provide a deterministic cross-platform command that
+      creates a local handoff ZIP archive containing the repository state,
+      including hidden project metadata such as .git, while excluding dependency
+      installations, build outputs, generated artifacts, local IDE caches, and
+      environment files by default.
+    rationale: >
+      Handoffs between human and LLM work sessions require a reproducible
+      project snapshot that can be created on Windows, Linux, or macOS without
+      relying on platform-specific archive commands or accidentally packaging
+      large dependency installations and local caches.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "tooling"
+
+    preconditions:
+      - id: "PRE-REQ-0020-001"
+        statement: "The project is available as a local repository checkout."
+
+      - id: "PRE-REQ-0020-002"
+        statement: "Node.js is available according to the package engine baseline."
+
+    main_flow:
+      - id: "FLOW-REQ-0020-001"
+        step: 1
+        actor: "Handoff ZIP builder"
+        action: "Walks the repository filesystem using Node.js standard library APIs."
+        expected_result: "The builder discovers repository files consistently across supported operating systems."
+
+      - id: "FLOW-REQ-0020-002"
+        step: 2
+        actor: "Handoff ZIP builder"
+        action: "Includes hidden project metadata such as .git while applying the controlled exclusion policy."
+        expected_result: "The archive contains repository history and excludes dependency folders, local caches, generated artifacts, and environment files."
+
+      - id: "FLOW-REQ-0020-003"
+        step: 3
+        actor: "Handoff ZIP builder"
+        action: "Writes a ZIP archive and manifest under artifacts/handoff unless an explicit output path is provided."
+        expected_result: "A local handoff archive is available without adding generated artifacts to Git."
+
+    alternative_flows:
+      - id: "ALT-REQ-0020-001"
+        title: "Dry run"
+        trigger: "The dry-run command is executed."
+        steps:
+          - id: "FLOW-REQ-0020-ALT-001"
+            step: 1
+            actor: "Handoff ZIP builder"
+            action: "Reports the planned output path, included file count, .git inclusion, and skipped entries without writing an archive."
+            expected_result: "The exclusion policy can be inspected before creating a ZIP."
+
+      - id: "ALT-REQ-0020-002"
+        title: "Explicit environment inclusion"
+        trigger: "The command is executed with --include-env."
+        steps:
+          - id: "FLOW-REQ-0020-ALT-002"
+            step: 1
+            actor: "Handoff ZIP builder"
+            action: "Includes .env files only after an explicit command-line request."
+            expected_result: "Sensitive environment files remain excluded by default."
+
+    postconditions:
+      - id: "POST-REQ-0020-001"
+        statement: "The repository can generate a handoff ZIP archive with .git included and dependency installations excluded."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0020-001"
+        statement: "The command npm run context:zip:handoff writes a ZIP archive under artifacts/handoff by default."
+
+      - id: "AC-REQ-0020-002"
+        statement: "The command npm run context:zip:handoff:dry-run reports the archive plan without writing a ZIP."
+
+      - id: "AC-REQ-0020-003"
+        statement: "The generated archive includes .git and excludes node_modules, .vs, artifacts, build outputs, caches, logs, archive files, and .env files by default."
+
+      - id: "AC-REQ-0020-004"
+        statement: "Generated handoff artifacts remain outside Git tracking."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "tool-output"
+        - "repository-path"
+        - "source-comment"
