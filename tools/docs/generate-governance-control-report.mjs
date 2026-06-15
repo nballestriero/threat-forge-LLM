@@ -144,6 +144,19 @@ function git(args) {
 }
 
 /**
+ * Returns the platform-specific npm executable name.
+ *
+ * On Windows, child_process.execFileSync does not always resolve npm through
+ * the shell shim. Using npm.cmd keeps leaf validation checks executable from
+ * inside Node while preserving shell-free execution on other platforms.
+ *
+ * @returns {string} npm executable name.
+ */
+function npmExecutable() {
+  return process.platform === "win32" ? "npm.cmd" : "npm";
+}
+
+/**
  * Returns repository metadata for the report.
  *
  * @param {object} packageJson - Parsed package.json.
@@ -600,7 +613,7 @@ function runLeafCheck(check) {
   const start = Date.now();
 
   try {
-    const stdout = execFileSync("npm", ["run", check.script], {
+    const stdout = execFileSync(npmExecutable(), ["run", check.script], {
       cwd: root,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"]
