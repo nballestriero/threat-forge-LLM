@@ -18,32 +18,37 @@ Status: in progress.
 - M000.008 - Package script and Command node consistency.
 - M000.009 - Governed file format validation baseline.
 - M000.010 - Validator negative fixtures.
+- M000.011 - Architecture defaults and requirement lifecycle baseline.
 
 ## Next steps
 
-### M001.001 - Product boundary
+### M000.012 - Governance control page design
 
-Goal: define the clean product boundary before architecture or runtime implementation.
-
-Expected scope:
-
-- product purpose
-- users and actors
-- core capabilities
-- explicit non-goals
-- first vertical slice candidates
-
-### M001.002 - Product capability refinement
-
-Goal: refine the initial capabilities into a stable product capability map.
+Goal: define a deterministic repository governance control page before implementing the static generator.
 
 Expected scope:
 
-- keep or revise current placeholder capabilities
-- add product-facing capabilities only after M001.001
-- avoid runtime architecture decisions before product boundary
+- report data model
+- documentation explorer sections
+- knowledge graph view
+- documentation graph view
+- file relationship graph view
+- diagnostics model
+- future protected admin UI boundary
+
+### M000.013 - Static governance control page generator
+
+Goal: generate a local static governance control report from governed repository state.
+
+Expected scope:
+
+- `artifacts/governance-control/report.json`
+- `artifacts/governance-control/index.html`
+- no authentication yet
+- no server runtime yet
 
 ## Future
 
-- Define architecture baseline.
-- Define first implementation slice.
+- Define product boundary.
+- Define backend runtime architecture after product boundary.
+- Implement deterministic backend architecture checker when backend files exist.

@@ -36,13 +36,21 @@ taxonomies:
     - id: "proposed"
       description: "Requirement proposed but not yet accepted as binding."
     - id: "accepted"
-      description: "Requirement accepted as binding."
-    - id: "implemented"
-      description: "Requirement implemented and traceable."
+      description: "Requirement approved and accepted as binding; implementation is tracked separately."
     - id: "deprecated"
       description: "Requirement no longer recommended."
     - id: "superseded"
       description: "Requirement replaced by another requirement."
+
+  requirement_implementation_status:
+    - id: "not_implemented"
+      description: "Requirement is approved but has no implementation evidence yet."
+    - id: "partially_implemented"
+      description: "Requirement has partial implementation evidence but is not complete."
+    - id: "implemented"
+      description: "Requirement is implemented and has traceability or validation evidence."
+    - id: "not_applicable"
+      description: "Requirement does not require runtime implementation evidence."
 
   priority:
     - id: "must"
@@ -110,21 +118,35 @@ capabilities:
     description: >
       Structured documentation, body-format governance, requirements registry,
       traceability matrix, and graph-ready documentation.
-    status: "proposed"
+    status: "accepted"
 
   - id: "CAP-GRAPH-IMPORT"
     title: "Graph import"
     description: >
       Future import of governed project knowledge into graph-oriented storage,
       including Neo4j-compatible nodes and relationships.
-    status: "proposed"
+    status: "accepted"
 
   - id: "CAP-REQUIREMENTS-MANAGEMENT"
     title: "Requirements management"
     description: >
       Macro requirements, atomic requirements, acceptance criteria, flows,
       evidence, and traceability.
-    status: "proposed"
+    status: "accepted"
+
+  - id: "CAP-BACKEND-ARCHITECTURE"
+    title: "Backend architecture governance"
+    description: >
+      Default backend layering, dependency composition, factory/composition-root
+      pattern, and future deterministic enforcement.
+    status: "accepted"
+
+  - id: "CAP-API-CONTRACTS"
+    title: "Backend API contracts"
+    description: >
+      Governed backend and API contracts used as authoritative documentation
+      sources for HTTP behavior and future admin documentation.
+    status: "accepted"
 
   - id: "CAP-PRODUCT-BOUNDARY"
     title: "Product boundary"
@@ -249,6 +271,24 @@ decisions:
       - "Negative fixture execution is part of docs:check."
       - "Each negative fixture must declare the expected validation failure."
       - "The negative fixture runner must fail when an invalid state is accepted."
+
+  - id: "DEC-0009"
+    title: "Default backend composition and API contract documentation pattern"
+    status: "accepted"
+    statement: >
+      Backend implementation shall default to factory/composition-root based
+      dependency composition, separated backend layers, and governed backend/API
+      contracts as authoritative documentation sources.
+    rationale: >
+      The previous threat-forge project showed that factory-based composition,
+      separated backend layers, and explicit API contracts reduce accidental
+      coupling and keep implementation aligned with documentation.
+    consequences:
+      - "Controllers and route handlers must not instantiate concrete infrastructure adapters directly."
+      - "Concrete dependencies must be assembled in factories or composition roots."
+      - "Backend services should depend on ports or application boundaries instead of concrete adapters."
+      - "Backend/API contracts must be treated as primary technical documentation for HTTP behavior."
+      - "A future deterministic checker must enforce approved backend architecture patterns."
 
 document_types:
   - id: "tutorial"

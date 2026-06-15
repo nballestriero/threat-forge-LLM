@@ -986,3 +986,156 @@ triples:
     object:
       id: "tools/docs/fixtures/negative/invalid-yaml-schema-version.json"
       type: "ConfigFile"
+
+
+  - subject:
+      id: "MR-0002"
+      type: "MacroRequirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-BACKEND-ARCHITECTURE"
+      type: "Capability"
+
+  - subject:
+      id: "MR-0002"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0009"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0002"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0010"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0002"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0011"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0009"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "MR-0002"
+      type: "MacroRequirement"
+
+  - subject:
+      id: "DEC-0009"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0009"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0009"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0010"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0009"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0011"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0009"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-BACKEND-ARCHITECTURE"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0010"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-BACKEND-ARCHITECTURE"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0011"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-API-CONTRACTS"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0009"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/architecture/backend-composition-pattern.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0010"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/architecture/backend-composition-pattern.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0011"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/architecture/backend-composition-pattern.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0009"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0010"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0011"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0009"
+      type: "Decision"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0009"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "docs/reference/architecture/backend-composition-pattern.md"
+      type: "Document"

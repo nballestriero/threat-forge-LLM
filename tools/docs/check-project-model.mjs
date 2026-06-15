@@ -3,7 +3,7 @@
  * @file Project model consistency and bidirectional traceability validator.
  *
  * Validates the compact governed project model, including controlled
- * taxonomies, governed ID uniqueness, ID format patterns, requirement
+ * taxonomies, requirement implementation lifecycle, governed ID uniqueness, ID format patterns, requirement
  * references, SPO predicate compatibility, command/gate/tool relationships,
  * and file-level bidirectional traceability between graph.matrix.yml and
  * source-file JSDoc comments.
@@ -399,11 +399,13 @@ function validateTaxonomies(indexes) {
 
   for (const macroRequirement of indexes.macroRequirements) {
     checkTaxonomyValue(indexes.taxonomies, "requirement_status", macroRequirement?.status, `macro requirement ${macroRequirement?.id}`);
+    checkTaxonomyValue(indexes.taxonomies, "requirement_implementation_status", macroRequirement?.implementation_status, `macro requirement ${macroRequirement?.id}`);
     checkTaxonomyValue(indexes.taxonomies, "priority", macroRequirement?.priority, `macro requirement ${macroRequirement?.id}`);
   }
 
   for (const requirement of indexes.atomicRequirements) {
     checkTaxonomyValue(indexes.taxonomies, "requirement_status", requirement?.status, `requirement ${requirement?.id}`);
+    checkTaxonomyValue(indexes.taxonomies, "requirement_implementation_status", requirement?.implementation_status, `requirement ${requirement?.id}`);
     checkTaxonomyValue(indexes.taxonomies, "priority", requirement?.priority, `requirement ${requirement?.id}`);
     checkTaxonomyValue(indexes.taxonomies, "requirement_type", requirement?.type, `requirement ${requirement?.id}`);
     checkTaxonomyValue(indexes.taxonomies, "scope", requirement?.scope, `requirement ${requirement?.id}`);

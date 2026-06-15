@@ -50,6 +50,7 @@ const markdownDocuments = [
   { path: "docs/reference/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/architecture/README.md", bodyProfileId: "BODY-REFERENCE" },
+  { path: "docs/reference/architecture/backend-composition-pattern.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/domain-model/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/explanation/README.md", bodyProfileId: "BODY-EXPLANATION" },
   { path: "docs/explanation/product/project-charter.md", bodyProfileId: "BODY-EXPLANATION" },
