@@ -586,3 +586,97 @@ requirements:
         - "command"
         - "tool-output"
         - "document"
+
+
+  - id: "REQ-0008"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-REQUIREMENTS-MANAGEMENT"
+
+    title: "Validator negative fixtures"
+    statement: >
+      The project shall provide controlled negative fixtures that verify
+      deterministic validators fail for intentionally invalid governed states.
+    rationale: >
+      Negative fixtures prove that validators catch the classes of errors they
+      claim to enforce and reduce the risk of false-positive green gates.
+    status: "proposed"
+    priority: "must"
+    type: "operational"
+    scope: "tooling"
+
+    preconditions:
+      - id: "PRE-REQ-0008-001"
+        statement: "The repository provides deterministic documentation governance validators."
+
+      - id: "PRE-REQ-0008-002"
+        statement: "The repository can create temporary copies of governed files for fixture execution."
+
+    main_flow:
+      - id: "FLOW-REQ-0008-001"
+        step: 1
+        actor: "Validation tool"
+        action: "Loads controlled negative fixture specifications."
+        expected_result: "Each fixture declares a mutation, target validator, and expected error."
+
+      - id: "FLOW-REQ-0008-002"
+        step: 2
+        actor: "Validation tool"
+        action: "Applies each fixture mutation to a temporary repository copy."
+        expected_result: "The real working tree remains unchanged."
+
+      - id: "FLOW-REQ-0008-003"
+        step: 3
+        actor: "Validation tool"
+        action: "Runs the target validator for each negative fixture."
+        expected_result: "The target validator fails with the expected error."
+
+    alternative_flows:
+      - id: "ALT-REQ-0008-001"
+        title: "Invalid fixture is accepted"
+        trigger: "A target validator exits successfully for an intentionally invalid fixture."
+        steps:
+          - id: "FLOW-REQ-0008-ALT-001"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports that the negative fixture was accepted unexpectedly."
+            expected_result: "The negative fixture runner fails."
+
+      - id: "ALT-REQ-0008-002"
+        title: "Expected diagnostic is missing"
+        trigger: "A target validator fails but does not report the expected error."
+        steps:
+          - id: "FLOW-REQ-0008-ALT-002"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the missing expected diagnostic."
+            expected_result: "The negative fixture runner fails."
+
+    postconditions:
+      - id: "POST-REQ-0008-001"
+        statement: "Validator failure behavior is covered by controlled negative fixtures."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0008-001"
+        statement: "At least one negative fixture covers duplicate governed IDs."
+
+      - id: "AC-REQ-0008-002"
+        statement: "At least one negative fixture covers invalid SPO predicates."
+
+      - id: "AC-REQ-0008-003"
+        statement: "At least one negative fixture covers invalid package command traceability."
+
+      - id: "AC-REQ-0008-004"
+        statement: "At least one negative fixture covers missing source-file traceability."
+
+      - id: "AC-REQ-0008-005"
+        statement: "At least one negative fixture covers invalid Markdown body profile format."
+
+      - id: "AC-REQ-0008-006"
+        statement: "At least one negative fixture covers invalid YAML project-model format."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "tool-output"
+        - "yaml"

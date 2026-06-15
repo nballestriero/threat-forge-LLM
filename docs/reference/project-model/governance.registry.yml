@@ -235,6 +235,21 @@ decisions:
       - "Governed Markdown files must satisfy registered body profiles."
       - "docs:check runs the file format validator."
 
+  - id: "DEC-0008"
+    title: "Validator negative fixtures"
+    status: "accepted"
+    statement: >
+      Deterministic validators must have controlled negative fixtures that prove
+      invalid repository states are rejected.
+    rationale: >
+      Passing validators are not enough if there is no evidence that they fail
+      when the governed model, commands, source traceability, YAML format, or
+      Markdown body profiles are invalid.
+    consequences:
+      - "Negative fixture execution is part of docs:check."
+      - "Each negative fixture must declare the expected validation failure."
+      - "The negative fixture runner must fail when an invalid state is accepted."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

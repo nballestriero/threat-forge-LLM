@@ -30,6 +30,10 @@ nodes:
     type: "Gate"
     description: "Gate that validates governed YAML and Markdown file formats."
 
+  - id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
+    type: "Gate"
+    description: "Gate that proves validators reject controlled negative fixtures."
+
   - id: "CMD-DOCS-CHECK-STRUCTURE"
     type: "Command"
     command: "npm run docs:check:structure"
@@ -60,6 +64,11 @@ nodes:
     command: "npm run check"
     description: "Runs the repository-level aggregate check command."
 
+  - id: "CMD-DOCS-TEST-NEGATIVE"
+    type: "Command"
+    command: "npm run docs:test:negative"
+    description: "Runs controlled validator negative fixtures."
+
   - id: "TOOL-DOCS-STRUCTURE-GUARD"
     type: "ValidationTool"
     path: "tools/docs/check-docs-structure.mjs"
@@ -74,6 +83,11 @@ nodes:
     type: "ValidationTool"
     path: "tools/docs/check-docs-format.mjs"
     description: "Deterministic governed YAML and Markdown file format validator."
+
+  - id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+    type: "ValidationTool"
+    path: "tools/docs/check-validator-negative-fixtures.mjs"
+    description: "Deterministic runner for controlled validator negative fixtures."
 
 triples:
   - subject:
@@ -803,3 +817,172 @@ triples:
     object:
       id: "docs/reference/project-model/graph.matrix.yml"
       type: "Document"
+
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0008"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0008"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-REQUIREMENTS-MANAGEMENT"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0008"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0008"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0008"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+
+  - subject:
+      id: "REQ-0008"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0008"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-validator-negative-fixtures.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0008"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0008"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "Gate"
+
+  - subject:
+      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-DOCS-TEST-NEGATIVE"
+      type: "Command"
+
+  - subject:
+      id: "CMD-DOCS-TEST-NEGATIVE"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-TEST-NEGATIVE"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-validator-negative-fixtures.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/duplicate-requirement-id.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/invalid-spo-predicate.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/missing-package-command.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/missing-source-traceability.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/invalid-markdown-body-profile.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/invalid-yaml-schema-version.json"
+      type: "ConfigFile"

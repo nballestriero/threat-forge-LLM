@@ -11,6 +11,7 @@ This directory contains deterministic documentation governance tools.
 | `check-docs-structure.mjs` | Checks the governed documentation folder and canonical file layout. |
 | `check-project-model.mjs` | Checks project-model consistency and file-level bidirectional traceability. |
 | `check-docs-format.mjs` | Checks governed YAML and Markdown file formats. |
+| `check-validator-negative-fixtures.mjs` | Runs controlled negative fixtures for validators. |
 
 ## Usage
 
@@ -36,6 +37,12 @@ Run the file format validator:
 
 ```bash
 npm run docs:check:format
+```
+
+Run controlled negative fixtures:
+
+```bash
+npm run docs:test:negative
 ```
 
 Run all documentation checks:

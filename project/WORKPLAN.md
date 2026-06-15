@@ -17,21 +17,9 @@ Status: in progress.
 - M000.007 - Project model consistency and bidirectional traceability validator.
 - M000.008 - Package script and Command node consistency.
 - M000.009 - Governed file format validation baseline.
+- M000.010 - Validator negative fixtures.
 
 ## Next steps
-
-### M000.010 - Validator negative fixtures
-
-Goal: add controlled negative fixtures or test mode for validators.
-
-Expected scope:
-
-- duplicate ID fixture
-- invalid predicate fixture
-- invalid package command fixture
-- missing source traceability fixture
-- invalid Markdown body profile fixture
-- no runtime product code yet
 
 ### M001.001 - Product boundary
 
@@ -44,6 +32,16 @@ Expected scope:
 - core capabilities
 - explicit non-goals
 - first vertical slice candidates
+
+### M001.002 - Product capability refinement
+
+Goal: refine the initial capabilities into a stable product capability map.
+
+Expected scope:
+
+- keep or revise current placeholder capabilities
+- add product-facing capabilities only after M001.001
+- avoid runtime architecture decisions before product boundary
 
 ## Future
 

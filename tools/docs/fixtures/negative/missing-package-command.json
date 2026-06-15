@@ -1,0 +1,13 @@
+{
+  "id": "missing-package-command",
+  "description": "A Command node references a package.json script that no longer exists.",
+  "validator": "model",
+  "expected_error": "references missing package.json script 'docs:check:format'",
+  "mutations": [
+    {
+      "path": "package.json",
+      "replace": "    \"docs:check:format\": \"node tools/docs/check-docs-format.mjs\",\n",
+      "with": ""
+    }
+  ]
+}

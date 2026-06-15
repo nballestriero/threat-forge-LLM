@@ -1,0 +1,13 @@
+{
+  "id": "invalid-yaml-schema-version",
+  "description": "A governed project-model YAML file has an invalid schema_version.",
+  "validator": "format",
+  "expected_error": "must set schema_version to \"1.0\"",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/governance.registry.yml",
+      "replace": "schema_version: \"1.0\"",
+      "with": "schema_version: \"2.0\""
+    }
+  ]
+}

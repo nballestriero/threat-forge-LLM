@@ -1,0 +1,13 @@
+{
+  "id": "invalid-markdown-body-profile",
+  "description": "A governed reference Markdown file misses a required body heading.",
+  "validator": "format",
+  "expected_error": "missing required heading 'Schema'",
+  "mutations": [
+    {
+      "path": "docs/reference/README.md",
+      "replace": "## Schema",
+      "with": "## Structure"
+    }
+  ]
+}
