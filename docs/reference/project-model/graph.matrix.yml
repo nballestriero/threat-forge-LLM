@@ -46,6 +46,11 @@ nodes:
     command: "npm run docs:check:model"
     description: "Runs compact project model and bidirectional traceability validation."
 
+  - id: "CMD-CHECK"
+    type: "Command"
+    command: "npm run check"
+    description: "Runs the repository-level aggregate check command."
+
   - id: "TOOL-DOCS-STRUCTURE-GUARD"
     type: "ValidationTool"
     path: "tools/docs/check-docs-structure.mjs"
@@ -97,6 +102,15 @@ triples:
       id: "REQ-0005"
       type: "Requirement"
 
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0006"
+      type: "Requirement"
+
   - subject:
       id: "REQ-0001"
       type: "Requirement"
@@ -131,6 +145,15 @@ triples:
 
   - subject:
       id: "REQ-0005"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-REQUIREMENTS-MANAGEMENT"
+      type: "Capability"
+
+
+  - subject:
+      id: "REQ-0006"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -209,6 +232,23 @@ triples:
       id: "TOOL-PROJECT-MODEL-CHECK"
       type: "ValidationTool"
 
+
+  - subject:
+      id: "DEC-0006"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0006"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0006"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+
   - subject:
       id: "REQ-0001"
       type: "Requirement"
@@ -264,6 +304,47 @@ triples:
     object:
       id: "docs/reference/project-model/graph.matrix.yml"
       type: "Document"
+
+
+  - subject:
+      id: "REQ-0006"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0006"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0006"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0006"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0006"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
 
   - subject:
       id: "REQ-0004"
@@ -337,6 +418,15 @@ triples:
       id: "CMD-DOCS-CHECK"
       type: "Command"
 
+
+  - subject:
+      id: "GATE-DOCS-CHECK"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-CHECK"
+      type: "Command"
+
   - subject:
       id: "GATE-PRE-COMMIT"
       type: "Gate"
@@ -377,6 +467,23 @@ triples:
       id: "TOOL-PROJECT-MODEL-CHECK"
       type: "ValidationTool"
 
+
+  - subject:
+      id: "CMD-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+
   - subject:
       id: "CMD-PRECOMMIT"
       type: "Command"
@@ -411,6 +518,15 @@ triples:
 
   - subject:
       id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+
+  - subject:
+      id: "CMD-CHECK"
       type: "Command"
     predicate: "DECLARED_IN"
     object:

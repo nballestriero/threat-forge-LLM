@@ -205,6 +205,21 @@ decisions:
       - "Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY triples."
       - "The initial validation level is file-level traceability; code-symbol traceability may be added later."
 
+  - id: "DEC-0006"
+    title: "Validation commands must match package scripts"
+    status: "accepted"
+    statement: >
+      Command nodes that represent npm validation commands must be consistent
+      with scripts declared in package.json.
+    rationale: >
+      The graph matrix must not advertise commands that cannot be executed, and
+      package.json must not silently drift away from governed validation command
+      nodes.
+    consequences:
+      - "Command nodes with npm run commands must reference existing package.json scripts."
+      - "Governed validation scripts in package.json must have matching Command nodes."
+      - "The project model validator checks package.json command consistency."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

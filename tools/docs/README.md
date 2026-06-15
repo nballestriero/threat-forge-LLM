@@ -55,3 +55,5 @@ Governed source files under `tools/` must include file-level JSDoc traceability 
 
 - `graph.matrix.yml` to source comments
 - source comments to `graph.matrix.yml`
+- `package.json` scripts to `Command` nodes
+- `Command` nodes to `package.json` scripts

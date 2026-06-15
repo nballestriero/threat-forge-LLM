@@ -15,6 +15,7 @@
  *
  * Related requirements:
  * - REQ-0005
+ * - REQ-0006
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -45,7 +46,8 @@ const root = process.cwd();
 const MODEL_FILES = {
   governance: "docs/reference/project-model/governance.registry.yml",
   requirements: "docs/reference/project-model/requirements.registry.yml",
-  matrix: "docs/reference/project-model/graph.matrix.yml"
+  matrix: "docs/reference/project-model/graph.matrix.yml",
+  packageJson: "package.json"
 };
 
 const errors = [];
@@ -129,6 +131,21 @@ function readYaml(relativePath) {
     return parseYaml(readText(relativePath));
   } catch (error) {
     errors.push(`Cannot parse YAML file ${relativePath}: ${error.message}`);
+    return null;
+  }
+}
+
+/**
+ * Reads and parses a JSON file.
+ *
+ * @param {string} relativePath - Repository-relative JSON file path.
+ * @returns {unknown | null} Parsed JSON document, or null when parsing fails.
+ */
+function readJson(relativePath) {
+  try {
+    return JSON.parse(readText(relativePath));
+  } catch (error) {
+    errors.push(`Cannot parse JSON file ${relativePath}: ${error.message}`);
     return null;
   }
 }
@@ -588,6 +605,76 @@ function validateTriples(indexes) {
 }
 
 /**
+ * Extracts npm script names from Command nodes using the "npm run <script>"
+ * command format.
+ *
+ * @param {unknown[]} matrixNodes - Graph matrix nodes.
+ * @returns {Map<string, string>} Command node id to npm script name.
+ */
+function npmScriptCommands(matrixNodes) {
+  const commands = new Map();
+
+  for (const node of matrixNodes) {
+    if (node?.type !== "Command" || typeof node?.command !== "string") {
+      continue;
+    }
+
+    const match = /^npm\s+run\s+([^\s]+)$/.exec(node.command.trim());
+    if (match) {
+      commands.set(node.id, match[1]);
+    }
+  }
+
+  return commands;
+}
+
+/**
+ * Checks consistency between graph.matrix.yml Command nodes and package.json
+ * scripts for governed validation commands.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @param {object} packageJson - Parsed package.json.
+ * @returns {void}
+ */
+function validatePackageScripts(indexes, packageJson) {
+  const scripts = packageJson?.scripts ?? {};
+  const npmCommands = npmScriptCommands(indexes.matrixNodes);
+  const commandScripts = new Map([...npmCommands.entries()].map(([commandId, scriptName]) => [scriptName, commandId]));
+
+  for (const [commandId, scriptName] of npmCommands.entries()) {
+    if (!Object.prototype.hasOwnProperty.call(scripts, scriptName)) {
+      errors.push(`Command node ${commandId} references missing package.json script '${scriptName}'`);
+    }
+  }
+
+  for (const scriptName of Object.keys(scripts)) {
+    const isGovernedValidationScript =
+      scriptName === "check" ||
+      scriptName === "precommit" ||
+      scriptName.startsWith("docs:check");
+
+    if (isGovernedValidationScript && !commandScripts.has(scriptName)) {
+      errors.push(`package.json script '${scriptName}' has no matching Command node in graph.matrix.yml`);
+    }
+  }
+
+  for (const [scriptName, commandId] of commandScripts.entries()) {
+    const hasDeclaredInPackage = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.id === commandId &&
+        triple?.subject?.type === "Command" &&
+        triple?.predicate === "DECLARED_IN" &&
+        triple?.object?.id === MODEL_FILES.packageJson &&
+        triple?.object?.type === "ConfigFile"
+    );
+
+    if (!hasDeclaredInPackage) {
+      errors.push(`Command node ${commandId} for package script '${scriptName}' is missing DECLARED_IN package.json triple`);
+    }
+  }
+}
+
+/**
  * Gets IMPLEMENTED_BY triples that point at source files.
  *
  * @param {object} indexes - Entity indexes.
@@ -702,13 +789,15 @@ function validateBidirectionalSourceTraceability(indexes) {
 const governance = readYaml(MODEL_FILES.governance);
 const requirements = readYaml(MODEL_FILES.requirements);
 const matrix = readYaml(MODEL_FILES.matrix);
+const packageJson = readJson(MODEL_FILES.packageJson);
 
-if (governance && requirements && matrix) {
+if (governance && requirements && matrix && packageJson) {
   const indexes = buildIndexes(governance, requirements, matrix);
   validateTaxonomies(indexes);
   validateIds(indexes);
   validateRegistryReferences(indexes);
   validateTriples(indexes);
+  validatePackageScripts(indexes, packageJson);
   validateBidirectionalSourceTraceability(indexes);
 }
 

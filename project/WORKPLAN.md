@@ -15,19 +15,9 @@ Status: in progress.
 - M000.005 - Documentation structure guard requirement traceability.
 - M000.006 - Taxonomies and bidirectional traceability model.
 - M000.007 - Project model consistency and bidirectional traceability validator.
+- M000.008 - Package script and Command node consistency.
 
 ## Next steps
-
-### M000.008 - Harden project model validator
-
-Goal: refine validation after the first run on the real repository.
-
-Expected scope:
-
-- review actual diagnostics from npm run docs:check
-- decide whether any warning should become blocking
-- improve diagnostics if needed
-- keep validation file-level before introducing code-symbol-level traceability
 
 ### M000.009 - File format validation baseline
 
@@ -39,6 +29,18 @@ Expected scope:
 - Markdown body profile validation for governed documentation files
 - clear failure messages
 - no Neo4j import yet
+
+### M000.010 - Validator negative fixtures
+
+Goal: add controlled negative fixtures or test mode for validators.
+
+Expected scope:
+
+- duplicate ID fixture
+- invalid predicate fixture
+- invalid package command fixture
+- missing source traceability fixture
+- no runtime product code yet
 
 ## Future
 

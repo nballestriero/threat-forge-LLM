@@ -408,3 +408,89 @@ requirements:
         - "source-comment"
         - "yaml"
         - "tool-output"
+
+
+  - id: "REQ-0006"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-REQUIREMENTS-MANAGEMENT"
+
+    title: "Validation command consistency"
+    statement: >
+      The project shall verify that governed validation Command nodes in
+      graph.matrix.yml are consistent with executable scripts declared in
+      package.json.
+    rationale: >
+      Validation command traceability is only useful if the graph matrix and
+      package manifest agree on the commands that can actually be run.
+    status: "proposed"
+    priority: "must"
+    type: "operational"
+    scope: "tooling"
+
+    preconditions:
+      - id: "PRE-REQ-0006-001"
+        statement: "The repository declares validation commands as Command nodes in graph.matrix.yml."
+
+      - id: "PRE-REQ-0006-002"
+        statement: "The repository declares executable npm scripts in package.json."
+
+    main_flow:
+      - id: "FLOW-REQ-0006-001"
+        step: 1
+        actor: "Validation tool"
+        action: "Reads Command nodes from graph.matrix.yml."
+        expected_result: "The governed command set is known."
+
+      - id: "FLOW-REQ-0006-002"
+        step: 2
+        actor: "Validation tool"
+        action: "Reads scripts from package.json."
+        expected_result: "The executable npm script set is known."
+
+      - id: "FLOW-REQ-0006-003"
+        step: 3
+        actor: "Validation tool"
+        action: "Compares npm run Command nodes with package.json scripts."
+        expected_result: "Each governed npm validation command points to an existing script."
+
+    alternative_flows:
+      - id: "ALT-REQ-0006-001"
+        title: "Command node references missing script"
+        trigger: "A Command node declares an npm run command whose script does not exist in package.json."
+        steps:
+          - id: "FLOW-REQ-0006-ALT-001"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the missing package.json script."
+            expected_result: "The check fails with a command consistency error."
+
+      - id: "ALT-REQ-0006-002"
+        title: "Governed validation script lacks Command node"
+        trigger: "A validation script in package.json has no matching Command node."
+        steps:
+          - id: "FLOW-REQ-0006-ALT-002"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the missing graph matrix Command node."
+            expected_result: "The check fails with a command consistency error."
+
+    postconditions:
+      - id: "POST-REQ-0006-001"
+        statement: "Governed validation commands are consistent between graph.matrix.yml and package.json."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0006-001"
+        statement: "Each npm run Command node references an existing package.json script."
+
+      - id: "AC-REQ-0006-002"
+        statement: "Each governed validation script in package.json has a matching Command node."
+
+      - id: "AC-REQ-0006-003"
+        statement: "Command nodes are still linked through SPO triples."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "yaml"
+        - "tool-output"
