@@ -12,6 +12,7 @@ This directory contains deterministic documentation governance tools.
 | `check-project-model.mjs` | Checks project-model consistency and file-level bidirectional traceability. |
 | `check-docs-format.mjs` | Checks governed YAML and Markdown file formats. |
 | `check-validator-negative-fixtures.mjs` | Runs controlled negative fixtures for validators. |
+| `generate-governance-control-report.mjs` | Builds and validates the machine-readable Governance Control Report. |
 
 ## Usage
 
@@ -37,6 +38,18 @@ Run the file format validator:
 
 ```bash
 npm run docs:check:format
+```
+
+Run the Governance Control Report check without writing artifacts:
+
+```bash
+npm run docs:check:control-report
+```
+
+Generate the Governance Control Report artifact:
+
+```bash
+npm run docs:control:report
 ```
 
 Run controlled negative fixtures:

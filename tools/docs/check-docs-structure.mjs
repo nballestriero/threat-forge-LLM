@@ -88,6 +88,7 @@ const requiredFiles = [
   "tools/docs/check-project-model.mjs",
   "tools/docs/check-docs-format.mjs",
   "tools/docs/check-validator-negative-fixtures.mjs",
+  "tools/docs/generate-governance-control-report.mjs",
   ".githooks/pre-commit"
 ];
 

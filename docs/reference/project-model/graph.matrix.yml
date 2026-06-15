@@ -34,6 +34,10 @@ nodes:
     type: "Gate"
     description: "Gate that proves validators reject controlled negative fixtures."
 
+  - id: "GATE-GOVERNANCE-CONTROL-REPORT"
+    type: "Gate"
+    description: "Gate that verifies Governance Control Report generation and schema baseline validation."
+
   - id: "CMD-DOCS-CHECK-STRUCTURE"
     type: "Command"
     command: "npm run docs:check:structure"
@@ -69,6 +73,16 @@ nodes:
     command: "npm run docs:test:negative"
     description: "Runs controlled validator negative fixtures."
 
+  - id: "CMD-GOVERNANCE-CONTROL-REPORT-CHECK"
+    type: "Command"
+    command: "npm run docs:check:control-report"
+    description: "Builds and validates the Governance Control Report without writing generated artifacts."
+
+  - id: "CMD-GOVERNANCE-CONTROL-REPORT"
+    type: "Command"
+    command: "npm run docs:control:report"
+    description: "Generates artifacts/governance-control/report.json."
+
   - id: "TOOL-DOCS-STRUCTURE-GUARD"
     type: "ValidationTool"
     path: "tools/docs/check-docs-structure.mjs"
@@ -88,6 +102,11 @@ nodes:
     type: "ValidationTool"
     path: "tools/docs/check-validator-negative-fixtures.mjs"
     description: "Deterministic runner for controlled validator negative fixtures."
+
+  - id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+    type: "ValidationTool"
+    path: "tools/docs/generate-governance-control-report.mjs"
+    description: "Deterministic Governance Control Report JSON builder and schema baseline validator."
 
 triples:
   - subject:
@@ -1436,4 +1455,197 @@ triples:
     predicate: "VALIDATES"
     object:
       id: "docs/reference/contracts/governance-control-report.schema.json"
+      type: "Document"
+
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0017"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0017"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0016"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/contracts/governance-control-report.contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/generate-governance-control-report.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0017"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-GOVERNANCE-CONTROL-REPORT"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0012"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/generate-governance-control-report.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/generate-governance-control-report.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-GOVERNANCE-CONTROL-REPORT"
+      type: "Gate"
+
+  - subject:
+      id: "GATE-GOVERNANCE-CONTROL-REPORT"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-GOVERNANCE-CONTROL-REPORT-CHECK"
+      type: "Command"
+
+  - subject:
+      id: "CMD-GOVERNANCE-CONTROL-REPORT-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-GOVERNANCE-CONTROL-REPORT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-GOVERNANCE-CONTROL-REPORT-CHECK"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "CMD-GOVERNANCE-CONTROL-REPORT"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/generate-governance-control-report.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/contracts/governance-control-report.schema.json"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-GOVERNANCE-CONTROL-REPORT-BUILDER"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs"
       type: "Document"

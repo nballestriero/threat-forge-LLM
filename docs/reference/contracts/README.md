@@ -26,3 +26,5 @@ Zod may be used as runtime validation inside JavaScript or TypeScript code, but 
 Contract files must be linked to requirements and decisions through the graph matrix.
 
 The format validator must parse and check governed contract files before generated reports or pages depend on them.
+
+The Governance Control Report builder must validate generated report structure against the governed report contract before writing or exposing generated data.

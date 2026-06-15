@@ -69,4 +69,8 @@ The report contract must be versioned through `schema_version`.
 
 Breaking report contract changes require an accepted decision or explicitly governed migration step.
 
-The current JSON Schema contract defines the baseline report shape; later implementation steps may make individual entity shapes stricter as the report builder matures.
+The current JSON Schema contract defines the baseline report shape.
+
+The report builder writes `artifacts/governance-control/report.json` and supports a check mode that validates report generation without writing generated artifacts.
+
+Later implementation steps may make individual entity shapes stricter as the report builder matures.

@@ -943,7 +943,7 @@ requirements:
       page, future protected admin UI, CLI tools, backend APIs, and LLM
       consumers.
     status: "accepted"
-    implementation_status: "not_implemented"
+    implementation_status: "implemented"
     priority: "must"
     type: "data"
     scope: "contracts"
@@ -1225,7 +1225,7 @@ requirements:
       The report-first governance control design needs an explicit machine
       contract before report generation or HTML rendering can be implemented.
     status: "accepted"
-    implementation_status: "partially_implemented"
+    implementation_status: "implemented"
     priority: "must"
     type: "data"
     scope: "contracts"
@@ -1290,3 +1290,100 @@ requirements:
         - "json-schema"
         - "tool-output"
         - "document"
+
+
+  - id: "REQ-0017"
+    macro_requirement_id: "MR-0003"
+    capability_id: "CAP-GOVERNANCE-CONTROL"
+
+    title: "Static governance control report builder"
+    statement: >
+      The project shall provide a deterministic command that builds a
+      Governance Control Report JSON from governed repository state and validates
+      it against the canonical report contract.
+    rationale: >
+      The report builder is the shared data-production layer for the future
+      static page, protected admin UI, CLI consumers, backend APIs, and LLM
+      agents.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "governance-control"
+
+    preconditions:
+      - id: "PRE-REQ-0017-001"
+        statement: "The Governance Control Report JSON Schema contract exists."
+
+      - id: "PRE-REQ-0017-002"
+        statement: "Governed repository files can be read locally."
+
+    main_flow:
+      - id: "FLOW-REQ-0017-001"
+        step: 1
+        actor: "Report builder"
+        action: "Reads project-model registries, graph matrix, documentation files, package scripts, and repository metadata."
+        expected_result: "The builder has deterministic input data."
+
+      - id: "FLOW-REQ-0017-002"
+        step: 2
+        actor: "Report builder"
+        action: "Builds the Governance Control Report JSON object."
+        expected_result: "The report includes repository metadata, checks, documents, requirements, decisions, capabilities, commands, tools, gates, graphs, and diagnostics."
+
+      - id: "FLOW-REQ-0017-003"
+        step: 3
+        actor: "Report builder"
+        action: "Validates the report against the canonical report schema baseline."
+        expected_result: "Invalid reports are rejected before they are written or consumed."
+
+      - id: "FLOW-REQ-0017-004"
+        step: 4
+        actor: "Report builder"
+        action: "Writes artifacts/governance-control/report.json unless running in check mode."
+        expected_result: "A local generated report is available for human and automated consumers."
+
+    alternative_flows:
+      - id: "ALT-REQ-0017-001"
+        title: "Check mode"
+        trigger: "The command is executed with --check."
+        steps:
+          - id: "FLOW-REQ-0017-ALT-001"
+            step: 1
+            actor: "Report builder"
+            action: "Builds and validates the report without writing generated artifacts."
+            expected_result: "The aggregate documentation check can validate report generation without modifying the working tree."
+
+      - id: "ALT-REQ-0017-002"
+        title: "Invalid report"
+        trigger: "The generated report violates the schema baseline."
+        steps:
+          - id: "FLOW-REQ-0017-ALT-002"
+            step: 1
+            actor: "Report builder"
+            action: "Reports the validation failure."
+            expected_result: "The command fails and no invalid report is accepted."
+
+    postconditions:
+      - id: "POST-REQ-0017-001"
+        statement: "The repository can produce a valid machine-readable Governance Control Report."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0017-001"
+        statement: "The command npm run docs:control:report writes artifacts/governance-control/report.json."
+
+      - id: "AC-REQ-0017-002"
+        statement: "The command npm run docs:check:control-report validates report generation without writing artifacts."
+
+      - id: "AC-REQ-0017-003"
+        statement: "The generated report contains the top-level sections required by the canonical JSON Schema."
+
+      - id: "AC-REQ-0017-004"
+        statement: "docs:check runs the control report check command."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "tool-output"
+        - "json-schema"
