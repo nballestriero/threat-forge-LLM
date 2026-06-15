@@ -144,19 +144,6 @@ function git(args) {
 }
 
 /**
- * Returns the platform-specific npm executable name.
- *
- * On Windows, child_process.execFileSync does not always resolve npm through
- * the shell shim. Using npm.cmd keeps leaf validation checks executable from
- * inside Node while preserving shell-free execution on other platforms.
- *
- * @returns {string} npm executable name.
- */
-function npmExecutable() {
-  return process.platform === "win32" ? "npm.cmd" : "npm";
-}
-
-/**
  * Returns repository metadata for the report.
  *
  * @param {object} packageJson - Parsed package.json.
@@ -604,16 +591,20 @@ function excerpt(output) {
 }
 
 /**
- * Executes one leaf validation command.
+ * Executes one leaf validation tool directly with the current Node runtime.
  *
- * @param {{ id: string, label: string, script: string }} check - Leaf check definition.
+ * The report keeps the canonical npm command as the public command field, but
+ * executes the underlying Node tool file directly. This avoids platform-specific
+ * npm shim behavior and avoids any aggregate command recursion.
+ *
+ * @param {{ id: string, label: string, script: string, toolPath: string }} check - Leaf check definition.
  * @returns {object} Check record.
  */
 function runLeafCheck(check) {
   const start = Date.now();
 
   try {
-    const stdout = execFileSync(npmExecutable(), ["run", check.script], {
+    const stdout = execFileSync(process.execPath, [absolutePath(check.toolPath)], {
       cwd: root,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"]
@@ -628,7 +619,7 @@ function runLeafCheck(check) {
       duration_ms: Date.now() - start,
       stdout_excerpt: excerpt(stdout),
       stderr_excerpt: "",
-      summary: "Leaf validation command passed."
+      summary: `Leaf validation tool passed: ${check.toolPath}`
     };
   } catch (error) {
     return {
@@ -639,8 +630,8 @@ function runLeafCheck(check) {
       exit_code: typeof error.status === "number" ? error.status : 1,
       duration_ms: Date.now() - start,
       stdout_excerpt: excerpt(error.stdout),
-      stderr_excerpt: excerpt(error.stderr),
-      summary: "Leaf validation command failed."
+      stderr_excerpt: excerpt(error.stderr || error.message),
+      summary: `Leaf validation tool failed: ${check.toolPath}`
     };
   }
 }
@@ -659,22 +650,26 @@ function buildChecks() {
     {
       id: "docs:check:structure",
       label: "Documentation structure",
-      script: "docs:check:structure"
+      script: "docs:check:structure",
+      toolPath: "tools/docs/check-docs-structure.mjs"
     },
     {
       id: "docs:check:model",
       label: "Project model",
-      script: "docs:check:model"
+      script: "docs:check:model",
+      toolPath: "tools/docs/check-project-model.mjs"
     },
     {
       id: "docs:check:format",
       label: "Documentation format",
-      script: "docs:check:format"
+      script: "docs:check:format",
+      toolPath: "tools/docs/check-docs-format.mjs"
     },
     {
       id: "docs:test:negative",
       label: "Validator negative fixtures",
-      script: "docs:test:negative"
+      script: "docs:test:negative",
+      toolPath: "tools/docs/check-validator-negative-fixtures.mjs"
     }
   ];
 

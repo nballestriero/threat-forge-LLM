@@ -177,7 +177,11 @@ function renderHtml(report) {
     `<code>${escapeHtml(check.id)}</code>`,
     escapeHtml(check.label ?? ""),
     statusPill(check.status),
-    `<code>${escapeHtml(check.command ?? "")}</code>`
+    `<code>${escapeHtml(check.command ?? "")}</code>`,
+    escapeHtml(check.exit_code ?? ""),
+    escapeHtml(check.duration_ms ?? ""),
+    `<details><summary>stdout</summary><pre>${escapeHtml(check.stdout_excerpt ?? "")}</pre></details>`,
+    `<details><summary>stderr</summary><pre>${escapeHtml(check.stderr_excerpt ?? "")}</pre></details>`
   ]);
 
   const diagnosticRows = report.diagnostics.map((diagnostic) => [
@@ -277,9 +281,14 @@ function renderHtml(report) {
       white-space: nowrap;
     }
 
-    code {
+    code, pre {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.9em;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      max-width: 48rem;
     }
 
     .pill {
@@ -320,7 +329,7 @@ function renderHtml(report) {
         <div class="card"><span>HEAD</span><strong>${escapeHtml(report.repository.head)}</strong></div>
         <div class="card"><span>Working tree</span><strong>${escapeHtml(report.repository.working_tree)}</strong></div>
       </div>
-      ${table(["Check", "Label", "Status", "Command"], checkRows)}
+      ${table(["Check", "Label", "Status", "Command", "Exit", "ms", "stdout", "stderr"], checkRows)}
     </section>
 
     <section>
