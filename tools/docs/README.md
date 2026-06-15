@@ -13,6 +13,7 @@ This directory contains deterministic documentation governance tools.
 | `check-docs-format.mjs` | Checks governed YAML and Markdown file formats. |
 | `check-validator-negative-fixtures.mjs` | Runs controlled negative fixtures for validators. |
 | `generate-governance-control-report.mjs` | Builds and validates the machine-readable Governance Control Report. |
+| `generate-governance-control-page.mjs` | Renders the static Governance Control Page from report data. |
 
 ## Usage
 
@@ -50,6 +51,18 @@ Generate the Governance Control Report artifact:
 
 ```bash
 npm run docs:control:report
+```
+
+Run the Governance Control Page check without writing artifacts:
+
+```bash
+npm run docs:check:control-page
+```
+
+Generate the static Governance Control Page artifact:
+
+```bash
+npm run docs:control:page
 ```
 
 Run controlled negative fixtures:

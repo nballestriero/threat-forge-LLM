@@ -18,6 +18,7 @@
  * - REQ-0012
  * - REQ-0016
  * - REQ-0017
+ * - REQ-0019
  *
  * Supports capabilities:
  * - CAP-GOVERNANCE-CONTROL
@@ -28,6 +29,8 @@
  * Related commands:
  * - CMD-GOVERNANCE-CONTROL-REPORT-CHECK
  * - CMD-GOVERNANCE-CONTROL-REPORT
+ * - CMD-GOVERNANCE-CONTROL-PAGE-CHECK
+ * - CMD-GOVERNANCE-CONTROL-PAGE
  *
  * Failure behavior:
  * - Prints all report generation or validation errors.
@@ -44,6 +47,8 @@ import { parse as parseYaml } from "yaml";
 
 const root = process.cwd();
 const checkMode = process.argv.includes("--check");
+const outputArgIndex = process.argv.indexOf("--output");
+const outputOverride = outputArgIndex >= 0 ? process.argv[outputArgIndex + 1] : null;
 
 const MODEL_FILES = {
   governance: "docs/reference/project-model/governance.registry.yml",
@@ -55,8 +60,9 @@ const CONTRACT_FILES = {
   governanceControlReportSchema: "docs/reference/contracts/governance-control-report.schema.json"
 };
 
-const outputPath = "artifacts/governance-control/report.json";
+const outputPath = outputOverride ?? "artifacts/governance-control/report.json";
 const errors = [];
+const outputExcerptLength = 1200;
 
 /**
  * Resolves a repository-relative path.
@@ -570,46 +576,107 @@ function buildFileRelationshipGraph(triples) {
 }
 
 /**
- * Builds check records.
+ * Truncates command output for report embedding.
+ *
+ * @param {unknown} output - Command output.
+ * @returns {string} Output excerpt.
+ */
+function excerpt(output) {
+  const text = String(output ?? "").trim();
+  if (text.length <= outputExcerptLength) {
+    return text;
+  }
+
+  return `${text.slice(0, outputExcerptLength)}…`;
+}
+
+/**
+ * Executes one leaf validation command.
+ *
+ * @param {{ id: string, label: string, script: string }} check - Leaf check definition.
+ * @returns {object} Check record.
+ */
+function runLeafCheck(check) {
+  const start = Date.now();
+
+  try {
+    const stdout = execFileSync("npm", ["run", check.script], {
+      cwd: root,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+
+    return {
+      id: check.id,
+      label: check.label,
+      status: "pass",
+      command: `npm run ${check.script}`,
+      exit_code: 0,
+      duration_ms: Date.now() - start,
+      stdout_excerpt: excerpt(stdout),
+      stderr_excerpt: "",
+      summary: "Leaf validation command passed."
+    };
+  } catch (error) {
+    return {
+      id: check.id,
+      label: check.label,
+      status: "fail",
+      command: `npm run ${check.script}`,
+      exit_code: typeof error.status === "number" ? error.status : 1,
+      duration_ms: Date.now() - start,
+      stdout_excerpt: excerpt(error.stdout),
+      stderr_excerpt: excerpt(error.stderr),
+      summary: "Leaf validation command failed."
+    };
+  }
+}
+
+/**
+ * Builds check records by executing approved leaf validation commands.
+ *
+ * The report builder intentionally avoids aggregate commands such as
+ * docs:check, docs:check:control-report, and docs:check:control-page because
+ * those commands can recursively invoke report generation.
  *
  * @returns {object[]} Check records.
  */
 function buildChecks() {
-  return [
+  const leafChecks = [
     {
       id: "docs:check:structure",
       label: "Documentation structure",
-      status: "unknown",
-      command: "npm run docs:check:structure",
-      summary: "Status is validated by the command, not re-run by the report builder."
+      script: "docs:check:structure"
     },
     {
       id: "docs:check:model",
       label: "Project model",
-      status: "unknown",
-      command: "npm run docs:check:model",
-      summary: "Status is validated by the command, not re-run by the report builder."
+      script: "docs:check:model"
     },
     {
       id: "docs:check:format",
       label: "Documentation format",
-      status: "unknown",
-      command: "npm run docs:check:format",
-      summary: "Status is validated by the command, not re-run by the report builder."
+      script: "docs:check:format"
     },
+    {
+      id: "docs:test:negative",
+      label: "Validator negative fixtures",
+      script: "docs:test:negative"
+    }
+  ];
+
+  return [
+    ...leafChecks.map((check) => runLeafCheck(check)),
     {
       id: "docs:check:control-report",
       label: "Governance Control Report",
       status: "pass",
       command: "npm run docs:check:control-report",
-      summary: "This report was built and validated by the current command."
-    },
-    {
-      id: "docs:test:negative",
-      label: "Validator negative fixtures",
-      status: "unknown",
-      command: "npm run docs:test:negative",
-      summary: "Status is validated by the command, not re-run by the report builder."
+      exit_code: 0,
+      duration_ms: 0,
+      stdout_excerpt: "Governance Control Report was built and validated by the current command.",
+      stderr_excerpt: "",
+      summary: "Current report generation command passed."
     }
   ];
 }
@@ -740,6 +807,14 @@ function validateReportAgainstSchemaBaseline(report, schema) {
     }
   }
 
+  for (const check of report.checks ?? []) {
+    for (const field of ["id", "status", "command", "exit_code", "duration_ms", "stdout_excerpt", "stderr_excerpt"]) {
+      if (!Object.prototype.hasOwnProperty.call(check, field)) {
+        errors.push(`Report check ${check.id ?? "<unknown>"} is missing field: ${field}`);
+      }
+    }
+  }
+
   for (const graphKey of ["knowledge", "documentation", "file_relationships"]) {
     const graph = report.graphs?.[graphKey];
     if (!graph || typeof graph !== "object") {
@@ -768,7 +843,7 @@ function validateReportAgainstSchemaBaseline(report, schema) {
  * @returns {void}
  */
 function writeReport(report) {
-  const target = absolutePath(outputPath);
+  const target = path.isAbsolute(outputPath) ? outputPath : absolutePath(outputPath);
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 }

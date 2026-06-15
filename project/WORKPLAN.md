@@ -22,37 +22,35 @@ Status: in progress.
 - M000.012 - Governance control report and page contract requirements.
 - M000.013 - Governance control report JSON Schema contract.
 - M000.014 - Static governance control report builder.
+- M000.015 - Static governance control page generator.
+- M000.016 - Governance control check execution status.
 
 ## Next steps
 
-### M000.015 - Static governance control page generator
+### M000.017 - Governance control report and page negative fixtures
 
-Goal: generate a local static governance control page from the validated report.
-
-Expected scope:
-
-- `artifacts/governance-control/index.html`
-- documentation explorer
-- requirement/project-model explorer
-- knowledge graph table
-- documentation graph table
-- file relationship graph table
-- diagnostics table
-- no authentication yet
-- no server runtime yet
-
-### M000.016 - Governance control report negative fixture
-
-Goal: add controlled negative coverage for report generation and schema baseline validation.
+Goal: add controlled negative coverage for report and page generation.
 
 Expected scope:
 
 - invalid report schema fixture
 - invalid report builder input fixture
+- invalid page rendering fixture
 - no runtime product code yet
+
+### M001.001 - Product boundary
+
+Goal: define the clean product boundary before architecture or runtime implementation.
+
+Expected scope:
+
+- product purpose
+- users and actors
+- core capabilities
+- explicit non-goals
+- first vertical slice candidates
 
 ## Future
 
-- Define product boundary.
 - Define backend runtime architecture after product boundary.
 - Implement deterministic backend architecture checker when backend files exist.

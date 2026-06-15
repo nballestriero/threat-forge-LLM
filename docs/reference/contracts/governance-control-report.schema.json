@@ -181,6 +181,19 @@
         },
         "summary": {
           "type": "string"
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stdout_excerpt": {
+          "type": "string"
+        },
+        "stderr_excerpt": {
+          "type": "string"
         }
       }
     },

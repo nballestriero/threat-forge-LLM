@@ -73,4 +73,16 @@ The current JSON Schema contract defines the baseline report shape.
 
 The report builder writes `artifacts/governance-control/report.json` and supports a check mode that validates report generation without writing generated artifacts.
 
+The report builder executes leaf validation commands and records real check status fields:
+
+- `status`
+- `exit_code`
+- `duration_ms`
+- `stdout_excerpt`
+- `stderr_excerpt`
+
+The builder must not execute aggregate commands such as `docs:check`, `docs:check:control-report`, or `docs:check:control-page` from inside report generation because those commands can recursively invoke the report builder.
+
+The static page builder renders `artifacts/governance-control/index.html` from report data and supports a check mode that renders in memory from a temporary report.
+
 Later implementation steps may make individual entity shapes stricter as the report builder matures.

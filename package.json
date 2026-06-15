@@ -11,7 +11,9 @@
     "docs:test:negative": "node tools/docs/check-validator-negative-fixtures.mjs",
     "docs:check:control-report": "node tools/docs/generate-governance-control-report.mjs --check",
     "docs:control:report": "node tools/docs/generate-governance-control-report.mjs",
-    "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format && npm run docs:check:control-report && npm run docs:test:negative",
+    "docs:check:control-page": "node tools/docs/generate-governance-control-page.mjs --check",
+    "docs:control:page": "node tools/docs/generate-governance-control-page.mjs",
+    "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format && npm run docs:check:control-report && npm run docs:check:control-page && npm run docs:test:negative",
     "check": "npm run docs:check",
     "precommit": "npm run docs:check"
   },
