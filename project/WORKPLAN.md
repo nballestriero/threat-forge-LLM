@@ -2,32 +2,42 @@
 
 ## M000 - Repository initialization
 
-Goal: create a clean repository with no dependency on the abandoned threat-forge project.
+Goal: create a clean repository with a governed documentation foundation.
 
 Status: in progress.
 
-## M000.002 - Documentation directory structure
+## Completed
 
-Goal: reorganize the initial repository documentation into a clean Diátaxis structure and prepare empty requirements and traceability reference files for future deterministic validation and graph import.
+- M000.001 - Initial clean repository files.
+- M000.002 - Diátaxis documentation folder structure.
+- M000.003 - Compact governed project model files.
 
-Status: proposed.
+## Next steps
 
-## M001 - Product boundary
+### M000.004 - Documentation structure guard
 
-Goal: define what threat-forge-LLM is, what it is not, and what the first usable product slice should be.
+Goal: introduce a deterministic tool that checks the documentation folder structure and prevents uncontrolled changes to the Diátaxis corpus layout.
 
-Open questions:
+Expected scope:
 
-- Is this primarily an LLM-native threat modeling product?
-- Is it a developer/security assistant?
-- Is it a documentation and traceability platform?
-- Is it a local-first tool, a web application, or both?
-- What must exist in the first working vertical slice?
+- allowed top-level documentation sections
+- allowed reference subdirectories
+- project-model directory presence
+- no implementation code yet unless needed for the validation tool
 
-## M002 - Architecture baseline
+### M000.005 - File format validation baseline
 
-Goal: define the first architecture only after M001 fixes the product boundary.
+Goal: introduce deterministic validation for governed file formats.
 
-## M003 - First implementation slice
+Expected scope:
 
-Goal: implement the smallest useful feature with tests and clear validation.
+- YAML structure validation for project model files
+- Markdown body profile validation for governed documentation files
+- clear failure messages
+- no Neo4j import yet
+
+## Future
+
+- Define product boundary.
+- Define architecture baseline.
+- Define first implementation slice.

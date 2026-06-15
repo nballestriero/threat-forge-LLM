@@ -1,14 +1,17 @@
 # Reference
 
-Reference documentation records technical facts and governed data.
+## Purpose
 
-Use this section for:
+This section contains technical reference material, governed registries, matrices, contracts, and future machine-readable project model files.
 
-- requirements registries
-- traceability matrices
-- architecture reference material
-- domain model reference material
-- graph model reference material
-- future schemas and contracts
+## Contents
 
-Reference documents should be precise, structured, and suitable for deterministic validation where possible.
+- `project-model/`: compact canonical project model for governance vocabulary, requirements, and SPO graph relationships.
+- `architecture/`: future architecture reference.
+- `domain-model/`: future domain model reference.
+
+## Rules
+
+Reference files should be precise, structured, and suitable for deterministic validation.
+
+The canonical governed model is concentrated under `project-model/`.

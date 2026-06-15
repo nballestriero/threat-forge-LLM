@@ -1,0 +1,300 @@
+schema_version: "1.0"
+
+registry:
+  id: "project-governance-registry"
+  title: "Project governance registry"
+  status: "draft"
+  description: >
+    Compact controlled registry for project capabilities, decisions,
+    document types, body profiles, graph node types, and graph predicates.
+
+capabilities:
+  - id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Documentation governance"
+    description: >
+      Structured documentation, body-format governance, requirements registry,
+      traceability matrix, and graph-ready documentation.
+    status: "proposed"
+
+  - id: "CAP-GRAPH-IMPORT"
+    title: "Graph import"
+    description: >
+      Future import of governed project knowledge into graph-oriented storage,
+      including Neo4j-compatible nodes and relationships.
+    status: "proposed"
+
+  - id: "CAP-REQUIREMENTS-MANAGEMENT"
+    title: "Requirements management"
+    description: >
+      Macro requirements, atomic requirements, acceptance criteria, flows,
+      evidence, and traceability.
+    status: "proposed"
+
+  - id: "CAP-PRODUCT-BOUNDARY"
+    title: "Product boundary"
+    description: >
+      Definition and maintenance of the product scope, non-goals, and clean-start
+      assumptions.
+    status: "proposed"
+
+decisions:
+  - id: "DEC-0001"
+    title: "Clean restart"
+    status: "accepted"
+    statement: >
+      The project starts as a clean repository and does not inherit the previous
+      threat-forge repository as a source of truth.
+    rationale: >
+      A clean restart avoids carrying forward accidental complexity, obsolete
+      assumptions, and uncontrolled documentation structures.
+    consequences:
+      - "Old repository history is not imported."
+      - "Old documentation is not copied by default."
+      - "Old ideas may be reintroduced only through explicit new decisions."
+
+  - id: "DEC-0002"
+    title: "Compact governed project model"
+    status: "accepted"
+    statement: >
+      Governance vocabularies, requirements, and governed relationships are
+      concentrated in a compact project model under docs/reference/project-model.
+    rationale: >
+      The project needs deterministic governance without creating too many
+      scattered registry and matrix files.
+    consequences:
+      - "Governance vocabulary is stored in governance.registry.yml."
+      - "Macro requirements and atomic requirements are stored in requirements.registry.yml."
+      - "Governed relationships are stored in graph.matrix.yml."
+
+  - id: "DEC-0003"
+    title: "Canonical SPO relationship model"
+    status: "accepted"
+    statement: >
+      All governed relationships must be represented as Subject-Predicate-Object
+      triples.
+    rationale: >
+      SPO triples provide a stable relationship model for deterministic
+      validation, coherence checking, traceability, and future graph import.
+    consequences:
+      - "The graph matrix is the canonical source of governed relationships."
+      - "Grouped fields are allowed only as derived or validated views."
+      - "Future code must validate predicates and subject/object type compatibility."
+
+document_types:
+  - id: "tutorial"
+    diataxis_section: "tutorials"
+    description: >
+      Learning-oriented document that guides the reader through a practical path.
+    body_profile_id: "BODY-TUTORIAL"
+
+  - id: "how-to"
+    diataxis_section: "how-to"
+    description: >
+      Task-oriented procedure for achieving a specific result.
+    body_profile_id: "BODY-HOW-TO"
+
+  - id: "reference"
+    diataxis_section: "reference"
+    description: >
+      Information-oriented technical specification, registry, matrix, or contract.
+    body_profile_id: "BODY-REFERENCE"
+
+  - id: "explanation"
+    diataxis_section: "explanation"
+    description: >
+      Understanding-oriented document explaining context, rationale, or concepts.
+    body_profile_id: "BODY-EXPLANATION"
+
+  - id: "decision-record"
+    diataxis_section: "explanation"
+    description: >
+      Decision-oriented explanation document or registered decision entry.
+    body_profile_id: "BODY-DECISION"
+
+body_profiles:
+  - id: "BODY-TUTORIAL"
+    description: "Required body structure for tutorial documents."
+    required_headings:
+      - "Goal"
+      - "Prerequisites"
+      - "Steps"
+      - "Result"
+    forbidden_headings: []
+
+  - id: "BODY-HOW-TO"
+    description: "Required body structure for how-to documents."
+    required_headings:
+      - "Purpose"
+      - "Procedure"
+      - "Verification"
+    forbidden_headings: []
+
+  - id: "BODY-REFERENCE"
+    description: "Required body structure for reference documents."
+    required_headings:
+      - "Purpose"
+      - "Schema"
+      - "Rules"
+    forbidden_headings: []
+
+  - id: "BODY-EXPLANATION"
+    description: "Required body structure for explanation documents."
+    required_headings:
+      - "Context"
+      - "Explanation"
+      - "Consequences"
+    forbidden_headings: []
+
+  - id: "BODY-DECISION"
+    description: "Required body structure for decision record documents."
+    required_headings:
+      - "Status"
+      - "Context"
+      - "Decision"
+      - "Consequences"
+    forbidden_headings: []
+
+node_types:
+  - id: "Capability"
+    description: "Product capability or product area."
+
+  - id: "MacroRequirement"
+    description: "High-level requirement decomposed into atomic requirements."
+
+  - id: "Requirement"
+    description: "Atomic, verifiable requirement."
+
+  - id: "Decision"
+    description: "Accepted, proposed, superseded, or rejected project decision."
+
+  - id: "Document"
+    description: "Governed documentation artifact."
+
+  - id: "SourceFile"
+    description: "Implementation source file."
+
+  - id: "TestFile"
+    description: "Automated test file."
+
+  - id: "Gate"
+    description: "Validation gate or command."
+
+  - id: "AcceptanceCriterion"
+    description: "Observable criterion used to accept a requirement."
+
+  - id: "Precondition"
+    description: "Condition that must hold before a requirement flow starts."
+
+  - id: "Postcondition"
+    description: "Condition that must hold after a requirement flow completes."
+
+  - id: "FlowStep"
+    description: "Main or alternative flow step."
+
+  - id: "AlternativeFlow"
+    description: "Alternative flow associated with an atomic requirement."
+
+predicates:
+  - id: "CONTAINS"
+    description: "The subject structurally contains the object."
+    allowed_subject_types:
+      - "MacroRequirement"
+      - "Requirement"
+    allowed_object_types:
+      - "Requirement"
+      - "AcceptanceCriterion"
+      - "Precondition"
+      - "Postcondition"
+      - "FlowStep"
+      - "AlternativeFlow"
+
+  - id: "BELONGS_TO_CAPABILITY"
+    description: "The requirement belongs to a product capability."
+    allowed_subject_types:
+      - "Requirement"
+      - "MacroRequirement"
+    allowed_object_types:
+      - "Capability"
+
+  - id: "DECIDES"
+    description: "The decision establishes or chooses the object."
+    allowed_subject_types:
+      - "Decision"
+    allowed_object_types:
+      - "Requirement"
+      - "MacroRequirement"
+      - "Document"
+      - "Capability"
+
+  - id: "SUPPORTS"
+    description: "The subject supports the object."
+    allowed_subject_types:
+      - "Decision"
+      - "Requirement"
+      - "MacroRequirement"
+      - "Document"
+    allowed_object_types:
+      - "Decision"
+      - "Requirement"
+      - "MacroRequirement"
+      - "Document"
+
+  - id: "CONFLICTS_WITH"
+    description: "The subject conflicts with the object and requires review."
+    allowed_subject_types:
+      - "Decision"
+      - "Requirement"
+      - "MacroRequirement"
+      - "Document"
+    allowed_object_types:
+      - "Decision"
+      - "Requirement"
+      - "MacroRequirement"
+      - "Document"
+
+  - id: "SUPERSEDES"
+    description: "The subject replaces the object."
+    allowed_subject_types:
+      - "Decision"
+      - "Requirement"
+      - "MacroRequirement"
+    allowed_object_types:
+      - "Decision"
+      - "Requirement"
+      - "MacroRequirement"
+
+  - id: "SPECIFIED_BY"
+    description: "The subject is specified by a reference document or registry."
+    allowed_subject_types:
+      - "Capability"
+      - "MacroRequirement"
+      - "Requirement"
+      - "Decision"
+    allowed_object_types:
+      - "Document"
+
+  - id: "EXPLAINED_BY"
+    description: "The subject is explained by an explanatory document."
+    allowed_subject_types:
+      - "Capability"
+      - "MacroRequirement"
+      - "Requirement"
+      - "Decision"
+    allowed_object_types:
+      - "Document"
+
+  - id: "IMPLEMENTED_BY"
+    description: "The requirement is implemented by a source file."
+    allowed_subject_types:
+      - "Requirement"
+    allowed_object_types:
+      - "SourceFile"
+
+  - id: "VERIFIED_BY"
+    description: "The requirement is verified by a test file or validation gate."
+    allowed_subject_types:
+      - "Requirement"
+      - "AcceptanceCriterion"
+    allowed_object_types:
+      - "TestFile"
+      - "Gate"

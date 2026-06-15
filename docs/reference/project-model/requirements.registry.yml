@@ -1,0 +1,218 @@
+schema_version: "1.0"
+
+registry:
+  id: "requirements-registry"
+  title: "Requirements registry"
+  status: "draft"
+  description: >
+    Authoritative registry of macro requirements and atomic requirements.
+
+macro_requirements:
+  - id: "MR-0001"
+    title: "Governed documentation and traceability"
+    statement: >
+      The project shall maintain governed documentation, requirements, decisions,
+      and traceability structures that can be validated and later imported into a
+      graph database.
+    rationale: >
+      Documentation, requirements, decisions, and relationships must be stable
+      enough for humans, deterministic tools, and future graph import.
+    status: "proposed"
+    priority: "must"
+
+requirements:
+  - id: "REQ-0001"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Diátaxis documentation corpus"
+    statement: >
+      The documentation corpus shall be organized according to the Diátaxis
+      model.
+    rationale: >
+      Diátaxis separates learning, task execution, technical reference, and
+      explanation, reducing ambiguity in document purpose.
+    status: "proposed"
+    priority: "must"
+    type: "documentation"
+    scope: "repository"
+
+    preconditions:
+      - id: "PRE-REQ-0001-001"
+        statement: "The repository contains a docs directory."
+
+    main_flow:
+      - id: "FLOW-REQ-0001-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Creates the tutorials, how-to, reference, and explanation sections."
+        expected_result: "The docs directory follows the Diátaxis top-level structure."
+
+      - id: "FLOW-REQ-0001-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Places governed technical project model files under docs/reference/project-model."
+        expected_result: "The reference corpus contains the compact project model."
+
+    alternative_flows:
+      - id: "ALT-REQ-0001-001"
+        title: "Operational project state"
+        trigger: "A file represents temporary work state instead of product documentation."
+        steps:
+          - id: "FLOW-REQ-0001-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Stores the file outside the Diátaxis documentation corpus."
+            expected_result: "The operational file is placed under project."
+
+    postconditions:
+      - id: "POST-REQ-0001-001"
+        statement: "The documentation corpus has stable Diátaxis folders."
+
+      - id: "POST-REQ-0001-002"
+        statement: "The compact project model has a stable location."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0001-001"
+        statement: "docs/tutorials exists."
+
+      - id: "AC-REQ-0001-002"
+        statement: "docs/how-to exists."
+
+      - id: "AC-REQ-0001-003"
+        statement: "docs/reference exists."
+
+      - id: "AC-REQ-0001-004"
+        statement: "docs/explanation exists."
+
+      - id: "AC-REQ-0001-005"
+        statement: "docs/reference/project-model exists."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "repository-path"
+        - "document"
+
+  - id: "REQ-0002"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-GRAPH-IMPORT"
+
+    title: "Canonical SPO relationships"
+    statement: >
+      Governed relationships shall be represented as Subject-Predicate-Object
+      triples.
+    rationale: >
+      SPO triples make relationships deterministic, validateable, and suitable
+      for future graph import.
+    status: "proposed"
+    priority: "must"
+    type: "data"
+    scope: "repository"
+
+    preconditions:
+      - id: "PRE-REQ-0002-001"
+        statement: "The project has governed entities that require traceability."
+
+    main_flow:
+      - id: "FLOW-REQ-0002-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Adds governed relationships to the graph matrix as SPO triples."
+        expected_result: "Each governed relationship has a subject, predicate, and object."
+
+      - id: "FLOW-REQ-0002-002"
+        step: 2
+        actor: "Future validator"
+        action: "Checks the predicate against the governance registry."
+        expected_result: "Only registered predicates are accepted."
+
+    alternative_flows:
+      - id: "ALT-REQ-0002-001"
+        title: "Grouped relationship field is present"
+        trigger: "A human-friendly grouped relationship field is introduced."
+        steps:
+          - id: "FLOW-REQ-0002-ALT-001"
+            step: 1
+            actor: "Future validator"
+            action: "Checks that the grouped field is derived from or equivalent to SPO triples."
+            expected_result: "The grouped field does not contradict the graph matrix."
+
+    postconditions:
+      - id: "POST-REQ-0002-001"
+        statement: "The graph matrix remains the canonical source of governed relationships."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0002-001"
+        statement: "Each governed relationship in graph.matrix.yml uses subject, predicate, and object."
+
+      - id: "AC-REQ-0002-002"
+        statement: "Each predicate used by graph.matrix.yml is registered in governance.registry.yml."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "yaml"
+        - "registry-entry"
+
+  - id: "REQ-0003"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Validated Markdown body profiles"
+    statement: >
+      Governed Markdown documents shall be validated against registered body
+      profiles, not only against frontmatter.
+    rationale: >
+      Validating only frontmatter leaves the body uncontrolled. Body profiles
+      make documents predictable, parseable, and suitable for future deterministic
+      checks.
+    status: "proposed"
+    priority: "must"
+    type: "documentation"
+    scope: "repository"
+
+    preconditions:
+      - id: "PRE-REQ-0003-001"
+        statement: "Governed Markdown documents exist in the documentation corpus."
+
+    main_flow:
+      - id: "FLOW-REQ-0003-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Assigns a document type with an associated body profile."
+        expected_result: "The document has a known body structure."
+
+      - id: "FLOW-REQ-0003-002"
+        step: 2
+        actor: "Future validator"
+        action: "Checks the document body against the registered profile."
+        expected_result: "Required headings and structural rules are enforced."
+
+    alternative_flows:
+      - id: "ALT-REQ-0003-001"
+        title: "Document does not match its profile"
+        trigger: "A governed Markdown document has missing or invalid body sections."
+        steps:
+          - id: "FLOW-REQ-0003-ALT-001"
+            step: 1
+            actor: "Future validator"
+            action: "Reports the body profile violation."
+            expected_result: "The invalid document is blocked or flagged according to the gate policy."
+
+    postconditions:
+      - id: "POST-REQ-0003-001"
+        statement: "Governed Markdown documents have deterministic body structures."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0003-001"
+        statement: "governance.registry.yml defines body profiles."
+
+      - id: "AC-REQ-0003-002"
+        statement: "Each document type references a body profile."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "registry-entry"
+        - "document"

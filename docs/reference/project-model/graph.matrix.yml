@@ -1,0 +1,131 @@
+schema_version: "1.0"
+
+matrix:
+  id: "project-graph-matrix"
+  title: "Project graph matrix"
+  status: "draft"
+  description: >
+    Canonical matrix of governed Subject-Predicate-Object relationships for
+    traceability, coherence, conflicts, implementation links, test links, and
+    future graph import.
+
+triples:
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0001"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0002"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0003"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0001"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0002"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GRAPH-IMPORT"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0003"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0001"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "MR-0001"
+      type: "MacroRequirement"
+
+  - subject:
+      id: "DEC-0002"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "docs/reference/project-model"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0002"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "REQ-0001"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0003"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0003"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "REQ-0002"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0001"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0002"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0003"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0003"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
