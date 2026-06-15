@@ -4,14 +4,16 @@
 
 This section contains technical reference material, governed registries, matrices, contracts, and future machine-readable project model files.
 
-## Contents
+## Schema
 
-- `project-model/`: compact canonical project model for governance vocabulary, requirements, and SPO graph relationships.
-- `architecture/`: future architecture reference.
-- `domain-model/`: future domain model reference.
+Current reference areas:
+
+- `project-model/`
+- `architecture/`
+- `domain-model/`
 
 ## Rules
 
-Reference files should be precise, structured, and suitable for deterministic validation.
+Reference files must be precise, structured, and suitable for deterministic validation.
 
 The canonical governed model is concentrated under `project-model/`.

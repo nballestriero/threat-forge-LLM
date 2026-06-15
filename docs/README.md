@@ -1,12 +1,18 @@
-# Documentation
+# Documentation corpus
 
-This directory contains the product documentation corpus.
+## Purpose
 
-The corpus is organized according to Diátaxis:
+This directory is the governed documentation corpus.
 
-- `tutorials/` teaches through guided learning paths.
-- `how-to/` explains how to complete specific tasks.
-- `reference/` records technical facts, registries, contracts, matrices, and models.
-- `explanation/` explains concepts, reasoning, decisions, and trade-offs.
+## Schema
 
-Operational planning and temporary handoff material must stay outside this corpus unless explicitly promoted into stable documentation.
+The corpus follows the Diátaxis structure:
+
+- `tutorials/`
+- `how-to/`
+- `reference/`
+- `explanation/`
+
+## Rules
+
+Documentation files must stay inside the governed structure and must satisfy the body profiles registered in `docs/reference/project-model/governance.registry.yml`.

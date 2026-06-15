@@ -1,7 +1,13 @@
 # Architecture explanation
 
-This directory will contain conceptual architecture explanations.
+## Context
 
-Use it for design reasoning, trade-offs, and architectural narratives.
+Architecture explanation documents will be introduced after the product boundary is defined.
 
-Stable technical architecture facts belong in `docs/reference/architecture/`.
+## Explanation
+
+This area will explain architectural rationale, trade-offs, and conceptual choices.
+
+## Consequences
+
+Architecture explanations must not replace architecture reference documents, decisions, or requirements.

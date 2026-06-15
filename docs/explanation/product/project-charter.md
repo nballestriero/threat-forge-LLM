@@ -1,23 +1,19 @@
 # Project charter
 
-## Status
+## Context
 
-New clean project.
+This project starts as a clean repository.
 
-## Starting principle
+The previous threat-forge repository is abandoned and is not treated as an inherited source of truth.
 
-This project starts from zero.
+## Explanation
 
-The previous threat-forge repository is abandoned and must not be treated as an inherited source of truth.
+The current goal is to define the new product boundary, architecture, and development workflow before introducing implementation code.
 
-## Current goal
+The initialization phase intentionally avoids importing old repository history, old documentation, old runtime assumptions, or old branch and tag structures.
 
-Define the new product boundary, architecture, and development workflow before introducing implementation code.
+## Consequences
 
-## Explicit non-goals for initialization
+Old design ideas may be reconsidered later only through explicit new decisions.
 
-- Do not import old repository history.
-- Do not copy old documentation blindly.
-- Do not preserve old branch or tag structure.
-- Do not keep old runtime assumptions.
-- Do not introduce implementation code before defining the first product slice.
+Implementation code should not be introduced before defining the first product slice.

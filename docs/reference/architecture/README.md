@@ -1,7 +1,13 @@
 # Architecture reference
 
-This directory will contain stable architecture reference material.
+## Purpose
 
-Use it for factual architecture descriptions, contracts, component catalogues, and interface reference.
+Hold future architecture reference material.
 
-Architecture rationale and trade-offs belong in `docs/explanation/architecture/`.
+## Schema
+
+Architecture reference files will be added only after the product boundary is defined.
+
+## Rules
+
+Architecture reference documents must remain technical references and must not replace decisions, requirements, or operational workplans.

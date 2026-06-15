@@ -16,19 +16,9 @@ Status: in progress.
 - M000.006 - Taxonomies and bidirectional traceability model.
 - M000.007 - Project model consistency and bidirectional traceability validator.
 - M000.008 - Package script and Command node consistency.
+- M000.009 - Governed file format validation baseline.
 
 ## Next steps
-
-### M000.009 - File format validation baseline
-
-Goal: introduce deterministic validation for governed file formats.
-
-Expected scope:
-
-- YAML structure validation for project model files
-- Markdown body profile validation for governed documentation files
-- clear failure messages
-- no Neo4j import yet
 
 ### M000.010 - Validator negative fixtures
 
@@ -40,10 +30,22 @@ Expected scope:
 - invalid predicate fixture
 - invalid package command fixture
 - missing source traceability fixture
+- invalid Markdown body profile fixture
 - no runtime product code yet
+
+### M001.001 - Product boundary
+
+Goal: define the clean product boundary before architecture or runtime implementation.
+
+Expected scope:
+
+- product purpose
+- users and actors
+- core capabilities
+- explicit non-goals
+- first vertical slice candidates
 
 ## Future
 
-- Define product boundary.
 - Define architecture baseline.
 - Define first implementation slice.

@@ -2,17 +2,22 @@
 
 ## Status
 
-Accepted.
+Accepted
+
+## Context
+
+The project is being restarted from a clean repository.
+
+The previous threat-forge project is not an inherited source of truth.
 
 ## Decision
 
-The threat-forge-LLM project starts as a clean repository.
+The new threat-forge-LLM repository starts clean.
 
-The previous threat-forge project is abandoned and is not considered a parent repository, upstream repository, migration source, or authoritative source of requirements.
+No old git history, branches, tags, or documentation corpus are imported by default.
 
 ## Consequences
 
-- No old git history is imported.
-- No old branches or tags are preserved.
-- Old documentation is not copied by default.
-- Old design ideas can be reconsidered later only through explicit new decisions.
+Old ideas may be reintroduced only through explicit new decisions.
+
+The repository starts with a governed documentation foundation and deterministic validation.

@@ -7,7 +7,8 @@
   "scripts": {
     "docs:check:structure": "node tools/docs/check-docs-structure.mjs",
     "docs:check:model": "node tools/docs/check-project-model.mjs",
-    "docs:check": "npm run docs:check:structure && npm run docs:check:model",
+    "docs:check:format": "node tools/docs/check-docs-format.mjs",
+    "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format",
     "check": "npm run docs:check",
     "precommit": "npm run docs:check"
   },

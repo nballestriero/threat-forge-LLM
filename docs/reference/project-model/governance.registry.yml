@@ -220,6 +220,21 @@ decisions:
       - "Governed validation scripts in package.json must have matching Command nodes."
       - "The project model validator checks package.json command consistency."
 
+  - id: "DEC-0007"
+    title: "Governed file format validation"
+    status: "accepted"
+    statement: >
+      Governed YAML and Markdown files must be validated deterministically
+      against baseline format rules and registered Markdown body profiles.
+    rationale: >
+      Folder structure and traceability are not sufficient if file bodies remain
+      uncontrolled. File-format validation keeps governed documents predictable
+      and parseable.
+    consequences:
+      - "Project model YAML files must satisfy baseline top-level format rules."
+      - "Governed Markdown files must satisfy registered body profiles."
+      - "docs:check runs the file format validator."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

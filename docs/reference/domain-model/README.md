@@ -1,5 +1,13 @@
 # Domain model reference
 
-This directory will contain the stable domain model reference.
+## Purpose
 
-Use it for entities, aggregates, value objects, relationships, and controlled vocabulary once defined.
+Hold future domain model reference material.
+
+## Schema
+
+Domain model reference files will describe governed domain concepts, entities, and relationships.
+
+## Rules
+
+Domain model reference documents must stay consistent with the project model and graph matrix.

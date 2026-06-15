@@ -1,7 +1,13 @@
 # Explanation
 
-Explanation documents are understanding-oriented.
+## Context
 
-Use this section for product concepts, architectural reasoning, design trade-offs, and decisions.
+This section contains understanding-oriented documentation.
 
-Do not use explanation documents as the source of truth for structured requirements, registries, or matrices.
+## Explanation
+
+Explanation documents describe rationale, background, trade-offs, product concepts, and decisions.
+
+## Consequences
+
+Explanatory documents support human understanding but do not replace canonical registries or the graph matrix.

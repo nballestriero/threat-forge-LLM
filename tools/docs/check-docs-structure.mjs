@@ -80,6 +80,7 @@ const requiredFiles = [
   "tools/docs/README.md",
   "tools/docs/check-docs-structure.mjs",
   "tools/docs/check-project-model.mjs",
+  "tools/docs/check-docs-format.mjs",
   ".githooks/pre-commit"
 ];
 

@@ -1,7 +1,17 @@
 # Tutorials
 
-Tutorials are learning-oriented documents.
+## Goal
 
-Use this section for guided paths that help a reader learn the system by following a sequence of steps.
+Provide learning-oriented guided paths.
 
-Do not use tutorials for reference data, registries, requirements, decisions, or operational workplans.
+## Prerequisites
+
+Tutorials may assume only the prerequisites stated in each tutorial document.
+
+## Steps
+
+Each tutorial should guide the reader through a practical sequence of actions.
+
+## Result
+
+The reader should complete a learning path and understand the basic workflow being introduced.

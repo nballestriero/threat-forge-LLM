@@ -494,3 +494,95 @@ requirements:
         - "command"
         - "yaml"
         - "tool-output"
+
+
+  - id: "REQ-0007"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Governed file format validation"
+    statement: >
+      The project shall provide deterministic validation for governed YAML and
+      Markdown file formats.
+    rationale: >
+      Governed files must remain parseable and structurally predictable. YAML
+      project-model files need baseline top-level format checks, and Markdown
+      documentation files need body profile checks.
+    status: "proposed"
+    priority: "must"
+    type: "documentation"
+    scope: "documentation-corpus"
+
+    preconditions:
+      - id: "PRE-REQ-0007-001"
+        statement: "The repository contains governed YAML project-model files."
+
+      - id: "PRE-REQ-0007-002"
+        statement: "The repository contains governed Markdown documentation files."
+
+      - id: "PRE-REQ-0007-003"
+        statement: "The governance registry defines document types and body profiles."
+
+    main_flow:
+      - id: "FLOW-REQ-0007-001"
+        step: 1
+        actor: "Validation tool"
+        action: "Parses governed YAML project-model files."
+        expected_result: "The YAML files are parseable and expose required top-level fields."
+
+      - id: "FLOW-REQ-0007-002"
+        step: 2
+        actor: "Validation tool"
+        action: "Loads registered Markdown body profiles."
+        expected_result: "The allowed body structures are known."
+
+      - id: "FLOW-REQ-0007-003"
+        step: 3
+        actor: "Validation tool"
+        action: "Checks governed Markdown files against their expected body profiles."
+        expected_result: "Required body headings are present and forbidden headings are absent."
+
+    alternative_flows:
+      - id: "ALT-REQ-0007-001"
+        title: "Invalid YAML project model file"
+        trigger: "A governed YAML file is not parseable or misses a required top-level section."
+        steps:
+          - id: "FLOW-REQ-0007-ALT-001"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the invalid YAML format."
+            expected_result: "The check fails with a format validation error."
+
+      - id: "ALT-REQ-0007-002"
+        title: "Markdown file violates body profile"
+        trigger: "A governed Markdown file misses a required body heading or contains a forbidden heading."
+        steps:
+          - id: "FLOW-REQ-0007-ALT-002"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the Markdown body profile violation."
+            expected_result: "The check fails with a format validation error."
+
+    postconditions:
+      - id: "POST-REQ-0007-001"
+        statement: "Governed YAML and Markdown file formats are confirmed valid or the check fails explicitly."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0007-001"
+        statement: "YAML project-model files are parsed and checked for required top-level format."
+
+      - id: "AC-REQ-0007-002"
+        statement: "Markdown files are checked against registered body profiles."
+
+      - id: "AC-REQ-0007-003"
+        statement: "docs:check runs the format validator."
+
+      - id: "AC-REQ-0007-004"
+        statement: "Invalid governed file formats block commits."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "tool-output"
+        - "document"

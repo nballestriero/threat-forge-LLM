@@ -26,6 +26,10 @@ nodes:
     type: "Gate"
     description: "Gate that validates the compact project model and bidirectional traceability."
 
+  - id: "GATE-DOCS-FORMAT"
+    type: "Gate"
+    description: "Gate that validates governed YAML and Markdown file formats."
+
   - id: "CMD-DOCS-CHECK-STRUCTURE"
     type: "Command"
     command: "npm run docs:check:structure"
@@ -40,6 +44,11 @@ nodes:
     type: "Command"
     command: "npm run precommit"
     description: "Runs the repository pre-commit validation command."
+
+  - id: "CMD-DOCS-CHECK-FORMAT"
+    type: "Command"
+    command: "npm run docs:check:format"
+    description: "Runs governed YAML and Markdown file format validation."
 
   - id: "CMD-PROJECT-MODEL-CHECK"
     type: "Command"
@@ -60,6 +69,11 @@ nodes:
     type: "ValidationTool"
     path: "tools/docs/check-project-model.mjs"
     description: "Deterministic project model and bidirectional traceability validator."
+
+  - id: "TOOL-DOCS-FORMAT-CHECK"
+    type: "ValidationTool"
+    path: "tools/docs/check-docs-format.mjs"
+    description: "Deterministic governed YAML and Markdown file format validator."
 
 triples:
   - subject:
@@ -628,3 +642,164 @@ triples:
     object:
       id: "tools/docs/check-project-model.mjs"
       type: "SourceFile"
+
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0007"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0007"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0007"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0007"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0007"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+
+  - subject:
+      id: "REQ-0007"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0007"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0007"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0007"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "REQ-0007"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+    predicate: "HAS_COMMAND"
+    object:
+      id: "CMD-DOCS-CHECK-FORMAT"
+      type: "Command"
+
+  - subject:
+      id: "CMD-DOCS-CHECK-FORMAT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-DOCS-CHECK-FORMAT"
+      type: "Command"
+    predicate: "DECLARED_IN"
+    object:
+      id: "package.json"
+      type: "ConfigFile"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"

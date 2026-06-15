@@ -1,7 +1,13 @@
 # How-to guides
 
-How-to guides are task-oriented documents.
+## Purpose
 
-Use this section for procedures that help a reader accomplish a specific goal.
+Provide task-oriented procedures for achieving specific outcomes.
 
-A how-to guide should assume the reader already understands the relevant concepts and wants reliable steps.
+## Procedure
+
+Each how-to guide should describe the shortest reliable procedure for a concrete task.
+
+## Verification
+
+Each how-to guide should include a way to verify that the task was completed successfully.
