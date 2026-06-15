@@ -1210,3 +1210,83 @@ requirements:
         - "api-contract"
         - "document"
         - "tool-output"
+
+
+  - id: "REQ-0016"
+    macro_requirement_id: "MR-0003"
+    capability_id: "CAP-GOVERNANCE-CONTROL"
+
+    title: "Governance control report JSON Schema validation"
+    statement: >
+      The project shall provide a canonical JSON Schema contract for the
+      Governance Control Report and validate the schema file as part of
+      deterministic documentation format checks.
+    rationale: >
+      The report-first governance control design needs an explicit machine
+      contract before report generation or HTML rendering can be implemented.
+    status: "accepted"
+    implementation_status: "partially_implemented"
+    priority: "must"
+    type: "data"
+    scope: "contracts"
+
+    preconditions:
+      - id: "PRE-REQ-0016-001"
+        statement: "The governance control report contract requirement is accepted."
+
+      - id: "PRE-REQ-0016-002"
+        statement: "The repository has a governed contracts reference area."
+
+    main_flow:
+      - id: "FLOW-REQ-0016-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Defines the Governance Control Report JSON Schema."
+        expected_result: "The schema declares the report top-level structure, required sections, graph records, and diagnostics records."
+
+      - id: "FLOW-REQ-0016-002"
+        step: 2
+        actor: "Format validator"
+        action: "Parses and checks the JSON Schema file."
+        expected_result: "Invalid or incomplete schema structure is rejected."
+
+      - id: "FLOW-REQ-0016-003"
+        step: 3
+        actor: "Future report generator"
+        action: "Uses the schema to validate generated Governance Control Reports."
+        expected_result: "Generated report validation is ready to be implemented in a later step."
+
+    alternative_flows:
+      - id: "ALT-REQ-0016-001"
+        title: "Invalid JSON Schema file"
+        trigger: "The schema file is not valid JSON or does not expose required JSON Schema baseline fields."
+        steps:
+          - id: "FLOW-REQ-0016-ALT-001"
+            step: 1
+            actor: "Format validator"
+            action: "Reports the invalid schema contract."
+            expected_result: "The documentation check fails."
+
+    postconditions:
+      - id: "POST-REQ-0016-001"
+        statement: "The Governance Control Report has a canonical JSON Schema contract file."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0016-001"
+        statement: "The repository contains docs/reference/contracts/governance-control-report.schema.json."
+
+      - id: "AC-REQ-0016-002"
+        statement: "The schema declares all required top-level Governance Control Report sections."
+
+      - id: "AC-REQ-0016-003"
+        statement: "The format validator parses and checks the schema file."
+
+      - id: "AC-REQ-0016-004"
+        statement: "The schema is linked to governance control report requirements through the graph matrix."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "tool-output"
+        - "document"

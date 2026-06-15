@@ -73,6 +73,7 @@ const requiredFiles = [
   "docs/reference/project-model/graph.matrix.yml",
   "docs/reference/contracts/README.md",
   "docs/reference/contracts/governance-control-report.contract.md",
+  "docs/reference/contracts/governance-control-report.schema.json",
   "docs/reference/architecture/README.md",
   "docs/reference/domain-model/README.md",
   "docs/explanation/README.md",
@@ -123,7 +124,8 @@ const allowedProjectModelEntries = new Set([
 
 const allowedContractsEntries = new Set([
   "README.md",
-  "governance-control-report.contract.md"
+  "governance-control-report.contract.md",
+  "governance-control-report.schema.json"
 ]);
 
 const allowedExplanationEntries = new Set([

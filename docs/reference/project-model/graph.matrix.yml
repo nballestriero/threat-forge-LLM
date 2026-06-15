@@ -1356,3 +1356,84 @@ triples:
     object:
       id: "REQ-0012"
       type: "Requirement"
+
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0016"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0016"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/contracts/governance-control-report.contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/contracts/governance-control-report.schema.json"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0016"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "docs/reference/contracts/governance-control-report.schema.json"
+      type: "Document"

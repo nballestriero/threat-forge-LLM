@@ -14,6 +14,7 @@
  *
  * Related requirements:
  * - REQ-0007
+ * - REQ-0016
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -41,6 +42,10 @@ const MODEL_FILES = {
   governance: "docs/reference/project-model/governance.registry.yml",
   requirements: "docs/reference/project-model/requirements.registry.yml",
   matrix: "docs/reference/project-model/graph.matrix.yml"
+};
+
+const CONTRACT_FILES = {
+  governanceControlReportSchema: "docs/reference/contracts/governance-control-report.schema.json"
 };
 
 const markdownDocuments = [
@@ -105,6 +110,104 @@ function readYaml(relativePath) {
   } catch (error) {
     errors.push(`Cannot parse YAML file ${relativePath}: ${error.message}`);
     return null;
+  }
+}
+
+/**
+ * Parses JSON from a governed contract file.
+ *
+ * @param {string} relativePath - Repository-relative JSON file path.
+ * @returns {unknown | null} Parsed JSON document, or null when parsing fails.
+ */
+function readJson(relativePath) {
+  const content = readText(relativePath);
+  if (content === null) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(content);
+  } catch (error) {
+    errors.push(`Cannot parse JSON file ${relativePath}: ${error.message}`);
+    return null;
+  }
+}
+
+/**
+ * Checks that a parsed JSON document is a non-array object.
+ *
+ * @param {unknown} document - Parsed JSON document.
+ * @param {string} relativePath - Repository-relative JSON file path.
+ * @returns {document is Record<string, unknown>} True when the document is an object.
+ */
+function isJsonObject(document, relativePath) {
+  if (!document || typeof document !== "object" || Array.isArray(document)) {
+    errors.push(`JSON file ${relativePath} must contain a top-level object.`);
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Checks the baseline shape of the Governance Control Report JSON Schema.
+ *
+ * @param {string} relativePath - Repository-relative JSON Schema file path.
+ * @returns {void}
+ */
+function checkGovernanceControlReportSchema(relativePath) {
+  const schema = readJson(relativePath);
+  if (!isJsonObject(schema, relativePath)) {
+    return;
+  }
+
+  const requiredTopLevelKeys = ["$schema", "$id", "title", "type", "required", "properties"];
+
+  for (const key of requiredTopLevelKeys) {
+    if (!Object.prototype.hasOwnProperty.call(schema, key)) {
+      errors.push(`JSON Schema file ${relativePath} is missing required top-level key: ${key}`);
+    }
+  }
+
+  if (schema.type !== "object") {
+    errors.push(`JSON Schema file ${relativePath} must declare top-level type "object".`);
+  }
+
+  if (!Array.isArray(schema.required)) {
+    errors.push(`JSON Schema file ${relativePath} must declare a top-level required array.`);
+    return;
+  }
+
+  const requiredReportKeys = [
+    "schema_version",
+    "generated_at",
+    "repository",
+    "checks",
+    "documents",
+    "requirements",
+    "decisions",
+    "capabilities",
+    "commands",
+    "tools",
+    "gates",
+    "graphs",
+    "diagnostics"
+  ];
+
+  for (const key of requiredReportKeys) {
+    if (!schema.required.includes(key)) {
+      errors.push(`JSON Schema file ${relativePath} required array is missing report key: ${key}`);
+    }
+
+    if (!schema.properties || !Object.prototype.hasOwnProperty.call(schema.properties, key)) {
+      errors.push(`JSON Schema file ${relativePath} properties object is missing report key: ${key}`);
+    }
+  }
+
+  const graphProperties = schema.properties?.graphs?.properties ?? {};
+  for (const graphKey of ["knowledge", "documentation", "file_relationships"]) {
+    if (!Object.prototype.hasOwnProperty.call(graphProperties, graphKey)) {
+      errors.push(`JSON Schema file ${relativePath} graphs.properties is missing graph key: ${graphKey}`);
+    }
   }
 }
 
@@ -253,6 +356,8 @@ checkYamlBaseline(MODEL_FILES.matrix, [
   "nodes",
   "triples"
 ]);
+
+checkGovernanceControlReportSchema(CONTRACT_FILES.governanceControlReportSchema);
 
 if (governance) {
   const bodyProfiles = buildBodyProfileIndex(governance);

@@ -20,30 +20,32 @@ Status: in progress.
 - M000.010 - Validator negative fixtures.
 - M000.011 - Architecture defaults and requirement lifecycle baseline.
 - M000.012 - Governance control report and page contract requirements.
+- M000.013 - Governance control report JSON Schema contract.
 
 ## Next steps
 
-### M000.013 - Governance control report JSON Schema contract
+### M000.014 - Static governance control report builder
 
-Goal: introduce the canonical JSON Schema for the Governance Control Report.
-
-Expected scope:
-
-- `docs/reference/contracts/governance-control-report.schema.json`
-- contract validation in deterministic tooling
-- schema_version handling
-- no HTML generator yet
-- no protected admin UI yet
-
-### M000.014 - Static governance control page generator
-
-Goal: generate a local static governance control report from governed repository state.
+Goal: generate a valid Governance Control Report JSON from governed repository state.
 
 Expected scope:
 
 - `artifacts/governance-control/report.json`
+- report validates against `docs/reference/contracts/governance-control-report.schema.json`
+- no HTML generator yet
+- no protected admin UI yet
+
+### M000.015 - Static governance control page generator
+
+Goal: generate a local static governance control page from the validated report.
+
+Expected scope:
+
 - `artifacts/governance-control/index.html`
-- report validates against JSON Schema
+- documentation explorer
+- requirement/project-model explorer
+- graph tables
+- diagnostics table
 - no authentication yet
 - no server runtime yet
 

@@ -8,7 +8,13 @@ The report is the canonical data interface for the static governance control pag
 
 ## Schema
 
-The first generated report will use a JSON object with these top-level sections:
+The canonical external contract file is:
+
+```text
+docs/reference/contracts/governance-control-report.schema.json
+```
+
+The report JSON uses this top-level structure:
 
 ```json
 {
@@ -41,11 +47,11 @@ The first generated report will use a JSON object with these top-level sections:
 }
 ```
 
-Entity records should expose stable governed identifiers, type, title or label, status fields where available, source path, and derived relationships.
+Entity records expose stable governed identifiers, type, title or label, status fields where available, source path, and derived relationships.
 
-Graph edges should use normalized source, predicate, and target fields derived from governed Subject-Predicate-Object triples or deterministic document analysis.
+Graph edges use normalized source, predicate, and target fields derived from governed Subject-Predicate-Object triples or deterministic document analysis.
 
-Diagnostics should use structured fields including severity, code, message, subject, evidence, and suggested action.
+Diagnostics use structured fields including severity, code, message, subject, evidence, and suggested action.
 
 ## Rules
 
@@ -62,3 +68,5 @@ Zod may be introduced for runtime validation inside implementation code, but it 
 The report contract must be versioned through `schema_version`.
 
 Breaking report contract changes require an accepted decision or explicitly governed migration step.
+
+The current JSON Schema contract defines the baseline report shape; later implementation steps may make individual entity shapes stricter as the report builder matures.
