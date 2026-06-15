@@ -6,9 +6,13 @@
   "description": "Clean restart project for threat-forge-LLM.",
   "scripts": {
     "docs:check:structure": "node tools/docs/check-docs-structure.mjs",
-    "docs:check": "npm run docs:check:structure",
+    "docs:check:model": "node tools/docs/check-project-model.mjs",
+    "docs:check": "npm run docs:check:structure && npm run docs:check:model",
     "check": "npm run docs:check",
     "precommit": "npm run docs:check"
+  },
+  "dependencies": {
+    "yaml": "^2.6.1"
   },
   "engines": {
     "node": ">=18"

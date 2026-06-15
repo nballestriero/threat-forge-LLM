@@ -2,11 +2,34 @@
 /**
  * @file Deterministic documentation structure guard.
  *
- * The guard checks that the clean threat-forge-LLM documentation corpus keeps
- * the expected Diátaxis folder layout and compact canonical project model.
+ * Validates the governed Diátaxis folder structure and the compact
+ * project-model file layout.
  *
- * This tool intentionally has no third-party dependencies so it can run before
- * the project has a full implementation stack.
+ * Canonical references:
+ * - docs/reference/project-model/governance.registry.yml
+ * - docs/reference/project-model/requirements.registry.yml
+ * - docs/reference/project-model/graph.matrix.yml
+ *
+ * Related requirements:
+ * - REQ-0004
+ *
+ * Supports capabilities:
+ * - CAP-DOCUMENTATION-GOVERNANCE
+ *
+ * Provides graph nodes:
+ * - TOOL-DOCS-STRUCTURE-GUARD
+ *
+ * Related commands:
+ * - CMD-DOCS-CHECK-STRUCTURE
+ *
+ * Failure behavior:
+ * - Prints all detected structure violations.
+ * - Exits with status code 1 when validation fails.
+ * - Exits with status code 0 when validation passes.
+ *
+ * This tool intentionally has no project-specific runtime dependencies beyond
+ * Node.js so it can guard the repository layout before deeper validation tools
+ * run.
  */
 
 import fs from "node:fs";
@@ -56,6 +79,7 @@ const requiredFiles = [
   "project/WORKPLAN.md",
   "tools/docs/README.md",
   "tools/docs/check-docs-structure.mjs",
+  "tools/docs/check-project-model.mjs",
   ".githooks/pre-commit"
 ];
 
@@ -103,14 +127,32 @@ const allowedProjectEntries = new Set([
 
 const errors = [];
 
+/**
+ * Converts a repository-relative path into an absolute path.
+ *
+ * @param {string} relativePath - Repository-relative path.
+ * @returns {string} Absolute path inside the current repository checkout.
+ */
 function toAbsolute(relativePath) {
   return path.join(root, relativePath);
 }
 
+/**
+ * Checks whether a repository-relative path exists.
+ *
+ * @param {string} relativePath - Repository-relative path.
+ * @returns {boolean} True when the path exists.
+ */
 function exists(relativePath) {
   return fs.existsSync(toAbsolute(relativePath));
 }
 
+/**
+ * Checks whether a repository-relative path is a directory.
+ *
+ * @param {string} relativePath - Repository-relative path.
+ * @returns {boolean} True when the path exists and is a directory.
+ */
 function isDirectory(relativePath) {
   try {
     return fs.statSync(toAbsolute(relativePath)).isDirectory();
@@ -119,6 +161,12 @@ function isDirectory(relativePath) {
   }
 }
 
+/**
+ * Checks whether a repository-relative path is a file.
+ *
+ * @param {string} relativePath - Repository-relative path.
+ * @returns {boolean} True when the path exists and is a file.
+ */
 function isFile(relativePath) {
   try {
     return fs.statSync(toAbsolute(relativePath)).isFile();
@@ -127,6 +175,12 @@ function isFile(relativePath) {
   }
 }
 
+/**
+ * Lists entry names under a repository-relative directory.
+ *
+ * @param {string} relativePath - Repository-relative directory path.
+ * @returns {string[]} Directory entry names, or an empty array if the directory cannot be read.
+ */
 function listEntries(relativePath) {
   try {
     return fs.readdirSync(toAbsolute(relativePath), { withFileTypes: true }).map((entry) => entry.name);
@@ -135,6 +189,11 @@ function listEntries(relativePath) {
   }
 }
 
+/**
+ * Checks that all required directories exist.
+ *
+ * @returns {void}
+ */
 function checkRequiredDirectories() {
   for (const directory of requiredDirectories) {
     if (!isDirectory(directory)) {
@@ -143,6 +202,11 @@ function checkRequiredDirectories() {
   }
 }
 
+/**
+ * Checks that all required files exist.
+ *
+ * @returns {void}
+ */
 function checkRequiredFiles() {
   for (const file of requiredFiles) {
     if (!isFile(file)) {
@@ -151,6 +215,11 @@ function checkRequiredFiles() {
   }
 }
 
+/**
+ * Checks that forbidden legacy or uncontrolled paths do not exist.
+ *
+ * @returns {void}
+ */
 function checkForbiddenPaths() {
   for (const forbiddenPath of forbiddenPaths) {
     if (exists(forbiddenPath)) {
@@ -159,6 +228,14 @@ function checkForbiddenPaths() {
   }
 }
 
+/**
+ * Checks that a governed directory contains only allowed direct entries.
+ *
+ * @param {string} directory - Repository-relative directory to inspect.
+ * @param {Set<string>} allowedEntries - Allowed direct entry names.
+ * @param {string} label - Human-readable directory label for diagnostics.
+ * @returns {void}
+ */
 function checkAllowedEntries(directory, allowedEntries, label) {
   if (!isDirectory(directory)) {
     return;
@@ -171,6 +248,11 @@ function checkAllowedEntries(directory, allowedEntries, label) {
   }
 }
 
+/**
+ * Checks the governed Diátaxis and project operational boundaries.
+ *
+ * @returns {void}
+ */
 function checkDiataxisBoundaries() {
   checkAllowedEntries("docs", allowedDocsEntries, "docs root");
   checkAllowedEntries("docs/reference", allowedReferenceEntries, "reference");
@@ -179,6 +261,11 @@ function checkDiataxisBoundaries() {
   checkAllowedEntries("project", allowedProjectEntries, "project operational area");
 }
 
+/**
+ * Checks that required canonical files are not empty.
+ *
+ * @returns {void}
+ */
 function checkNoEmptyCanonicalFiles() {
   for (const file of requiredFiles) {
     if (!isFile(file)) {

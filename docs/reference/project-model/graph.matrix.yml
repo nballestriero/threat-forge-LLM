@@ -24,7 +24,7 @@ nodes:
 
   - id: "GATE-PROJECT-MODEL"
     type: "Gate"
-    description: "Planned gate that validates the compact project model and bidirectional traceability."
+    description: "Gate that validates the compact project model and bidirectional traceability."
 
   - id: "CMD-DOCS-CHECK-STRUCTURE"
     type: "Command"
@@ -44,7 +44,7 @@ nodes:
   - id: "CMD-PROJECT-MODEL-CHECK"
     type: "Command"
     command: "npm run docs:check:model"
-    description: "Planned command for compact project model and bidirectional traceability validation."
+    description: "Runs compact project model and bidirectional traceability validation."
 
   - id: "TOOL-DOCS-STRUCTURE-GUARD"
     type: "ValidationTool"
@@ -54,7 +54,7 @@ nodes:
   - id: "TOOL-PROJECT-MODEL-CHECK"
     type: "ValidationTool"
     path: "tools/docs/check-project-model.mjs"
-    description: "Planned deterministic project model and bidirectional traceability validator."
+    description: "Deterministic project model and bidirectional traceability validator."
 
 triples:
   - subject:
@@ -290,6 +290,14 @@ triples:
       type: "ConfigFile"
 
   - subject:
+      id: "REQ-0005"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
+
+  - subject:
       id: "REQ-0004"
       type: "Requirement"
     predicate: "VERIFIED_BY"
@@ -362,11 +370,27 @@ triples:
       type: "ValidationTool"
 
   - subject:
+      id: "CMD-DOCS-CHECK"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+
+  - subject:
       id: "CMD-PRECOMMIT"
       type: "Command"
     predicate: "RUNS_TOOL"
     object:
       id: "TOOL-DOCS-STRUCTURE-GUARD"
+      type: "ValidationTool"
+
+  - subject:
+      id: "CMD-PRECOMMIT"
+      type: "Command"
+    predicate: "RUNS_TOOL"
+    object:
+      id: "TOOL-PROJECT-MODEL-CHECK"
       type: "ValidationTool"
 
   - subject:
@@ -426,6 +450,14 @@ triples:
       type: "SourceFile"
 
   - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
+
+  - subject:
       id: "TOOL-DOCS-STRUCTURE-GUARD"
       type: "ValidationTool"
     predicate: "VALIDATES"
@@ -464,3 +496,19 @@ triples:
     object:
       id: "docs/reference/project-model/graph.matrix.yml"
       type: "Document"
+
+  - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/check-docs-structure.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
