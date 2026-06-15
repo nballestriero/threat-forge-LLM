@@ -347,6 +347,27 @@ decisions:
       - Dependency installations and local caches are excluded by default.
       - Environment files remain excluded unless explicitly requested.
 
+  - id: "DEC-0012"
+    title: "Governed registries require explicit schemas and controlled datasets"
+    status: "accepted"
+    statement: >
+      Each governed registry and graph matrix shall have an explicit
+      machine-readable schema, and deterministic tools shall load the canonical
+      schema files rather than relying only on hardcoded shape checks. Fields
+      constrained to controlled values shall name their authoritative dataset or
+      taxonomy.
+    rationale: >
+      Registry structure and controlled vocabularies are part of the project
+      governance contract. If validator code alone defines registry shape, the
+      schema can drift from documentation, datasets, editor support, and future
+      tool consumers.
+    consequences:
+      - "Governance, requirements, and graph matrix registries require explicit schema files."
+      - "Deterministic tools must read and validate against canonical registry schemas."
+      - "Fields with controlled values must declare the authoritative dataset or taxonomy they use."
+      - "Controlled value sets must document meaning, rationale, and validation impact before they become binding."
+
+
 
 document_types:
   - id: "tutorial"

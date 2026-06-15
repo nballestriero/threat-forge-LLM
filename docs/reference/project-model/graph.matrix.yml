@@ -146,6 +146,18 @@ nodes:
     path: "tools/context/create-project-handoff-zip.mjs"
     description: "Deterministic cross-platform project handoff ZIP builder."
 
+  - id: "docs/reference/project-model/schemas/governance-registry.schema.json"
+    type: "Document"
+    description: "Planned canonical JSON Schema for docs/reference/project-model/governance.registry.yml."
+
+  - id: "docs/reference/project-model/schemas/requirements-registry.schema.json"
+    type: "Document"
+    description: "Planned canonical JSON Schema for docs/reference/project-model/requirements.registry.yml."
+
+  - id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
+    type: "Document"
+    description: "Planned canonical JSON Schema for docs/reference/project-model/graph.matrix.yml."
+
 triples:
   - subject:
       id: "MR-0001"
@@ -2105,3 +2117,100 @@ triples:
     object:
       id: "package.json"
       type: "ConfigFile"
+
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0021"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0012"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0021"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0007"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0016"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schemas/governance-registry.schema.json"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schemas/requirements-registry.schema.json"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0021"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"

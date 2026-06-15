@@ -1694,3 +1694,113 @@ requirements:
         - "tool-output"
         - "repository-path"
         - "source-comment"
+
+
+  - id: "REQ-0021"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Explicit governed registry schemas"
+    statement: >
+      The project shall define explicit machine-readable schema files for every
+      governed project registry and graph matrix, and deterministic validation
+      tools shall load and apply those canonical schemas instead of relying only
+      on hardcoded registry-shape checks. For every registry, fields constrained
+      to controlled value sets shall declare their authoritative dataset or
+      taxonomy, and each controlled value set shall be explicitly decided,
+      documented, and motivated.
+    rationale: >
+      The project model is itself a contract. If registry schemas and controlled
+      value datasets exist only implicitly inside validator code, future changes
+      can create drift between registries, validators, reports, editor support,
+      generated pages, and LLM consumers. Explicit schemas and motivated
+      datasets make governance rules inspectable, reusable, and enforceable.
+    status: "accepted"
+    implementation_status: "not_implemented"
+    priority: "must"
+    type: "data"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0021-001"
+        statement: "The project has governed registries for governance, requirements, and graph relationships."
+
+      - id: "PRE-REQ-0021-002"
+        statement: "Deterministic validation tools already parse and validate the project model baseline."
+
+    main_flow:
+      - id: "FLOW-REQ-0021-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Defines canonical schema files for each governed registry and graph matrix."
+        expected_result: "Registry structure is documented as explicit machine-readable schema artifacts."
+
+      - id: "FLOW-REQ-0021-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Identifies which registry fields are constrained by controlled datasets or taxonomies."
+        expected_result: "Each controlled field names the authoritative dataset or taxonomy used for validation."
+
+      - id: "FLOW-REQ-0021-003"
+        step: 3
+        actor: "Maintainer"
+        action: "Documents the meaning, rationale, and validation impact of each controlled value set."
+        expected_result: "Controlled values are justified before they become binding validation inputs."
+
+      - id: "FLOW-REQ-0021-004"
+        step: 4
+        actor: "Validator"
+        action: "Loads the canonical schema files and validates registries against them."
+        expected_result: "Registry validation is driven by governed schema artifacts rather than hardcoded shape logic alone."
+
+    alternative_flows:
+      - id: "ALT-REQ-0021-001"
+        title: "Schema missing or invalid"
+        trigger: "A governed registry has no canonical schema file or the schema itself is invalid."
+        steps:
+          - id: "FLOW-REQ-0021-ALT-001"
+            step: 1
+            actor: "Validator"
+            action: "Rejects the validation run and reports the missing or invalid schema artifact."
+            expected_result: "Registries cannot be accepted without valid schema governance."
+
+      - id: "ALT-REQ-0021-002"
+        title: "Unjustified controlled value set"
+        trigger: "A registry field is constrained to enumerated values without an authoritative dataset, meaning, rationale, or validation impact."
+        steps:
+          - id: "FLOW-REQ-0021-ALT-002"
+            step: 1
+            actor: "Validator"
+            action: "Reports the incomplete controlled dataset definition."
+            expected_result: "Controlled values cannot become hidden hardcoded assumptions."
+
+    postconditions:
+      - id: "POST-REQ-0021-001"
+        statement: "Every governed registry has a canonical schema path and validation policy."
+
+      - id: "POST-REQ-0021-002"
+        statement: "Every controlled registry field has an explicit authoritative dataset or taxonomy decision."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0021-001"
+        statement: "The project defines schema artifacts for governance.registry.yml, requirements.registry.yml, and graph.matrix.yml."
+
+      - id: "AC-REQ-0021-002"
+        statement: "The project model validator reads canonical registry schema files during validation."
+
+      - id: "AC-REQ-0021-003"
+        statement: "Each controlled field in the governed registries is mapped to an authoritative dataset or taxonomy."
+
+      - id: "AC-REQ-0021-004"
+        statement: "Each controlled value set documents meaning, rationale, and validation impact."
+
+      - id: "AC-REQ-0021-005"
+        statement: "Validator logic may add semantic checks, but it must not be the only source of registry shape definitions."
+
+    verification:
+      method: "analysis"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "registry-entry"
+        - "tool-output"
