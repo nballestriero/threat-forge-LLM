@@ -1139,3 +1139,220 @@ triples:
     object:
       id: "docs/reference/architecture/backend-composition-pattern.md"
       type: "Document"
+
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0013"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0014"
+      type: "Requirement"
+
+  - subject:
+      id: "MR-0003"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0015"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "MR-0003"
+      type: "MacroRequirement"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0013"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0014"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0015"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0012"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0013"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0014"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0015"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-GOVERNANCE-CONTROL"
+      type: "Capability"
+
+  - subject:
+      id: "REQ-0012"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/contracts/governance-control-report.contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0012"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0013"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0013"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/explanation/governance/governance-control-page.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0014"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0014"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/contracts/governance-control-report.contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0015"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0015"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0013"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0015"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/explanation/governance/governance-control-page.md"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "docs/reference/contracts/governance-control-report.contract.md"
+      type: "Document"
+
+  - subject:
+      id: "DEC-0010"
+      type: "Decision"
+    predicate: "SUPPORTS"
+    object:
+      id: "docs/explanation/governance/governance-control-page.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0011"
+      type: "Requirement"
+    predicate: "SUPPORTS"
+    object:
+      id: "REQ-0012"
+      type: "Requirement"

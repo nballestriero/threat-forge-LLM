@@ -44,10 +44,12 @@ const requiredDirectories = [
   "docs/how-to",
   "docs/reference",
   "docs/reference/project-model",
+  "docs/reference/contracts",
   "docs/reference/architecture",
   "docs/reference/domain-model",
   "docs/explanation",
   "docs/explanation/product",
+  "docs/explanation/governance",
   "docs/explanation/architecture",
   "docs/explanation/decisions",
   "project",
@@ -69,10 +71,13 @@ const requiredFiles = [
   "docs/reference/project-model/governance.registry.yml",
   "docs/reference/project-model/requirements.registry.yml",
   "docs/reference/project-model/graph.matrix.yml",
+  "docs/reference/contracts/README.md",
+  "docs/reference/contracts/governance-control-report.contract.md",
   "docs/reference/architecture/README.md",
   "docs/reference/domain-model/README.md",
   "docs/explanation/README.md",
   "docs/explanation/product/project-charter.md",
+  "docs/explanation/governance/governance-control-page.md",
   "docs/explanation/architecture/README.md",
   "docs/explanation/decisions/DEC-0001-clean-restart.md",
   "project/README.md",
@@ -104,6 +109,7 @@ const allowedDocsEntries = new Set([
 const allowedReferenceEntries = new Set([
   "README.md",
   "project-model",
+  "contracts",
   "architecture",
   "domain-model"
 ]);
@@ -115,11 +121,21 @@ const allowedProjectModelEntries = new Set([
   "graph.matrix.yml"
 ]);
 
+const allowedContractsEntries = new Set([
+  "README.md",
+  "governance-control-report.contract.md"
+]);
+
 const allowedExplanationEntries = new Set([
   "README.md",
   "product",
+  "governance",
   "architecture",
   "decisions"
+]);
+
+const allowedGovernanceExplanationEntries = new Set([
+  "governance-control-page.md"
 ]);
 
 const allowedProjectEntries = new Set([
@@ -259,7 +275,9 @@ function checkDiataxisBoundaries() {
   checkAllowedEntries("docs", allowedDocsEntries, "docs root");
   checkAllowedEntries("docs/reference", allowedReferenceEntries, "reference");
   checkAllowedEntries("docs/reference/project-model", allowedProjectModelEntries, "project model");
+  checkAllowedEntries("docs/reference/contracts", allowedContractsEntries, "contracts");
   checkAllowedEntries("docs/explanation", allowedExplanationEntries, "explanation");
+  checkAllowedEntries("docs/explanation/governance", allowedGovernanceExplanationEntries, "governance explanation");
   checkAllowedEntries("project", allowedProjectEntries, "project operational area");
 }
 

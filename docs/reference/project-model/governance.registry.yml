@@ -83,6 +83,10 @@ taxonomies:
       description: "Applies to the compact project model files."
     - id: "tooling"
       description: "Applies to deterministic tools and validation commands."
+    - id: "governance-control"
+      description: "Applies to the repository governance control report, page, and future admin surface."
+    - id: "contracts"
+      description: "Applies to governed data, API, and report contracts."
 
   verification_method:
     - id: "inspection"
@@ -101,6 +105,10 @@ taxonomies:
       description: "Evidence based on a governed documentation artifact."
     - id: "yaml"
       description: "Evidence based on a YAML registry or matrix."
+    - id: "json-schema"
+      description: "Evidence based on a governed JSON Schema contract."
+    - id: "api-contract"
+      description: "Evidence based on a governed backend or HTTP API contract."
     - id: "registry-entry"
       description: "Evidence based on an entry in a governed registry."
     - id: "command"
@@ -145,7 +153,16 @@ capabilities:
     title: "Backend API contracts"
     description: >
       Governed backend and API contracts used as authoritative documentation
-      sources for HTTP behavior and future admin documentation.
+      sources for HTTP behavior, JSON payload models, future admin documentation,
+      and runtime validators such as Zod.
+    status: "accepted"
+
+
+  - id: "CAP-GOVERNANCE-CONTROL"
+    title: "Governance control surface"
+    description: >
+      Machine-readable governance control report, static control page, future
+      protected admin surface, and non-interactive tool or LLM consumption.
     status: "accepted"
 
   - id: "CAP-PRODUCT-BOUNDARY"
@@ -289,6 +306,25 @@ decisions:
       - "Backend services should depend on ports or application boundaries instead of concrete adapters."
       - "Backend/API contracts must be treated as primary technical documentation for HTTP behavior."
       - "A future deterministic checker must enforce approved backend architecture patterns."
+
+  - id: "DEC-0010"
+    title: "Governance control is report-first and contract-first"
+    status: "accepted"
+    statement: >
+      The governance control page shall be generated from a deterministic,
+      machine-readable governance control report. The report contract is the
+      shared source for the static page, future protected admin UI, CLI tools,
+      backend APIs, and LLM consumers.
+    rationale: >
+      Building the visual page first would risk duplicating analysis logic and
+      making the future admin UI diverge from CLI tools or LLM consumers. A
+      contract-first report keeps every consumer aligned.
+    consequences:
+      - "The governance control report JSON contract is the canonical data interface."
+      - "The static HTML page is a consumer of the report, not the source of truth."
+      - "Future protected admin UI and backend APIs must consume or expose the same report model."
+      - "JSON Schema is the canonical external contract for the report."
+      - "Zod may be used for runtime validation inside TypeScript or JavaScript code, but it must not diverge from canonical JSON Schema or OpenAPI contracts."
 
 document_types:
   - id: "tutorial"
@@ -516,6 +552,26 @@ predicates:
       - "Command"
     allowed_object_types:
       - "Document"
+
+
+  - id: "DEPENDS_ON"
+    description: "The subject depends on the object and should be evaluated after or together with it."
+    allowed_subject_types:
+      - "Requirement"
+      - "MacroRequirement"
+      - "Decision"
+      - "Document"
+      - "ValidationTool"
+      - "Gate"
+      - "Command"
+    allowed_object_types:
+      - "Requirement"
+      - "MacroRequirement"
+      - "Decision"
+      - "Document"
+      - "ValidationTool"
+      - "Gate"
+      - "Command"
 
   - id: "IMPLEMENTED_BY"
     description: "The subject is implemented by a source file, configuration file, or future code symbol."

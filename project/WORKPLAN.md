@@ -19,24 +19,23 @@ Status: in progress.
 - M000.009 - Governed file format validation baseline.
 - M000.010 - Validator negative fixtures.
 - M000.011 - Architecture defaults and requirement lifecycle baseline.
+- M000.012 - Governance control report and page contract requirements.
 
 ## Next steps
 
-### M000.012 - Governance control page design
+### M000.013 - Governance control report JSON Schema contract
 
-Goal: define a deterministic repository governance control page before implementing the static generator.
+Goal: introduce the canonical JSON Schema for the Governance Control Report.
 
 Expected scope:
 
-- report data model
-- documentation explorer sections
-- knowledge graph view
-- documentation graph view
-- file relationship graph view
-- diagnostics model
-- future protected admin UI boundary
+- `docs/reference/contracts/governance-control-report.schema.json`
+- contract validation in deterministic tooling
+- schema_version handling
+- no HTML generator yet
+- no protected admin UI yet
 
-### M000.013 - Static governance control page generator
+### M000.014 - Static governance control page generator
 
 Goal: generate a local static governance control report from governed repository state.
 
@@ -44,6 +43,7 @@ Expected scope:
 
 - `artifacts/governance-control/report.json`
 - `artifacts/governance-control/index.html`
+- report validates against JSON Schema
 - no authentication yet
 - no server runtime yet
 

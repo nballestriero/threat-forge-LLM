@@ -49,11 +49,14 @@ const markdownDocuments = [
   { path: "docs/how-to/README.md", bodyProfileId: "BODY-HOW-TO" },
   { path: "docs/reference/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/README.md", bodyProfileId: "BODY-REFERENCE" },
+  { path: "docs/reference/contracts/README.md", bodyProfileId: "BODY-REFERENCE" },
+  { path: "docs/reference/contracts/governance-control-report.contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/architecture/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/architecture/backend-composition-pattern.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/domain-model/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/explanation/README.md", bodyProfileId: "BODY-EXPLANATION" },
   { path: "docs/explanation/product/project-charter.md", bodyProfileId: "BODY-EXPLANATION" },
+  { path: "docs/explanation/governance/governance-control-page.md", bodyProfileId: "BODY-EXPLANATION" },
   { path: "docs/explanation/architecture/README.md", bodyProfileId: "BODY-EXPLANATION" },
   { path: "docs/explanation/decisions/DEC-0001-clean-restart.md", bodyProfileId: "BODY-DECISION" }
 ];

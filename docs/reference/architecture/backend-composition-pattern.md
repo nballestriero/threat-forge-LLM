@@ -28,7 +28,11 @@ factory / composition root
 
 Backend/API contracts are authoritative documentation sources for public HTTP behavior.
 
-Future contract forms may include OpenAPI or equivalent governed schemas, but the exact contract technology is intentionally deferred until the backend stack is selected.
+OpenAPI or an equivalent governed HTTP contract is the default canonical external contract for public backend APIs.
+
+JSON Schema is the default canonical external contract for machine-readable reports, payload models, and structured data artifacts.
+
+Zod may be used as runtime validation inside JavaScript or TypeScript implementation code, but it must not become a divergent source of truth.
 
 ## Rules
 
@@ -46,6 +50,10 @@ Public backend routes must have governed backend/API contracts before or togethe
 
 Backend/API contracts are primary technical documentation for HTTP behavior and must be linked to requirements, capabilities, and future implementation evidence.
 
-A future deterministic architecture checker must verify the approved backend layering and composition rules once backend runtime code exists.
+JSON Schema contracts are primary technical documentation for structured report and payload data where no HTTP boundary is involved.
+
+Zod schemas may validate runtime objects, request data, response data, and generated reports inside implementation code, but they must be generated from, checked against, or kept aligned with the canonical JSON Schema or OpenAPI contract.
+
+A future deterministic architecture checker must verify the approved backend layering, composition rules, and contract-alignment rules once backend runtime code exists.
 
 Until backend runtime code exists, the backend composition and contract requirements remain accepted but not implemented.

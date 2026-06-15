@@ -35,6 +35,19 @@ macro_requirements:
     implementation_status: "not_implemented"
     priority: "must"
 
+  - id: "MR-0003"
+    title: "Governance control report and admin surface"
+    statement: >
+      The project shall expose repository governance state through a deterministic
+      report contract that can be consumed by a static page, future protected
+      admin UI, CLI tools, backend APIs, and LLM agents.
+    rationale: >
+      Repository governance must be observable without relying only on terminal
+      output or ad-hoc manual file inspection.
+    status: "accepted"
+    implementation_status: "not_implemented"
+    priority: "must"
+
 requirements:
   - id: "REQ-0001"
     macro_requirement_id: "MR-0001"
@@ -914,4 +927,286 @@ requirements:
       required_evidence:
         - "document"
         - "yaml"
+        - "tool-output"
+
+
+  - id: "REQ-0012"
+    macro_requirement_id: "MR-0003"
+    capability_id: "CAP-GOVERNANCE-CONTROL"
+
+    title: "Governance control report contract"
+    statement: >
+      The project shall define a deterministic machine-readable governance
+      control report contract for repository governance state.
+    rationale: >
+      The report contract is the stable interface shared by the static control
+      page, future protected admin UI, CLI tools, backend APIs, and LLM
+      consumers.
+    status: "accepted"
+    implementation_status: "not_implemented"
+    priority: "must"
+    type: "data"
+    scope: "contracts"
+
+    preconditions:
+      - id: "PRE-REQ-0012-001"
+        statement: "The repository has governed documentation, requirements, decisions, commands, tools, gates, and graph relationships."
+
+    main_flow:
+      - id: "FLOW-REQ-0012-001"
+        step: 1
+        actor: "Report builder"
+        action: "Reads governed repository files and project-model registries."
+        expected_result: "Repository governance state is available as structured data."
+
+      - id: "FLOW-REQ-0012-002"
+        step: 2
+        actor: "Report builder"
+        action: "Builds a governance control report that follows the canonical JSON Schema contract."
+        expected_result: "The report contains stable sections for repository metadata, checks, documents, requirements, decisions, entities, graphs, and diagnostics."
+
+      - id: "FLOW-REQ-0012-003"
+        step: 3
+        actor: "Report validator"
+        action: "Validates the generated report against the governed JSON Schema."
+        expected_result: "Invalid report structure is rejected deterministically."
+
+    alternative_flows:
+      - id: "ALT-REQ-0012-001"
+        title: "Report contract violation"
+        trigger: "The generated report does not satisfy the canonical JSON Schema."
+        steps:
+          - id: "FLOW-REQ-0012-ALT-001"
+            step: 1
+            actor: "Report validator"
+            action: "Reports the schema violation."
+            expected_result: "The report generation command fails."
+
+    postconditions:
+      - id: "POST-REQ-0012-001"
+        statement: "Repository governance state has a stable, machine-readable report contract."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0012-001"
+        statement: "The report contract defines schema_version, generated_at, repository, checks, documents, requirements, decisions, capabilities, commands, tools, gates, graphs, and diagnostics."
+
+      - id: "AC-REQ-0012-002"
+        statement: "The canonical external contract is JSON Schema."
+
+      - id: "AC-REQ-0012-003"
+        statement: "The generated report is validated against the JSON Schema before being used by visual or automated consumers."
+
+      - id: "AC-REQ-0012-004"
+        statement: "Runtime validators such as Zod may be used internally only if they are generated from, checked against, or kept aligned with the canonical JSON Schema."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "tool-output"
+        - "document"
+
+  - id: "REQ-0013"
+    macro_requirement_id: "MR-0003"
+    capability_id: "CAP-GOVERNANCE-CONTROL"
+
+    title: "Static governance control page generation"
+    statement: >
+      The project shall generate a static HTML governance control page from the
+      validated governance control report.
+    rationale: >
+      A static page provides immediate human-readable exploration without
+      requiring a backend server, authentication, database, or admin runtime.
+    status: "accepted"
+    implementation_status: "not_implemented"
+    priority: "must"
+    type: "functional"
+    scope: "governance-control"
+
+    preconditions:
+      - id: "PRE-REQ-0013-001"
+        statement: "The governance control report contract is defined."
+
+    main_flow:
+      - id: "FLOW-REQ-0013-001"
+        step: 1
+        actor: "Static page generator"
+        action: "Reads the validated governance control report."
+        expected_result: "The page uses report data instead of re-reading repository files independently."
+
+      - id: "FLOW-REQ-0013-002"
+        step: 2
+        actor: "Static page generator"
+        action: "Renders document, requirement, graph, file relationship, and diagnostic views."
+        expected_result: "A human-readable static HTML control page is generated."
+
+    alternative_flows:
+      - id: "ALT-REQ-0013-001"
+        title: "Report unavailable"
+        trigger: "The governance control report cannot be generated or validated."
+        steps:
+          - id: "FLOW-REQ-0013-ALT-001"
+            step: 1
+            actor: "Static page generator"
+            action: "Stops page generation."
+            expected_result: "The page is not generated from invalid or missing report data."
+
+    postconditions:
+      - id: "POST-REQ-0013-001"
+        statement: "A static HTML governance control page can be generated from the report."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0013-001"
+        statement: "The generated page displays repository health and check status."
+
+      - id: "AC-REQ-0013-002"
+        statement: "The generated page displays a documentation explorer."
+
+      - id: "AC-REQ-0013-003"
+        statement: "The generated page displays knowledge graph, documentation graph, and file relationship graph data."
+
+      - id: "AC-REQ-0013-004"
+        statement: "The generated page displays structured diagnostics."
+
+      - id: "AC-REQ-0013-005"
+        statement: "The generated page does not duplicate repository analysis logic that belongs to the report builder."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "command"
+        - "tool-output"
+        - "document"
+
+  - id: "REQ-0014"
+    macro_requirement_id: "MR-0003"
+    capability_id: "CAP-GOVERNANCE-CONTROL"
+
+    title: "Machine-readable governance control interface"
+    statement: >
+      The governance control report shall be consumable by non-interactive tools
+      and LLM agents without requiring the static HTML page.
+    rationale: >
+      The same repository governance state must support automated analysis,
+      command-line workflows, future backend APIs, and LLM-assisted review.
+    status: "accepted"
+    implementation_status: "not_implemented"
+    priority: "must"
+    type: "data"
+    scope: "governance-control"
+
+    preconditions:
+      - id: "PRE-REQ-0014-001"
+        statement: "The governance control report contract is defined."
+
+    main_flow:
+      - id: "FLOW-REQ-0014-001"
+        step: 1
+        actor: "Tool or LLM consumer"
+        action: "Reads the governance control report JSON."
+        expected_result: "The consumer can inspect repository governance state without browser interaction."
+
+      - id: "FLOW-REQ-0014-002"
+        step: 2
+        actor: "Tool or LLM consumer"
+        action: "Uses stable IDs, graph edges, diagnostics, and source paths."
+        expected_result: "Automated analysis can cite and navigate governed entities deterministically."
+
+    alternative_flows:
+      - id: "ALT-REQ-0014-001"
+        title: "Consumer receives HTML only"
+        trigger: "A tool or LLM is given only the static page instead of the structured report."
+        steps:
+          - id: "FLOW-REQ-0014-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Provides or exposes the report JSON instead."
+            expected_result: "Machine consumers use structured report data."
+
+    postconditions:
+      - id: "POST-REQ-0014-001"
+        statement: "Governance state is accessible to tools and LLM agents without a graphical interface."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0014-001"
+        statement: "The report uses stable governed IDs and normalized graph nodes and edges."
+
+      - id: "AC-REQ-0014-002"
+        statement: "Diagnostics are structured with severity, code, subject, evidence, and suggested action fields."
+
+      - id: "AC-REQ-0014-003"
+        statement: "The report can be consumed independently from the HTML page."
+
+    verification:
+      method: "analysis"
+      required_evidence:
+        - "json-schema"
+        - "document"
+        - "tool-output"
+
+  - id: "REQ-0015"
+    macro_requirement_id: "MR-0003"
+    capability_id: "CAP-GOVERNANCE-CONTROL"
+
+    title: "Future protected admin governance surface"
+    statement: >
+      A future protected admin governance surface shall consume or expose the
+      same governance control report model instead of duplicating repository
+      analysis logic.
+    rationale: >
+      The future admin interface must remain aligned with CLI tools, static
+      reports, backend contracts, and LLM consumers.
+    status: "accepted"
+    implementation_status: "not_implemented"
+    priority: "should"
+    type: "functional"
+    scope: "governance-control"
+
+    preconditions:
+      - id: "PRE-REQ-0015-001"
+        statement: "The governance control report contract and static generator are defined."
+
+    main_flow:
+      - id: "FLOW-REQ-0015-001"
+        step: 1
+        actor: "Admin backend"
+        action: "Exposes the governance control report through a protected interface."
+        expected_result: "Admin clients receive the same data model used by static and CLI consumers."
+
+      - id: "FLOW-REQ-0015-002"
+        step: 2
+        actor: "Admin UI"
+        action: "Renders governance views from the report model."
+        expected_result: "Admin UI behavior stays aligned with deterministic report generation."
+
+    alternative_flows:
+      - id: "ALT-REQ-0015-001"
+        title: "Admin UI duplicates analysis logic"
+        trigger: "The admin UI reads repository files independently using divergent parsing rules."
+        steps:
+          - id: "FLOW-REQ-0015-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Moves parsing logic back into the shared report builder or backend report service."
+            expected_result: "The admin UI becomes a consumer of the governed report model."
+
+    postconditions:
+      - id: "POST-REQ-0015-001"
+        statement: "The future protected admin surface remains a consumer of the governed report model."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0015-001"
+        statement: "Future admin endpoints expose or derive from the same governance control report contract."
+
+      - id: "AC-REQ-0015-002"
+        statement: "Future admin UI views do not duplicate repository parsing rules that belong to the report builder."
+
+      - id: "AC-REQ-0015-003"
+        statement: "Authentication and authorization are deferred until a backend admin runtime exists."
+
+    verification:
+      method: "analysis"
+      required_evidence:
+        - "api-contract"
+        - "document"
         - "tool-output"
