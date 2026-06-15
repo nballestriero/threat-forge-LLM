@@ -5,8 +5,9 @@
  * Validates the compact governed project model, including controlled
  * taxonomies, requirement implementation lifecycle, governed ID uniqueness, ID format patterns, requirement
  * references, SPO predicate compatibility, command/gate/tool relationships,
- * and file-level bidirectional traceability between graph.matrix.yml and
- * source-file JSDoc comments.
+ * mandatory registration of governed source files, and file-level
+ * bidirectional traceability between graph.matrix.yml and source-file JSDoc
+ * comments.
  *
  * Canonical references:
  * - docs/reference/project-model/governance.registry.yml
@@ -49,6 +50,19 @@ const MODEL_FILES = {
   matrix: "docs/reference/project-model/graph.matrix.yml",
   packageJson: "package.json"
 };
+
+const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
+const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
+const SOURCE_DISCOVERY_EXCLUDED_DIRECTORIES = new Set([
+  ".git",
+  ".vs",
+  "artifacts",
+  "build",
+  "coverage",
+  "dist",
+  "node_modules",
+  "out"
+]);
 
 const errors = [];
 
@@ -108,6 +122,69 @@ function isDirectory(relativePath) {
  */
 function isFileOrDirectory(relativePath) {
   return isFile(relativePath) || isDirectory(relativePath);
+}
+
+/**
+ * Converts a path to a POSIX-style repository-relative path.
+ *
+ * @param {string} value - Path value using the host platform separator.
+ * @returns {string} POSIX-style path.
+ */
+function toRepositoryPath(value) {
+  return value.split(path.sep).join("/");
+}
+
+/**
+ * Checks whether a file extension is treated as governed source code.
+ *
+ * @param {string} filePath - Repository-relative or absolute file path.
+ * @returns {boolean} True when the extension is governed as source code.
+ */
+function isGovernedSourceExtension(filePath) {
+  return GOVERNED_SOURCE_EXTENSIONS.has(path.extname(filePath));
+}
+
+/**
+ * Discovers source files that must be represented in the governed graph.
+ *
+ * @returns {string[]} Repository-relative governed source file paths.
+ */
+function discoverGovernedSourceFiles() {
+  const discovered = [];
+
+  for (const sourceRoot of GOVERNED_SOURCE_ROOTS) {
+    if (!isDirectory(sourceRoot)) {
+      continue;
+    }
+
+    const stack = [absolutePath(sourceRoot)];
+
+    while (stack.length > 0) {
+      const currentDirectory = stack.pop();
+      const entries = fs.readdirSync(currentDirectory, { withFileTypes: true })
+        .sort((left, right) => left.name.localeCompare(right.name));
+
+      for (const entry of entries) {
+        if (SOURCE_DISCOVERY_EXCLUDED_DIRECTORIES.has(entry.name)) {
+          continue;
+        }
+
+        const absoluteEntryPath = path.join(currentDirectory, entry.name);
+        const relativeEntryPath = toRepositoryPath(path.relative(root, absoluteEntryPath));
+
+        if (entry.isDirectory()) {
+          stack.push(absoluteEntryPath);
+          continue;
+        }
+
+        if (entry.isFile() && isGovernedSourceExtension(relativeEntryPath)) {
+          discovered.push(relativeEntryPath);
+        }
+      }
+    }
+  }
+
+  return discovered.sort((left, right) => left.localeCompare(right));
 }
 
 /**
@@ -719,7 +796,16 @@ function validateBidirectionalSourceTraceability(indexes) {
     }
   }
 
-  const filesToInspect = new Set([...requirementByFile.keys(), ...toolByFile.keys()]);
+  const filesDeclaredByMatrix = new Set([...requirementByFile.keys(), ...toolByFile.keys()]);
+  const discoveredSourceFiles = discoverGovernedSourceFiles();
+
+  for (const file of discoveredSourceFiles) {
+    if (!filesDeclaredByMatrix.has(file)) {
+      errors.push(`Governed source file ${file} has no IMPLEMENTED_BY traceability in graph.matrix.yml`);
+    }
+  }
+
+  const filesToInspect = new Set([...filesDeclaredByMatrix, ...discoveredSourceFiles]);
 
   for (const file of filesToInspect) {
     const jsdoc = extractFileJSDoc(readText(file));

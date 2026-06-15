@@ -1044,6 +1044,14 @@ triples:
       id: "tools/docs/fixtures/negative/invalid-yaml-schema-version.json"
       type: "ConfigFile"
 
+  - subject:
+      id: "TOOL-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "tools/docs/fixtures/negative/unregistered-source-file.json"
+      type: "ConfigFile"
+
 
   - subject:
       id: "MR-0002"

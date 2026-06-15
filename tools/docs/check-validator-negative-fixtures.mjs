@@ -5,6 +5,8 @@
  * Executes controlled negative fixtures against deterministic documentation
  * governance validators. Each fixture mutates a temporary repository copy and
  * verifies that the selected validator fails with the expected diagnostic.
+ * Fixtures may replace text in existing files or create controlled temporary
+ * files inside the copied repository.
  *
  * Canonical references:
  * - docs/reference/project-model/governance.registry.yml
@@ -95,6 +97,19 @@ function applyMutations(tempRoot, fixture) {
 
   for (const mutation of fixture.mutations ?? []) {
     const target = absolutePath(tempRoot, mutation.path);
+
+    if (mutation.create === true) {
+      if (fs.existsSync(target)) {
+        errors.push(`${fixture.id}: create mutation target already exists: ${mutation.path}`);
+        ok = false;
+        continue;
+      }
+
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, mutation.content ?? "", "utf8");
+      continue;
+    }
+
     let content;
 
     try {

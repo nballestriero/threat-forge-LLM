@@ -1,0 +1,13 @@
+{
+  "id": "unregistered-source-file",
+  "description": "A governed source file exists under tools without any IMPLEMENTED_BY graph traceability.",
+  "validator": "model",
+  "expected_error": "Governed source file tools/context/unregistered-handoff-helper.mjs has no IMPLEMENTED_BY traceability in graph.matrix.yml",
+  "mutations": [
+    {
+      "path": "tools/context/unregistered-handoff-helper.mjs",
+      "create": true,
+      "content": "/**\n * @file Temporary invalid helper used only by the negative fixture.\n */\n\nexport function invalidHelper() {\n  return true;\n}\n"
+    }
+  ]
+}

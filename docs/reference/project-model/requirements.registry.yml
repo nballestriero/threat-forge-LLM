@@ -351,13 +351,15 @@ requirements:
 
     title: "Bidirectional implementation traceability"
     statement: >
-      The project shall verify that implementation relationships declared in
+      The project shall verify that governed source files are registered in
+      graph.matrix.yml, that implementation relationships declared in
       graph.matrix.yml are mirrored by traceability references in source-file
       comments, and that source-file traceability claims are mirrored by graph
       matrix triples.
     rationale: >
-      Bidirectional checks prevent the matrix from claiming implementation that
-      code does not acknowledge and prevent code comments from claiming governed
+      Bidirectional checks prevent unregistered source files from entering the
+      repository, prevent the matrix from claiming implementation that code does
+      not acknowledge, and prevent code comments from claiming governed
       implementation that the graph matrix does not record.
     status: "accepted"
     implementation_status: "implemented"
@@ -376,37 +378,53 @@ requirements:
       - id: "FLOW-REQ-0005-001"
         step: 1
         actor: "Validation tool"
-        action: "Reads IMPLEMENTED_BY triples from graph.matrix.yml."
-        expected_result: "The expected requirement-to-source-file relationships are known."
+        action: "Discovers governed source files under controlled source roots."
+        expected_result: "Source files that require graph traceability are known even before graph.matrix.yml references them."
 
       - id: "FLOW-REQ-0005-002"
         step: 2
         actor: "Validation tool"
-        action: "Reads file-level traceability comments from referenced source files."
-        expected_result: "The source-file implementation claims are known."
+        action: "Reads IMPLEMENTED_BY triples from graph.matrix.yml."
+        expected_result: "The expected requirement-to-source-file relationships are known."
 
       - id: "FLOW-REQ-0005-003"
         step: 3
         actor: "Validation tool"
-        action: "Compares matrix-to-code and code-to-matrix traceability."
-        expected_result: "The two directions are consistent."
+        action: "Reads file-level traceability comments from referenced and discovered source files."
+        expected_result: "The source-file implementation claims are known."
+
+      - id: "FLOW-REQ-0005-004"
+        step: 4
+        actor: "Validation tool"
+        action: "Compares discovered files, matrix-to-code traceability, and code-to-matrix traceability."
+        expected_result: "Unregistered source files and bidirectional traceability mismatches are rejected."
 
     alternative_flows:
       - id: "ALT-REQ-0005-001"
+        title: "Governed source file is not registered"
+        trigger: "A source file exists under a governed source root but has no IMPLEMENTED_BY relationship in graph.matrix.yml."
+        steps:
+          - id: "FLOW-REQ-0005-ALT-001"
+            step: 1
+            actor: "Validation tool"
+            action: "Reports the unregistered governed source file."
+            expected_result: "The check fails before an untraceable source file can be committed."
+
+      - id: "ALT-REQ-0005-002"
         title: "Matrix references source file without source comment"
         trigger: "graph.matrix.yml contains an IMPLEMENTED_BY SourceFile triple but the source file does not cite the requirement."
         steps:
-          - id: "FLOW-REQ-0005-ALT-001"
+          - id: "FLOW-REQ-0005-ALT-002"
             step: 1
             actor: "Validation tool"
             action: "Reports the missing source-file traceability comment."
             expected_result: "The check fails with a traceability error."
 
-      - id: "ALT-REQ-0005-002"
+      - id: "ALT-REQ-0005-003"
         title: "Source comment references requirement without matrix triple"
         trigger: "A source file claims it implements a requirement but graph.matrix.yml has no matching IMPLEMENTED_BY triple."
         steps:
-          - id: "FLOW-REQ-0005-ALT-002"
+          - id: "FLOW-REQ-0005-ALT-003"
             step: 1
             actor: "Validation tool"
             action: "Reports the missing graph matrix relationship."
@@ -414,25 +432,31 @@ requirements:
 
     postconditions:
       - id: "POST-REQ-0005-001"
-        statement: "Implementation traceability is consistent between graph.matrix.yml and source-file comments."
+        statement: "Every governed source file is represented by IMPLEMENTED_BY traceability in graph.matrix.yml."
 
       - id: "POST-REQ-0005-002"
+        statement: "Implementation traceability is consistent between graph.matrix.yml and source-file comments."
+
+      - id: "POST-REQ-0005-003"
         statement: "Traceability is enforced at file level before future code-symbol-level traceability is introduced."
 
     acceptance_criteria:
       - id: "AC-REQ-0005-001"
-        statement: "Each IMPLEMENTED_BY SourceFile triple points to an existing source file."
+        statement: "Each governed source file under controlled source roots has at least one matching IMPLEMENTED_BY SourceFile triple."
 
       - id: "AC-REQ-0005-002"
-        statement: "Each SourceFile referenced by an IMPLEMENTED_BY requirement triple declares the related requirement in file-level JSDoc."
+        statement: "Each IMPLEMENTED_BY SourceFile triple points to an existing source file."
 
       - id: "AC-REQ-0005-003"
-        statement: "Each file-level JSDoc requirement claim has a matching IMPLEMENTED_BY triple in graph.matrix.yml."
+        statement: "Each SourceFile referenced by an IMPLEMENTED_BY requirement triple declares the related requirement in file-level JSDoc."
 
       - id: "AC-REQ-0005-004"
-        statement: "Each validation tool node declared by a source file exists in graph.matrix.yml."
+        statement: "Each file-level JSDoc requirement claim has a matching IMPLEMENTED_BY triple in graph.matrix.yml."
 
       - id: "AC-REQ-0005-005"
+        statement: "Each validation tool node declared by a source file exists in graph.matrix.yml."
+
+      - id: "AC-REQ-0005-006"
         statement: "Each validation tool implemented by a source file has a matching IMPLEMENTED_BY triple."
 
     verification:
@@ -709,6 +733,9 @@ requirements:
 
       - id: "AC-REQ-0008-006"
         statement: "At least one negative fixture covers invalid YAML project-model format."
+
+      - id: "AC-REQ-0008-007"
+        statement: "At least one negative fixture covers an unregistered governed source file."
 
     verification:
       method: "test"

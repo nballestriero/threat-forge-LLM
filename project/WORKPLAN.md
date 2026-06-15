@@ -26,10 +26,11 @@ Status: in progress.
 - M000.016 - Governance control check execution status.
 - M000.017 - Project handoff ZIP command.
 - M000.018 - Project handoff ZIP project-model registration.
+- M000.019 - Mandatory governed source-file registration guard.
 
 ## Next steps
 
-### M000.019 - Governance control report and page negative fixtures
+### M000.020 - Governance control report and page negative fixtures
 
 Goal: add controlled negative coverage for report and page generation.
 
