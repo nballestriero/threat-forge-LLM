@@ -3012,3 +3012,102 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+  - id: "REQ-0035"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Project model areas taxonomy contract"
+    statement: >
+      The project shall introduce project_model_areas as an explicit governed
+      taxonomy before requirements, graph traceability, or decisions are split
+      into area-owned modular parts.
+    rationale: >
+      Modular project-model files need a controlled ownership boundary. Deriving
+      area identifiers automatically from capability_id would couple physical
+      file modularization to product capability taxonomy changes. A dedicated
+      taxonomy lets the project align areas with capabilities where useful while
+      preserving a stable loading and traceability boundary for the project
+      model.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "data"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0035-001"
+        statement: "REQ-0034 defines project-model modularization by governed area and canonical <area_id>:<local_id> identifiers."
+
+      - id: "PRE-REQ-0035-002"
+        statement: "DEC-0025 chooses an explicit project_model_areas taxonomy instead of deriving area_id from capability_id."
+
+    main_flow:
+      - id: "FLOW-REQ-0035-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Declares taxonomies.project_model_areas in the governance registry."
+        expected_result: "The future area_id value set has a governed source of truth."
+
+      - id: "FLOW-REQ-0035-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Provides description, rationale, and validation impact for every project model area value."
+        expected_result: "Area values are reviewable and do not become unexplained free-form labels."
+
+      - id: "FLOW-REQ-0035-003"
+        step: 3
+        actor: "Maintainer"
+        action: "Registers the taxonomy in the graph model with requirement, decision, document, and validation traceability."
+        expected_result: "The taxonomy contract has explicit bidirectional governance traceability."
+
+      - id: "FLOW-REQ-0035-004"
+        step: 4
+        actor: "Maintainer"
+        action: "Separates the taxonomy contract step from the later enforcement step."
+        expected_result: "M000.024C can introduce the controlled contract without pretending modular area_id usage is already enforced."
+
+    alternative_flows:
+      - id: "ALT-REQ-0035-001"
+        title: "A new project model area is needed"
+        trigger: "A future modular part needs an area_id not present in project_model_areas."
+        steps:
+          - id: "FLOW-REQ-0035-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Adds the area through the governed taxonomy with description, rationale, validation impact, requirement/decision traceability, and tool coverage."
+            expected_result: "New area values are introduced deliberately and are visible to deterministic validation."
+
+    postconditions:
+      - id: "POST-REQ-0035-001"
+        statement: "taxonomies.project_model_areas exists in governance.registry.yml."
+
+      - id: "POST-REQ-0035-002"
+        statement: "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md documents the taxonomy contract and boundaries."
+
+      - id: "POST-REQ-0035-003"
+        statement: "M000.024D remains responsible for deterministic area_id enforcement and negative fixture coverage."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0035-001"
+        statement: "governance.registry.yml declares taxonomies.project_model_areas with explicit value descriptions, rationale, and validation impact."
+
+      - id: "AC-REQ-0035-002"
+        statement: "The graph model contains a Taxonomy node for project_model_areas."
+
+      - id: "AC-REQ-0035-003"
+        statement: "The graph model traces DEC-0026 to REQ-0035 and to the project_model_areas taxonomy."
+
+      - id: "AC-REQ-0035-004"
+        statement: "The taxonomy contract document states that area_id is not derived automatically from capability_id."
+
+      - id: "AC-REQ-0035-005"
+        statement: "The workplan keeps M000.024D as the separate enforcement and negative-fixture step."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "document"
+        - "registry-entry"
+        - "yaml"
+        - "command"
+        - "tool-output"

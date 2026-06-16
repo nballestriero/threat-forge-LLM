@@ -71,9 +71,9 @@ Planned micropasses:
 - M000.024B - Project model modularization analysis. Completed.
   - Scope: define area IDs, composite ID rules, index/part boundaries, cross-area relationship ownership, decision ownership, taxonomy governance, and clean migration policy.
   - No file migration yet.
-- M000.024C - Project model areas taxonomy contract.
+- M000.024C - Project model areas taxonomy contract. Completed.
   - Scope: introduce `project_model_areas` as a governed taxonomy with value descriptions and bidirectional traceability requirements.
-  - No modular requirements, graph, or decision extraction yet.
+  - Added the project-model area value contract; no modular requirements, graph, or decision extraction yet.
 - M000.024D - Project model areas taxonomy enforcement.
   - Scope: add deterministic validation and negative fixture coverage for `project_model_areas` before modular parts rely on it broadly.
   - Keep JSON Schema execution in `check-docs-format.mjs` and semantic taxonomy checks in `check-project-model.mjs`.

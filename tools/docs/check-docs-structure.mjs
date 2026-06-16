@@ -19,6 +19,7 @@
  * - REQ-0030
  * - REQ-0031
  * - REQ-0034
+ * - REQ-0035
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -84,6 +85,7 @@ const requiredFiles = [
   "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md",
   "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md",
   "docs/reference/project-model/schema-design/project-model-modularization-analysis.md",
+  "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md",
   "docs/reference/project-model/schemas/governance-registry.schema.json",
   "docs/reference/project-model/schemas/requirements-registry.schema.json",
   "docs/reference/project-model/schemas/graph-matrix.schema.json",

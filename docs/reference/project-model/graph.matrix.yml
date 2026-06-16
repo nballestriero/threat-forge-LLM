@@ -196,6 +196,14 @@ nodes:
     type: "Document"
     description: "Design analysis for modularizing requirements, graph traceability, and decisions by governed project-model area."
 
+  - id: "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md"
+    type: "Document"
+    description: "Contract document for the governed project_model_areas taxonomy used by future modular project-model parts."
+
+  - id: "project_model_areas"
+    type: "Taxonomy"
+    description: "Controlled taxonomy for future project-model area identifiers used in canonical <area_id>:<local_id> references."
+
 triples:
   - subject:
       id: "MR-0001"
@@ -3428,6 +3436,134 @@ triples:
 
   - subject:
       id: "REQ-0034"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-CHECK"
+      type: "Gate"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0035"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0026"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0035"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0026"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "project_model_areas"
+      type: "Taxonomy"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0034"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md"
+      type: "Document"
+
+  - subject:
+      id: "project_model_areas"
+      type: "Taxonomy"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "project_model_areas"
+      type: "Taxonomy"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-structure.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-DOCS-FORMAT-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "project_model_areas"
+      type: "Taxonomy"
+
+  - subject:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+    predicate: "VALIDATES"
+    object:
+      id: "project_model_areas"
+      type: "Taxonomy"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-STRUCTURE"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0035"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0035"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:

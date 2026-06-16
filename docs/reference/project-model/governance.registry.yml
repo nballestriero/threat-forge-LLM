@@ -184,6 +184,48 @@ taxonomies:
       rationale: "Document type placement must be deterministic for structure guards and readers."
       validation_impact: "Document types using this value shall map to docs/explanation."
 
+  project_model_areas:
+    - id: "global"
+      description: "Cross-cutting project-model area for decisions, relationships, or policies that are intentionally not owned by a single functional area."
+      rationale: "Some governance decisions and graph relationships define repository-wide rules rather than one capability boundary."
+      validation_impact: "Future validators shall allow global only for explicitly cross-cutting indexes, decisions, or graph parts."
+    - id: "documentation-structure"
+      description: "Area for governed documentation layout, Diátaxis placement, required files, and repository documentation boundaries."
+      rationale: "Documentation structure has distinct ownership from schema validation and semantic project-model checks."
+      validation_impact: "Future modular parts using this area shall own structure-related requirements, decisions, and graph relationships."
+    - id: "schema-validation"
+      description: "Area for governed JSON Schema contracts, schema application traceability, and format validation entrypoint rules."
+      rationale: "Schema validation has a stable contract and tooling boundary around check-docs-format.mjs."
+      validation_impact: "Future modular parts using this area shall own schema contract and schema-driven validation requirements, decisions, and graph relationships."
+    - id: "requirements-governance"
+      description: "Area for macro requirements, atomic requirements, lifecycle rules, acceptance criteria, and requirement registry governance."
+      rationale: "Requirements governance is a distinct model concern even when individual requirements belong to product capabilities."
+      validation_impact: "Future validators shall aggregate this area with other parts before checking requirement references and lifecycle semantics."
+    - id: "graph-traceability"
+      description: "Area for graph matrix contracts, SPO relationships, predicate compatibility, and cross-artifact traceability semantics."
+      rationale: "Traceability graph ownership must scale separately from the requirements registry and decision registry."
+      validation_impact: "Future validators shall aggregate graph-traceability parts before checking SPO compatibility and entity existence."
+    - id: "source-traceability"
+      description: "Area for governed source-file registration, JSDoc traceability, and implementation evidence checks."
+      rationale: "Source traceability connects model requirements to tools and source files and needs a clear modular ownership boundary."
+      validation_impact: "Future validators shall apply source traceability checks after aggregating all requirement and graph parts."
+    - id: "governance-control"
+      description: "Area for governance control report, static control page, generated artifacts, and future admin/control surfaces."
+      rationale: "Governance control outputs are generated and consumed differently from project-model registries."
+      validation_impact: "Future modular parts using this area shall own report/page contract and generation traceability."
+    - id: "project-handoff"
+      description: "Area for handoff ZIP generation, context packaging, and local artifact exclusion policy."
+      rationale: "Project handoff is an operational capability with distinct commands and artifact boundaries."
+      validation_impact: "Future modular parts using this area shall own handoff command, tool, and artifact-policy traceability."
+    - id: "markdown-format"
+      description: "Area for governed Markdown body profiles and Markdown document format checks."
+      rationale: "Markdown body governance is format-oriented and separate from YAML registry schema validation."
+      validation_impact: "Future modular parts using this area shall own body-profile requirements, decisions, and validation relationships."
+    - id: "backend-architecture"
+      description: "Area for future backend layering, composition-root, API contract, and architecture governance requirements."
+      rationale: "Backend architecture will grow after product boundary work and should not be mixed into documentation governance files."
+      validation_impact: "Future modular parts using this area shall own backend architecture requirements and enforcement design when runtime code exists."
+
 capabilities:
   - id: "CAP-DOCUMENTATION-GOVERNANCE"
     title: "Documentation governance"
@@ -702,6 +744,27 @@ decisions:
       - "check-docs-format.mjs remains the JSON Schema validation entrypoint, while check-project-model.mjs aggregates modular parts and validates semantics."
       - "Long-term compatibility with the monolithic layout is not a requirement during the pre-release migration."
 
+
+  - id: "DEC-0026"
+    title: "Project model areas are an explicit controlled taxonomy"
+    status: "accepted"
+    statement: >
+      The project_model_areas taxonomy shall be declared explicitly in the
+      governance registry with described, rationalized, and validation-impactful
+      values. Area identifiers shall not be inferred automatically from
+      capability_id values.
+    rationale: >
+      Modular project-model files need a physical ownership boundary for
+      requirements, graph triples, and decisions. Product capabilities describe
+      functional scope, while project-model areas describe file modularization
+      and loading boundaries. Keeping them separate prevents capability changes
+      from silently moving governed records between files.
+    consequences:
+      - "taxonomies.project_model_areas becomes the controlled value set for future area_id fields."
+      - "Every project_model_areas value carries description, rationale, and validation impact before broad use."
+      - "Future schema and loader work shall validate area_id shape through check-docs-format.mjs and semantic membership through check-project-model.mjs."
+      - "Negative fixture coverage for invalid area_id values is required before modular parts rely on the taxonomy broadly."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
@@ -779,6 +842,9 @@ body_profiles:
 node_types:
   - id: "Capability"
     description: "Product capability or product area."
+
+  - id: "Taxonomy"
+    description: "Governed controlled value set with explicit value descriptions and deterministic validation responsibilities."
 
   - id: "MacroRequirement"
     description: "High-level requirement decomposed into atomic requirements."
@@ -862,6 +928,7 @@ predicates:
       - "MacroRequirement"
       - "Document"
       - "Capability"
+      - "Taxonomy"
       - "ValidationTool"
       - "Gate"
       - "Command"
@@ -912,6 +979,7 @@ predicates:
       - "MacroRequirement"
       - "Requirement"
       - "Decision"
+      - "Taxonomy"
       - "Gate"
       - "ValidationTool"
       - "Command"
@@ -1015,3 +1083,4 @@ predicates:
       - "SourceFile"
       - "Requirement"
       - "MacroRequirement"
+      - "Taxonomy"
