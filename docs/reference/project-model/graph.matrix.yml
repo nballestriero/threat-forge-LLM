@@ -2887,3 +2887,82 @@ triples:
       id: "docs/reference/project-model/requirements.registry.yml"
       type: "Document"
 
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0029"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0020"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0029"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0021"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0028"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schemas/requirements-registry.schema.json"
+      type: "SchemaFile"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/requirements.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0029"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "Gate"

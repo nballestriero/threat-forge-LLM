@@ -2458,3 +2458,91 @@ requirements:
         - "command"
         - "tool-output"
 
+  - id: "REQ-0029"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Requirements registry schema-driven validation"
+    statement: >
+      The documentation format validator shall load the canonical Requirements
+      Registry JSON Schema and apply it to docs/reference/project-model/requirements.registry.yml
+      so structural requirements registry drift is rejected by schema-driven
+      validation rather than only by hardcoded shape checks.
+    rationale: >
+      REQ-0028 introduced the schema artifact and schema application
+      traceability. The next safety step is proving that deterministic tooling
+      consumes the schema as an executable contract, including rejection of
+      requirement fields that previous top-level checks would not catch.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0029-001"
+        statement: "The Requirements Registry JSON Schema artifact exists."
+
+      - id: "PRE-REQ-0029-002"
+        statement: "The requirements registry declares schema_control metadata for its canonical schema."
+
+      - id: "PRE-REQ-0029-003"
+        statement: "The documentation format validator already supports the JSON Schema subset required by governed registry schemas."
+
+    main_flow:
+      - id: "FLOW-REQ-0029-001"
+        step: 1
+        actor: "Documentation format validator"
+        action: "Loads docs/reference/project-model/schemas/requirements-registry.schema.json."
+        expected_result: "The canonical requirements registry schema artifact is available as validator input."
+
+      - id: "FLOW-REQ-0029-002"
+        step: 2
+        actor: "Documentation format validator"
+        action: "Applies the supported JSON Schema subset to the parsed requirements registry YAML document."
+        expected_result: "The requirements registry is checked against the explicit schema contract."
+
+      - id: "FLOW-REQ-0029-003"
+        step: 3
+        actor: "Negative fixture runner"
+        action: "Mutates the requirements registry with a schema-invalid field."
+        expected_result: "The format validator rejects the invalid registry through schema-driven validation."
+
+    alternative_flows:
+      - id: "ALT-REQ-0029-001"
+        title: "Schema cannot express semantic requirement evidence"
+        trigger: "A requirements registry rule depends on graph relationships, source files, package commands, or requirement lifecycle semantics."
+        steps:
+          - id: "FLOW-REQ-0029-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Keeps the rule in deterministic semantic validation and documents the boundary."
+            expected_result: "The schema-driven validator enforces local shape while semantic validation remains responsible for cross-file evidence."
+
+    postconditions:
+      - id: "POST-REQ-0029-001"
+        statement: "The requirements registry is validated against its canonical schema by docs:check:format."
+
+      - id: "POST-REQ-0029-002"
+        statement: "Schema-invalid requirements registry fields are rejected by a controlled negative fixture."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0029-001"
+        statement: "tools/docs/check-docs-format.mjs reads docs/reference/project-model/schemas/requirements-registry.schema.json."
+
+      - id: "AC-REQ-0029-002"
+        statement: "docs:check:format validates docs/reference/project-model/requirements.registry.yml against the Requirements Registry schema."
+
+      - id: "AC-REQ-0029-003"
+        statement: "A negative fixture proves that an additional property rejected by the schema fails validation."
+
+      - id: "AC-REQ-0029-004"
+        statement: "docs:check runs the schema-driven requirements registry validation through docs:check:format."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "command"
+        - "tool-output"

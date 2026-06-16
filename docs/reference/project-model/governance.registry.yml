@@ -569,6 +569,25 @@ decisions:
       - "The schema carries file-local change-control metadata and x-applies_to so schema application traceability can be checked bidirectionally."
 
 
+  - id: "DEC-0020"
+    title: "Requirements registry schema is executed by deterministic validation"
+    status: "accepted"
+    statement: >
+      The documentation format validator shall load and apply the canonical
+      Requirements Registry JSON Schema to the parsed requirements registry YAML
+      document as part of docs:check.
+    rationale: >
+      A requirements registry schema that is only registered and traceable does
+      not prevent structural drift in atomic requirements, macro requirements,
+      nested flows, acceptance criteria, or verification fields. The schema must
+      become validator input so requirements registry shape changes are checked
+      by the governed contract before semantic graph validation runs.
+    consequences:
+      - "docs:check:format validates requirements.registry.yml against requirements-registry.schema.json."
+      - "A negative fixture proves that schema-rejected requirements registry fields fail validation."
+      - "Semantic checks for macro ownership, capability references, graph evidence, and implementation evidence remain in project-model validation."
+
+
 
 document_types:
   - id: "tutorial"

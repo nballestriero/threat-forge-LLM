@@ -1,0 +1,13 @@
+{
+  "id": "invalid-requirements-registry-schema-property",
+  "description": "The requirements registry contains a requirement field rejected by the canonical Requirements Registry schema.",
+  "validator": "format",
+  "expected_error": "does not allow additional property unexpected_schema_field",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/requirements.registry.yml",
+      "replace": "    scope: \"repository\"\n\n    preconditions:",
+      "with": "    scope: \"repository\"\n    unexpected_schema_field: \"invalid\"\n\n    preconditions:"
+    }
+  ]
+}

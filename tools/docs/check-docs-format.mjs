@@ -20,6 +20,7 @@
  * - REQ-0025
  * - REQ-0027
  * - REQ-0028
+ * - REQ-0029
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -346,8 +347,8 @@ function resolveLocalSchemaRef(rootSchema, ref) {
  *
  * This intentionally supports the subset used by the governed registry schemas
  * before introducing a full JSON Schema runtime dependency. The validator loads
- * the canonical schema artifact and enforces its structural rules for the
- * governance registry.
+ * the canonical schema artifact and enforces its structural rules for
+ * governed project-model registries.
  *
  * @param {unknown} value - Parsed document value.
  * @param {unknown} schema - JSON Schema fragment.
@@ -486,14 +487,15 @@ function validateValueAgainstSchema(value, schema, rootSchema, documentPath, sch
 }
 
 /**
- * Validates the Governance Registry YAML document against its canonical schema.
+ * Validates a governed project-model YAML registry against its canonical schema.
  *
- * @param {Record<string, unknown> | null} governance - Parsed governance registry.
- * @param {string} schemaPath - Repository-relative schema path.
+ * @param {Record<string, unknown> | null} registryDocument - Parsed registry document.
+ * @param {string} registryPath - Repository-relative registry YAML path.
+ * @param {string} schemaPath - Repository-relative JSON Schema path.
  * @returns {void}
  */
-function checkGovernanceRegistryAgainstSchema(governance, schemaPath) {
-  if (!governance) {
+function checkProjectModelRegistryAgainstCanonicalSchema(registryDocument, registryPath, schemaPath) {
+  if (!registryDocument) {
     return;
   }
 
@@ -502,7 +504,7 @@ function checkGovernanceRegistryAgainstSchema(governance, schemaPath) {
     return;
   }
 
-  validateValueAgainstSchema(governance, schema, schema, MODEL_FILES.governance, schemaPath);
+  validateValueAgainstSchema(registryDocument, schema, schema, registryPath, schemaPath);
 }
 
 /**
@@ -639,7 +641,7 @@ const governance = checkYamlBaseline(MODEL_FILES.governance, [
   "predicates"
 ]);
 
-checkYamlBaseline(MODEL_FILES.requirements, [
+const requirements = checkYamlBaseline(MODEL_FILES.requirements, [
   "registry",
   "macro_requirements",
   "requirements"
@@ -673,7 +675,8 @@ checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.requirementsRegistryS
   "macro_requirements",
   "requirements"
 ]);
-checkGovernanceRegistryAgainstSchema(governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
+checkProjectModelRegistryAgainstCanonicalSchema(governance, MODEL_FILES.governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
+checkProjectModelRegistryAgainstCanonicalSchema(requirements, MODEL_FILES.requirements, PROJECT_MODEL_SCHEMA_FILES.requirementsRegistrySchema);
 
 if (governance) {
   const bodyProfiles = buildBodyProfileIndex(governance);
