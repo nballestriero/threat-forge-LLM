@@ -144,10 +144,13 @@ Micropasses:
 - M000.025B - Implemented requirement evidence closure. Completed.
   - Scope: reject accepted implemented requirements unless the graph records implementation/specification evidence, VERIFIED_BY evidence, and accepted decision backing for each requirement.
   - Added negative fixtures for missing implemented requirement evidence, missing implemented requirement verification, and unbacked implemented requirement decisions.
+- M000.025C - Graph target existence and command/source hardening. Completed.
+  - Scope: reject graph SourceFile, SchemaFile, TestFile, and ConfigFile targets that do not exist; require ValidationTool nodes to declare existing implementation paths with matching IMPLEMENTED_BY relationships; require every package.json script to have a graph Command node and every Command node to run a ValidationTool.
+  - Added negative fixtures for missing graph source targets, missing validation-tool paths, and untraced package scripts.
 
 Expected follow-up scope:
 
-- enforce source/tool/package command traceability completeness for future source roots
+- add repository cleanliness and ignored-artifact guards before new runtime functionality
 - add repository cleanliness and ignored-artifact guards before new runtime functionality
 - harden fixture-to-control traceability so each deterministic control has explicit negative coverage
 - keep protected artifact root detection as a later M000.025 micropass, not as a separate milestone

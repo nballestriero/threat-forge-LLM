@@ -98,3 +98,23 @@ decisions:
   - Implemented requirement claims without verification evidence are rejected.
   - Implemented requirement claims without accepted decision backing are rejected.
   - The project model validator becomes the deterministic gate for requirement evidence closure.
+- id: DEC-0009
+  title: Graph targets and package commands require existence closure
+  status: accepted
+  statement: 'Graph relationships must not be allowed to cite missing repository-backed files or
+    unregistered package commands, and ValidationTool nodes must be backed by their concrete source
+    implementation path.
+
+    '
+  rationale: 'Requirement and decision traceability still gives false confidence if graph endpoints can
+    point at missing files, if a package script can be added without a Command node, or if a
+    ValidationTool node drifts away from the source file that implements it. Existence closure makes
+    traceability concrete rather than symbolic.
+
+    '
+  consequences:
+  - SourceFile, SchemaFile, TestFile, and ConfigFile graph targets are checked as existing files.
+  - ValidationTool nodes must declare an existing source path and a matching IMPLEMENTED_BY relationship.
+  - Every package.json script must have a matching Command node, and every Command node must run a
+    ValidationTool through graph traceability.
+  - Generated artifacts under artifacts/ remain excluded from Git and are not treated as source inputs.

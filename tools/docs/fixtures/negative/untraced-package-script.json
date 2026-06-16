@@ -1,0 +1,13 @@
+{
+  "id": "untraced-package-script",
+  "description": "package.json declares an executable script that has no matching graph Command node.",
+  "validator": "model",
+  "expected_error": "package.json script 'context:zip:orphan' has no matching Command node in graph.matrix.yml",
+  "mutations": [
+    {
+      "path": "package.json",
+      "replace": "    \"context:zip:handoff:dry-run\": \"node tools/context/create-project-handoff-zip.mjs --dry-run\",\n",
+      "with": "    \"context:zip:handoff:dry-run\": \"node tools/context/create-project-handoff-zip.mjs --dry-run\",\n    \"context:zip:orphan\": \"node tools/context/create-project-handoff-zip.mjs --dry-run\",\n"
+    }
+  ]
+}

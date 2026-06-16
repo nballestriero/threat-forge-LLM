@@ -1,0 +1,13 @@
+{
+  "id": "missing-validation-tool-path",
+  "description": "A ValidationTool node declares an implementation path that does not exist.",
+  "validator": "model",
+  "expected_error": "ValidationTool node TOOL-PROJECT-MODEL-CHECK path does not exist: tools/docs/missing-project-model.mjs",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/cross-area.graph.yml",
+      "replace": "  path: tools/docs/check-project-model.mjs",
+      "with": "  path: tools/docs/missing-project-model.mjs"
+    }
+  ]
+}

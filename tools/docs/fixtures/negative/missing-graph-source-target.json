@@ -1,0 +1,13 @@
+{
+  "id": "missing-graph-source-target",
+  "description": "The graph references a SourceFile endpoint that does not exist in the checkout.",
+  "validator": "model",
+  "expected_error": "SourceFile path does not exist: tools/docs/missing-project-model.mjs",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/source-traceability.graph.yml",
+      "replace": "    id: tools/docs/check-project-model.mjs\n    type: SourceFile",
+      "with": "    id: tools/docs/missing-project-model.mjs\n    type: SourceFile"
+    }
+  ]
+}

@@ -369,3 +369,106 @@ requirements:
     - yaml
     - command
     - tool-output
+- id: REQ-0009
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Graph target and command existence closure
+  statement: 'The project shall reject graph relationships, graph nodes, and package command declarations
+    that reference missing repository-backed source, schema, config, test, validation-tool, or package
+    script targets.
+
+    '
+  rationale: 'Traceability is unsafe if the graph can point at files or commands that do not exist in
+    the checkout. Repository-backed graph targets must be concrete, package scripts must be represented
+    by Command nodes, and ValidationTool nodes must be tied to the exact source file that implements
+    them.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0009-001
+    statement: The graph matrix declares repository-backed nodes and SPO endpoints for source, schema,
+      config, test, command, and validation-tool entities.
+  - id: PRE-REQ-0009-002
+    statement: package.json declares the executable npm scripts for governed validation and support
+      commands.
+  main_flow:
+  - id: FLOW-REQ-0009-001
+    step: 1
+    actor: Project model validator
+    action: Reads graph nodes and graph triple endpoints after modular aggregation.
+    expected_result: Every repository-backed graph target is available for path existence validation.
+  - id: FLOW-REQ-0009-002
+    step: 2
+    actor: Project model validator
+    action: Verifies that SourceFile, SchemaFile, TestFile, and ConfigFile graph targets resolve to
+      files in the checkout.
+    expected_result: Stale graph references to missing repository-backed files are rejected.
+  - id: FLOW-REQ-0009-003
+    step: 3
+    actor: Project model validator
+    action: Verifies that ValidationTool nodes declare an existing path and that the graph contains a
+      matching IMPLEMENTED_BY SourceFile relationship for that path.
+    expected_result: Validation tool declarations cannot drift away from their implementing source file.
+  - id: FLOW-REQ-0009-004
+    step: 4
+    actor: Project model validator
+    action: Verifies that every package.json script has a Command node and every Command node runs an
+      existing package.json script through a ValidationTool relationship.
+    expected_result: Package command declarations and graph command nodes remain bidirectionally aligned.
+  alternative_flows:
+  - id: ALT-REQ-0009-001
+    title: Graph endpoint references missing repository file
+    trigger: A graph triple endpoint or path-backed graph node names a SourceFile, SchemaFile,
+      TestFile, or ConfigFile that does not exist in the checkout.
+    steps:
+    - id: FLOW-REQ-0009-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Reports the missing path-backed graph target.
+      expected_result: The repository check fails before stale graph references can be committed.
+  - id: ALT-REQ-0009-002
+    title: ValidationTool node drifts away from implementation source
+    trigger: A ValidationTool node path is missing or has no matching IMPLEMENTED_BY SourceFile triple.
+    steps:
+    - id: FLOW-REQ-0009-ALT-002
+      step: 1
+      actor: Project model validator
+      action: Reports the invalid validation-tool path or missing implementation relationship.
+      expected_result: The repository check fails before the tool declaration becomes unverifiable.
+  - id: ALT-REQ-0009-003
+    title: package.json script lacks Command node
+    trigger: package.json declares an executable script without a matching graph Command node.
+    steps:
+    - id: FLOW-REQ-0009-ALT-003
+      step: 1
+      actor: Project model validator
+      action: Reports the untraced package.json script.
+      expected_result: The repository check fails before an executable command can bypass graph governance.
+  postconditions:
+  - id: POST-REQ-0009-001
+    statement: Repository-backed graph file targets resolve to real checkout files.
+  - id: POST-REQ-0009-002
+    statement: ValidationTool graph nodes are tied to existing implementation source files.
+  - id: POST-REQ-0009-003
+    statement: package.json scripts and graph Command nodes are bidirectionally aligned.
+  acceptance_criteria:
+  - id: AC-REQ-0009-001
+    statement: The validator rejects graph SourceFile endpoints that point to missing files.
+  - id: AC-REQ-0009-002
+    statement: The validator rejects ValidationTool nodes whose declared implementation path is missing
+      or lacks a matching IMPLEMENTED_BY triple.
+  - id: AC-REQ-0009-003
+    statement: The validator rejects package.json scripts that have no matching Command node.
+  - id: AC-REQ-0009-004
+    statement: Negative fixtures prove each protected drift class is rejected.
+  verification:
+    method: test
+    required_evidence:
+    - yaml
+    - command
+    - tool-output

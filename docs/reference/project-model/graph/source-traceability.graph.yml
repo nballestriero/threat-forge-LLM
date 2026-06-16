@@ -311,3 +311,66 @@ triples:
   object:
     id: GATE-VALIDATOR-NEGATIVE-FIXTURES
     type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0009
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0009
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:DEC-0009
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0009
+    type: Requirement
+- subject:
+    id: source-traceability:DEC-0009
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: TOOL-PROJECT-MODEL-CHECK
+    type: ValidationTool
+- subject:
+    id: source-traceability:REQ-0009
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: source-traceability:REQ-0009
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: source-traceability:REQ-0009
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: source-traceability:REQ-0009
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: source-traceability:REQ-0009
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate

@@ -20,6 +20,7 @@
  * - source-traceability:REQ-0006
  * - source-traceability:REQ-0007
  * - source-traceability:REQ-0008
+ * - source-traceability:REQ-0009
  * - graph-traceability:REQ-0022
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0004
@@ -41,6 +42,7 @@
  * - source-traceability:DEC-0006
  * - source-traceability:DEC-0007
  * - source-traceability:DEC-0008
+ * - source-traceability:DEC-0009
  *
  * Related commands:
  * - CMD-PROJECT-MODEL-CHECK
@@ -1079,6 +1081,30 @@ function validatePackageScripts(indexes, packageJson) {
   const npmCommands = npmScriptCommands(indexes.matrixNodes);
   const commandScripts = new Map([...npmCommands.entries()].map(([commandId, scriptName]) => [scriptName, commandId]));
 
+  for (const node of indexes.matrixNodes.filter((candidate) => candidate?.type === "Command")) {
+    if (typeof node?.command !== "string" || node.command.trim().length === 0) {
+      errors.push(`Command node ${node?.id ?? "<missing>"} must declare a non-empty npm run command`);
+      continue;
+    }
+
+    if (!/^npm\s+run\s+[^\s]+$/.test(node.command.trim())) {
+      errors.push(`Command node ${node.id} command must use supported format 'npm run <script>'`);
+      continue;
+    }
+
+    const hasRunsTool = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.id === node.id &&
+        triple?.subject?.type === "Command" &&
+        triple?.predicate === "RUNS_TOOL" &&
+        triple?.object?.type === "ValidationTool"
+    );
+
+    if (!hasRunsTool) {
+      errors.push(`Command node ${node.id} has no RUNS_TOOL relationship to a ValidationTool`);
+    }
+  }
+
   for (const [commandId, scriptName] of npmCommands.entries()) {
     if (!Object.prototype.hasOwnProperty.call(scripts, scriptName)) {
       errors.push(`Command node ${commandId} references missing package.json script '${scriptName}'`);
@@ -1086,12 +1112,7 @@ function validatePackageScripts(indexes, packageJson) {
   }
 
   for (const scriptName of Object.keys(scripts)) {
-    const isGovernedValidationScript =
-      scriptName === "check" ||
-      scriptName === "precommit" ||
-      scriptName.startsWith("docs:check");
-
-    if (isGovernedValidationScript && !commandScripts.has(scriptName)) {
+    if (!commandScripts.has(scriptName)) {
       errors.push(`package.json script '${scriptName}' has no matching Command node in graph.matrix.yml`);
     }
   }
@@ -1108,6 +1129,85 @@ function validatePackageScripts(indexes, packageJson) {
 
     if (!hasDeclaredInPackage) {
       errors.push(`Command node ${commandId} for package script '${scriptName}' is missing DECLARED_IN package.json triple`);
+    }
+  }
+}
+
+
+/**
+ * Returns true when a graph path points at a generated artifact that is
+ * intentionally excluded from Git and therefore cannot be required to exist in
+ * a clean checkout. Generated artifacts may be validated as outputs, but they
+ * must not be accepted as source, schema, config, or test inputs.
+ *
+ * @param {string | undefined} value - Graph node or endpoint id.
+ * @returns {boolean} True when the path is under the ignored artifacts tree.
+ */
+function isGeneratedArtifactPath(value) {
+  return typeof value === "string" && value.startsWith("artifacts/");
+}
+
+/**
+ * Validates repository-backed graph nodes and endpoints. Source, schema, test,
+ * and config targets must be real files in the checkout. Document targets must
+ * exist unless they are generated artifacts under the ignored artifacts tree.
+ * ValidationTool nodes must declare an existing source path and must be backed
+ * by a matching IMPLEMENTED_BY SourceFile triple.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateGraphPathTargets(indexes) {
+  const strictFileTypes = new Set(["SourceFile", "SchemaFile", "TestFile", "ConfigFile"]);
+
+  for (const node of indexes.matrixNodes) {
+    if (strictFileTypes.has(node?.type) && isPathLike(node?.id) && !isFile(node.id)) {
+      errors.push(`Graph node ${node.type} path does not exist: ${node.id}`);
+    }
+
+    if (node?.type === "Document" && isPathLike(node?.id) && !isGeneratedArtifactPath(node.id) && !isFileOrDirectory(node.id)) {
+      errors.push(`Graph node Document path does not exist: ${node.id}`);
+    }
+
+    if (node?.type !== "ValidationTool") {
+      continue;
+    }
+
+    if (typeof node?.path !== "string" || node.path.trim().length === 0) {
+      errors.push(`ValidationTool node ${node?.id ?? "<missing>"} must declare a non-empty path`);
+      continue;
+    }
+
+    if (!isFile(node.path)) {
+      errors.push(`ValidationTool node ${node.id} path does not exist: ${node.path}`);
+    }
+
+    const hasMatchingImplementationTriple = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.id === node.id &&
+        triple?.subject?.type === "ValidationTool" &&
+        triple?.predicate === "IMPLEMENTED_BY" &&
+        triple?.object?.id === node.path &&
+        triple?.object?.type === "SourceFile"
+    );
+
+    if (!hasMatchingImplementationTriple) {
+      errors.push(`ValidationTool node ${node.id} path ${node.path} has no matching IMPLEMENTED_BY SourceFile triple`);
+    }
+  }
+
+  for (const [index, triple] of indexes.triples.entries()) {
+    for (const side of ["subject", "object"]) {
+      const endpoint = triple?.[side];
+      const location = `triple[${index}].${side}`;
+
+      if (strictFileTypes.has(endpoint?.type) && isPathLike(endpoint?.id) && !isFile(endpoint.id)) {
+        errors.push(`${location} ${endpoint.type} path does not exist: ${endpoint.id}`);
+      }
+
+      if (endpoint?.type === "Document" && isPathLike(endpoint?.id) && !isGeneratedArtifactPath(endpoint.id) && !isFileOrDirectory(endpoint.id)) {
+        errors.push(`${location} Document path does not exist: ${endpoint.id}`);
+      }
     }
   }
 }
@@ -1993,6 +2093,7 @@ if (
   validateAcceptedDecisionTraceability(indexes);
   validateImplementedRequirementEvidence(indexes);
   validatePackageScripts(indexes, packageJson);
+  validateGraphPathTargets(indexes);
   const baselineDocuments = new Map([
     [MODEL_FILES.governance, governance],
     [MODEL_FILES.requirements, requirements],
