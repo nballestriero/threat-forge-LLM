@@ -2735,3 +2735,91 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+  - id: "REQ-0032"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Graph matrix schema-driven validation"
+    statement: >
+      The documentation format validator shall load the canonical Graph Matrix
+      JSON Schema and apply it to docs/reference/project-model/graph.matrix.yml
+      so structural graph matrix drift is rejected by schema-driven validation
+      rather than only by hardcoded shape checks.
+    rationale: >
+      REQ-0031 introduced the schema artifact and schema application traceability.
+      The next safety step is proving that deterministic tooling consumes the
+      schema as an executable contract, including rejection of graph matrix fields
+      that previous top-level checks would not catch.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0032-001"
+        statement: "The Graph Matrix JSON Schema artifact exists."
+
+      - id: "PRE-REQ-0032-002"
+        statement: "The graph matrix declares schema_control metadata for its canonical schema."
+
+      - id: "PRE-REQ-0032-003"
+        statement: "The documentation format validator already supports the JSON Schema subset required by governed registry schemas."
+
+    main_flow:
+      - id: "FLOW-REQ-0032-001"
+        step: 1
+        actor: "Documentation format validator"
+        action: "Loads docs/reference/project-model/schemas/graph-matrix.schema.json."
+        expected_result: "The canonical graph matrix schema artifact is available as validator input."
+
+      - id: "FLOW-REQ-0032-002"
+        step: 2
+        actor: "Documentation format validator"
+        action: "Applies the supported JSON Schema subset to the parsed graph matrix YAML document."
+        expected_result: "The graph matrix is checked against the explicit schema contract."
+
+      - id: "FLOW-REQ-0032-003"
+        step: 3
+        actor: "Negative fixture runner"
+        action: "Mutates the graph matrix with a schema-invalid field."
+        expected_result: "The format validator rejects the invalid graph matrix through schema-driven validation."
+
+    alternative_flows:
+      - id: "ALT-REQ-0032-001"
+        title: "Schema cannot express semantic graph evidence"
+        trigger: "A graph matrix rule depends on registered graph vocabulary, package scripts, repository paths, baseline artifact metadata, schema application metadata, or source-file JSDoc."
+        steps:
+          - id: "FLOW-REQ-0032-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Keeps the rule in deterministic semantic validation and documents the boundary."
+            expected_result: "The schema-driven validator enforces local shape while semantic validation remains responsible for cross-file graph evidence."
+
+    postconditions:
+      - id: "POST-REQ-0032-001"
+        statement: "The graph matrix is validated against its canonical schema by docs:check:format."
+
+      - id: "POST-REQ-0032-002"
+        statement: "Schema-invalid graph matrix fields are rejected by a controlled negative fixture."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0032-001"
+        statement: "tools/docs/check-docs-format.mjs reads docs/reference/project-model/schemas/graph-matrix.schema.json."
+
+      - id: "AC-REQ-0032-002"
+        statement: "docs:check:format validates docs/reference/project-model/graph.matrix.yml against the Graph Matrix schema."
+
+      - id: "AC-REQ-0032-003"
+        statement: "A negative fixture proves that an additional property rejected by the schema fails validation."
+
+      - id: "AC-REQ-0032-004"
+        statement: "docs:check runs the schema-driven graph matrix validation through docs:check:format."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "command"
+        - "tool-output"

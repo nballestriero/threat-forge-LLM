@@ -23,6 +23,7 @@
  * - REQ-0029
  * - REQ-0030
  * - REQ-0031
+ * - REQ-0032
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -651,7 +652,7 @@ const requirements = checkYamlBaseline(MODEL_FILES.requirements, [
   "requirements"
 ]);
 
-checkYamlBaseline(MODEL_FILES.matrix, [
+const matrix = checkYamlBaseline(MODEL_FILES.matrix, [
   "matrix",
   "nodes",
   "triples"
@@ -689,6 +690,7 @@ checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.graphMatrixSchema, "g
 ]);
 checkProjectModelRegistryAgainstCanonicalSchema(governance, MODEL_FILES.governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
 checkProjectModelRegistryAgainstCanonicalSchema(requirements, MODEL_FILES.requirements, PROJECT_MODEL_SCHEMA_FILES.requirementsRegistrySchema);
+checkProjectModelRegistryAgainstCanonicalSchema(matrix, MODEL_FILES.matrix, PROJECT_MODEL_SCHEMA_FILES.graphMatrixSchema);
 
 if (governance) {
   const bodyProfiles = buildBodyProfileIndex(governance);

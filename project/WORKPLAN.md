@@ -38,19 +38,9 @@ Status: in progress.
 - M000.022G - Requirements registry schema-driven validation.
 - M000.023A - Graph matrix schema analysis.
 - M000.023B - Graph matrix explicit schema contract.
+- M000.023C - Graph matrix schema-driven validation.
 
 ## Next steps
-
-### M000.023C - Graph matrix schema-driven validation
-
-Goal: make docs:check:format execute graph-matrix.schema.json against graph.matrix.yml.
-
-Expected scope:
-
-- format validator loads the graph matrix schema
-- negative fixture for schema-rejected graph matrix fields
-- semantic validator keeps predicate compatibility, entity existence, path, command, baseline, schema application, and source traceability checks
-- controlled field to dataset/taxonomy mapping remains governed by governance.registry.yml
 
 ### M000.023 - Protected baseline artifact roots
 

@@ -635,6 +635,25 @@ decisions:
       - "The schema carries file-local change-control metadata and x-applies_to so schema application traceability can be checked bidirectionally."
 
 
+  - id: "DEC-0023"
+    title: "Graph matrix schema is executed by deterministic validation"
+    status: "accepted"
+    statement: >
+      The documentation format validator shall load and apply the canonical Graph
+      Matrix JSON Schema to the parsed graph matrix YAML document as part of
+      docs:check.
+    rationale: >
+      A graph matrix schema that is only registered and traceable does not
+      prevent structural drift in matrix metadata, node records, triple records,
+      schema_control, or change_control fields. The schema must become validator
+      input so local graph matrix shape changes are checked by the governed
+      contract before semantic graph validation runs.
+    consequences:
+      - "docs:check:format validates graph.matrix.yml against graph-matrix.schema.json."
+      - "A negative fixture proves that schema-rejected graph matrix fields fail validation."
+      - "Predicate compatibility, entity existence, package command checks, repository path checks, schema application traceability, baseline artifact checks, and source-file traceability remain semantic validator responsibilities."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

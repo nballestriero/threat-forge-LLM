@@ -1,0 +1,13 @@
+{
+  "id": "invalid-graph-matrix-schema-property",
+  "description": "The graph matrix contains a node field rejected by the canonical Graph Matrix schema.",
+  "validator": "format",
+  "expected_error": "does not allow additional property unexpected_schema_field",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph.matrix.yml",
+      "replace": "    type: \"Gate\"\n    description: \"Gate that validates the governed documentation folder and file layout.\"\n\n  - id: \"GATE-DOCS-CHECK\"",
+      "with": "    type: \"Gate\"\n    description: \"Gate that validates the governed documentation folder and file layout.\"\n    unexpected_schema_field: \"invalid\"\n\n  - id: \"GATE-DOCS-CHECK\""
+    }
+  ]
+}
