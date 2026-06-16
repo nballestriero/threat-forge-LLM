@@ -725,3 +725,93 @@ requirements:
     - yaml
     - registry-entry
     - document
+- id: REQ-0046
+  macro_requirement_id: MR-0001
+  title: Functional and specialized requirement identity model
+  statement: The project shall define requirement type and requirement relationship taxonomies that separate functional requirements from specialized child requirements, keep area_id as a non-identifying micro-classification field, and derive globally unique requirement identifiers from macro requirement, parent functional requirement, and local specialized requirement identifiers.
+  rationale: Requirement records should stay small while still allowing security, governance, schema, tooling, verification, operational, and quality concerns to be modeled without turning Markdown design notes into hidden requirements. Functional requirements can attach directly to macro requirements and controlled areas, while specialized requirements must be anchored to a functional requirement so their purpose and impact are traceable. area_id remains useful for filtering and organization but must not participate in identity, because requirement identity should be stable across reclassification.
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: data
+  preconditions:
+  - id: PRE-REQ-0046-001
+    statement: REQ-0045 removes derived classification fields from atomic requirement records and keeps area_id as a controlled classification field.
+  - id: PRE-REQ-0046-002
+    statement: Requirements are reviewed through the generated requirements page before schema enforcement changes are introduced.
+  main_flow:
+  - id: FLOW-REQ-0046-001
+    step: 1
+    actor: Maintainer
+    action: Defines a controlled requirement_type taxonomy with id, function, and description for each allowed requirement kind.
+    expected_result: The type field can be validated against a governed taxonomy instead of using vague document-domain labels.
+  - id: FLOW-REQ-0046-002
+    step: 2
+    actor: Maintainer
+    action: Initializes existing requirements as functional until manual review reclassifies them one by one.
+    expected_result: The migration starts from a safe baseline and avoids automated misclassification.
+  - id: FLOW-REQ-0046-003
+    step: 3
+    actor: Maintainer
+    action: Defines a controlled requirement relationship taxonomy for REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR.
+    expected_result: Specialized requirement relationships are governed before they become schema- or validator-enforced.
+  - id: FLOW-REQ-0046-004
+    step: 4
+    actor: Maintainer
+    action: Treats area_id as micro-classification for filtering and organization, not as part of requirement identity.
+    expected_result: Moving a requirement between controlled areas does not change its derived functional identifier.
+  - id: FLOW-REQ-0046-005
+    step: 5
+    actor: Maintainer
+    action: Derives functional requirement identity from macro_requirement_id and the local REQ-xxxx id.
+    expected_result: A functional requirement such as REQ-0001 under MR-0001 has the derived identity MR-0001REQ-0001.
+  - id: FLOW-REQ-0046-006
+    step: 6
+    actor: Maintainer
+    action: Derives specialized requirement identity from the parent functional identity plus the local specialized id such as SEC-0001.
+    expected_result: Multiple specialized requirements can exist under one functional requirement with unique derived identities such as MR-0001REQ-0001SEC-0001.
+  alternative_flows:
+  - id: ALT-REQ-0046-001
+    title: Requirement is not functional
+    trigger: A requirement is classified as security-control, governance-control, structural, schema, tooling, verification, operational, or quality.
+    steps:
+    - id: FLOW-REQ-0046-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Anchors the specialized requirement to a parent functional requirement through a governed relationship type.
+      expected_result: Non-functional or control requirements do not stand only under a macro area without functional context.
+  - id: ALT-REQ-0046-002
+    title: Existing requirement classification is uncertain
+    trigger: A maintainer cannot confidently classify an existing requirement during the initial migration.
+    steps:
+    - id: FLOW-REQ-0046-ALT-002
+      step: 1
+      actor: Maintainer
+      action: Leaves the requirement as functional until a later manual review step changes the type.
+      expected_result: The model remains valid without introducing speculative classifications.
+  postconditions:
+  - id: POST-REQ-0046-001
+    statement: The future requirement_type taxonomy has entries with id, function, and description.
+  - id: POST-REQ-0046-002
+    statement: The future requirement relationship taxonomy defines REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR.
+  - id: POST-REQ-0046-003
+    statement: Functional requirement derived identifiers use macro_requirement_id plus the local functional requirement id.
+  - id: POST-REQ-0046-004
+    statement: Specialized requirement derived identifiers use the parent functional derived identifier plus the local specialized requirement id.
+  acceptance_criteria:
+  - id: AC-REQ-0046-001
+    statement: The requirements governance decision records that area_id is not part of requirement identity.
+  - id: AC-REQ-0046-002
+    statement: The requirements governance decision records that requirement_type values must be governed by a taxonomy with id, function, and description.
+  - id: AC-REQ-0046-003
+    statement: The requirements governance decision records that existing requirements start as functional before manual reclassification.
+  - id: AC-REQ-0046-004
+    statement: The requirements governance decision records that specialized requirements must be anchored to a functional requirement.
+  - id: AC-REQ-0046-005
+    statement: The requirements governance decision records the derived identifier examples MR-0001REQ-0001 and MR-0001REQ-0001SEC-0001.
+  verification:
+    method: inspection
+    required_evidence:
+    - yaml
+    - registry-entry
+    - document

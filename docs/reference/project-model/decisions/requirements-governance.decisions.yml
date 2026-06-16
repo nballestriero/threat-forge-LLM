@@ -240,3 +240,17 @@ decisions:
     migration.
   - Explanation documents remain context, theory, principles, architecture, and design rationale; they
     must not become canonical sources for requirements, schemas, commands, or procedures.
+- id: DEC-0037
+  title: Requirement type and specialized identity are governed separately
+  status: accepted
+  statement: Requirement type shall be governed by a controlled taxonomy that describes the nature of the requirement, existing requirements shall initially be classified as functional until manual review, specialized requirements shall be anchored to a functional requirement through a controlled relationship type, and derived requirement identity shall not include area_id.
+  rationale: The requirement model should avoid verbose or duplicated fields while still supporting security, governance, schema, tooling, verification, operational, and quality concerns. area_id is useful for filtering and micro-classification but should not change requirement identity. Functional requirements are the stable behavioral anchors under macro requirements; specialized requirements add constraints, hardening, mitigation, controls, verification, or quality expectations to those functional anchors. Defining the taxonomy and identity rules before implementation prevents Markdown design documents from becoming hidden requirement sources.
+  consequences:
+  - requirement_type will be redefined as a controlled taxonomy whose entries include id, function, and description.
+  - The initial migration will set existing requirements to functional so maintainers can reclassify them manually from the generated requirements review page.
+  - Non-functional, security-control, governance-control, structural, schema, tooling, verification, operational, and quality requirements must be anchored to a functional requirement instead of standing only under a macro requirement.
+  - REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR will become a controlled requirement relationship taxonomy before enforcement.
+  - area_id remains a micro-classification and filtering field and does not participate in requirement identity.
+  - Functional requirement derived identity is computed from macro_requirement_id and the local REQ-xxxx id, for example MR-0001REQ-0001.
+  - Specialized requirement derived identity is computed from the parent functional derived identity plus the local specialized id, for example MR-0001REQ-0001SEC-0001.
+  - Schema, validator, graph, and requirements-page enforcement are deferred to a later implementation micropasso.
