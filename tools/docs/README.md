@@ -87,7 +87,7 @@ Enable it once per clone:
 git config core.hooksPath .githooks
 ```
 
-After that, commits are blocked when `npm run docs:check` fails.
+After that, commits are blocked when `npm run docs:check` fails. Pushes are blocked when `npm run repo:check:clean` fails, because the versioned pre-push hook delegates to the governed repository cleanliness command.
 
 ## Traceability comments
 

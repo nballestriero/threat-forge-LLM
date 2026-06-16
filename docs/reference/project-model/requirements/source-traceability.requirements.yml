@@ -715,3 +715,65 @@ requirements:
     - command
     - repository-path
     - tool-output
+- id: REQ-0014
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Pre-push repository cleanliness hook
+  statement: The project shall provide a versioned Git pre-push hook that invokes the governed repository cleanliness command before allowing manual pushes.
+  rationale: repo:check:clean is useful as a manual command, but manual git push remains bypassable unless the repository provides a hook that delegates to the same governed policy. The hook must not duplicate cleanliness logic; it must invoke the canonical command so policy remains centralized and traceable.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0014-001
+    statement: repo:check:clean is available as the canonical post-commit/pre-push cleanliness command.
+  - id: PRE-REQ-0014-002
+    statement: The repository uses the versioned .githooks directory as the hook source when core.hooksPath is configured.
+  main_flow:
+  - id: FLOW-REQ-0014-001
+    step: 1
+    actor: Developer
+    action: Runs git push with the versioned hook path enabled.
+    expected_result: Git invokes .githooks/pre-push before the push reaches the remote.
+  - id: FLOW-REQ-0014-002
+    step: 2
+    actor: Pre-push hook
+    action: Runs npm run repo:check:clean.
+    expected_result: The hook delegates to the governed repository cleanliness command instead of duplicating policy.
+  - id: FLOW-REQ-0014-003
+    step: 3
+    actor: Repository cleanliness command
+    action: Fails when the index, working tree, untracked non-ignored files, tracked artifacts/, or staged artifacts/ are unsafe.
+    expected_result: Git push is blocked and the developer receives review-oriented diagnostics.
+  alternative_flows:
+  - id: ALT-REQ-0014-001
+    title: Repository is dirty before push
+    trigger: git push is attempted while the repository contains uncommitted or unsafe artifact state.
+    steps:
+    - id: FLOW-REQ-0014-ALT-001
+      step: 1
+      actor: Pre-push hook
+      action: Propagates the non-zero repo:check:clean exit code.
+      expected_result: The push fails before remote state can change.
+  postconditions:
+  - id: POST-REQ-0014-001
+    statement: Manual git push uses the same cleanliness policy as the future governed commit/push helper.
+  - id: POST-REQ-0014-002
+    statement: The hook contains only orchestration and no duplicate repository-cleanliness rules.
+  acceptance_criteria:
+  - id: AC-REQ-0014-001
+    statement: .githooks/pre-push exists as a versioned repository file.
+  - id: AC-REQ-0014-002
+    statement: .githooks/pre-push invokes npm run repo:check:clean.
+  - id: AC-REQ-0014-003
+    statement: The graph records the pre-push gate, hook file, and dependency on the repository cleanliness command.
+  - id: AC-REQ-0014-004
+    statement: The documentation structure guard requires the pre-push hook file to exist.
+  verification:
+    method: test
+    required_evidence:
+    - git-hook
+    - command
+    - tool-output

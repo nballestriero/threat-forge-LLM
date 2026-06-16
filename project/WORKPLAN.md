@@ -159,10 +159,13 @@ Micropasses:
 - M000.025E2 - Repository cleanliness command. Completed.
   - Scope: add repo:check:clean as the governed post-commit/pre-push cleanliness command, register the command/tool/gate in the graph, and keep hook installation for a later micropasso.
   - The command rejects dirty repository state and unsafe artifacts/ tracking while remaining separate from docs:check so normal pre-commit staging is not blocked.
+- M000.025E3 - Pre-push hook. Completed.
+  - Scope: add the versioned .githooks/pre-push hook, require the hook file through structure validation, and trace the hook to the governed repository cleanliness command.
+  - The hook delegates to npm run repo:check:clean and contains no duplicate cleanliness policy.
 
 Expected follow-up scope:
 
-- add a pre-push hook that invokes the governed cleanliness check
+- add a pre-push hook that invokes the governed cleanliness check. Completed by M000.025E3.
 - add a governed commit/push helper that runs checks, commits, verifies cleanliness, and pushes
 - add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable
 - keep protected artifact root detection as part of the cleanliness guard workstream

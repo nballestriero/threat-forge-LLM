@@ -575,3 +575,53 @@ triples:
   object:
     id: tools/git/check-repository-clean.mjs
     type: SourceFile
+
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0014
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0014
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:DEC-0014
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0014
+    type: Requirement
+- subject:
+    id: source-traceability:DEC-0014
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: GATE-PRE-PUSH
+    type: Gate
+- subject:
+    id: source-traceability:REQ-0014
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/commit-push-flow-contract.md
+    type: Document
+- subject:
+    id: source-traceability:REQ-0014
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: .githooks/pre-push
+    type: ConfigFile
+- subject:
+    id: source-traceability:REQ-0014
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PRE-PUSH
+    type: Gate

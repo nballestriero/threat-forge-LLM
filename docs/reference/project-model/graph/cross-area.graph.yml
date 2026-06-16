@@ -253,6 +253,9 @@ nodes:
 - id: tools/docs/fixtures/negative/untraced-package-script.json
   type: NegativeFixture
   description: package.json declares an executable script that has no matching graph Command node.
+- id: GATE-PRE-PUSH
+  type: Gate
+  description: Versioned Git pre-push gate that delegates to the governed repository cleanliness command.
 - id: GATE-REPO-CLEAN
   type: Gate
   description: Post-commit/pre-push gate that blocks pushes when the repository is not clean or artifacts/ is unsafe.
@@ -268,6 +271,36 @@ nodes:
   type: Document
   description: Ignored local generated artifact root that must not contain tracked or staged repository content.
 triples:
+
+- subject:
+    id: GATE-PRE-PUSH
+    type: Gate
+  predicate: HAS_COMMAND
+  object:
+    id: CMD-REPO-CHECK-CLEAN
+    type: Command
+- subject:
+    id: GATE-PRE-PUSH
+    type: Gate
+  predicate: IMPLEMENTED_BY
+  object:
+    id: .githooks/pre-push
+    type: ConfigFile
+- subject:
+    id: GATE-PRE-PUSH
+    type: Gate
+  predicate: DECLARED_IN
+  object:
+    id: .githooks/pre-push
+    type: ConfigFile
+- subject:
+    id: GATE-PRE-PUSH
+    type: Gate
+  predicate: DEPENDS_ON
+  object:
+    id: GATE-REPO-CLEAN
+    type: Gate
+
 - subject:
     id: GATE-REPO-CLEAN
     type: Gate

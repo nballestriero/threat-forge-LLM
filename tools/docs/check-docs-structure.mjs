@@ -155,7 +155,8 @@ const requiredFiles = [
   "tools/docs/check-validator-negative-fixtures.mjs",
   "tools/docs/generate-governance-control-report.mjs",
   "tools/docs/generate-governance-control-page.mjs",
-  ".githooks/pre-commit"
+  ".githooks/pre-commit",
+  ".githooks/pre-push"
 ];
 
 const forbiddenPaths = [

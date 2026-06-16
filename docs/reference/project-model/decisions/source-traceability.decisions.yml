@@ -140,3 +140,12 @@ decisions:
   - The command fails closed and prints review-oriented remediation guidance when dirty state or unsafe artifacts/ tracking is detected.
   - The future pre-push hook must invoke this command instead of reimplementing cleanliness policy.
   - The future governed commit/push helper must invoke this command after commit and before push.
+- id: DEC-0014
+  title: Pre-push hook delegates to repository cleanliness command
+  status: accepted
+  statement: The repository shall add a versioned pre-push hook that invokes npm run repo:check:clean and contains no duplicated cleanliness policy.
+  rationale: The hook closes the manual-push bypass while preserving a single source of truth for cleanliness behavior. Keeping the shell hook thin reduces drift between manual commands, hooks, and the future governed commit/push helper.
+  consequences:
+  - Manual git push is blocked when repo:check:clean detects uncommitted changes or unsafe artifacts.
+  - The hook remains safe to maintain because all policy stays in tools/git/check-repository-clean.mjs.
+  - Future commit/push orchestration can call the same command and does not need to special-case hook behavior.
