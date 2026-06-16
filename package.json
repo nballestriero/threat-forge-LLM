@@ -15,11 +15,13 @@
     "docs:control:page": "node tools/docs/generate-governance-control-page.mjs",
     "context:zip:handoff": "node tools/context/create-project-handoff-zip.mjs",
     "context:zip:handoff:dry-run": "node tools/context/create-project-handoff-zip.mjs --dry-run",
-    "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format && npm run docs:check:control-report && npm run docs:check:control-page && npm run docs:test:negative",
+    "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format && npm run docs:check:control-report && npm run docs:check:control-page && npm run docs:check:requirements-page && npm run docs:test:negative",
     "check": "npm run docs:check",
     "precommit": "npm run docs:check",
     "repo:check:clean": "node tools/git/check-repository-clean.mjs",
-    "repo:commit-push": "node tools/git/commit-and-push.mjs"
+    "repo:commit-push": "node tools/git/commit-and-push.mjs",
+    "docs:check:requirements-page": "node tools/docs/generate-requirements-page.mjs --check",
+    "docs:requirements:page": "node tools/docs/generate-requirements-page.mjs"
   },
   "dependencies": {
     "yaml": "^2.6.1"

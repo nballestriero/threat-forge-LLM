@@ -15,7 +15,22 @@ part:
   title: Requirements Governance graph part
   status: draft
   description: Extracted graph relationships owned by the requirements-governance project-model area.
-nodes: []
+nodes:
+- id: GATE-REQUIREMENTS-PAGE
+  type: Gate
+  description: Gate that verifies the static requirements review page can be generated from canonical requirements and graph data.
+- id: CMD-REQUIREMENTS-PAGE-CHECK
+  type: Command
+  command: npm run docs:check:requirements-page
+  description: Renders the static requirements review page in check mode without writing tracked artifacts.
+- id: CMD-REQUIREMENTS-PAGE
+  type: Command
+  command: npm run docs:requirements:page
+  description: Generates artifacts/requirements/index.html from canonical requirements and graph data.
+- id: TOOL-REQUIREMENTS-PAGE-BUILDER
+  type: ValidationTool
+  path: tools/docs/generate-requirements-page.mjs
+  description: Deterministic static requirements review page renderer.
 triples:
 - subject:
     id: MR-0001
@@ -759,3 +774,179 @@ triples:
   object:
     id: docs/reference/project-model/decisions/backend-architecture.decisions.yml
     type: Document
+
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0035
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0035
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: GATE-REQUIREMENTS-PAGE
+    type: Gate
+- subject:
+    id: requirements-governance:DEC-0035
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+- subject:
+    id: requirements-governance:DEC-0035
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: CMD-REQUIREMENTS-PAGE-CHECK
+    type: Command
+- subject:
+    id: requirements-governance:DEC-0035
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: CMD-REQUIREMENTS-PAGE
+    type: Command
+- subject:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/generate-requirements-page.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: requirements-governance:REQ-0044
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-REQUIREMENTS-PAGE
+    type: Gate
+- subject:
+    id: GATE-REQUIREMENTS-PAGE
+    type: Gate
+  predicate: HAS_COMMAND
+  object:
+    id: CMD-REQUIREMENTS-PAGE-CHECK
+    type: Command
+- subject:
+    id: GATE-REQUIREMENTS-PAGE
+    type: Gate
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/generate-requirements-page.mjs
+    type: SourceFile
+- subject:
+    id: CMD-REQUIREMENTS-PAGE-CHECK
+    type: Command
+  predicate: RUNS_TOOL
+  object:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+- subject:
+    id: CMD-REQUIREMENTS-PAGE-CHECK
+    type: Command
+  predicate: DECLARED_IN
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: CMD-REQUIREMENTS-PAGE
+    type: Command
+  predicate: RUNS_TOOL
+  object:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+- subject:
+    id: CMD-REQUIREMENTS-PAGE
+    type: Command
+  predicate: DECLARED_IN
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/generate-requirements-page.mjs
+    type: SourceFile
+- subject:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+  predicate: HAS_COMMAND
+  object:
+    id: CMD-REQUIREMENTS-PAGE-CHECK
+    type: Command
+- subject:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+  predicate: HAS_COMMAND
+  object:
+    id: CMD-REQUIREMENTS-PAGE
+    type: Command
+- subject:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: TOOL-REQUIREMENTS-PAGE-BUILDER
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: MR-0001
+    type: MacroRequirement
+- subject:
+    id: GATE-REQUIREMENTS-PAGE
+    type: Gate
+  predicate: VALIDATES
+  object:
+    id: requirements-governance:REQ-0044
+    type: Requirement

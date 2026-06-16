@@ -196,3 +196,18 @@ decisions:
   - Governance-control and project-handoff remain separate later extractions because they have generated
     artifact and operational command boundaries.
   - Backend-architecture remains deferred until product-boundary work defines runtime scope.
+- id: DEC-0035
+  title: Requirements review page is generated from canonical records
+  status: accepted
+  statement: The requirements review page shall be generated from canonical requirements YAML and graph
+    parts, write normal output under artifacts/, and include fixed proposed specialization relationship
+    definitions only as review text until those relationships are governed by schema and semantic validation.
+  rationale: The project is moving toward richer requirement bodies and specialized requirement relationships.
+    A generated page gives maintainers a shared view for reasoning while preventing manual HTML or Markdown
+    tables from becoming duplicate requirement sources.
+  consequences:
+  - Requirements YAML and graph parts remain the canonical sources of requirement semantics and relationships.
+  - The HTML page is regenerated output and must not be committed under artifacts/.
+  - REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR appear as fixed review text before
+    they are introduced as governed predicates.
+  - The aggregate documentation gate checks that the page can be rendered without writing tracked artifacts.

@@ -717,3 +717,89 @@ requirements:
     - command
     - source-comment
     - tool-output
+- id: REQ-0044
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Generated requirements review page
+  statement: The project shall provide a deterministic tool that renders a static HTML review page from
+    canonical modular requirements and graph parts so requirement kinds, bodies, and specialization
+    relationships can be reviewed without creating manual requirement duplicates.
+  rationale: The next governance phase needs a readable requirements view before changing requirement
+    schemas. A generated artifact keeps requirements YAML and graph parts canonical while giving humans
+    and LLM agents a single page for reviewing macroareas, requirement bodies, and proposed specialized
+    relationships.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: tooling
+  preconditions:
+  - id: PRE-REQ-0044-001
+    statement: Requirements are loaded through the governed modular requirements index and area-owned
+      requirements parts.
+  - id: PRE-REQ-0044-002
+    statement: Graph relationships are loaded through the governed graph index and area-owned graph
+      parts.
+  main_flow:
+  - id: FLOW-REQ-0044-001
+    step: 1
+    actor: Requirements page generator
+    action: Loads the central requirements index and all declared requirements parts.
+    expected_result: The generator aggregates canonical requirement records with area, macro requirement,
+      lifecycle, body, and source-file metadata.
+  - id: FLOW-REQ-0044-002
+    step: 2
+    actor: Requirements page generator
+    action: Loads declared graph parts and extracts current requirement-to-requirement relationships.
+    expected_result: The page can show existing relationship context without redefining requirements.
+  - id: FLOW-REQ-0044-003
+    step: 3
+    actor: Requirements page generator
+    action: Renders a single static HTML page with macroarea filters and fixed proposed specialization
+      relationship vocabulary.
+    expected_result: The output page supports review of REFINES, HARDENS, CONSTRAINS, MITIGATES, and
+      IMPLEMENTS_CONTROL_FOR proposals without treating those proposals as enforced predicates yet.
+  - id: FLOW-REQ-0044-004
+    step: 4
+    actor: Maintainer
+    action: Regenerates the page when requirements or graph records change.
+    expected_result: The page remains a derived artifact under artifacts/ and does not become a governed
+      source of truth.
+  alternative_flows:
+  - id: ALT-REQ-0044-001
+    title: Requirements page check mode
+    trigger: The generator is invoked by the aggregate documentation gate.
+    steps:
+    - id: FLOW-REQ-0044-ALT-001
+      step: 1
+      actor: Requirements page generator
+      action: Renders the static page to a temporary path and validates required fixed review text.
+      expected_result: The check proves the page can be regenerated without writing tracked artifacts.
+  postconditions:
+  - id: POST-REQ-0044-001
+    statement: The generated requirements review page is available through a deterministic command.
+  - id: POST-REQ-0044-002
+    statement: The generated page includes macroarea filters and fixed specialization relationship
+      definitions for review.
+  - id: POST-REQ-0044-003
+    statement: The generated page remains under artifacts/ when written normally and is ignored by Git.
+  acceptance_criteria:
+  - id: AC-REQ-0044-001
+    statement: package.json declares a command that generates artifacts/requirements/index.html from
+      canonical requirements and graph data.
+  - id: AC-REQ-0044-002
+    statement: package.json declares a check-mode command that renders the same page without writing
+      a tracked artifact.
+  - id: AC-REQ-0044-003
+    statement: The generated page provides a macroarea filter based on project-model area_id values.
+  - id: AC-REQ-0044-004
+    statement: The generated page contains the fixed proposed relationship vocabulary REFINES, HARDENS,
+      CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR.
+  - id: AC-REQ-0044-005
+    statement: The generated page states that it is a derived review artifact and not a source of truth.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - source-comment
