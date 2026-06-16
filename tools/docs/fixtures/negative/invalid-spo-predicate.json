@@ -1,13 +1,13 @@
 {
   "id": "invalid-spo-predicate",
-  "description": "A graph matrix triple uses an unregistered predicate.",
+  "description": "A graph part triple uses an unregistered predicate.",
   "validator": "model",
   "expected_error": "uses unknown predicate UNKNOWN_PREDICATE",
   "mutations": [
     {
-      "path": "docs/reference/project-model/graph.matrix.yml",
-      "replace": "    predicate: \"BELONGS_TO_CAPABILITY\"",
-      "with": "    predicate: \"UNKNOWN_PREDICATE\""
+      "path": "docs/reference/project-model/graph/documentation-structure.graph.yml",
+      "replace": "  predicate: BELONGS_TO_CAPABILITY",
+      "with": "  predicate: UNKNOWN_PREDICATE"
     }
   ]
 }

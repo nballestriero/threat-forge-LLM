@@ -15,10 +15,10 @@
  * - docs/reference/project-model/graph.matrix.yml
  *
  * Related requirements:
- * - REQ-0012
- * - REQ-0016
- * - REQ-0017
- * - REQ-0019
+ * - governance-control:REQ-0012
+ * - governance-control:REQ-0016
+ * - governance-control:REQ-0017
+ * - governance-control:REQ-0019
  *
  * Supports capabilities:
  * - CAP-GOVERNANCE-CONTROL

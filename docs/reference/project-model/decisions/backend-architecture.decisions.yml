@@ -1,0 +1,36 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: backend-architecture
+  title: Backend Architecture decisions part
+  status: draft
+  description: Extracted decisions owned by the backend-architecture project-model area.
+decisions:
+- id: DEC-0009
+  title: Default backend composition and API contract documentation pattern
+  status: accepted
+  statement: 'Backend implementation shall default to factory/composition-root based dependency composition,
+    separated backend layers, and governed backend/API contracts as authoritative documentation sources.
+
+    '
+  rationale: 'The previous threat-forge project showed that factory-based composition, separated backend
+    layers, and explicit API contracts reduce accidental coupling and keep implementation aligned
+    with documentation.
+
+    '
+  consequences:
+  - Controllers and route handlers must not instantiate concrete infrastructure adapters directly.
+  - Concrete dependencies must be assembled in factories or composition roots.
+  - Backend services should depend on ports or application boundaries instead of concrete adapters.
+  - Backend/API contracts must be treated as primary technical documentation for HTTP behavior.
+  - A future deterministic checker must enforce approved backend architecture patterns.

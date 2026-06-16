@@ -1,0 +1,198 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: requirements-governance
+  title: Requirements Governance decisions part
+  status: draft
+  description: Extracted decisions owned by the requirements-governance project-model area.
+decisions:
+- id: DEC-0008
+  title: Validator negative fixtures
+  status: accepted
+  statement: 'Deterministic validators must have controlled negative fixtures that prove invalid repository
+    states are rejected.
+
+    '
+  rationale: 'Passing validators are not enough if there is no evidence that they fail when the governed
+    model, commands, source traceability, YAML format, or Markdown body profiles are invalid.
+
+    '
+  consequences:
+  - Negative fixture execution is part of docs:check.
+  - Each negative fixture must declare the expected validation failure.
+  - The negative fixture runner must fail when an invalid state is accepted.
+- id: DEC-0025
+  title: Project model modularization uses governed areas and clean migration
+  status: accepted
+  statement: 'Requirements, graph traceability, and decisions shall be modularized by governed project-model
+    area using canonical composite identifiers in the form <area_id>:<local_id>. The `area_id` value
+    shall be controlled by an explicit `project_model_areas` taxonomy, aligned with capabilities where
+    useful but not derived from capability_id automatically.
+
+    '
+  rationale: 'requirements.registry.yml, graph.matrix.yml, and governance.registry.yml are growing
+    together. A requirements-only split would leave graph triples and decisions as monolithic scaling
+    bottlenecks. A governed area boundary gives requirements, graph parts, and decisions the same
+    ownership model while allowing local identifier sequences to restart safely. Since the project
+    is before first release, clean coordinated breaking changes are preferable to preserving long-term
+    compatibility with the current monolithic layout.
+
+    '
+  consequences:
+  - Future modular requirements, graph, and decision files use central indexes and area-owned parts.
+  - Canonical references use <area_id>:<local_id> once modular loaders are introduced.
+  - The project_model_areas taxonomy must be introduced with deterministic validation, bidirectional
+    implementation traceability, and negative fixture evidence before broad use.
+  - check-docs-format.mjs remains the JSON Schema validation entrypoint, while check-project-model.mjs
+    aggregates modular parts and validates semantics.
+  - Long-term compatibility with the monolithic layout is not a requirement during the pre-release
+    migration.
+- id: DEC-0026
+  title: Project model areas are an explicit controlled taxonomy
+  status: accepted
+  statement: 'The project_model_areas taxonomy shall be declared explicitly in the governance registry
+    with described, rationalized, and validation-impactful values. Area identifiers shall not be inferred
+    automatically from capability_id values.
+
+    '
+  rationale: 'Modular project-model files need a physical ownership boundary for requirements, graph
+    triples, and decisions. Product capabilities describe functional scope, while project-model areas
+    describe file modularization and loading boundaries. Keeping them separate prevents capability
+    changes from silently moving governed records between files.
+
+    '
+  consequences:
+  - taxonomies.project_model_areas becomes the controlled value set for future area_id fields.
+  - Every project_model_areas value carries description, rationale, and validation impact before broad
+    use.
+  - Future schema and loader work shall validate area_id shape through check-docs-format.mjs and semantic
+    membership through check-project-model.mjs.
+  - Negative fixture coverage for invalid area_id values is required before modular parts rely on
+    the taxonomy broadly.
+- id: DEC-0027
+  title: Project model areas taxonomy is semantically enforced by the project model validator
+  status: accepted
+  statement: 'The project_model_areas taxonomy shall be enforced by tools/docs/check-project-model.mjs
+    as semantic project-model validation, while local YAML shape validation remains the responsibility
+    of tools/docs/check-docs-format.mjs.
+
+    '
+  rationale: 'project_model_areas defines future modular project-model ownership and canonical <area_id>:<local_id>
+    identifiers. Its values are not merely local YAML shape; they are governed semantic identifiers
+    that must remain complete, unique, and deliberately controlled before modular parts rely on them.
+    Keeping this enforcement in the project-model validator preserves the single schema validation
+    entrypoint and avoids duplicating semantic taxonomy checks in the format validator.
+
+    '
+  consequences:
+  - check-project-model.mjs rejects missing, malformed, duplicate, or incomplete project_model_areas
+    entries.
+  - Negative fixture coverage proves invalid project_model_areas values fail deterministically.
+  - Future area_id fields in modular index and part files shall reuse the same semantic taxonomy enforcement
+    path.
+  - check-docs-format.mjs remains responsible only for local schema and format validation.
+- id: DEC-0028
+  title: Requirements modularization uses index and area part contracts
+  status: accepted
+  statement: 'The requirements registry shall evolve toward a central requirements index and area-owned
+    requirements part files governed by future requirements index and part schema contracts.
+
+    '
+  rationale: 'requirements.registry.yml is growing as macro requirements, atomic requirements, flows,
+    acceptance criteria, verification evidence, and governance requirements accumulate. Splitting
+    by governed project-model area keeps local files readable while preserving one aggregated requirements
+    model.
+
+    '
+  consequences:
+  - requirements.registry.yml remains the canonical loading entrypoint but should become an index
+    in the modular model.
+  - Future requirements parts use registered project_model_areas values and canonical <area_id>:<local_id>
+    identities.
+  - check-docs-format.mjs remains the JSON Schema validation entrypoint for future requirements index
+    and part schemas.
+  - check-project-model.mjs remains responsible for semantic aggregation, parent macro resolution,
+    capability references, and traceability.
+  - No existing requirements are migrated by this decision; extraction is reserved for later modular
+    loader and area extraction micropasses.
+- id: DEC-0030
+  title: Decisions modularization uses governance index and area part contracts
+  status: accepted
+  statement: 'Decision records shall evolve toward a central governance index and area-owned decision
+    part files governed by future decisions part schema contracts, while shared vocabularies remain
+    governed through the central governance registry.
+
+    '
+  rationale: 'governance.registry.yml is growing as decisions accumulate alongside taxonomies, capabilities,
+    document types, body profiles, node types, and predicates. Splitting requirements and graph traceability
+    without splitting decisions would leave governance decisions as the next monolithic scaling bottleneck.
+    A governance index and decision parts preserve one logical governance model while making decision
+    ownership explicit by project-model area.
+
+    '
+  consequences:
+  - governance.registry.yml remains the canonical governance loading entrypoint and shared vocabulary
+    registry.
+  - Future decisions parts use registered project_model_areas values and canonical <area_id>:<local_id>
+    identities for modular decision records.
+  - The global decisions part owns intentionally cross-cutting decisions and must not become an uncontrolled
+    dumping ground.
+  - check-docs-format.mjs remains the JSON Schema validation entrypoint for future governance index
+    and decisions part schemas.
+  - check-project-model.mjs remains responsible for semantic aggregation, canonical decision identity,
+    duplicate detection, decision references, and graph traceability.
+  - No existing decisions are migrated by this decision; extraction is reserved for later modular
+    loader and area extraction micropasses.
+- id: DEC-0031
+  title: Modular project model loading uses governed indexes and one logical aggregate
+  status: accepted
+  statement: 'Future modular project-model validators shall load requirements, graph traceability,
+    and decisions through governed central indexes and aggregate declared parts into one logical model
+    before semantic validation.
+
+    '
+  rationale: 'The project is splitting large registries by project-model area, but the validation
+    model must remain deterministic and coherent. Loading parts through central indexes prevents ad
+    hoc directory scanning, while building one logical model preserves cross-file traceability, canonical
+    ID uniqueness, predicate compatibility, source traceability, schema application traceability,
+    and command validation.
+
+    '
+  consequences:
+  - requirements.registry.yml, graph.matrix.yml, and governance.registry.yml remain the future loading
+    boundaries for modular parts.
+  - Future part files must be declared by their owning index before they participate in the logical
+    project model.
+  - check-docs-format.mjs remains responsible for JSON Schema validation of index and part files.
+  - check-project-model.mjs remains responsible for aggregating declared parts, deriving canonical
+    identifiers, and running semantic validation.
+  - Long-term compatibility with the monolithic project-model layout is not a target because the project
+    is before first release.
+  - No existing requirements, graph triples, or decisions are migrated by this decision; extraction
+    is reserved for later loader implementation and first-area extraction micropasses.
+- id: DEC-0034
+  title: Remaining area extraction proceeds control-first
+  status: accepted
+  statement: The remaining project-model areas shall be extracted in small gated micropasses, with
+    missing ownership and reference controls added before broad or traceability-heavy migrations.
+  rationale: The schema-validation pilot proved modular loading and canonical IDs, but it also exposed
+    that cross-area graph ownership and same-area reference policy must be explicit before many more
+    records move into parts.
+  consequences:
+  - The next work adds cross-area graph ownership validation before broad extraction.
+  - Documentation-structure and markdown-format are the next low-risk extraction targets.
+  - Requirements-governance, graph-traceability, and source-traceability are deferred until the relevant
+    ownership and reference rules are explicit.
+  - Governance-control and project-handoff remain separate later extractions because they have generated
+    artifact and operational command boundaries.
+  - Backend-architecture remains deferred until product-boundary work defines runtime scope.

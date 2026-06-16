@@ -1,0 +1,145 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - graph-traceability:DEC-0029
+  satisfies:
+  - graph-traceability:REQ-0038
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular
+    project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/graph-part.schema.json
+  rationale: The graph part declares the canonical schema that validates modular graph part shape
+    through check-docs-format.mjs.
+part:
+  area_id: source-traceability
+  title: Source Traceability graph part
+  status: draft
+  description: Extracted graph relationships owned by the source-traceability project-model area.
+nodes: []
+triples:
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0005
+    type: Requirement
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0006
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0005
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:REQ-0006
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:DEC-0004
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: CMD-DOCS-CHECK-STRUCTURE
+    type: Command
+- subject:
+    id: source-traceability:DEC-0005
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0005
+    type: Requirement
+- subject:
+    id: source-traceability:DEC-0005
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: TOOL-PROJECT-MODEL-CHECK
+    type: ValidationTool
+- subject:
+    id: source-traceability:DEC-0006
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0006
+    type: Requirement
+- subject:
+    id: source-traceability:DEC-0006
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: TOOL-PROJECT-MODEL-CHECK
+    type: ValidationTool
+- subject:
+    id: source-traceability:REQ-0005
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: source-traceability:REQ-0005
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: source-traceability:REQ-0006
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: source-traceability:REQ-0006
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: source-traceability:REQ-0006
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: source-traceability:REQ-0006
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: source-traceability:REQ-0006
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: source-traceability:REQ-0005
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: source-traceability:REQ-0005
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate

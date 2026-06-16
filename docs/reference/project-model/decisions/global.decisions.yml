@@ -1,0 +1,48 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: global
+  title: Global decisions part
+  status: draft
+  description: Extracted decisions owned by the global project-model area.
+decisions:
+- id: DEC-0001
+  title: Clean restart
+  status: accepted
+  statement: 'The project starts as a clean repository and does not inherit the previous threat-forge
+    repository as a source of truth.
+
+    '
+  rationale: 'A clean restart avoids carrying forward accidental complexity, obsolete assumptions,
+    and uncontrolled documentation structures.
+
+    '
+  consequences:
+  - Old repository history is not imported.
+  - Old documentation is not copied by default.
+  - Old ideas may be reintroduced only through explicit new decisions.
+- id: DEC-0002
+  title: Compact governed project model
+  status: accepted
+  statement: 'Governance vocabularies, requirements, and governed relationships are concentrated in
+    a compact project model under docs/reference/project-model.
+
+    '
+  rationale: 'The project needs deterministic governance without creating too many scattered registry
+    and matrix files.
+
+    '
+  consequences:
+  - Governance vocabulary is stored in governance.registry.yml.
+  - Macro requirements and atomic requirements are stored in requirements.registry.yml.
+  - Governed relationships are stored in graph.matrix.yml.

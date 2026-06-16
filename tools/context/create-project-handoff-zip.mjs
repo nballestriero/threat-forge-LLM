@@ -29,7 +29,7 @@
  * - docs/reference/project-model/graph.matrix.yml
  *
  * Related requirements:
- * - REQ-0020
+ * - project-handoff:REQ-0020
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE

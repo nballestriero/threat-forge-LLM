@@ -51,6 +51,13 @@ Status: in progress.
 - M000.024I - First schema-validation area extraction.
 - M000.024J - Schema-validation canonical ID and control review.
 - M000.024K - Remaining area extraction plan.
+- M000.024L - Cross-area graph ownership guard.
+- M000.024M - Same-area local reference policy design.
+- M000.024N - Documentation-structure area extraction.
+- M000.024O - Markdown-format area extraction.
+- M000.024P - Remaining project-model area extraction.
+- M000.024Q - Root index cleanup and no-legacy enforcement.
+- M000.024R - Modularization closure review.
 
 ## Next steps
 
@@ -58,7 +65,7 @@ Status: in progress.
 
 Goal: split the growing project-model registries by governed project-model area while preserving deterministic validation, traceability, and a single logical model.
 
-Status: in progress.
+Status: completed.
 
 Design direction:
 
@@ -107,18 +114,22 @@ Planned micropasses:
 - M000.024K - Remaining area extraction plan. Completed.
   - Scope: use the first extraction and canonical ID review results to plan the remaining area splits and required follow-up gates.
   - Added the remaining project-model area extraction plan; no additional areas extracted.
-- M000.024L - Cross-area graph ownership guard.
+- M000.024L - Cross-area graph ownership guard. Completed.
   - Scope: add deterministic validation and negative fixture coverage for triples placed in the wrong area graph part.
-  - Do this before traceability-heavy extractions.
-- M000.024M - Same-area local reference policy design.
+  - Added graph part ownership validation before broad extraction.
+- M000.024M - Same-area local reference policy design. Completed.
   - Scope: define where part-local references are allowed outside graph triples and where canonical references are required.
-  - No broad extraction yet.
-- M000.024N - Documentation-structure area extraction.
+  - Kept graph triples canonical and part-local IDs confined to owned requirement/decision records.
+- M000.024N - Documentation-structure area extraction. Completed.
   - Scope: extract documentation layout, required-file, and structure-guard requirements, decisions, and graph relationships into documentation-structure parts.
-  - Keep the migration small and gated.
-- M000.024O - Markdown-format area extraction.
+- M000.024O - Markdown-format area extraction. Completed.
   - Scope: extract Markdown body profile and Markdown format validation requirements, decisions, and graph relationships into markdown-format parts.
-  - Keep JSON Schema validation ownership with schema-validation.
+- M000.024P - Remaining project-model area extraction. Completed.
+  - Scope: extract requirements-governance, graph-traceability, source-traceability, governance-control, project-handoff, backend-architecture, global decisions, and cross-area graph parts.
+- M000.024Q - Root index cleanup and no-legacy enforcement. Completed.
+  - Scope: leave root registries as indexes/vocabulary roots, remove root atomic requirements, decisions, graph nodes, and graph triples, and keep canonical modular references.
+- M000.024R - Modularization closure review. Completed.
+  - Scope: align schemas, structure guard, format guard, project-model validator, source JSDoc references, and workplan state after complete modular extraction.
 
 ### M000.025 - Protected baseline artifact roots
 

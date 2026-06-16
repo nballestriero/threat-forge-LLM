@@ -1,0 +1,204 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0028
+  satisfies:
+  - requirements-governance:REQ-0037
+  rationale: This requirements part is loaded through the governed requirements index as part of the
+    complete modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/requirements-part.schema.json
+  rationale: The requirements part declares the canonical schema that validates modular requirements
+    part shape through check-docs-format.mjs.
+part:
+  area_id: backend-architecture
+  title: Backend Architecture requirements part
+  status: draft
+  description: Extracted requirements owned by the backend-architecture project-model area.
+requirements:
+- id: REQ-0009
+  macro_requirement_id: MR-0002
+  capability_id: CAP-BACKEND-ARCHITECTURE
+  title: Default backend composition pattern
+  statement: 'Backend implementation shall use factory or composition-root based dependency composition
+    as the default pattern.
+
+    '
+  rationale: 'Dependency composition must stay explicit and centralized so controllers, route handlers,
+    and application services do not create concrete infrastructure dependencies directly.
+
+    '
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: non-functional
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0009-001
+    statement: Runtime backend implementation has not yet started.
+  main_flow:
+  - id: FLOW-REQ-0009-001
+    step: 1
+    actor: Maintainer
+    action: Defines backend components using separated controller, service, port, adapter, and factory
+      boundaries.
+    expected_result: Concrete dependency assembly remains centralized in a factory or composition
+      root.
+  - id: FLOW-REQ-0009-002
+    step: 2
+    actor: Maintainer
+    action: Wires route handlers or controllers to application services through composed dependencies.
+    expected_result: Route handlers and controllers do not instantiate concrete adapters directly.
+  alternative_flows:
+  - id: ALT-REQ-0009-001
+    title: Direct adapter instantiation
+    trigger: A controller or route handler creates a concrete adapter directly.
+    steps:
+    - id: FLOW-REQ-0009-ALT-001
+      step: 1
+      actor: Architecture checker
+      action: Reports a backend composition violation.
+      expected_result: The implementation is rejected until dependency assembly is moved to a factory
+        or composition root.
+  postconditions:
+  - id: POST-REQ-0009-001
+    statement: Backend implementation follows the default composition pattern.
+  acceptance_criteria:
+  - id: AC-REQ-0009-001
+    statement: Controllers and route handlers do not instantiate concrete infrastructure adapters.
+  - id: AC-REQ-0009-002
+    statement: Concrete dependencies are assembled in factories or composition roots.
+  - id: AC-REQ-0009-003
+    statement: Application services depend on explicit ports or boundaries where external dependencies
+      are required.
+  verification:
+    method: analysis
+    required_evidence:
+    - document
+    - source-comment
+    - tool-output
+- id: REQ-0010
+  macro_requirement_id: MR-0002
+  capability_id: CAP-BACKEND-ARCHITECTURE
+  title: Backend architecture pattern enforcement
+  statement: 'The project shall provide deterministic tooling that checks backend code against approved
+    composition and layering patterns.
+
+    '
+  rationale: 'Architecture rules should not rely only on human memory or code review. A deterministic
+    checker must catch direct adapter instantiation, controller-to-infrastructure coupling, missing
+    factories, and contract drift where practical.
+
+    '
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: operational
+  scope: tooling
+  preconditions:
+  - id: PRE-REQ-0010-001
+    statement: A runtime backend source tree exists.
+  - id: PRE-REQ-0010-002
+    statement: Approved backend layering and composition rules are documented.
+  main_flow:
+  - id: FLOW-REQ-0010-001
+    step: 1
+    actor: Architecture checker
+    action: Scans backend controllers, services, ports, adapters, factories, and route handlers.
+    expected_result: Backend files are classified by approved layer or boundary.
+  - id: FLOW-REQ-0010-002
+    step: 2
+    actor: Architecture checker
+    action: Checks that controllers and route handlers do not instantiate concrete adapters directly.
+    expected_result: Forbidden coupling is reported as a deterministic violation.
+  - id: FLOW-REQ-0010-003
+    step: 3
+    actor: Architecture checker
+    action: Checks that public backend routes are connected to governed API contracts.
+    expected_result: Route and contract drift is reported.
+  alternative_flows:
+  - id: ALT-REQ-0010-001
+    title: Backend not present yet
+    trigger: The backend source tree has not been introduced.
+    steps:
+    - id: FLOW-REQ-0010-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Keeps the requirement approved but not implemented.
+      expected_result: No runtime checker is required until backend files exist.
+  postconditions:
+  - id: POST-REQ-0010-001
+    statement: Backend architecture violations are detectable by deterministic tooling.
+  acceptance_criteria:
+  - id: AC-REQ-0010-001
+    statement: The checker detects controller or route-handler imports of concrete infrastructure
+      adapters.
+  - id: AC-REQ-0010-002
+    statement: The checker detects direct concrete adapter construction outside approved factories
+      or composition roots.
+  - id: AC-REQ-0010-003
+    statement: The checker can be added to the repository aggregate check command when backend code
+      exists.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - source-comment
+- id: REQ-0011
+  macro_requirement_id: MR-0002
+  capability_id: CAP-API-CONTRACTS
+  title: Backend API contracts as documentation source
+  statement: 'Backend/API contracts shall be treated as authoritative documentation sources for public
+    HTTP behavior.
+
+    '
+  rationale: 'Public API behavior must be documented by governed contracts so future implementation,
+    tests, admin documentation, and generated views share the same source of truth.
+
+    '
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: documentation
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0011-001
+    statement: A public backend API is introduced.
+  main_flow:
+  - id: FLOW-REQ-0011-001
+    step: 1
+    actor: Maintainer
+    action: Defines or updates the governed backend/API contract for each public route.
+    expected_result: HTTP behavior is documented in an authoritative contract.
+  - id: FLOW-REQ-0011-002
+    step: 2
+    actor: Maintainer
+    action: Links the contract to requirements, capabilities, and implementation evidence.
+    expected_result: The contract can be explored through the governed graph.
+  alternative_flows:
+  - id: ALT-REQ-0011-001
+    title: Route without contract
+    trigger: A public route is added without a governed backend/API contract.
+    steps:
+    - id: FLOW-REQ-0011-ALT-001
+      step: 1
+      actor: Contract checker
+      action: Reports the undocumented route.
+      expected_result: The implementation is rejected until the contract is added or updated.
+  postconditions:
+  - id: POST-REQ-0011-001
+    statement: Public backend HTTP behavior has an authoritative governed documentation source.
+  acceptance_criteria:
+  - id: AC-REQ-0011-001
+    statement: Each public backend route has a governed API contract before or together with implementation.
+  - id: AC-REQ-0011-002
+    statement: API contracts are linked to requirements and capabilities.
+  - id: AC-REQ-0011-003
+    statement: API contracts are available to future admin documentation and control-page views.
+  verification:
+    method: analysis
+    required_evidence:
+    - document
+    - yaml
+    - tool-output

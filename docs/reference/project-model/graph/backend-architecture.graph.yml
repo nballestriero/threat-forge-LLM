@@ -1,0 +1,145 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - graph-traceability:DEC-0029
+  satisfies:
+  - graph-traceability:REQ-0038
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular
+    project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/graph-part.schema.json
+  rationale: The graph part declares the canonical schema that validates modular graph part shape
+    through check-docs-format.mjs.
+part:
+  area_id: backend-architecture
+  title: Backend Architecture graph part
+  status: draft
+  description: Extracted graph relationships owned by the backend-architecture project-model area.
+nodes: []
+triples:
+- subject:
+    id: MR-0002
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: backend-architecture:REQ-0009
+    type: Requirement
+- subject:
+    id: MR-0002
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: backend-architecture:REQ-0010
+    type: Requirement
+- subject:
+    id: MR-0002
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: backend-architecture:REQ-0011
+    type: Requirement
+- subject:
+    id: backend-architecture:DEC-0009
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: MR-0002
+    type: MacroRequirement
+- subject:
+    id: backend-architecture:DEC-0009
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: backend-architecture:REQ-0009
+    type: Requirement
+- subject:
+    id: backend-architecture:DEC-0009
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: backend-architecture:REQ-0010
+    type: Requirement
+- subject:
+    id: backend-architecture:DEC-0009
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: backend-architecture:REQ-0011
+    type: Requirement
+- subject:
+    id: backend-architecture:REQ-0009
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-BACKEND-ARCHITECTURE
+    type: Capability
+- subject:
+    id: backend-architecture:REQ-0010
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-BACKEND-ARCHITECTURE
+    type: Capability
+- subject:
+    id: backend-architecture:REQ-0011
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-API-CONTRACTS
+    type: Capability
+- subject:
+    id: backend-architecture:REQ-0009
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/architecture/backend-composition-pattern.md
+    type: Document
+- subject:
+    id: backend-architecture:REQ-0010
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/architecture/backend-composition-pattern.md
+    type: Document
+- subject:
+    id: backend-architecture:REQ-0011
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/architecture/backend-composition-pattern.md
+    type: Document
+- subject:
+    id: backend-architecture:REQ-0009
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: backend-architecture:REQ-0010
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: backend-architecture:REQ-0011
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: backend-architecture:DEC-0009
+    type: Decision
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: backend-architecture:DEC-0009
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: docs/reference/architecture/backend-composition-pattern.md
+    type: Document

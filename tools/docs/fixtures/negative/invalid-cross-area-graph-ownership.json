@@ -1,0 +1,13 @@
+{
+  "id": "invalid-cross-area-graph-ownership",
+  "description": "A non-global graph part contains a canonical modular requirement owned by another area.",
+  "validator": "model",
+  "expected_error": "cross-area modular relationships must be placed in the global graph part",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/documentation-structure.graph.yml",
+      "replace": "id: documentation-structure:REQ-0001",
+      "with": "id: markdown-format:REQ-0003"
+    }
+  ]
+}

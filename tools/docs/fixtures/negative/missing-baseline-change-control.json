@@ -5,8 +5,8 @@
   "mutations": [
     {
       "path": "docs/reference/project-model/governance.registry.yml",
-      "replace": "change_control:\n  decided_by:\n    - \"DEC-0013\"\n  satisfies:\n    - \"REQ-0022\"",
-      "with": "change_control:\n  decided_by:\n    - \"DEC-0013\"\n  satisfies: []"
+      "replace": "change_control:\n  decided_by:\n  - graph-traceability:DEC-0013\n  satisfies:\n  - graph-traceability:REQ-0022",
+      "with": "change_control:\n  decided_by:\n  - graph-traceability:DEC-0013\n  satisfies: []"
     }
   ]
 }

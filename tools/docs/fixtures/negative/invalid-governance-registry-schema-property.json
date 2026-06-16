@@ -6,8 +6,8 @@
   "mutations": [
     {
       "path": "docs/reference/project-model/governance.registry.yml",
-      "replace": "    status: \"accepted\"\n\n  - id: \"CAP-GRAPH-IMPORT\"",
-      "with": "    status: \"accepted\"\n    unexpected_schema_field: \"invalid\"\n\n  - id: \"CAP-GRAPH-IMPORT\""
+      "replace": "  status: accepted\n- id: CAP-GRAPH-IMPORT",
+      "with": "  status: accepted\n  unexpected_schema_field: invalid\n- id: CAP-GRAPH-IMPORT"
     }
   ]
 }

@@ -1,0 +1,103 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - graph-traceability:DEC-0029
+  satisfies:
+  - graph-traceability:REQ-0038
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular
+    project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/graph-part.schema.json
+  rationale: The graph part declares the canonical schema that validates modular graph part shape
+    through check-docs-format.mjs.
+part:
+  area_id: project-handoff
+  title: Project Handoff graph part
+  status: draft
+  description: Extracted graph relationships owned by the project-handoff project-model area.
+nodes: []
+triples:
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: project-handoff:REQ-0020
+    type: Requirement
+- subject:
+    id: project-handoff:REQ-0020
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: project-handoff:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: project-handoff:REQ-0020
+    type: Requirement
+- subject:
+    id: project-handoff:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: GATE-PROJECT-HANDOFF-ZIP
+    type: Gate
+- subject:
+    id: project-handoff:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: TOOL-PROJECT-HANDOFF-ZIP-BUILDER
+    type: ValidationTool
+- subject:
+    id: project-handoff:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: CMD-CONTEXT-ZIP-HANDOFF
+    type: Command
+- subject:
+    id: project-handoff:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: CMD-CONTEXT-ZIP-HANDOFF-DRY-RUN
+    type: Command
+- subject:
+    id: project-handoff:REQ-0020
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: project-handoff:REQ-0020
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: project-handoff:REQ-0020
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/context/create-project-handoff-zip.mjs
+    type: SourceFile
+- subject:
+    id: project-handoff:REQ-0020
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: project-handoff:REQ-0020
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-HANDOFF-ZIP
+    type: Gate

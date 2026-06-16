@@ -15,8 +15,8 @@
  * - docs/reference/project-model/graph.matrix.yml
  *
  * Related requirements:
- * - REQ-0007
- * - REQ-0016
+ * - markdown-format:REQ-0007
+ * - governance-control:REQ-0016
  * - schema-validation:REQ-0001
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0003
@@ -27,11 +27,11 @@
  * - schema-validation:REQ-0009
  * - schema-validation:REQ-0010
  * - schema-validation:REQ-0011
- * - REQ-0034
- * - REQ-0035
- * - REQ-0041
- * - REQ-0042
- * - REQ-0043
+ * - requirements-governance:REQ-0034
+ * - requirements-governance:REQ-0035
+ * - schema-validation:REQ-0041
+ * - schema-validation:REQ-0042
+ * - requirements-governance:REQ-0043
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE

@@ -6,8 +6,8 @@
   "mutations": [
     {
       "path": "docs/reference/project-model/governance.registry.yml",
-      "replace": "schema_control:\n  schema: \"docs/reference/project-model/schemas/governance-registry.schema.json\"",
-      "with": "schema_control:\n  schema: \"docs/reference/project-model/schemas/unknown.schema.json\""
+      "replace": "schema_control:\n  schema: docs/reference/project-model/schemas/governance-registry.schema.json",
+      "with": "schema_control:\n  schema: docs/reference/project-model/schemas/unknown.schema.json"
     }
   ]
 }

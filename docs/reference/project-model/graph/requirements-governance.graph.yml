@@ -1,0 +1,761 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - graph-traceability:DEC-0029
+  satisfies:
+  - graph-traceability:REQ-0038
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular
+    project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/graph-part.schema.json
+  rationale: The graph part declares the canonical schema that validates modular graph part shape
+    through check-docs-format.mjs.
+part:
+  area_id: requirements-governance
+  title: Requirements Governance graph part
+  status: draft
+  description: Extracted graph relationships owned by the requirements-governance project-model area.
+nodes: []
+triples:
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0008
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0008
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+- subject:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-validator-negative-fixtures.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: requirements-governance:REQ-0008
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0025
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/project-model-modularization-analysis.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0026
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0026
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: project_model_areas
+    type: Taxonomy
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0027
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0027
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: project_model_areas
+    type: Taxonomy
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0035
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0028
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0028
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0030
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0030
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0031
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0031
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: docs/reference/project-model/schema-design/modular-project-model-loader-design.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0034
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0036
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/modular-project-model-loader-design.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0040
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: requirements-governance:DEC-0034
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0034
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PRE-COMMIT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0043
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/schema-validation.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/documentation-structure.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/markdown-format.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/requirements-governance.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/graph-traceability.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/source-traceability.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/governance-control.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/project-handoff.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0037
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/backend-architecture.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/global.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/schema-validation.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/markdown-format.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/requirements-governance.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/graph-traceability.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/source-traceability.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/governance-control.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/project-handoff.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0039
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/backend-architecture.decisions.yml
+    type: Document

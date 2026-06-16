@@ -1,0 +1,77 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: graph-traceability
+  title: Graph Traceability decisions part
+  status: draft
+  description: Extracted decisions owned by the graph-traceability project-model area.
+decisions:
+- id: DEC-0003
+  title: Canonical SPO relationship model
+  status: accepted
+  statement: 'All governed relationships must be represented as Subject-Predicate-Object triples.
+
+    '
+  rationale: 'SPO triples provide a stable relationship model for deterministic validation, coherence
+    checking, traceability, and future graph import.
+
+    '
+  consequences:
+  - The graph matrix is the canonical source of governed relationships.
+  - Grouped fields are allowed only as derived or validated views.
+  - Future code must validate predicates and subject/object type compatibility.
+- id: DEC-0013
+  title: Baseline artifacts require bidirectional traceability
+  status: accepted
+  statement: 'Governed baseline artifacts shall carry file-local change-control markers that identify
+    the decision and requirement governing their current baseline role, and graph.matrix.yml shall
+    contain matching relationships.
+
+    '
+  rationale: 'Source-file traceability alone does not protect registry, contract, schema, and graph
+    artifacts. A baseline file can otherwise be modified or added without an internal marker that
+    can be compared against the project graph.
+
+    '
+  consequences:
+  - Governed baseline artifacts declare decided_by and satisfies markers.
+  - The project model validator checks marker-to-graph and graph-to-marker consistency.
+  - The initial enforcement covers the project-model registry files and can be extended to contract/schema
+    roots.
+- id: DEC-0029
+  title: Graph modularization uses index, area parts, and cross-area ownership
+  status: accepted
+  statement: 'The graph matrix shall evolve toward a central graph index and area-owned graph part
+    files, with a dedicated cross-area ownership policy for relationships whose subject and object
+    belong to different project-model areas.
+
+    '
+  rationale: 'graph.matrix.yml is growing with nodes, SPO triples, schema traceability, command traceability,
+    and source traceability. Splitting requirements without splitting graph traceability would leave
+    the graph matrix as the next monolithic scaling bottleneck. A graph index and area parts preserve
+    one logical graph while keeping traceability ownership readable.
+
+    '
+  consequences:
+  - graph.matrix.yml remains the canonical graph loading entrypoint but should become an index in
+    the modular model.
+  - Future graph parts use registered project_model_areas values and canonical <area_id>:<local_id>
+    identities for modular records.
+  - A dedicated cross-area graph part or explicit cross-area role shall own relationships that connect
+    different project-model areas.
+  - check-docs-format.mjs remains the JSON Schema validation entrypoint for future graph index and
+    part schemas.
+  - check-project-model.mjs remains responsible for semantic aggregation, SPO compatibility, entity
+    existence, command checks, schema traceability, and source traceability.
+  - No existing graph nodes or triples are migrated by this decision; extraction is reserved for later
+    modular loader and area extraction micropasses.

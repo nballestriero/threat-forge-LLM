@@ -7,15 +7,24 @@
   "additionalProperties": false,
   "x-change_control": {
     "decided_by": [
-      "DEC-0032"
+      "schema-validation:DEC-0032"
     ],
     "satisfies": [
-      "REQ-0041"
+      "schema-validation:REQ-0041"
     ],
     "rationale": "This schema is introduced by the first schema-validation area extraction and is validated through the canonical format checker."
   },
   "x-applies_to": [
-    "docs/reference/project-model/graph/schema-validation.graph.yml"
+    "docs/reference/project-model/graph/cross-area.graph.yml",
+    "docs/reference/project-model/graph/schema-validation.graph.yml",
+    "docs/reference/project-model/graph/documentation-structure.graph.yml",
+    "docs/reference/project-model/graph/markdown-format.graph.yml",
+    "docs/reference/project-model/graph/requirements-governance.graph.yml",
+    "docs/reference/project-model/graph/graph-traceability.graph.yml",
+    "docs/reference/project-model/graph/source-traceability.graph.yml",
+    "docs/reference/project-model/graph/governance-control.graph.yml",
+    "docs/reference/project-model/graph/project-handoff.graph.yml",
+    "docs/reference/project-model/graph/backend-architecture.graph.yml"
   ],
   "required": [
     "schema_version",
@@ -70,11 +79,13 @@
     },
     "requirementId": {
       "type": "string",
-      "pattern": "^REQ-[0-9]{4}$"
+      "pattern": "^(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*:)?REQ-[0-9]{4}$",
+      "description": "Root or canonical modular requirement ID reference."
     },
     "decisionId": {
       "type": "string",
-      "pattern": "^DEC-[0-9]{4}$"
+      "pattern": "^(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*:)?DEC-[0-9]{4}$",
+      "description": "Root or canonical modular decision ID reference."
     },
     "nodeTypeId": {
       "type": "string",

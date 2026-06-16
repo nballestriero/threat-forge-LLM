@@ -6,8 +6,8 @@
   "mutations": [
     {
       "path": "docs/reference/project-model/governance.registry.yml",
-      "replace": "    - id: \"schema-validation\"",
-      "with": "    - id: \"schema_validation\""
+      "replace": "  - id: schema-validation",
+      "with": "  - id: schema_validation"
     }
   ]
 }

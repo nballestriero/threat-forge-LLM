@@ -1,0 +1,68 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: source-traceability
+  title: Source Traceability decisions part
+  status: draft
+  description: Extracted decisions owned by the source-traceability project-model area.
+decisions:
+- id: DEC-0004
+  title: Validation commands as graph nodes
+  status: accepted
+  statement: 'Commands used to run validation checks are represented as governed graph nodes and linked
+    through SPO triples.
+
+    '
+  rationale: 'Command tracking must remain compatible with the canonical SPO model and must not become
+    a parallel free-form verification field.
+
+    '
+  consequences:
+  - Validation commands are represented as Command nodes.
+  - Validation tools are represented as ValidationTool nodes.
+  - Gates, commands, tools, and config files are linked in graph.matrix.yml.
+- id: DEC-0005
+  title: Bidirectional implementation traceability
+  status: accepted
+  statement: 'Governed source files must be discovered by validation and implementation relationships
+    must be consistent in both directions between graph.matrix.yml and source-file comments.
+
+    '
+  rationale: 'Traceability degrades if a source file can enter the repository without any requirement
+    link, if the graph matrix claims a source file implements a requirement while the source file
+    does not declare that traceability, or if source comments claim implementation that the matrix
+    does not contain.
+
+    '
+  consequences:
+  - Governed source files under controlled source roots must have IMPLEMENTED_BY graph traceability.
+  - IMPLEMENTED_BY triples from requirements to source files must be mirrored by source-file comments.
+  - Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY
+    triples.
+  - The initial validation level is file-level traceability; code-symbol traceability may be added
+    later.
+- id: DEC-0006
+  title: Validation commands must match package scripts
+  status: accepted
+  statement: 'Command nodes that represent npm validation commands must be consistent with scripts
+    declared in package.json.
+
+    '
+  rationale: 'The graph matrix must not advertise commands that cannot be executed, and package.json
+    must not silently drift away from governed validation command nodes.
+
+    '
+  consequences:
+  - Command nodes with npm run commands must reference existing package.json scripts.
+  - Governed validation scripts in package.json must have matching Command nodes.
+  - The project model validator checks package.json command consistency.

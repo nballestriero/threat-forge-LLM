@@ -1,1015 +1,1195 @@
 schema_version: '1.0'
 change_control:
   decided_by:
-    - DEC-0032
+  - graph-traceability:DEC-0029
   satisfies:
-    - REQ-0041
-  rationale: This first extracted graph part proves that area-owned traceability triples can be 
-    aggregated with the root graph matrix before semantic validation.
+  - graph-traceability:REQ-0038
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular
+    project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part 
-    shape through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape
+    through check-docs-format.mjs.
 part:
   area_id: schema-validation
-  title: Schema validation graph part
+  title: Schema Validation graph part
   status: draft
-  description: Extracted graph triples owned by the schema-validation project-model area.
+  description: Extracted graph relationships owned by the schema-validation project-model area.
 nodes: []
 triples:
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0001"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:DEC-0001"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0022"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/governance.registry.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-structure.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-STRUCTURE"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0002"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schemas/governance-registry.schema.json"
-      type: "SchemaFile"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-structure.mjs"
-      type: "SourceFile"
-
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-project-model.mjs"
-      type: "SourceFile"
-
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-STRUCTURE"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0003"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0004"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0002"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schemas/governance-registry.schema.json"
-      type: "SchemaFile"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/governance.registry.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/graph.matrix.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-project-model.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-PROJECT-MODEL"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0005"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0001"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/requirements.registry.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-structure.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-STRUCTURE"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0006"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0005"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schemas/requirements-registry.schema.json"
-      type: "SchemaFile"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-structure.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-project-model.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-STRUCTURE"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-PROJECT-MODEL"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0007"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0006"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schemas/requirements-registry.schema.json"
-      type: "SchemaFile"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/requirements.registry.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
-      type: "Gate"
-
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0008"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/graph.matrix.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-structure.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-STRUCTURE"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0009"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0004"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0008"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
-      type: "SchemaFile"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-structure.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-project-model.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-STRUCTURE"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-PROJECT-MODEL"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0010"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "REQ-0021"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0009"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
-      type: "SchemaFile"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "SPECIFIED_BY"
-    object:
-      id: "docs/reference/project-model/graph.matrix.yml"
-      type: "Document"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
-      type: "Gate"
-
-  - subject:
-      id: "MR-0001"
-      type: "MacroRequirement"
-    predicate: "CONTAINS"
-    object:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "BELONGS_TO_CAPABILITY"
-    object:
-      id: "CAP-DOCUMENTATION-GOVERNANCE"
-      type: "Capability"
-
-  - subject:
-      id: "schema-validation:DEC-0011"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:DEC-0011"
-      type: "Decision"
-    predicate: "DECIDES"
-    object:
-      id: "TOOL-DOCS-FORMAT-CHECK"
-      type: "ValidationTool"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0003"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0007"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0010"
-      type: "Requirement"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "IMPLEMENTED_BY"
-    object:
-      id: "tools/docs/check-docs-format.mjs"
-      type: "SourceFile"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-FORMAT"
-      type: "Gate"
-
-  - subject:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-    predicate: "VERIFIED_BY"
-    object:
-      id: "GATE-DOCS-CHECK"
-      type: "Gate"
-
-
-  - subject:
-      id: "REQ-0034"
-      type: "Requirement"
-    predicate: "DEPENDS_ON"
-    object:
-      id: "schema-validation:REQ-0011"
-      type: "Requirement"
-
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0012
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/governance-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/requirements-registry.schema.json
+    type: Document
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/graph-matrix.schema.json
+    type: Document
+- subject:
+    id: schema-validation:REQ-0021
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: schema-validation:DEC-0032
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0041
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/governance-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/requirements-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/graph-matrix.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/requirements-part.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/decisions-part.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/graph-part.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/schema-validation.requirements.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/schema-validation.decisions.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph/schema-validation.graph.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PRE-COMMIT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0041
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0042
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0033
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0042
+    type: Requirement
+- subject:
+    id: schema-validation:DEC-0033
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0041
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PRE-COMMIT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0042
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0001
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0001
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0001
+    type: Requirement
+- subject:
+    id: schema-validation:DEC-0001
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: docs/reference/project-model/schema-design/governance-registry-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/governance-registry-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0001
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0002
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0002
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0002
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0001
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/governance-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/governance-registry-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0002
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0003
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0003
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0003
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0003
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0003
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0003
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0002
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0003
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0003
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0003
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0004
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0004
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0004
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0002
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0003
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/governance-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0004
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0005
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0005
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0005
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0001
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0005
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0006
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0006
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0006
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0004
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0005
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/requirements-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0006
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0007
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0007
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0007
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0006
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/requirements-registry.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements.registry.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0007
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0008
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0008
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0008
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0007
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0008
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0009
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0009
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0009
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0004
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0008
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/graph-matrix.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md
+    type: Document
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-structure.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-project-model.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0009
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0010
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0010
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0010
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0021
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0009
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schemas/graph-matrix.schema.json
+    type: SchemaFile
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0010
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-VALIDATOR-NEGATIVE-FIXTURES
+    type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: schema-validation:REQ-0011
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-DOCUMENTATION-GOVERNANCE
+    type: Capability
+- subject:
+    id: schema-validation:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: schema-validation:REQ-0011
+    type: Requirement
+- subject:
+    id: schema-validation:DEC-0011
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: TOOL-DOCS-FORMAT-CHECK
+    type: ValidationTool
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0003
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0007
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: schema-validation:REQ-0010
+    type: Requirement
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/docs/check-docs-format.mjs
+    type: SourceFile
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+- subject:
+    id: schema-validation:REQ-0011
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate

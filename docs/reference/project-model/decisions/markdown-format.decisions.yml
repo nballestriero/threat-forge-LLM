@@ -1,0 +1,33 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: markdown-format
+  title: Markdown Format decisions part
+  status: draft
+  description: Extracted decisions owned by the markdown-format project-model area.
+decisions:
+- id: DEC-0007
+  title: Governed file format validation
+  status: accepted
+  statement: 'Governed YAML and Markdown files must be validated deterministically against baseline
+    format rules and registered Markdown body profiles.
+
+    '
+  rationale: 'Folder structure and traceability are not sufficient if file bodies remain uncontrolled.
+    File-format validation keeps governed documents predictable and parseable.
+
+    '
+  consequences:
+  - Project model YAML files must satisfy baseline top-level format rules.
+  - Governed Markdown files must satisfy registered body profiles.
+  - docs:check runs the file format validator.

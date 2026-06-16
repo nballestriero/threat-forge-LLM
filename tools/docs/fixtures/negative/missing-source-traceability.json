@@ -2,12 +2,12 @@
   "id": "missing-source-traceability",
   "description": "A source file no longer declares the requirement that the matrix says it implements.",
   "validator": "model",
-  "expected_error": "Matrix says REQ-0007 IMPLEMENTED_BY tools/docs/check-docs-format.mjs",
+  "expected_error": "Matrix says markdown-format:REQ-0007 IMPLEMENTED_BY tools/docs/check-docs-format.mjs",
   "mutations": [
     {
       "path": "tools/docs/check-docs-format.mjs",
-      "replace": " * - REQ-0007",
-      "with": " * - REQ-9999"
+      "replace": " * - markdown-format:REQ-0007",
+      "with": " * - markdown-format:REQ-9999"
     }
   ]
 }

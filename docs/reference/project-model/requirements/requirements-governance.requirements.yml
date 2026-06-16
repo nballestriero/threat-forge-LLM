@@ -1,0 +1,719 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0028
+  satisfies:
+  - requirements-governance:REQ-0037
+  rationale: This requirements part is loaded through the governed requirements index as part of the
+    complete modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/requirements-part.schema.json
+  rationale: The requirements part declares the canonical schema that validates modular requirements
+    part shape through check-docs-format.mjs.
+part:
+  area_id: requirements-governance
+  title: Requirements Governance requirements part
+  status: draft
+  description: Extracted requirements owned by the requirements-governance project-model area.
+requirements:
+- id: REQ-0008
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Validator negative fixtures
+  statement: 'The project shall provide controlled negative fixtures that verify deterministic validators
+    fail for intentionally invalid governed states.
+
+    '
+  rationale: 'Negative fixtures prove that validators catch the classes of errors they claim to enforce
+    and reduce the risk of false-positive green gates.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: tooling
+  preconditions:
+  - id: PRE-REQ-0008-001
+    statement: The repository provides deterministic documentation governance validators.
+  - id: PRE-REQ-0008-002
+    statement: The repository can create temporary copies of governed files for fixture execution.
+  main_flow:
+  - id: FLOW-REQ-0008-001
+    step: 1
+    actor: Validation tool
+    action: Loads controlled negative fixture specifications.
+    expected_result: Each fixture declares a mutation, target validator, and expected error.
+  - id: FLOW-REQ-0008-002
+    step: 2
+    actor: Validation tool
+    action: Applies each fixture mutation to a temporary repository copy.
+    expected_result: The real working tree remains unchanged.
+  - id: FLOW-REQ-0008-003
+    step: 3
+    actor: Validation tool
+    action: Runs the target validator for each negative fixture.
+    expected_result: The target validator fails with the expected error.
+  alternative_flows:
+  - id: ALT-REQ-0008-001
+    title: Invalid fixture is accepted
+    trigger: A target validator exits successfully for an intentionally invalid fixture.
+    steps:
+    - id: FLOW-REQ-0008-ALT-001
+      step: 1
+      actor: Validation tool
+      action: Reports that the negative fixture was accepted unexpectedly.
+      expected_result: The negative fixture runner fails.
+  - id: ALT-REQ-0008-002
+    title: Expected diagnostic is missing
+    trigger: A target validator fails but does not report the expected error.
+    steps:
+    - id: FLOW-REQ-0008-ALT-002
+      step: 1
+      actor: Validation tool
+      action: Reports the missing expected diagnostic.
+      expected_result: The negative fixture runner fails.
+  postconditions:
+  - id: POST-REQ-0008-001
+    statement: Validator failure behavior is covered by controlled negative fixtures.
+  acceptance_criteria:
+  - id: AC-REQ-0008-001
+    statement: At least one negative fixture covers duplicate governed IDs.
+  - id: AC-REQ-0008-002
+    statement: At least one negative fixture covers invalid SPO predicates.
+  - id: AC-REQ-0008-003
+    statement: At least one negative fixture covers invalid package command traceability.
+  - id: AC-REQ-0008-004
+    statement: At least one negative fixture covers missing source-file traceability.
+  - id: AC-REQ-0008-005
+    statement: At least one negative fixture covers invalid Markdown body profile format.
+  - id: AC-REQ-0008-006
+    statement: At least one negative fixture covers invalid YAML project-model format.
+  - id: AC-REQ-0008-007
+    statement: At least one negative fixture covers an unregistered governed source file.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - yaml
+- id: REQ-0034
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Project model modularization analysis
+  statement: 'The project shall define the modularization model for requirements, graph traceability,
+    and decisions before splitting monolithic project-model registries into area-owned parts.
+
+    '
+  rationale: 'requirements.registry.yml, graph.matrix.yml, and governance.registry.yml are growing
+    together. Splitting only one artifact would move the scaling problem elsewhere and could break
+    deterministic traceability. The project needs a governed analysis that defines composite identifiers,
+    project-model areas, index and part boundaries, decision ownership, cross-area graph relationships,
+    and validator responsibilities before any migration.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: documentation
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0034-001
+    statement: The governance, requirements, and graph matrix registries are schema-controlled baseline
+      artifacts.
+  - id: PRE-REQ-0034-002
+    statement: schema-validation:REQ-0011 establishes tools/docs/check-docs-format.mjs as the single
+      JSON Schema validation entrypoint for governed artifacts.
+  - id: PRE-REQ-0034-003
+    statement: The project is before first release, so coordinated clean breaking changes are allowed
+      for project-model refactoring.
+  main_flow:
+  - id: FLOW-REQ-0034-001
+    step: 1
+    actor: Maintainer
+    action: Defines the canonical composite identifier form <area_id>:<local_id>.
+    expected_result: Future modular registries can restart local sequences inside governed project-model
+      areas.
+  - id: FLOW-REQ-0034-002
+    step: 2
+    actor: Maintainer
+    action: Defines requirements, graph, and decision index/part boundaries.
+    expected_result: The future project model can split growing files without losing one aggregated
+      logical model.
+  - id: FLOW-REQ-0034-003
+    step: 3
+    actor: Maintainer
+    action: Defines that project_model_areas must be a controlled taxonomy with deterministic validation
+      and bidirectional traceability before broad extraction.
+    expected_result: Modularization does not rely on free-form area identifiers.
+  - id: FLOW-REQ-0034-004
+    step: 4
+    actor: Maintainer
+    action: Defines clean migration policy for the pre-release project model.
+    expected_result: Future migration steps prefer coordinated breaking changes over long-term compatibility
+      with the monolithic layout.
+  alternative_flows:
+  - id: ALT-REQ-0034-001
+    title: A taxonomy is introduced during modularization
+    trigger: A modular file or index introduces a new controlled taxonomy such as project_model_areas.
+    steps:
+    - id: FLOW-REQ-0034-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Introduces a dedicated taxonomy contract and enforcement step with graph and tool traceability
+        before broad use.
+      expected_result: New taxonomy values are controlled by deterministic validation rather than
+        convention.
+  postconditions:
+  - id: POST-REQ-0034-001
+    statement: The modularization analysis document exists under docs/reference/project-model/schema-design.
+  - id: POST-REQ-0034-002
+    statement: The workplan records the taxonomy contract and enforcement steps before requirements,
+      graph, or decision part extraction.
+  acceptance_criteria:
+  - id: AC-REQ-0034-001
+    statement: docs/reference/project-model/schema-design/project-model-modularization-analysis.md
+      exists.
+  - id: AC-REQ-0034-002
+    statement: The analysis defines <area_id>:<local_id> as the future canonical composite identifier
+      model.
+  - id: AC-REQ-0034-003
+    statement: The analysis covers requirements parts, graph parts, decision parts, cross-area graph
+      ownership, and central indexes.
+  - id: AC-REQ-0034-004
+    statement: The analysis states that project_model_areas must be a governed taxonomy with deterministic
+      validation, bidirectional implementation traceability, and negative fixture coverage before
+      broad use.
+  - id: AC-REQ-0034-005
+    statement: The analysis states that the migration may prefer clean coordinated breaking changes
+      over preserving compatibility with the monolithic layout.
+  verification:
+    method: inspection
+    required_evidence:
+    - document
+    - registry-entry
+    - yaml
+    - command
+    - tool-output
+- id: REQ-0035
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Project model areas taxonomy contract
+  statement: 'The project shall introduce project_model_areas as an explicit governed taxonomy before
+    requirements, graph traceability, or decisions are split into area-owned modular parts.
+
+    '
+  rationale: 'Modular project-model files need a controlled ownership boundary. Deriving area identifiers
+    automatically from capability_id would couple physical file modularization to product capability
+    taxonomy changes. A dedicated taxonomy lets the project align areas with capabilities where useful
+    while preserving a stable loading and traceability boundary for the project model.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: data
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0035-001
+    statement: REQ-0034 defines project-model modularization by governed area and canonical <area_id>:<local_id>
+      identifiers.
+  - id: PRE-REQ-0035-002
+    statement: DEC-0025 chooses an explicit project_model_areas taxonomy instead of deriving area_id
+      from capability_id.
+  main_flow:
+  - id: FLOW-REQ-0035-001
+    step: 1
+    actor: Maintainer
+    action: Declares taxonomies.project_model_areas in the governance registry.
+    expected_result: The future area_id value set has a governed source of truth.
+  - id: FLOW-REQ-0035-002
+    step: 2
+    actor: Maintainer
+    action: Provides description, rationale, and validation impact for every project model area value.
+    expected_result: Area values are reviewable and do not become unexplained free-form labels.
+  - id: FLOW-REQ-0035-003
+    step: 3
+    actor: Maintainer
+    action: Registers the taxonomy in the graph model with requirement, decision, document, and validation
+      traceability.
+    expected_result: The taxonomy contract has explicit bidirectional governance traceability.
+  - id: FLOW-REQ-0035-004
+    step: 4
+    actor: Maintainer
+    action: Separates the taxonomy contract step from the later enforcement step.
+    expected_result: M000.024C can introduce the controlled contract without pretending modular area_id
+      usage is already enforced.
+  alternative_flows:
+  - id: ALT-REQ-0035-001
+    title: A new project model area is needed
+    trigger: A future modular part needs an area_id not present in project_model_areas.
+    steps:
+    - id: FLOW-REQ-0035-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Adds the area through the governed taxonomy with description, rationale, validation
+        impact, requirement/decision traceability, and tool coverage.
+      expected_result: New area values are introduced deliberately and are visible to deterministic
+        validation.
+  postconditions:
+  - id: POST-REQ-0035-001
+    statement: taxonomies.project_model_areas exists in governance.registry.yml.
+  - id: POST-REQ-0035-002
+    statement: docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md
+      documents the taxonomy contract and boundaries.
+  - id: POST-REQ-0035-003
+    statement: M000.024D remains responsible for deterministic area_id enforcement and negative fixture
+      coverage.
+  acceptance_criteria:
+  - id: AC-REQ-0035-001
+    statement: governance.registry.yml declares taxonomies.project_model_areas with explicit value
+      descriptions, rationale, and validation impact.
+  - id: AC-REQ-0035-002
+    statement: The graph model contains a Taxonomy node for project_model_areas.
+  - id: AC-REQ-0035-003
+    statement: The graph model traces DEC-0026 to REQ-0035 and to the project_model_areas taxonomy.
+  - id: AC-REQ-0035-004
+    statement: The taxonomy contract document states that area_id is not derived automatically from
+      capability_id.
+  - id: AC-REQ-0035-005
+    statement: The workplan keeps M000.024D as the separate enforcement and negative-fixture step.
+  verification:
+    method: inspection
+    required_evidence:
+    - document
+    - registry-entry
+    - yaml
+    - command
+    - tool-output
+- id: REQ-0036
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Project model areas taxonomy enforcement
+  statement: 'The project model validator shall enforce the governed project_model_areas taxonomy
+    before modular requirements, graph, or decision parts rely broadly on area_id values.
+
+    '
+  rationale: 'M000.024C introduced the taxonomy contract, but a contract alone is not enough. The
+    future modular project model will use area_id values as part of canonical identifiers and file
+    ownership boundaries. The semantic validator must therefore reject invalid, duplicate, incomplete,
+    or ungoverned project_model_areas entries before modular loaders and part files are introduced.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0036-001
+    statement: REQ-0035 introduces project_model_areas as a governed taxonomy contract.
+  - id: PRE-REQ-0036-002
+    statement: DEC-0026 separates project_model_areas from capability_id derivation.
+  main_flow:
+  - id: FLOW-REQ-0036-001
+    step: 1
+    actor: Project model validator
+    action: Loads taxonomies.project_model_areas from governance.registry.yml.
+    expected_result: The semantic validator can use the governed taxonomy as the source of truth for
+      future area_id values.
+  - id: FLOW-REQ-0036-002
+    step: 2
+    actor: Project model validator
+    action: Rejects missing, malformed, duplicate, or incomplete project_model_areas entries.
+    expected_result: The area taxonomy cannot silently degrade into free-form labels.
+  - id: FLOW-REQ-0036-003
+    step: 3
+    actor: Negative fixture runner
+    action: Exercises an invalid project_model_areas value against the project model validator.
+    expected_result: The validator rejects the invalid fixture with a deterministic diagnostic.
+  alternative_flows:
+  - id: ALT-REQ-0036-001
+    title: Future modular part uses area_id
+    trigger: Requirements, graph, or decision part files introduce area_id fields.
+    steps:
+    - id: FLOW-REQ-0036-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Validates that the referenced area_id exists in project_model_areas after loading the
+        index and part files.
+      expected_result: Future modular parts use the same taxonomy enforcement path instead of local
+        ad hoc checks.
+  postconditions:
+  - id: POST-REQ-0036-001
+    statement: tools/docs/check-project-model.mjs enforces the semantic project_model_areas taxonomy
+      contract.
+  - id: POST-REQ-0036-002
+    statement: A controlled negative fixture proves invalid project_model_areas values are rejected.
+  acceptance_criteria:
+  - id: AC-REQ-0036-001
+    statement: check-project-model.mjs rejects project_model_areas values with invalid local ID shape.
+  - id: AC-REQ-0036-002
+    statement: check-project-model.mjs rejects project_model_areas entries missing description, rationale,
+      or validation impact.
+  - id: AC-REQ-0036-003
+    statement: check-project-model.mjs rejects duplicate project_model_areas values.
+  - id: AC-REQ-0036-004
+    statement: tools/docs/fixtures/negative/invalid-project-model-area.json exercises the taxonomy
+      enforcement path.
+  - id: AC-REQ-0036-005
+    statement: The project model graph traces REQ-0036 to the project_model_areas taxonomy, the semantic
+      validator, the project-model gate, and the negative-fixture gate.
+  verification:
+    method: test
+    required_evidence:
+    - registry-entry
+    - yaml
+    - source-comment
+    - command
+    - tool-output
+- id: REQ-0037
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Requirements index and part schema contracts
+  statement: 'The project shall define the future requirements index and requirements part schema
+    contract before splitting the monolithic requirements registry into area-owned part files.
+
+    '
+  rationale: 'Requirements modularization changes identifier semantics, loading boundaries, parent
+    macro resolution, graph references, and schema validation. Defining the contract first prevents
+    an ad hoc split that duplicates validation logic or loses traceability.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: documentation
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0037-001
+    statement: REQ-0034 defines the overall project model modularization model.
+  - id: PRE-REQ-0037-002
+    statement: REQ-0036 enforces project_model_areas before modular parts rely broadly on area_id
+      values.
+  main_flow:
+  - id: FLOW-REQ-0037-001
+    step: 1
+    actor: Project model maintainer
+    action: Defines requirements.registry.yml as the future requirements index entrypoint.
+    expected_result: The central requirements file remains the canonical loading boundary.
+  - id: FLOW-REQ-0037-002
+    step: 2
+    actor: Project model maintainer
+    action: Defines area-owned requirements part files under docs/reference/project-model/requirements.
+    expected_result: Future requirements can be split by registered project_model_areas values.
+  - id: FLOW-REQ-0037-003
+    step: 3
+    actor: Project model maintainer
+    action: Defines the validation responsibility split for future requirements index and part schemas.
+    expected_result: Schema validation remains in check-docs-format.mjs and semantic aggregation remains
+      in check-project-model.mjs.
+  alternative_flows:
+  - id: ALT-REQ-0037-001
+    title: Cross-area parent reference is needed
+    trigger: A future atomic requirement belongs to one area but depends on a macro requirement owned
+      by another area.
+    steps:
+    - id: FLOW-REQ-0037-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Requires the parent reference to use canonical <area_id>:<local_id> identity.
+      expected_result: Cross-area parent references remain explicit and deterministic.
+  postconditions:
+  - id: POST-REQ-0037-001
+    statement: docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md
+      defines the future requirements index and part contract.
+  - id: POST-REQ-0037-002
+    statement: No existing requirements are migrated before graph and decisions contracts are also
+      defined.
+  acceptance_criteria:
+  - id: AC-REQ-0037-001
+    statement: The contract document defines the future requirements index path and requirements part
+      path pattern.
+  - id: AC-REQ-0037-002
+    statement: The contract document states that canonical modular requirement identity uses <area_id>:<local_id>.
+  - id: AC-REQ-0037-003
+    statement: The contract document preserves check-docs-format.mjs as the schema validation entrypoint.
+  - id: AC-REQ-0037-004
+    statement: The contract document preserves check-project-model.mjs as the semantic aggregation
+      and cross-file validation tool.
+  - id: AC-REQ-0037-005
+    statement: The workplan keeps graph and decisions contracts before modular loader design and first
+      area extraction.
+  verification:
+    method: inspection
+    required_evidence:
+    - document
+    - yaml
+    - command
+    - tool-output
+- id: REQ-0039
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Decisions index and part schema contracts
+  statement: 'The project shall define the future decisions index and decision part schema contract
+    before splitting decisions out of the monolithic governance registry into area-owned decision
+    part files.
+
+    '
+  rationale: 'Decisions explain why project-model requirements, graph rules, schemas, and validators
+    exist. If requirements and graph traceability are modularized but decisions remain monolithic,
+    the governance registry remains a scaling bottleneck and decision ownership becomes ambiguous.
+    Defining the decisions contract first prevents an ad hoc split that loses traceability or duplicates
+    validation logic.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: documentation
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0039-001
+    statement: REQ-0034 defines the overall project model modularization model.
+  - id: PRE-REQ-0039-002
+    statement: REQ-0036 enforces project_model_areas before modular decisions parts rely broadly on
+      area_id values.
+  - id: PRE-REQ-0039-003
+    statement: REQ-0037 and REQ-0038 define requirements and graph modularization contracts so decision
+      references can stay aligned with future modular identities.
+  main_flow:
+  - id: FLOW-REQ-0039-001
+    step: 1
+    actor: Project model maintainer
+    action: Defines governance.registry.yml as the future governance index and shared vocabulary entrypoint.
+    expected_result: The central governance file remains the canonical loading boundary for governance
+      vocabularies and decision part declarations.
+  - id: FLOW-REQ-0039-002
+    step: 2
+    actor: Project model maintainer
+    action: Defines global and area-owned decisions part files under docs/reference/project-model/decisions.
+    expected_result: Future decisions can be split by registered project_model_areas values while
+      preserving a governed global decision boundary.
+  - id: FLOW-REQ-0039-003
+    step: 3
+    actor: Project model maintainer
+    action: Defines the validation responsibility split for future governance index and decisions
+      part schemas.
+    expected_result: Schema validation remains in check-docs-format.mjs and semantic aggregation remains
+      in check-project-model.mjs.
+  alternative_flows:
+  - id: ALT-REQ-0039-001
+    title: Decision applies to multiple project-model areas
+    trigger: A future decision governs more than one project-model area or establishes repository-wide
+      project-model policy.
+    steps:
+    - id: FLOW-REQ-0039-ALT-001
+      step: 1
+      actor: Project model maintainer
+      action: Assigns the decision to the governed global decisions part and references affected areas
+        through explicit graph relationships when needed.
+      expected_result: Cross-cutting decisions remain explicit without being duplicated across area
+        decision parts.
+  postconditions:
+  - id: POST-REQ-0039-001
+    statement: docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md
+      defines the future decisions index and part contract.
+  - id: POST-REQ-0039-002
+    statement: No existing decisions are migrated before the modular loader design is defined.
+  acceptance_criteria:
+  - id: AC-REQ-0039-001
+    statement: The contract document defines governance.registry.yml as the future governance index
+      and shared vocabulary entrypoint.
+  - id: AC-REQ-0039-002
+    statement: The contract document defines the future decisions part path pattern and global decisions
+      part policy.
+  - id: AC-REQ-0039-003
+    statement: The contract document states that canonical modular decision identity uses <area_id>:<local_id>.
+  - id: AC-REQ-0039-004
+    statement: The contract document preserves check-docs-format.mjs as the schema validation entrypoint.
+  - id: AC-REQ-0039-005
+    statement: The contract document preserves check-project-model.mjs as the semantic aggregation
+      and cross-file validation tool.
+  - id: AC-REQ-0039-006
+    statement: The workplan keeps modular loader design before decision extraction.
+  verification:
+    method: inspection
+    required_evidence:
+    - document
+    - yaml
+    - command
+    - tool-output
+- id: REQ-0040
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Modular project model loader design
+  statement: 'The project shall define the modular project-model loader and aggregation design before
+    implementing index-and-part loading or extracting the first project-model area.
+
+    '
+  rationale: 'Requirements, graph traceability, and decisions have separate modularization contracts.
+    Without a shared loader design, each future extraction could invent its own discovery, canonical
+    ID, and aggregation rules. A loader design establishes one logical project model assembled from
+    governed indexes and declared parts while preserving the existing validation responsibility split.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: documentation
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0040-001
+    statement: REQ-0034 defines the overall project model modularization direction.
+  - id: PRE-REQ-0040-002
+    statement: REQ-0036 enforces the project_model_areas taxonomy before modular parts rely broadly
+      on area_id values.
+  - id: PRE-REQ-0040-003
+    statement: REQ-0037, REQ-0038, and REQ-0039 define the requirements, graph, and decisions modularization
+      contracts.
+  main_flow:
+  - id: FLOW-REQ-0040-001
+    step: 1
+    actor: Project model maintainer
+    action: Defines central index files as the only stable loading boundary for modular requirements,
+      graph, and decisions parts.
+    expected_result: Future validators load declared parts through governed indexes instead of scanning
+      directories ad hoc.
+  - id: FLOW-REQ-0040-002
+    step: 2
+    actor: Project model maintainer
+    action: Defines canonical <area_id>:<local_id> derivation for modular requirements, macro requirements,
+      graph entities, and decisions.
+    expected_result: Local identifiers may restart per area only after the loader constructs globally
+      resolvable canonical identifiers.
+  - id: FLOW-REQ-0040-003
+    step: 3
+    actor: Project model maintainer
+    action: Defines how check-project-model.mjs will eventually aggregate index and part files into
+      one logical project model before semantic validation.
+    expected_result: Semantic checks remain centralized and operate on the aggregated model rather
+      than on isolated part files.
+  alternative_flows:
+  - id: ALT-REQ-0040-001
+    title: Temporary migration state needed to keep gates green
+    trigger: A future extraction cannot update every schema, part, graph reference, and validator
+      in one atomic edit without a short transitional state.
+    steps:
+    - id: FLOW-REQ-0040-ALT-001
+      step: 1
+      actor: Project model maintainer
+      action: Allows temporary dual handling only inside the controlled migration micropass and records
+        the cleanup boundary.
+      expected_result: The project avoids permanent compatibility with the monolithic layout while
+        preserving deterministic gates during the migration step.
+  postconditions:
+  - id: POST-REQ-0040-001
+    statement: docs/reference/project-model/schema-design/modular-project-model-loader-design.md defines
+      the future modular loader and aggregation model.
+  - id: POST-REQ-0040-002
+    statement: No requirements, graph triples, or decisions are migrated before the loader implementation
+      and first extraction micropasses.
+  acceptance_criteria:
+  - id: AC-REQ-0040-001
+    statement: The design document defines central index files as the future loading boundary for
+      modular project-model parts.
+  - id: AC-REQ-0040-002
+    statement: The design document defines one logical aggregated project model built from requirements,
+      graph, governance, and decision parts.
+  - id: AC-REQ-0040-003
+    statement: The design document defines canonical <area_id>:<local_id> derivation and duplicate
+      detection responsibilities.
+  - id: AC-REQ-0040-004
+    statement: The design document preserves check-docs-format.mjs as the single JSON Schema validation
+      entrypoint.
+  - id: AC-REQ-0040-005
+    statement: The design document preserves check-project-model.mjs as the semantic aggregation and
+      cross-file validation tool.
+  - id: AC-REQ-0040-006
+    statement: The workplan keeps first area extraction after the loader design step.
+  verification:
+    method: inspection
+    required_evidence:
+    - document
+    - yaml
+    - command
+    - tool-output
+- id: REQ-0043
+  macro_requirement_id: MR-0001
+  capability_id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Remaining project model area extraction plan
+  statement: The project shall record a post-pilot plan for extracting the remaining project-model
+    areas, including extraction order, required controls, and explicit boundaries for areas that should
+    not move yet.
+  rationale: After the schema-validation pilot and canonical ID review, continuing with another ad
+    hoc extraction would risk moving records before ownership and reference policies are explicit.
+    A documented plan keeps future micropasses small, ordered, and checkable.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: documentation
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0043-001
+    statement: The schema-validation area has already been extracted into modular parts.
+  - id: PRE-REQ-0043-002
+    statement: The schema-validation canonical ID and control review has identified present controls
+      and future control gaps.
+  main_flow:
+  - id: FLOW-REQ-0043-001
+    step: 1
+    actor: Maintainer
+    action: Reviews the schema-validation pilot extraction result.
+    expected_result: The plan is grounded in the controls proven by the first extracted area.
+  - id: FLOW-REQ-0043-002
+    step: 2
+    actor: Maintainer
+    action: Identifies blocking and advisory controls for the remaining extraction work.
+    expected_result: Cross-area graph ownership and same-area local-reference policy are separated
+      from non-blocking reporting improvements.
+  - id: FLOW-REQ-0043-003
+    step: 3
+    actor: Maintainer
+    action: Orders the remaining project-model areas by risk and dependency.
+    expected_result: Low-risk documentation areas move before requirements, graph, source, governance-control,
+      and project-handoff areas.
+  - id: FLOW-REQ-0043-004
+    step: 4
+    actor: Maintainer
+    action: Updates the workplan with the next control-first micropasses.
+    expected_result: Future work proceeds through small gated steps rather than one broad migration.
+  alternative_flows:
+  - id: ALT-REQ-0043-001
+    title: A planned extraction requires a missing control
+    trigger: A future extraction depends on graph ownership or reference semantics that are still
+      only documented as convention.
+    steps:
+    - id: FLOW-REQ-0043-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Adds a dedicated design or validator micropasso before the extraction.
+      expected_result: The extraction does not proceed until the required control is explicit and
+        gateable.
+  postconditions:
+  - id: POST-REQ-0043-001
+    statement: The remaining area extraction plan exists under docs/reference/project-model/schema-design.
+  - id: POST-REQ-0043-002
+    statement: The workplan records the next control-first modularization micropasses.
+  - id: POST-REQ-0043-003
+    statement: Backend-architecture extraction remains deferred until product-boundary work.
+  acceptance_criteria:
+  - id: AC-REQ-0043-001
+    statement: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md exists
+      and follows the BODY-REFERENCE profile.
+  - id: AC-REQ-0043-002
+    statement: The plan records pilot controls that are already present and future controls that should
+      be added before broad extraction.
+  - id: AC-REQ-0043-003
+    statement: The plan defines an ordered sequence for remaining project-model area extraction.
+  - id: AC-REQ-0043-004
+    statement: The workplan records M000.024L, M000.024M, M000.024N, and M000.024O as the next modularization
+      micropasses.
+  verification:
+    method: test
+    required_evidence:
+    - document
+    - yaml
+    - command
+    - source-comment
+    - tool-output

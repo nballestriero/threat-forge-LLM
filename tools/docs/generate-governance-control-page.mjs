@@ -15,8 +15,8 @@
  * - docs/explanation/governance/governance-control-page.md
  *
  * Related requirements:
- * - REQ-0013
- * - REQ-0018
+ * - governance-control:REQ-0013
+ * - governance-control:REQ-0018
  *
  * Supports capabilities:
  * - CAP-GOVERNANCE-CONTROL

@@ -1,1098 +1,600 @@
-schema_version: "1.0"
-
+schema_version: '1.0'
 change_control:
   decided_by:
-    - "DEC-0013"
+  - graph-traceability:DEC-0013
   satisfies:
-    - "REQ-0022"
-  rationale: >
-    This governed baseline artifact declares its internal traceability marker so
-    deterministic validation can compare file-local change-control metadata with
-    graph.matrix.yml relationships.
+  - graph-traceability:REQ-0022
+  rationale: 'This governed baseline artifact declares its internal traceability marker so deterministic
+    validation can compare file-local change-control metadata with graph.matrix.yml relationships.
 
+    '
 schema_control:
-  schema: "docs/reference/project-model/schemas/governance-registry.schema.json"
-  rationale: >
-    The governance registry declares the canonical schema that validates its
-    structural shape so schema-to-artifact application can be checked
-    bidirectionally against graph.matrix.yml.
+  schema: docs/reference/project-model/schemas/governance-registry.schema.json
+  rationale: 'The governance registry declares the canonical schema that validates its structural
+    shape so schema-to-artifact application can be checked bidirectionally against graph.matrix.yml.
 
+    '
 registry:
-  id: "project-governance-registry"
-  title: "Project governance registry"
-  status: "draft"
-  description: >
-    Compact controlled registry for project capabilities, decisions,
-    document types, body profiles, taxonomies, graph node types, and graph
-    predicates.
+  id: project-governance-registry
+  title: Project governance registry
+  status: draft
+  description: 'Compact controlled registry for project capabilities, decisions, document types, body
+    profiles, taxonomies, graph node types, and graph predicates.
 
+    '
 decision_parts:
-  - area_id: schema-validation
-    path: docs/reference/project-model/decisions/schema-validation.decisions.yml
-    description: First extracted decisions part for governed schema validation decisions.
+- area_id: global
+  path: docs/reference/project-model/decisions/global.decisions.yml
+  description: Area-owned decisions part for global.
+- area_id: schema-validation
+  path: docs/reference/project-model/decisions/schema-validation.decisions.yml
+  description: Area-owned decisions part for schema-validation.
+- area_id: markdown-format
+  path: docs/reference/project-model/decisions/markdown-format.decisions.yml
+  description: Area-owned decisions part for markdown-format.
+- area_id: requirements-governance
+  path: docs/reference/project-model/decisions/requirements-governance.decisions.yml
+  description: Area-owned decisions part for requirements-governance.
+- area_id: graph-traceability
+  path: docs/reference/project-model/decisions/graph-traceability.decisions.yml
+  description: Area-owned decisions part for graph-traceability.
+- area_id: source-traceability
+  path: docs/reference/project-model/decisions/source-traceability.decisions.yml
+  description: Area-owned decisions part for source-traceability.
+- area_id: governance-control
+  path: docs/reference/project-model/decisions/governance-control.decisions.yml
+  description: Area-owned decisions part for governance-control.
+- area_id: project-handoff
+  path: docs/reference/project-model/decisions/project-handoff.decisions.yml
+  description: Area-owned decisions part for project-handoff.
+- area_id: backend-architecture
+  path: docs/reference/project-model/decisions/backend-architecture.decisions.yml
+  description: Area-owned decisions part for backend-architecture.
 taxonomies:
   capability_status:
-    - id: "proposed"
-      description: "Capability proposed but not yet accepted as binding."
-    - id: "accepted"
-      description: "Capability accepted as part of the governed product model."
-    - id: "implemented"
-      description: "Capability has implementation and verification traceability."
-    - id: "deprecated"
-      description: "Capability is no longer recommended for new work."
-    - id: "superseded"
-      description: "Capability has been replaced by another capability."
-
+  - id: proposed
+    description: Capability proposed but not yet accepted as binding.
+  - id: accepted
+    description: Capability accepted as part of the governed product model.
+  - id: implemented
+    description: Capability has implementation and verification traceability.
+  - id: deprecated
+    description: Capability is no longer recommended for new work.
+  - id: superseded
+    description: Capability has been replaced by another capability.
   decision_status:
-    - id: "proposed"
-      description: "Decision under discussion."
-    - id: "accepted"
-      description: "Decision accepted as binding."
-    - id: "rejected"
-      description: "Decision explicitly rejected."
-    - id: "superseded"
-      description: "Decision replaced by a later decision."
-
+  - id: proposed
+    description: Decision under discussion.
+  - id: accepted
+    description: Decision accepted as binding.
+  - id: rejected
+    description: Decision explicitly rejected.
+  - id: superseded
+    description: Decision replaced by a later decision.
   requirement_status:
-    - id: "proposed"
-      description: "Requirement proposed but not yet accepted as binding."
-    - id: "accepted"
-      description: "Requirement approved and accepted as binding; implementation is tracked separately."
-    - id: "deprecated"
-      description: "Requirement no longer recommended."
-    - id: "superseded"
-      description: "Requirement replaced by another requirement."
-
+  - id: proposed
+    description: Requirement proposed but not yet accepted as binding.
+  - id: accepted
+    description: Requirement approved and accepted as binding; implementation is tracked separately.
+  - id: deprecated
+    description: Requirement no longer recommended.
+  - id: superseded
+    description: Requirement replaced by another requirement.
   requirement_implementation_status:
-    - id: "not_implemented"
-      description: "Requirement is approved but has no implementation evidence yet."
-    - id: "partially_implemented"
-      description: "Requirement has partial implementation evidence but is not complete."
-    - id: "implemented"
-      description: "Requirement is implemented and has traceability or validation evidence."
-    - id: "not_applicable"
-      description: "Requirement does not require runtime implementation evidence."
-
+  - id: not_implemented
+    description: Requirement is approved but has no implementation evidence yet.
+  - id: partially_implemented
+    description: Requirement has partial implementation evidence but is not complete.
+  - id: implemented
+    description: Requirement is implemented and has traceability or validation evidence.
+  - id: not_applicable
+    description: Requirement does not require runtime implementation evidence.
   priority:
-    - id: "must"
-      description: "Mandatory requirement."
-    - id: "should"
-      description: "Important but not mandatory yet."
-    - id: "could"
-      description: "Optional improvement."
-    - id: "wont"
-      description: "Explicitly excluded for now."
-
+  - id: must
+    description: Mandatory requirement.
+  - id: should
+    description: Important but not mandatory yet.
+  - id: could
+    description: Optional improvement.
+  - id: wont
+    description: Explicitly excluded for now.
   requirement_type:
-    - id: "functional"
-      description: "Observable product behavior."
-    - id: "non-functional"
-      description: "Quality attribute or constraint."
-    - id: "documentation"
-      description: "Documentation corpus or documentation governance requirement."
-    - id: "data"
-      description: "Data structure, registry, matrix, or graph model requirement."
-    - id: "operational"
-      description: "Tooling, workflow, validation, or repository operation requirement."
-
+  - id: functional
+    description: Observable product behavior.
+  - id: non-functional
+    description: Quality attribute or constraint.
+  - id: documentation
+    description: Documentation corpus or documentation governance requirement.
+  - id: data
+    description: Data structure, registry, matrix, or graph model requirement.
+  - id: operational
+    description: Tooling, workflow, validation, or repository operation requirement.
   scope:
-    - id: "repository"
-      description: "Applies to the repository as a whole."
-    - id: "documentation-corpus"
-      description: "Applies to governed documentation under docs."
-    - id: "project-model"
-      description: "Applies to the compact project model files."
-    - id: "tooling"
-      description: "Applies to deterministic tools and validation commands."
-    - id: "governance-control"
-      description: "Applies to the repository governance control report, page, and future admin surface."
-    - id: "contracts"
-      description: "Applies to governed data, API, and report contracts."
-
+  - id: repository
+    description: Applies to the repository as a whole.
+  - id: documentation-corpus
+    description: Applies to governed documentation under docs.
+  - id: project-model
+    description: Applies to the compact project model files.
+  - id: tooling
+    description: Applies to deterministic tools and validation commands.
+  - id: governance-control
+    description: Applies to the repository governance control report, page, and future admin surface.
+  - id: contracts
+    description: Applies to governed data, API, and report contracts.
   verification_method:
-    - id: "inspection"
-      description: "Verified by human or deterministic inspection."
-    - id: "test"
-      description: "Verified by automated test or executable check."
-    - id: "analysis"
-      description: "Verified through deterministic analysis."
-    - id: "manual-review"
-      description: "Verified by explicit human review."
-
+  - id: inspection
+    description: Verified by human or deterministic inspection.
+  - id: test
+    description: Verified by automated test or executable check.
+  - id: analysis
+    description: Verified through deterministic analysis.
+  - id: manual-review
+    description: Verified by explicit human review.
   evidence_type:
-    - id: "repository-path"
-      description: "Evidence based on a repository-relative path."
-    - id: "document"
-      description: "Evidence based on a governed documentation artifact."
-    - id: "yaml"
-      description: "Evidence based on a YAML registry or matrix."
-    - id: "json-schema"
-      description: "Evidence based on a governed JSON Schema contract."
-    - id: "api-contract"
-      description: "Evidence based on a governed backend or HTTP API contract."
-    - id: "registry-entry"
-      description: "Evidence based on an entry in a governed registry."
-    - id: "command"
-      description: "Evidence based on an executable command."
-    - id: "tool-output"
-      description: "Evidence based on deterministic tool output."
-    - id: "git-hook"
-      description: "Evidence based on a versioned Git hook."
-    - id: "source-comment"
-      description: "Evidence based on a parseable source-file comment."
-
+  - id: repository-path
+    description: Evidence based on a repository-relative path.
+  - id: document
+    description: Evidence based on a governed documentation artifact.
+  - id: yaml
+    description: Evidence based on a YAML registry or matrix.
+  - id: json-schema
+    description: Evidence based on a governed JSON Schema contract.
+  - id: api-contract
+    description: Evidence based on a governed backend or HTTP API contract.
+  - id: registry-entry
+    description: Evidence based on an entry in a governed registry.
+  - id: command
+    description: Evidence based on an executable command.
+  - id: tool-output
+    description: Evidence based on deterministic tool output.
+  - id: git-hook
+    description: Evidence based on a versioned Git hook.
+  - id: source-comment
+    description: Evidence based on a parseable source-file comment.
   registry_schema_version:
-    - id: "1.0"
-      description: "Initial governed registry schema version."
-      rationale: >
-        Registry schema versions must be controlled because validators, schema
-        files, editor integrations, and future tools need an explicit compatibility
-        boundary.
-      validation_impact: >
-        Deterministic validators shall reject unsupported registry schema
-        versions instead of accepting unreviewed registry shapes.
+  - id: '1.0'
+    description: Initial governed registry schema version.
+    rationale: 'Registry schema versions must be controlled because validators, schema files, editor
+      integrations, and future tools need an explicit compatibility boundary.
 
+      '
+    validation_impact: 'Deterministic validators shall reject unsupported registry schema versions
+      instead of accepting unreviewed registry shapes.
+
+      '
   registry_status:
-    - id: "draft"
-      description: "Registry is under active design and may change through governed work."
-      rationale: "Draft registries allow schema and dataset design before stabilization."
-      validation_impact: "Draft status is accepted but should remain visible in reports."
-    - id: "accepted"
-      description: "Registry is accepted as a stable governed baseline."
-      rationale: "Accepted registries become normative inputs for deterministic tools."
-      validation_impact: "Accepted status may require stricter future change controls."
-    - id: "deprecated"
-      description: "Registry remains readable but is no longer recommended for new work."
-      rationale: "Deprecation preserves historical compatibility while discouraging new use."
-      validation_impact: "Future validators may warn or block new references to deprecated registries."
-    - id: "superseded"
-      description: "Registry has been replaced by a newer governed artifact."
-      rationale: "Supersession makes replacement explicit instead of silently changing authority."
-      validation_impact: "Future validators may require a SUPERSEDES relationship."
-
+  - id: draft
+    description: Registry is under active design and may change through governed work.
+    rationale: Draft registries allow schema and dataset design before stabilization.
+    validation_impact: Draft status is accepted but should remain visible in reports.
+  - id: accepted
+    description: Registry is accepted as a stable governed baseline.
+    rationale: Accepted registries become normative inputs for deterministic tools.
+    validation_impact: Accepted status may require stricter future change controls.
+  - id: deprecated
+    description: Registry remains readable but is no longer recommended for new work.
+    rationale: Deprecation preserves historical compatibility while discouraging new use.
+    validation_impact: Future validators may warn or block new references to deprecated registries.
+  - id: superseded
+    description: Registry has been replaced by a newer governed artifact.
+    rationale: Supersession makes replacement explicit instead of silently changing authority.
+    validation_impact: Future validators may require a SUPERSEDES relationship.
   diataxis_section:
-    - id: "tutorials"
-      description: "Learning-oriented Diátaxis section."
-      rationale: "Document type placement must be deterministic for structure guards and readers."
-      validation_impact: "Document types using this value shall map to docs/tutorials."
-    - id: "how-to"
-      description: "Task-oriented Diátaxis section."
-      rationale: "Document type placement must be deterministic for structure guards and readers."
-      validation_impact: "Document types using this value shall map to docs/how-to."
-    - id: "reference"
-      description: "Information-oriented Diátaxis section."
-      rationale: "Document type placement must be deterministic for structure guards and readers."
-      validation_impact: "Document types using this value shall map to docs/reference."
-    - id: "explanation"
-      description: "Understanding-oriented Diátaxis section."
-      rationale: "Document type placement must be deterministic for structure guards and readers."
-      validation_impact: "Document types using this value shall map to docs/explanation."
-
+  - id: tutorials
+    description: Learning-oriented Diátaxis section.
+    rationale: Document type placement must be deterministic for structure guards and readers.
+    validation_impact: Document types using this value shall map to docs/tutorials.
+  - id: how-to
+    description: Task-oriented Diátaxis section.
+    rationale: Document type placement must be deterministic for structure guards and readers.
+    validation_impact: Document types using this value shall map to docs/how-to.
+  - id: reference
+    description: Information-oriented Diátaxis section.
+    rationale: Document type placement must be deterministic for structure guards and readers.
+    validation_impact: Document types using this value shall map to docs/reference.
+  - id: explanation
+    description: Understanding-oriented Diátaxis section.
+    rationale: Document type placement must be deterministic for structure guards and readers.
+    validation_impact: Document types using this value shall map to docs/explanation.
   project_model_areas:
-    - id: "global"
-      description: "Cross-cutting project-model area for decisions, relationships, or policies that
-        are intentionally not owned by a single functional area."
-      rationale: "Some governance decisions and graph relationships define repository-wide rules rather
-        than one capability boundary."
-      validation_impact: "Future validators shall allow global only for explicitly cross-cutting indexes,
-        decisions, or graph parts."
-    - id: "documentation-structure"
-      description: "Area for governed documentation layout, Diátaxis placement, required files, and
-        repository documentation boundaries."
-      rationale: "Documentation structure has distinct ownership from schema validation and semantic
-        project-model checks."
-      validation_impact: "Future modular parts using this area shall own structure-related requirements,
-        decisions, and graph relationships."
-    - id: "schema-validation"
-      description: "Area for governed JSON Schema contracts, schema application traceability, and
-        format validation entrypoint rules."
-      rationale: "Schema validation has a stable contract and tooling boundary around check-docs-format.mjs."
-      validation_impact: "Future modular parts using this area shall own schema contract and schema-driven
-        validation requirements, decisions, and graph relationships."
-    - id: "requirements-governance"
-      description: "Area for macro requirements, atomic requirements, lifecycle rules, acceptance
-        criteria, and requirement registry governance."
-      rationale: "Requirements governance is a distinct model concern even when individual requirements
-        belong to product capabilities."
-      validation_impact: "Future validators shall aggregate this area with other parts before checking
-        requirement references and lifecycle semantics."
-    - id: "graph-traceability"
-      description: "Area for graph matrix contracts, SPO relationships, predicate compatibility, and
-        cross-artifact traceability semantics."
-      rationale: "Traceability graph ownership must scale separately from the requirements registry
-        and decision registry."
-      validation_impact: "Future validators shall aggregate graph-traceability parts before checking
-        SPO compatibility and entity existence."
-    - id: "source-traceability"
-      description: "Area for governed source-file registration, JSDoc traceability, and implementation
-        evidence checks."
-      rationale: "Source traceability connects model requirements to tools and source files and needs
-        a clear modular ownership boundary."
-      validation_impact: "Future validators shall apply source traceability checks after aggregating
-        all requirement and graph parts."
-    - id: "governance-control"
-      description: "Area for governance control report, static control page, generated artifacts,
-        and future admin/control surfaces."
-      rationale: "Governance control outputs are generated and consumed differently from project-model
-        registries."
-      validation_impact: "Future modular parts using this area shall own report/page contract and
-        generation traceability."
-    - id: "project-handoff"
-      description: "Area for handoff ZIP generation, context packaging, and local artifact exclusion
-        policy."
-      rationale: "Project handoff is an operational capability with distinct commands and artifact
-        boundaries."
-      validation_impact: "Future modular parts using this area shall own handoff command, tool, and
-        artifact-policy traceability."
-    - id: "markdown-format"
-      description: "Area for governed Markdown body profiles and Markdown document format checks."
-      rationale: "Markdown body governance is format-oriented and separate from YAML registry schema
-        validation."
-      validation_impact: "Future modular parts using this area shall own body-profile requirements,
-        decisions, and validation relationships."
-    - id: "backend-architecture"
-      description: "Area for future backend layering, composition-root, API contract, and architecture
-        governance requirements."
-      rationale: "Backend architecture will grow after product boundary work and should not be mixed
-        into documentation governance files."
-      validation_impact: "Future modular parts using this area shall own backend architecture requirements
-        and enforcement design when runtime code exists."
-
+  - id: global
+    description: Cross-cutting project-model area for decisions, relationships, or policies that are
+      intentionally not owned by a single functional area.
+    rationale: Some governance decisions and graph relationships define repository-wide rules rather
+      than one capability boundary.
+    validation_impact: Future validators shall allow global only for explicitly cross-cutting indexes,
+      decisions, or graph parts.
+  - id: documentation-structure
+    description: Area for governed documentation layout, Diátaxis placement, required files, and repository
+      documentation boundaries.
+    rationale: Documentation structure has distinct ownership from schema validation and semantic
+      project-model checks.
+    validation_impact: Future modular parts using this area shall own structure-related requirements,
+      decisions, and graph relationships.
+  - id: schema-validation
+    description: Area for governed JSON Schema contracts, schema application traceability, and format
+      validation entrypoint rules.
+    rationale: Schema validation has a stable contract and tooling boundary around check-docs-format.mjs.
+    validation_impact: Future modular parts using this area shall own schema contract and schema-driven
+      validation requirements, decisions, and graph relationships.
+  - id: requirements-governance
+    description: Area for macro requirements, atomic requirements, lifecycle rules, acceptance criteria,
+      and requirement registry governance.
+    rationale: Requirements governance is a distinct model concern even when individual requirements
+      belong to product capabilities.
+    validation_impact: Future validators shall aggregate this area with other parts before checking
+      requirement references and lifecycle semantics.
+  - id: graph-traceability
+    description: Area for graph matrix contracts, SPO relationships, predicate compatibility, and
+      cross-artifact traceability semantics.
+    rationale: Traceability graph ownership must scale separately from the requirements registry and
+      decision registry.
+    validation_impact: Future validators shall aggregate graph-traceability parts before checking
+      SPO compatibility and entity existence.
+  - id: source-traceability
+    description: Area for governed source-file registration, JSDoc traceability, and implementation
+      evidence checks.
+    rationale: Source traceability connects model requirements to tools and source files and needs
+      a clear modular ownership boundary.
+    validation_impact: Future validators shall apply source traceability checks after aggregating
+      all requirement and graph parts.
+  - id: governance-control
+    description: Area for governance control report, static control page, generated artifacts, and
+      future admin/control surfaces.
+    rationale: Governance control outputs are generated and consumed differently from project-model
+      registries.
+    validation_impact: Future modular parts using this area shall own report/page contract and generation
+      traceability.
+  - id: project-handoff
+    description: Area for handoff ZIP generation, context packaging, and local artifact exclusion
+      policy.
+    rationale: Project handoff is an operational capability with distinct commands and artifact boundaries.
+    validation_impact: Future modular parts using this area shall own handoff command, tool, and artifact-policy
+      traceability.
+  - id: markdown-format
+    description: Area for governed Markdown body profiles and Markdown document format checks.
+    rationale: Markdown body governance is format-oriented and separate from YAML registry schema
+      validation.
+    validation_impact: Future modular parts using this area shall own body-profile requirements, decisions,
+      and validation relationships.
+  - id: backend-architecture
+    description: Area for future backend layering, composition-root, API contract, and architecture
+      governance requirements.
+    rationale: Backend architecture will grow after product boundary work and should not be mixed
+      into documentation governance files.
+    validation_impact: Future modular parts using this area shall own backend architecture requirements
+      and enforcement design when runtime code exists.
 capabilities:
-  - id: "CAP-DOCUMENTATION-GOVERNANCE"
-    title: "Documentation governance"
-    description: >
-      Structured documentation, body-format governance, requirements registry,
-      traceability matrix, and graph-ready documentation.
-    status: "accepted"
+- id: CAP-DOCUMENTATION-GOVERNANCE
+  title: Documentation governance
+  description: 'Structured documentation, body-format governance, requirements registry, traceability
+    matrix, and graph-ready documentation.
 
-  - id: "CAP-GRAPH-IMPORT"
-    title: "Graph import"
-    description: >
-      Future import of governed project knowledge into graph-oriented storage,
-      including Neo4j-compatible nodes and relationships.
-    status: "accepted"
+    '
+  status: accepted
+- id: CAP-GRAPH-IMPORT
+  title: Graph import
+  description: 'Future import of governed project knowledge into graph-oriented storage, including
+    Neo4j-compatible nodes and relationships.
 
-  - id: "CAP-REQUIREMENTS-MANAGEMENT"
-    title: "Requirements management"
-    description: >
-      Macro requirements, atomic requirements, acceptance criteria, flows,
-      evidence, and traceability.
-    status: "accepted"
+    '
+  status: accepted
+- id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Requirements management
+  description: 'Macro requirements, atomic requirements, acceptance criteria, flows, evidence, and
+    traceability.
 
-  - id: "CAP-BACKEND-ARCHITECTURE"
-    title: "Backend architecture governance"
-    description: >
-      Default backend layering, dependency composition, factory/composition-root
-      pattern, and future deterministic enforcement.
-    status: "accepted"
+    '
+  status: accepted
+- id: CAP-BACKEND-ARCHITECTURE
+  title: Backend architecture governance
+  description: 'Default backend layering, dependency composition, factory/composition-root pattern,
+    and future deterministic enforcement.
 
-  - id: "CAP-API-CONTRACTS"
-    title: "Backend API contracts"
-    description: >
-      Governed backend and API contracts used as authoritative documentation
-      sources for HTTP behavior, JSON payload models, future admin documentation,
-      and runtime validators such as Zod.
-    status: "accepted"
+    '
+  status: accepted
+- id: CAP-API-CONTRACTS
+  title: Backend API contracts
+  description: 'Governed backend and API contracts used as authoritative documentation sources for
+    HTTP behavior, JSON payload models, future admin documentation, and runtime validators such as
+    Zod.
 
+    '
+  status: accepted
+- id: CAP-GOVERNANCE-CONTROL
+  title: Governance control surface
+  description: 'Machine-readable governance control report, static control page, future protected
+    admin surface, and non-interactive tool or LLM consumption.
 
-  - id: "CAP-GOVERNANCE-CONTROL"
-    title: "Governance control surface"
-    description: >
-      Machine-readable governance control report, static control page, future
-      protected admin surface, and non-interactive tool or LLM consumption.
-    status: "accepted"
+    '
+  status: accepted
+- id: CAP-PRODUCT-BOUNDARY
+  title: Product boundary
+  description: 'Definition and maintenance of the product scope, non-goals, and clean-start assumptions.
 
-  - id: "CAP-PRODUCT-BOUNDARY"
-    title: "Product boundary"
-    description: >
-      Definition and maintenance of the product scope, non-goals, and clean-start
-      assumptions.
-    status: "proposed"
-
-decisions:
-  - id: "DEC-0001"
-    title: "Clean restart"
-    status: "accepted"
-    statement: >
-      The project starts as a clean repository and does not inherit the previous
-      threat-forge repository as a source of truth.
-    rationale: >
-      A clean restart avoids carrying forward accidental complexity, obsolete
-      assumptions, and uncontrolled documentation structures.
-    consequences:
-      - "Old repository history is not imported."
-      - "Old documentation is not copied by default."
-      - "Old ideas may be reintroduced only through explicit new decisions."
-
-  - id: "DEC-0002"
-    title: "Compact governed project model"
-    status: "accepted"
-    statement: >
-      Governance vocabularies, requirements, and governed relationships are
-      concentrated in a compact project model under docs/reference/project-model.
-    rationale: >
-      The project needs deterministic governance without creating too many
-      scattered registry and matrix files.
-    consequences:
-      - "Governance vocabulary is stored in governance.registry.yml."
-      - "Macro requirements and atomic requirements are stored in requirements.registry.yml."
-      - "Governed relationships are stored in graph.matrix.yml."
-
-  - id: "DEC-0003"
-    title: "Canonical SPO relationship model"
-    status: "accepted"
-    statement: >
-      All governed relationships must be represented as Subject-Predicate-Object
-      triples.
-    rationale: >
-      SPO triples provide a stable relationship model for deterministic
-      validation, coherence checking, traceability, and future graph import.
-    consequences:
-      - "The graph matrix is the canonical source of governed relationships."
-      - "Grouped fields are allowed only as derived or validated views."
-      - "Future code must validate predicates and subject/object type compatibility."
-
-  - id: "DEC-0004"
-    title: "Validation commands as graph nodes"
-    status: "accepted"
-    statement: >
-      Commands used to run validation checks are represented as governed graph
-      nodes and linked through SPO triples.
-    rationale: >
-      Command tracking must remain compatible with the canonical SPO model and
-      must not become a parallel free-form verification field.
-    consequences:
-      - "Validation commands are represented as Command nodes."
-      - "Validation tools are represented as ValidationTool nodes."
-      - "Gates, commands, tools, and config files are linked in graph.matrix.yml."
-
-  - id: "DEC-0005"
-    title: "Bidirectional implementation traceability"
-    status: "accepted"
-    statement: >
-      Governed source files must be discovered by validation and implementation
-      relationships must be consistent in both directions between graph.matrix.yml
-      and source-file comments.
-    rationale: >
-      Traceability degrades if a source file can enter the repository without any
-      requirement link, if the graph matrix claims a source file implements a
-      requirement while the source file does not declare that traceability, or if
-      source comments claim implementation that the matrix does not contain.
-    consequences:
-      - "Governed source files under controlled source roots must have IMPLEMENTED_BY graph traceability."
-      - "IMPLEMENTED_BY triples from requirements to source files must be mirrored by source-file
-        comments."
-      - "Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY
-        triples."
-      - "The initial validation level is file-level traceability; code-symbol traceability may be
-        added later."
-
-  - id: "DEC-0006"
-    title: "Validation commands must match package scripts"
-    status: "accepted"
-    statement: >
-      Command nodes that represent npm validation commands must be consistent
-      with scripts declared in package.json.
-    rationale: >
-      The graph matrix must not advertise commands that cannot be executed, and
-      package.json must not silently drift away from governed validation command
-      nodes.
-    consequences:
-      - "Command nodes with npm run commands must reference existing package.json scripts."
-      - "Governed validation scripts in package.json must have matching Command nodes."
-      - "The project model validator checks package.json command consistency."
-
-  - id: "DEC-0007"
-    title: "Governed file format validation"
-    status: "accepted"
-    statement: >
-      Governed YAML and Markdown files must be validated deterministically
-      against baseline format rules and registered Markdown body profiles.
-    rationale: >
-      Folder structure and traceability are not sufficient if file bodies remain
-      uncontrolled. File-format validation keeps governed documents predictable
-      and parseable.
-    consequences:
-      - "Project model YAML files must satisfy baseline top-level format rules."
-      - "Governed Markdown files must satisfy registered body profiles."
-      - "docs:check runs the file format validator."
-
-  - id: "DEC-0008"
-    title: "Validator negative fixtures"
-    status: "accepted"
-    statement: >
-      Deterministic validators must have controlled negative fixtures that prove
-      invalid repository states are rejected.
-    rationale: >
-      Passing validators are not enough if there is no evidence that they fail
-      when the governed model, commands, source traceability, YAML format, or
-      Markdown body profiles are invalid.
-    consequences:
-      - "Negative fixture execution is part of docs:check."
-      - "Each negative fixture must declare the expected validation failure."
-      - "The negative fixture runner must fail when an invalid state is accepted."
-
-  - id: "DEC-0009"
-    title: "Default backend composition and API contract documentation pattern"
-    status: "accepted"
-    statement: >
-      Backend implementation shall default to factory/composition-root based
-      dependency composition, separated backend layers, and governed backend/API
-      contracts as authoritative documentation sources.
-    rationale: >
-      The previous threat-forge project showed that factory-based composition,
-      separated backend layers, and explicit API contracts reduce accidental
-      coupling and keep implementation aligned with documentation.
-    consequences:
-      - "Controllers and route handlers must not instantiate concrete infrastructure adapters directly."
-      - "Concrete dependencies must be assembled in factories or composition roots."
-      - "Backend services should depend on ports or application boundaries instead of concrete adapters."
-      - "Backend/API contracts must be treated as primary technical documentation for HTTP behavior."
-      - "A future deterministic checker must enforce approved backend architecture patterns."
-
-  - id: "DEC-0010"
-    title: "Governance control is report-first and contract-first"
-    status: "accepted"
-    statement: >
-      The governance control page shall be generated from a deterministic,
-      machine-readable governance control report. The report contract is the
-      shared source for the static page, future protected admin UI, CLI tools,
-      backend APIs, and LLM consumers.
-    rationale: >
-      Building the visual page first would risk duplicating analysis logic and
-      making the future admin UI diverge from CLI tools or LLM consumers. A
-      contract-first report keeps every consumer aligned.
-    consequences:
-      - "The governance control report JSON contract is the canonical data interface."
-      - "The static HTML page is a consumer of the report, not the source of truth."
-      - "Future protected admin UI and backend APIs must consume or expose the same report model."
-      - "JSON Schema is the canonical external contract for the report."
-      - "Zod may be used for runtime validation inside TypeScript or JavaScript code, but it must
-        not diverge from canonical JSON Schema or OpenAPI contracts."
-
-  - id: "DEC-0011"
-    title: "Project handoff archives are generated by a Node.js repository tool"
-    status: "accepted"
-    statement: >
-      Project handoff archives shall be generated by a deterministic Node.js
-      repository tool that includes .git and hidden project metadata while
-      excluding dependency installations, generated artifacts, local IDE caches,
-      and environment files by default.
-    rationale: >
-      A repository-owned tool avoids platform-specific archive behavior and gives
-      human and LLM handoffs a repeatable archive policy on Windows, Linux, and
-      macOS.
-    consequences:
-      - The handoff archive command is declared in package.json.
-      - The archive policy includes .git by default.
-      - Dependency installations and local caches are excluded by default.
-      - Environment files remain excluded unless explicitly requested.
-
-  - id: "DEC-0012"
-    title: "Governed registries require explicit schemas and controlled datasets"
-    status: "accepted"
-    statement: >
-      Each governed registry and graph matrix shall have an explicit
-      machine-readable schema, and deterministic tools shall load the canonical
-      schema files rather than relying only on hardcoded shape checks. Fields
-      constrained to controlled values shall name their authoritative dataset or
-      taxonomy.
-    rationale: >
-      Registry structure and controlled vocabularies are part of the project
-      governance contract. If validator code alone defines registry shape, the
-      schema can drift from documentation, datasets, editor support, and future
-      tool consumers.
-    consequences:
-      - "Governance, requirements, and graph matrix registries require explicit schema files."
-      - "Deterministic tools must read and validate against canonical registry schemas."
-      - "Fields with controlled values must declare the authoritative dataset or taxonomy they use."
-      - "Controlled value sets must document meaning, rationale, and validation impact before they
-        become binding."
-
-  - id: "DEC-0013"
-    title: "Baseline artifacts require bidirectional traceability"
-    status: "accepted"
-    statement: >
-      Governed baseline artifacts shall carry file-local change-control markers
-      that identify the decision and requirement governing their current
-      baseline role, and graph.matrix.yml shall contain matching relationships.
-    rationale: >
-      Source-file traceability alone does not protect registry, contract, schema,
-      and graph artifacts. A baseline file can otherwise be modified or added
-      without an internal marker that can be compared against the project graph.
-    consequences:
-      - "Governed baseline artifacts declare decided_by and satisfies markers."
-      - "The project model validator checks marker-to-graph and graph-to-marker consistency."
-      - "The initial enforcement covers the project-model registry files and can be extended to contract/schema
-        roots."
-
-
-
-  - id: "DEC-0025"
-    title: "Project model modularization uses governed areas and clean migration"
-    status: "accepted"
-    statement: >
-      Requirements, graph traceability, and decisions shall be modularized by
-      governed project-model area using canonical composite identifiers in the
-      form <area_id>:<local_id>. The `area_id` value shall be controlled by an
-      explicit `project_model_areas` taxonomy, aligned with capabilities where
-      useful but not derived from capability_id automatically.
-    rationale: >
-      requirements.registry.yml, graph.matrix.yml, and governance.registry.yml
-      are growing together. A requirements-only split would leave graph triples
-      and decisions as monolithic scaling bottlenecks. A governed area boundary
-      gives requirements, graph parts, and decisions the same ownership model
-      while allowing local identifier sequences to restart safely. Since the
-      project is before first release, clean coordinated breaking changes are
-      preferable to preserving long-term compatibility with the current
-      monolithic layout.
-    consequences:
-      - "Future modular requirements, graph, and decision files use central indexes and area-owned
-        parts."
-      - "Canonical references use <area_id>:<local_id> once modular loaders are introduced."
-      - "The project_model_areas taxonomy must be introduced with deterministic validation, bidirectional
-        implementation traceability, and negative fixture evidence before broad use."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint, while check-project-model.mjs
-        aggregates modular parts and validates semantics."
-      - "Long-term compatibility with the monolithic layout is not a requirement during the pre-release
-        migration."
-
-
-  - id: "DEC-0026"
-    title: "Project model areas are an explicit controlled taxonomy"
-    status: "accepted"
-    statement: >
-      The project_model_areas taxonomy shall be declared explicitly in the
-      governance registry with described, rationalized, and validation-impactful
-      values. Area identifiers shall not be inferred automatically from
-      capability_id values.
-    rationale: >
-      Modular project-model files need a physical ownership boundary for
-      requirements, graph triples, and decisions. Product capabilities describe
-      functional scope, while project-model areas describe file modularization
-      and loading boundaries. Keeping them separate prevents capability changes
-      from silently moving governed records between files.
-    consequences:
-      - "taxonomies.project_model_areas becomes the controlled value set for future area_id fields."
-      - "Every project_model_areas value carries description, rationale, and validation impact before
-        broad use."
-      - "Future schema and loader work shall validate area_id shape through check-docs-format.mjs
-        and semantic membership through check-project-model.mjs."
-      - "Negative fixture coverage for invalid area_id values is required before modular parts rely
-        on the taxonomy broadly."
-
-  - id: "DEC-0027"
-    title: "Project model areas taxonomy is semantically enforced by the project model validator"
-    status: "accepted"
-    statement: >
-      The project_model_areas taxonomy shall be enforced by
-      tools/docs/check-project-model.mjs as semantic project-model validation,
-      while local YAML shape validation remains the responsibility of
-      tools/docs/check-docs-format.mjs.
-    rationale: >
-      project_model_areas defines future modular project-model ownership and
-      canonical <area_id>:<local_id> identifiers. Its values are not merely
-      local YAML shape; they are governed semantic identifiers that must remain
-      complete, unique, and deliberately controlled before modular parts rely
-      on them. Keeping this enforcement in the project-model validator preserves
-      the single schema validation entrypoint and avoids duplicating semantic
-      taxonomy checks in the format validator.
-    consequences:
-      - "check-project-model.mjs rejects missing, malformed, duplicate, or incomplete project_model_areas
-        entries."
-      - "Negative fixture coverage proves invalid project_model_areas values fail deterministically."
-      - "Future area_id fields in modular index and part files shall reuse the same semantic taxonomy
-        enforcement path."
-      - "check-docs-format.mjs remains responsible only for local schema and format validation."
-
-
-  - id: "DEC-0028"
-    title: "Requirements modularization uses index and area part contracts"
-    status: "accepted"
-    statement: >
-      The requirements registry shall evolve toward a central requirements index
-      and area-owned requirements part files governed by future requirements
-      index and part schema contracts.
-    rationale: >
-      requirements.registry.yml is growing as macro requirements, atomic
-      requirements, flows, acceptance criteria, verification evidence, and
-      governance requirements accumulate. Splitting by governed project-model
-      area keeps local files readable while preserving one aggregated
-      requirements model.
-    consequences:
-      - "requirements.registry.yml remains the canonical loading entrypoint but should become an index
-        in the modular model."
-      - "Future requirements parts use registered project_model_areas values and canonical <area_id>:<local_id>
-        identities."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future requirements
-        index and part schemas."
-      - "check-project-model.mjs remains responsible for semantic aggregation, parent macro resolution,
-        capability references, and traceability."
-      - "No existing requirements are migrated by this decision; extraction is reserved for later
-        modular loader and area extraction micropasses."
-
-
-  - id: "DEC-0029"
-    title: "Graph modularization uses index, area parts, and cross-area ownership"
-    status: "accepted"
-    statement: >
-      The graph matrix shall evolve toward a central graph index and
-      area-owned graph part files, with a dedicated cross-area ownership policy
-      for relationships whose subject and object belong to different
-      project-model areas.
-    rationale: >
-      graph.matrix.yml is growing with nodes, SPO triples, schema
-      traceability, command traceability, and source traceability. Splitting
-      requirements without splitting graph traceability would leave the graph
-      matrix as the next monolithic scaling bottleneck. A graph index and area
-      parts preserve one logical graph while keeping traceability ownership
-      readable.
-    consequences:
-      - "graph.matrix.yml remains the canonical graph loading entrypoint but should become an index
-        in the modular model."
-      - "Future graph parts use registered project_model_areas values and canonical <area_id>:<local_id>
-        identities for modular records."
-      - "A dedicated cross-area graph part or explicit cross-area role shall own relationships that
-        connect different project-model areas."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future graph index
-        and part schemas."
-      - "check-project-model.mjs remains responsible for semantic aggregation, SPO compatibility,
-        entity existence, command checks, schema traceability, and source traceability."
-      - "No existing graph nodes or triples are migrated by this decision; extraction is reserved
-        for later modular loader and area extraction micropasses."
-
-
-  - id: "DEC-0030"
-    title: "Decisions modularization uses governance index and area part contracts"
-    status: "accepted"
-    statement: >
-      Decision records shall evolve toward a central governance index and
-      area-owned decision part files governed by future decisions part schema
-      contracts, while shared vocabularies remain governed through the
-      central governance registry.
-    rationale: >
-      governance.registry.yml is growing as decisions accumulate alongside
-      taxonomies, capabilities, document types, body profiles, node types, and
-      predicates. Splitting requirements and graph traceability without
-      splitting decisions would leave governance decisions as the next
-      monolithic scaling bottleneck. A governance index and decision parts
-      preserve one logical governance model while making decision ownership
-      explicit by project-model area.
-    consequences:
-      - "governance.registry.yml remains the canonical governance loading entrypoint and shared vocabulary
-        registry."
-      - "Future decisions parts use registered project_model_areas values and canonical <area_id>:<local_id>
-        identities for modular decision records."
-      - "The global decisions part owns intentionally cross-cutting decisions and must not become
-        an uncontrolled dumping ground."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future governance
-        index and decisions part schemas."
-      - "check-project-model.mjs remains responsible for semantic aggregation, canonical decision
-        identity, duplicate detection, decision references, and graph traceability."
-      - "No existing decisions are migrated by this decision; extraction is reserved for later modular
-        loader and area extraction micropasses."
-
-
-  - id: "DEC-0031"
-    title: "Modular project model loading uses governed indexes and one logical aggregate"
-    status: "accepted"
-    statement: >
-      Future modular project-model validators shall load requirements, graph
-      traceability, and decisions through governed central indexes and aggregate
-      declared parts into one logical model before semantic validation.
-    rationale: >
-      The project is splitting large registries by project-model area, but the
-      validation model must remain deterministic and coherent. Loading parts
-      through central indexes prevents ad hoc directory scanning, while building
-      one logical model preserves cross-file traceability, canonical ID
-      uniqueness, predicate compatibility, source traceability, schema
-      application traceability, and command validation.
-    consequences:
-      - "requirements.registry.yml, graph.matrix.yml, and governance.registry.yml remain the future
-        loading boundaries for modular parts."
-      - "Future part files must be declared by their owning index before they participate in the logical
-        project model."
-      - "check-docs-format.mjs remains responsible for JSON Schema validation of index and part files."
-      - "check-project-model.mjs remains responsible for aggregating declared parts, deriving canonical
-        identifiers, and running semantic validation."
-      - "Long-term compatibility with the monolithic project-model layout is not a target because
-        the project is before first release."
-      - "No existing requirements, graph triples, or decisions are migrated by this decision; extraction
-        is reserved for later loader implementation and first-area extraction micropasses."
-
-  - id: DEC-0032
-    title: Schema-validation is the first extracted project model area
-    status: accepted
-    statement: The first modular extraction shall use the schema-validation area and introduce
-      governed requirements, decisions, and graph parts loaded into one aggregate model.
-    rationale: Schema validation is the smallest high-value area with existing schema contracts,
-      deterministic validation, source traceability, and project_model_areas governance.
-    consequences:
-      - The root registries remain central indexes and shared vocabulary boundaries.
-      - The initial pilot extraction is immediately followed by canonical ID enforcement for
-        the extracted area, without retaining long-term compatibility aliases.
-  - id: DEC-0033
-    title: Schema-validation area enforces canonical modular IDs before broad extraction
-    status: accepted
-    statement: The schema-validation pilot area shall use part-local IDs for authoring,
-      canonical `<area_id>:<local_id>` IDs in the aggregate semantic model, canonical
-      IDs in graph references, and no legacy extracted ID aliases before additional
-      project-model areas are extracted.
-    rationale: Activating the canonical ID model on the first extracted area exposes ambiguity,
-      source traceability, schema traceability, and cross-file control issues while the migration
-      surface is still small.
-    consequences:
-      - Schema-validation requirements and decisions can restart local numeric sequences without
-        colliding with root records.
-      - check-project-model.mjs derives canonical IDs for requirements and decisions loaded from
-        modular parts.
-      - Source-file traceability accepts canonical modular requirement IDs.
-      - Local-only modular graph references and removed schema-validation legacy IDs are rejected
-        by deterministic validation.
-      - The control review records which bidirectional and cross-file checks are already enforced
-        and which should be added before broad extraction.
-
-  - id: DEC-0034
-    title: Remaining area extraction proceeds control-first
-    status: accepted
-    statement: The remaining project-model areas shall be extracted in small gated micropasses,
-      with missing ownership and reference controls added before broad or traceability-heavy
-      migrations.
-    rationale: The schema-validation pilot proved modular loading and canonical IDs, but it
-      also exposed that cross-area graph ownership and same-area reference policy must be
-      explicit before many more records move into parts.
-    consequences:
-      - The next work adds cross-area graph ownership validation before broad extraction.
-      - Documentation-structure and markdown-format are the next low-risk extraction targets.
-      - Requirements-governance, graph-traceability, and source-traceability are deferred until
-        the relevant ownership and reference rules are explicit.
-      - Governance-control and project-handoff remain separate later extractions because they
-        have generated artifact and operational command boundaries.
-      - Backend-architecture remains deferred until product-boundary work defines runtime scope.
-
+    '
+  status: proposed
+decisions: []
 document_types:
-  - id: "tutorial"
-    diataxis_section: "tutorials"
-    description: >
-      Learning-oriented document that guides the reader through a practical path.
-    body_profile_id: "BODY-TUTORIAL"
+- id: tutorial
+  diataxis_section: tutorials
+  description: 'Learning-oriented document that guides the reader through a practical path.
 
-  - id: "how-to"
-    diataxis_section: "how-to"
-    description: >
-      Task-oriented procedure for achieving a specific result.
-    body_profile_id: "BODY-HOW-TO"
+    '
+  body_profile_id: BODY-TUTORIAL
+- id: how-to
+  diataxis_section: how-to
+  description: 'Task-oriented procedure for achieving a specific result.
 
-  - id: "reference"
-    diataxis_section: "reference"
-    description: >
-      Information-oriented technical specification, registry, matrix, or contract.
-    body_profile_id: "BODY-REFERENCE"
+    '
+  body_profile_id: BODY-HOW-TO
+- id: reference
+  diataxis_section: reference
+  description: 'Information-oriented technical specification, registry, matrix, or contract.
 
-  - id: "explanation"
-    diataxis_section: "explanation"
-    description: >
-      Understanding-oriented document explaining context, rationale, or concepts.
-    body_profile_id: "BODY-EXPLANATION"
+    '
+  body_profile_id: BODY-REFERENCE
+- id: explanation
+  diataxis_section: explanation
+  description: 'Understanding-oriented document explaining context, rationale, or concepts.
 
-  - id: "decision-record"
-    diataxis_section: "explanation"
-    description: >
-      Decision-oriented explanation document or registered decision entry.
-    body_profile_id: "BODY-DECISION"
+    '
+  body_profile_id: BODY-EXPLANATION
+- id: decision-record
+  diataxis_section: explanation
+  description: 'Decision-oriented explanation document or registered decision entry.
 
+    '
+  body_profile_id: BODY-DECISION
 body_profiles:
-  - id: "BODY-TUTORIAL"
-    description: "Required body structure for tutorial documents."
-    required_headings:
-      - "Goal"
-      - "Prerequisites"
-      - "Steps"
-      - "Result"
-    forbidden_headings: []
-
-  - id: "BODY-HOW-TO"
-    description: "Required body structure for how-to documents."
-    required_headings:
-      - "Purpose"
-      - "Procedure"
-      - "Verification"
-    forbidden_headings: []
-
-  - id: "BODY-REFERENCE"
-    description: "Required body structure for reference documents."
-    required_headings:
-      - "Purpose"
-      - "Schema"
-      - "Rules"
-    forbidden_headings: []
-
-  - id: "BODY-EXPLANATION"
-    description: "Required body structure for explanation documents."
-    required_headings:
-      - "Context"
-      - "Explanation"
-      - "Consequences"
-    forbidden_headings: []
-
-  - id: "BODY-DECISION"
-    description: "Required body structure for decision record documents."
-    required_headings:
-      - "Status"
-      - "Context"
-      - "Decision"
-      - "Consequences"
-    forbidden_headings: []
-
+- id: BODY-TUTORIAL
+  description: Required body structure for tutorial documents.
+  required_headings:
+  - Goal
+  - Prerequisites
+  - Steps
+  - Result
+  forbidden_headings: []
+- id: BODY-HOW-TO
+  description: Required body structure for how-to documents.
+  required_headings:
+  - Purpose
+  - Procedure
+  - Verification
+  forbidden_headings: []
+- id: BODY-REFERENCE
+  description: Required body structure for reference documents.
+  required_headings:
+  - Purpose
+  - Schema
+  - Rules
+  forbidden_headings: []
+- id: BODY-EXPLANATION
+  description: Required body structure for explanation documents.
+  required_headings:
+  - Context
+  - Explanation
+  - Consequences
+  forbidden_headings: []
+- id: BODY-DECISION
+  description: Required body structure for decision record documents.
+  required_headings:
+  - Status
+  - Context
+  - Decision
+  - Consequences
+  forbidden_headings: []
 node_types:
-  - id: "Capability"
-    description: "Product capability or product area."
-
-  - id: "Taxonomy"
-    description: "Governed controlled value set with explicit value descriptions and deterministic
-      validation responsibilities."
-
-  - id: "MacroRequirement"
-    description: "High-level requirement decomposed into atomic requirements."
-
-  - id: "Requirement"
-    description: "Atomic, verifiable requirement."
-
-  - id: "Decision"
-    description: "Accepted, proposed, superseded, or rejected project decision."
-
-  - id: "Document"
-    description: "Governed documentation artifact or documentation directory."
-
-  - id: "SourceFile"
-    description: "Implementation source file."
-
-  - id: "SchemaFile"
-    description: "Machine-readable schema artifact that defines structural validation for a governed
-      target artifact."
-
-  - id: "TestFile"
-    description: "Automated test file."
-
-  - id: "ConfigFile"
-    description: "Configuration file, package manifest, hook, or tool configuration."
-
-  - id: "Gate"
-    description: "Validation gate or commit-blocking check."
-
-  - id: "Command"
-    description: "Executable command used to run a validation tool or gate."
-
-  - id: "ValidationTool"
-    description: "Deterministic tool used to validate repository artifacts."
-
-  - id: "CodeSymbol"
-    description: "Future function, class, method, or exported symbol inside a source file."
-
-  - id: "AcceptanceCriterion"
-    description: "Observable criterion used to accept a requirement."
-
-  - id: "Precondition"
-    description: "Condition that must hold before a requirement flow starts."
-
-  - id: "Postcondition"
-    description: "Condition that must hold after a requirement flow completes."
-
-  - id: "FlowStep"
-    description: "Main or alternative flow step."
-
-  - id: "AlternativeFlow"
-    description: "Alternative flow associated with an atomic requirement."
-
+- id: Capability
+  description: Product capability or product area.
+- id: Taxonomy
+  description: Governed controlled value set with explicit value descriptions and deterministic validation
+    responsibilities.
+- id: MacroRequirement
+  description: High-level requirement decomposed into atomic requirements.
+- id: Requirement
+  description: Atomic, verifiable requirement.
+- id: Decision
+  description: Accepted, proposed, superseded, or rejected project decision.
+- id: Document
+  description: Governed documentation artifact or documentation directory.
+- id: SourceFile
+  description: Implementation source file.
+- id: SchemaFile
+  description: Machine-readable schema artifact that defines structural validation for a governed
+    target artifact.
+- id: TestFile
+  description: Automated test file.
+- id: ConfigFile
+  description: Configuration file, package manifest, hook, or tool configuration.
+- id: Gate
+  description: Validation gate or commit-blocking check.
+- id: Command
+  description: Executable command used to run a validation tool or gate.
+- id: ValidationTool
+  description: Deterministic tool used to validate repository artifacts.
+- id: CodeSymbol
+  description: Future function, class, method, or exported symbol inside a source file.
+- id: AcceptanceCriterion
+  description: Observable criterion used to accept a requirement.
+- id: Precondition
+  description: Condition that must hold before a requirement flow starts.
+- id: Postcondition
+  description: Condition that must hold after a requirement flow completes.
+- id: FlowStep
+  description: Main or alternative flow step.
+- id: AlternativeFlow
+  description: Alternative flow associated with an atomic requirement.
 predicates:
-  - id: "CONTAINS"
-    description: "The subject structurally contains the object."
-    allowed_subject_types:
-      - "MacroRequirement"
-      - "Requirement"
-    allowed_object_types:
-      - "Requirement"
-      - "AcceptanceCriterion"
-      - "Precondition"
-      - "Postcondition"
-      - "FlowStep"
-      - "AlternativeFlow"
-
-  - id: "BELONGS_TO_CAPABILITY"
-    description: "The requirement belongs to a product capability."
-    allowed_subject_types:
-      - "Requirement"
-      - "MacroRequirement"
-    allowed_object_types:
-      - "Capability"
-
-  - id: "DECIDES"
-    description: "The decision establishes or chooses the object."
-    allowed_subject_types:
-      - "Decision"
-    allowed_object_types:
-      - "Requirement"
-      - "MacroRequirement"
-      - "Document"
-      - "Capability"
-      - "Taxonomy"
-      - "ValidationTool"
-      - "Gate"
-      - "Command"
-
-  - id: "SUPPORTS"
-    description: "The subject supports the object."
-    allowed_subject_types:
-      - "Decision"
-      - "Requirement"
-      - "MacroRequirement"
-      - "Document"
-    allowed_object_types:
-      - "Decision"
-      - "Requirement"
-      - "MacroRequirement"
-      - "Document"
-      - "Gate"
-      - "ValidationTool"
-
-  - id: "CONFLICTS_WITH"
-    description: "The subject conflicts with the object and requires review."
-    allowed_subject_types:
-      - "Decision"
-      - "Requirement"
-      - "MacroRequirement"
-      - "Document"
-    allowed_object_types:
-      - "Decision"
-      - "Requirement"
-      - "MacroRequirement"
-      - "Document"
-
-  - id: "SUPERSEDES"
-    description: "The subject replaces the object."
-    allowed_subject_types:
-      - "Decision"
-      - "Requirement"
-      - "MacroRequirement"
-    allowed_object_types:
-      - "Decision"
-      - "Requirement"
-      - "MacroRequirement"
-
-  - id: "SPECIFIED_BY"
-    description: "The subject is specified by a reference document or registry."
-    allowed_subject_types:
-      - "Capability"
-      - "MacroRequirement"
-      - "Requirement"
-      - "Decision"
-      - "Taxonomy"
-      - "Gate"
-      - "ValidationTool"
-      - "Command"
-    allowed_object_types:
-      - "Document"
-      - "ConfigFile"
-      - "SchemaFile"
-
-  - id: "EXPLAINED_BY"
-    description: "The subject is explained by an explanatory document."
-    allowed_subject_types:
-      - "Capability"
-      - "MacroRequirement"
-      - "Requirement"
-      - "Decision"
-      - "Gate"
-      - "ValidationTool"
-      - "Command"
-    allowed_object_types:
-      - "Document"
-
-  - id: "APPLIES_TO"
-    description: "The schema file defines the structural validation contract for the target governed
-      artifact."
-    allowed_subject_types:
-      - "SchemaFile"
-    allowed_object_types:
-      - "Document"
-      - "ConfigFile"
-
-
-  - id: "DEPENDS_ON"
-    description: "The subject depends on the object and should be evaluated after or together with
-      it."
-    allowed_subject_types:
-      - "Requirement"
-      - "MacroRequirement"
-      - "Decision"
-      - "Document"
-      - "ValidationTool"
-      - "Gate"
-      - "Command"
-    allowed_object_types:
-      - "Requirement"
-      - "MacroRequirement"
-      - "Decision"
-      - "Document"
-      - "ValidationTool"
-      - "Gate"
-      - "Command"
-
-  - id: "IMPLEMENTED_BY"
-    description: "The subject is implemented by a source file, configuration file, or future code
-      symbol."
-    allowed_subject_types:
-      - "Requirement"
-      - "Gate"
-      - "ValidationTool"
-    allowed_object_types:
-      - "SourceFile"
-      - "ConfigFile"
-      - "CodeSymbol"
-
-  - id: "VERIFIED_BY"
-    description: "The requirement or acceptance criterion is verified by a test file or validation
-      gate."
-    allowed_subject_types:
-      - "Requirement"
-      - "AcceptanceCriterion"
-    allowed_object_types:
-      - "TestFile"
-      - "Gate"
-
-  - id: "HAS_COMMAND"
-    description: "The subject exposes or is executed through the command."
-    allowed_subject_types:
-      - "Gate"
-      - "ValidationTool"
-    allowed_object_types:
-      - "Command"
-
-  - id: "RUNS_TOOL"
-    description: "The command runs the validation tool."
-    allowed_subject_types:
-      - "Command"
-    allowed_object_types:
-      - "ValidationTool"
-
-  - id: "DECLARED_IN"
-    description: "The subject is declared in a configuration file."
-    allowed_subject_types:
-      - "Command"
-      - "Gate"
-    allowed_object_types:
-      - "ConfigFile"
-
-  - id: "VALIDATES"
-    description: "The validation tool or gate validates the object."
-    allowed_subject_types:
-      - "ValidationTool"
-      - "Gate"
-    allowed_object_types:
-      - "Document"
-      - "ConfigFile"
-      - "SourceFile"
-      - "Requirement"
-      - "MacroRequirement"
-      - "Taxonomy"
+- id: CONTAINS
+  description: The subject structurally contains the object.
+  allowed_subject_types:
+  - MacroRequirement
+  - Requirement
+  allowed_object_types:
+  - Requirement
+  - AcceptanceCriterion
+  - Precondition
+  - Postcondition
+  - FlowStep
+  - AlternativeFlow
+- id: BELONGS_TO_CAPABILITY
+  description: The requirement belongs to a product capability.
+  allowed_subject_types:
+  - Requirement
+  - MacroRequirement
+  allowed_object_types:
+  - Capability
+- id: DECIDES
+  description: The decision establishes or chooses the object.
+  allowed_subject_types:
+  - Decision
+  allowed_object_types:
+  - Requirement
+  - MacroRequirement
+  - Document
+  - Capability
+  - Taxonomy
+  - ValidationTool
+  - Gate
+  - Command
+- id: SUPPORTS
+  description: The subject supports the object.
+  allowed_subject_types:
+  - Decision
+  - Requirement
+  - MacroRequirement
+  - Document
+  allowed_object_types:
+  - Decision
+  - Requirement
+  - MacroRequirement
+  - Document
+  - Gate
+  - ValidationTool
+- id: CONFLICTS_WITH
+  description: The subject conflicts with the object and requires review.
+  allowed_subject_types:
+  - Decision
+  - Requirement
+  - MacroRequirement
+  - Document
+  allowed_object_types:
+  - Decision
+  - Requirement
+  - MacroRequirement
+  - Document
+- id: SUPERSEDES
+  description: The subject replaces the object.
+  allowed_subject_types:
+  - Decision
+  - Requirement
+  - MacroRequirement
+  allowed_object_types:
+  - Decision
+  - Requirement
+  - MacroRequirement
+- id: SPECIFIED_BY
+  description: The subject is specified by a reference document or registry.
+  allowed_subject_types:
+  - Capability
+  - MacroRequirement
+  - Requirement
+  - Decision
+  - Taxonomy
+  - Gate
+  - ValidationTool
+  - Command
+  allowed_object_types:
+  - Document
+  - ConfigFile
+  - SchemaFile
+- id: EXPLAINED_BY
+  description: The subject is explained by an explanatory document.
+  allowed_subject_types:
+  - Capability
+  - MacroRequirement
+  - Requirement
+  - Decision
+  - Gate
+  - ValidationTool
+  - Command
+  allowed_object_types:
+  - Document
+- id: APPLIES_TO
+  description: The schema file defines the structural validation contract for the target governed
+    artifact.
+  allowed_subject_types:
+  - SchemaFile
+  allowed_object_types:
+  - Document
+  - ConfigFile
+- id: DEPENDS_ON
+  description: The subject depends on the object and should be evaluated after or together with it.
+  allowed_subject_types:
+  - Requirement
+  - MacroRequirement
+  - Decision
+  - Document
+  - ValidationTool
+  - Gate
+  - Command
+  allowed_object_types:
+  - Requirement
+  - MacroRequirement
+  - Decision
+  - Document
+  - ValidationTool
+  - Gate
+  - Command
+- id: IMPLEMENTED_BY
+  description: The subject is implemented by a source file, configuration file, or future code symbol.
+  allowed_subject_types:
+  - Requirement
+  - Gate
+  - ValidationTool
+  allowed_object_types:
+  - SourceFile
+  - ConfigFile
+  - CodeSymbol
+- id: VERIFIED_BY
+  description: The requirement or acceptance criterion is verified by a test file or validation gate.
+  allowed_subject_types:
+  - Requirement
+  - AcceptanceCriterion
+  allowed_object_types:
+  - TestFile
+  - Gate
+- id: HAS_COMMAND
+  description: The subject exposes or is executed through the command.
+  allowed_subject_types:
+  - Gate
+  - ValidationTool
+  allowed_object_types:
+  - Command
+- id: RUNS_TOOL
+  description: The command runs the validation tool.
+  allowed_subject_types:
+  - Command
+  allowed_object_types:
+  - ValidationTool
+- id: DECLARED_IN
+  description: The subject is declared in a configuration file.
+  allowed_subject_types:
+  - Command
+  - Gate
+  allowed_object_types:
+  - ConfigFile
+- id: VALIDATES
+  description: The validation tool or gate validates the object.
+  allowed_subject_types:
+  - ValidationTool
+  - Gate
+  allowed_object_types:
+  - Document
+  - ConfigFile
+  - SourceFile
+  - Requirement
+  - MacroRequirement
+  - Taxonomy

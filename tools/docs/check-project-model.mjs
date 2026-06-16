@@ -15,17 +15,17 @@
  * - docs/reference/project-model/graph.matrix.yml
  *
  * Related requirements:
- * - REQ-0005
- * - REQ-0006
- * - REQ-0022
+ * - source-traceability:REQ-0005
+ * - source-traceability:REQ-0006
+ * - graph-traceability:REQ-0022
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0004
  * - schema-validation:REQ-0006
  * - schema-validation:REQ-0009
- * - REQ-0036
- * - REQ-0041
- * - REQ-0042
- * - REQ-0043
+ * - requirements-governance:REQ-0036
+ * - schema-validation:REQ-0041
+ * - schema-validation:REQ-0042
+ * - requirements-governance:REQ-0043
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -78,7 +78,7 @@ const GOVERNED_BASELINE_ARTIFACTS = [
   MODEL_FILES.decisionsPartSchema
 ];
 
-const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "schema-validation:REQ-0002", "schema-validation:REQ-0006", "schema-validation:REQ-0009"]);
+const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["graph-traceability:REQ-0022", "schema-validation:REQ-0002", "schema-validation:REQ-0006", "schema-validation:REQ-0009"]);
 
 const PROJECT_MODEL_AREAS_TAXONOMY = "project_model_areas";
 const PROJECT_MODEL_AREA_ID_PATTERN = /^(global|[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
@@ -1740,6 +1740,76 @@ function validateProjectModelParts(indexes, parts) {
   }
 }
 
+
+/**
+ * Validates that root project-model index files no longer contain area-owned
+ * atomic records after complete modular extraction.
+ *
+ * @param {object} governanceRoot - Parsed root governance registry.
+ * @param {object} requirementsRoot - Parsed root requirements registry.
+ * @param {object} matrixRoot - Parsed root graph matrix.
+ * @returns {void}
+ */
+function validateRootIndexesAreModular(governanceRoot, requirementsRoot, matrixRoot) {
+  if (asArray(requirementsRoot?.requirements).length > 0) {
+    errors.push("Root requirements.registry.yml must not contain atomic requirements after complete modular extraction; use requirements/*.requirements.yml parts");
+  }
+
+  if (asArray(governanceRoot?.decisions).length > 0) {
+    errors.push("Root governance.registry.yml must not contain decisions after complete modular extraction; use decisions/*.decisions.yml parts");
+  }
+
+  if (asArray(matrixRoot?.nodes).length > 0 || asArray(matrixRoot?.triples).length > 0) {
+    errors.push("Root graph.matrix.yml must not contain graph nodes or triples after complete modular extraction; use graph/*.graph.yml parts");
+  }
+}
+
+/**
+ * Returns the owning modular area for a graph endpoint when the endpoint is a
+ * canonical modular requirement or decision.
+ *
+ * @param {object | null | undefined} endpoint - Graph triple endpoint.
+ * @returns {string | null} Owning area id, or null for root/global entities.
+ */
+function modularEndpointArea(endpoint) {
+  if (!["Requirement", "Decision"].includes(endpoint?.type) || typeof endpoint?.id !== "string") {
+    return null;
+  }
+
+  const { areaId } = splitProjectModelId(endpoint.id);
+  return areaId;
+}
+
+/**
+ * Validates graph part ownership. Non-global graph parts may only contain
+ * triples whose modular requirement/decision endpoints belong to that same
+ * area. Cross-area modular relationships must live in the global/cross-area
+ * graph part.
+ *
+ * @param {object[]} parts - Loaded project-model part metadata.
+ * @returns {void}
+ */
+function validateGraphPartOwnership(parts) {
+  for (const part of parts.filter((candidate) => candidate.kind === "graph")) {
+    const partArea = part.areaId;
+
+    if (partArea === "global") {
+      continue;
+    }
+
+    for (const [index, triple] of asArray(part.document?.triples).entries()) {
+      for (const side of ["subject", "object"]) {
+        const endpoint = triple?.[side];
+        const endpointArea = modularEndpointArea(endpoint);
+
+        if (endpointArea && endpointArea !== partArea) {
+          errors.push(`${part.path}.triples[${index}].${side} references ${endpointArea}-owned ${endpoint?.type} ${endpoint?.id}; cross-area modular relationships must be placed in the global graph part`);
+        }
+      }
+    }
+  }
+}
+
 const governance = readYaml(MODEL_FILES.governance);
 const requirements = readYaml(MODEL_FILES.requirements);
 const matrix = readYaml(MODEL_FILES.matrix);
@@ -1765,9 +1835,11 @@ if (
 ) {
   const aggregate = buildAggregateProjectModel(governance, requirements, matrix);
   const indexes = buildIndexes(aggregate.governance, aggregate.requirements, aggregate.matrix);
+  validateRootIndexesAreModular(governance, requirements, matrix);
   validateTaxonomies(indexes);
   validateProjectModelAreasTaxonomy(indexes);
   validateProjectModelParts(indexes, aggregate.parts);
+  validateGraphPartOwnership(aggregate.parts);
   const modularLocalIds = validateModularLocalIds(aggregate.parts);
   validateModularGraphReferences(aggregate.parts, modularLocalIds);
   validateNoMigratedSchemaValidationLegacyReferences(indexes);

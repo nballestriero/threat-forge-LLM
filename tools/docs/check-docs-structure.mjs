@@ -11,18 +11,18 @@
  * - docs/reference/project-model/graph.matrix.yml
  *
  * Related requirements:
- * - REQ-0004
+ * - documentation-structure:REQ-0004
  * - schema-validation:REQ-0001
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0005
  * - schema-validation:REQ-0006
  * - schema-validation:REQ-0008
  * - schema-validation:REQ-0009
- * - REQ-0034
- * - REQ-0035
- * - REQ-0041
- * - REQ-0042
- * - REQ-0043
+ * - requirements-governance:REQ-0034
+ * - requirements-governance:REQ-0035
+ * - schema-validation:REQ-0041
+ * - schema-validation:REQ-0042
+ * - requirements-governance:REQ-0043
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -101,6 +101,31 @@ const requiredFiles = [
   "docs/reference/project-model/requirements/schema-validation.requirements.yml",
   "docs/reference/project-model/graph/schema-validation.graph.yml",
   "docs/reference/project-model/decisions/schema-validation.decisions.yml",
+  "docs/reference/project-model/requirements/documentation-structure.requirements.yml",
+  "docs/reference/project-model/requirements/markdown-format.requirements.yml",
+  "docs/reference/project-model/requirements/requirements-governance.requirements.yml",
+  "docs/reference/project-model/requirements/graph-traceability.requirements.yml",
+  "docs/reference/project-model/requirements/source-traceability.requirements.yml",
+  "docs/reference/project-model/requirements/governance-control.requirements.yml",
+  "docs/reference/project-model/requirements/project-handoff.requirements.yml",
+  "docs/reference/project-model/requirements/backend-architecture.requirements.yml",
+  "docs/reference/project-model/graph/cross-area.graph.yml",
+  "docs/reference/project-model/graph/documentation-structure.graph.yml",
+  "docs/reference/project-model/graph/markdown-format.graph.yml",
+  "docs/reference/project-model/graph/requirements-governance.graph.yml",
+  "docs/reference/project-model/graph/graph-traceability.graph.yml",
+  "docs/reference/project-model/graph/source-traceability.graph.yml",
+  "docs/reference/project-model/graph/governance-control.graph.yml",
+  "docs/reference/project-model/graph/project-handoff.graph.yml",
+  "docs/reference/project-model/graph/backend-architecture.graph.yml",
+  "docs/reference/project-model/decisions/global.decisions.yml",
+  "docs/reference/project-model/decisions/markdown-format.decisions.yml",
+  "docs/reference/project-model/decisions/requirements-governance.decisions.yml",
+  "docs/reference/project-model/decisions/graph-traceability.decisions.yml",
+  "docs/reference/project-model/decisions/source-traceability.decisions.yml",
+  "docs/reference/project-model/decisions/governance-control.decisions.yml",
+  "docs/reference/project-model/decisions/project-handoff.decisions.yml",
+  "docs/reference/project-model/decisions/backend-architecture.decisions.yml",
   "docs/reference/project-model/schemas/governance-registry.schema.json",
   "docs/reference/project-model/schemas/requirements-registry.schema.json",
   "docs/reference/project-model/schemas/graph-matrix.schema.json",
@@ -176,15 +201,40 @@ const allowedProjectModelSchemasEntries = new Set([
 
 
 const allowedProjectModelRequirementsEntries = new Set([
-  "schema-validation.requirements.yml"
+  "schema-validation.requirements.yml",
+  "documentation-structure.requirements.yml",
+  "markdown-format.requirements.yml",
+  "requirements-governance.requirements.yml",
+  "graph-traceability.requirements.yml",
+  "source-traceability.requirements.yml",
+  "governance-control.requirements.yml",
+  "project-handoff.requirements.yml",
+  "backend-architecture.requirements.yml"
 ]);
 
 const allowedProjectModelGraphEntries = new Set([
-  "schema-validation.graph.yml"
+  "cross-area.graph.yml",
+  "schema-validation.graph.yml",
+  "documentation-structure.graph.yml",
+  "markdown-format.graph.yml",
+  "requirements-governance.graph.yml",
+  "graph-traceability.graph.yml",
+  "source-traceability.graph.yml",
+  "governance-control.graph.yml",
+  "project-handoff.graph.yml",
+  "backend-architecture.graph.yml"
 ]);
 
 const allowedProjectModelDecisionsEntries = new Set([
-  "schema-validation.decisions.yml"
+  "global.decisions.yml",
+  "schema-validation.decisions.yml",
+  "markdown-format.decisions.yml",
+  "requirements-governance.decisions.yml",
+  "graph-traceability.decisions.yml",
+  "source-traceability.decisions.yml",
+  "governance-control.decisions.yml",
+  "project-handoff.decisions.yml",
+  "backend-architecture.decisions.yml"
 ]);
 
 const allowedContractsEntries = new Set([

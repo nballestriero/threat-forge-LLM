@@ -1,0 +1,38 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0030
+  satisfies:
+  - requirements-governance:REQ-0039
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete
+    modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions part
+    shape through check-docs-format.mjs.
+part:
+  area_id: governance-control
+  title: Governance Control decisions part
+  status: draft
+  description: Extracted decisions owned by the governance-control project-model area.
+decisions:
+- id: DEC-0010
+  title: Governance control is report-first and contract-first
+  status: accepted
+  statement: 'The governance control page shall be generated from a deterministic, machine-readable
+    governance control report. The report contract is the shared source for the static page, future
+    protected admin UI, CLI tools, backend APIs, and LLM consumers.
+
+    '
+  rationale: 'Building the visual page first would risk duplicating analysis logic and making the
+    future admin UI diverge from CLI tools or LLM consumers. A contract-first report keeps every consumer
+    aligned.
+
+    '
+  consequences:
+  - The governance control report JSON contract is the canonical data interface.
+  - The static HTML page is a consumer of the report, not the source of truth.
+  - Future protected admin UI and backend APIs must consume or expose the same report model.
+  - JSON Schema is the canonical external contract for the report.
+  - Zod may be used for runtime validation inside TypeScript or JavaScript code, but it must not diverge
+    from canonical JSON Schema or OpenAPI contracts.

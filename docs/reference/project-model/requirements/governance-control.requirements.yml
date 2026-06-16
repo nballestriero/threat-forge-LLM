@@ -1,0 +1,581 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+  - requirements-governance:DEC-0028
+  satisfies:
+  - requirements-governance:REQ-0037
+  rationale: This requirements part is loaded through the governed requirements index as part of the
+    complete modular project-model layout.
+schema_control:
+  schema: docs/reference/project-model/schemas/requirements-part.schema.json
+  rationale: The requirements part declares the canonical schema that validates modular requirements
+    part shape through check-docs-format.mjs.
+part:
+  area_id: governance-control
+  title: Governance Control requirements part
+  status: draft
+  description: Extracted requirements owned by the governance-control project-model area.
+requirements:
+- id: REQ-0012
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Governance control report contract
+  statement: 'The project shall define a deterministic machine-readable governance control report
+    contract for repository governance state.
+
+    '
+  rationale: 'The report contract is the stable interface shared by the static control page, future
+    protected admin UI, CLI tools, backend APIs, and LLM consumers.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: data
+  scope: contracts
+  preconditions:
+  - id: PRE-REQ-0012-001
+    statement: The repository has governed documentation, requirements, decisions, commands, tools,
+      gates, and graph relationships.
+  main_flow:
+  - id: FLOW-REQ-0012-001
+    step: 1
+    actor: Report builder
+    action: Reads governed repository files and project-model registries.
+    expected_result: Repository governance state is available as structured data.
+  - id: FLOW-REQ-0012-002
+    step: 2
+    actor: Report builder
+    action: Builds a governance control report that follows the canonical JSON Schema contract.
+    expected_result: The report contains stable sections for repository metadata, checks, documents,
+      requirements, decisions, entities, graphs, and diagnostics.
+  - id: FLOW-REQ-0012-003
+    step: 3
+    actor: Report validator
+    action: Validates the generated report against the governed JSON Schema.
+    expected_result: Invalid report structure is rejected deterministically.
+  alternative_flows:
+  - id: ALT-REQ-0012-001
+    title: Report contract violation
+    trigger: The generated report does not satisfy the canonical JSON Schema.
+    steps:
+    - id: FLOW-REQ-0012-ALT-001
+      step: 1
+      actor: Report validator
+      action: Reports the schema violation.
+      expected_result: The report generation command fails.
+  postconditions:
+  - id: POST-REQ-0012-001
+    statement: Repository governance state has a stable, machine-readable report contract.
+  acceptance_criteria:
+  - id: AC-REQ-0012-001
+    statement: The report contract defines schema_version, generated_at, repository, checks, documents,
+      requirements, decisions, capabilities, commands, tools, gates, graphs, and diagnostics.
+  - id: AC-REQ-0012-002
+    statement: The canonical external contract is JSON Schema.
+  - id: AC-REQ-0012-003
+    statement: The generated report is validated against the JSON Schema before being used by visual
+      or automated consumers.
+  - id: AC-REQ-0012-004
+    statement: Runtime validators such as Zod may be used internally only if they are generated from,
+      checked against, or kept aligned with the canonical JSON Schema.
+  verification:
+    method: test
+    required_evidence:
+    - json-schema
+    - tool-output
+    - document
+- id: REQ-0013
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Static governance control page generation
+  statement: 'The project shall generate a static HTML governance control page from the validated
+    governance control report.
+
+    '
+  rationale: 'A static page provides immediate human-readable exploration without requiring a backend
+    server, authentication, database, or admin runtime.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: functional
+  scope: governance-control
+  preconditions:
+  - id: PRE-REQ-0013-001
+    statement: The governance control report contract is defined.
+  main_flow:
+  - id: FLOW-REQ-0013-001
+    step: 1
+    actor: Static page generator
+    action: Reads the validated governance control report.
+    expected_result: The page uses report data instead of re-reading repository files independently.
+  - id: FLOW-REQ-0013-002
+    step: 2
+    actor: Static page generator
+    action: Renders document, requirement, graph, file relationship, and diagnostic views.
+    expected_result: A human-readable static HTML control page is generated.
+  alternative_flows:
+  - id: ALT-REQ-0013-001
+    title: Report unavailable
+    trigger: The governance control report cannot be generated or validated.
+    steps:
+    - id: FLOW-REQ-0013-ALT-001
+      step: 1
+      actor: Static page generator
+      action: Stops page generation.
+      expected_result: The page is not generated from invalid or missing report data.
+  postconditions:
+  - id: POST-REQ-0013-001
+    statement: A static HTML governance control page can be generated from the report.
+  acceptance_criteria:
+  - id: AC-REQ-0013-001
+    statement: The generated page displays repository health and check status.
+  - id: AC-REQ-0013-002
+    statement: The generated page displays a documentation explorer.
+  - id: AC-REQ-0013-003
+    statement: The generated page displays knowledge graph, documentation graph, and file relationship
+      graph data.
+  - id: AC-REQ-0013-004
+    statement: The generated page displays structured diagnostics.
+  - id: AC-REQ-0013-005
+    statement: The generated page does not duplicate repository analysis logic that belongs to the
+      report builder.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - document
+- id: REQ-0014
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Machine-readable governance control interface
+  statement: 'The governance control report shall be consumable by non-interactive tools and LLM agents
+    without requiring the static HTML page.
+
+    '
+  rationale: 'The same repository governance state must support automated analysis, command-line workflows,
+    future backend APIs, and LLM-assisted review.
+
+    '
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: data
+  scope: governance-control
+  preconditions:
+  - id: PRE-REQ-0014-001
+    statement: The governance control report contract is defined.
+  main_flow:
+  - id: FLOW-REQ-0014-001
+    step: 1
+    actor: Tool or LLM consumer
+    action: Reads the governance control report JSON.
+    expected_result: The consumer can inspect repository governance state without browser interaction.
+  - id: FLOW-REQ-0014-002
+    step: 2
+    actor: Tool or LLM consumer
+    action: Uses stable IDs, graph edges, diagnostics, and source paths.
+    expected_result: Automated analysis can cite and navigate governed entities deterministically.
+  alternative_flows:
+  - id: ALT-REQ-0014-001
+    title: Consumer receives HTML only
+    trigger: A tool or LLM is given only the static page instead of the structured report.
+    steps:
+    - id: FLOW-REQ-0014-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Provides or exposes the report JSON instead.
+      expected_result: Machine consumers use structured report data.
+  postconditions:
+  - id: POST-REQ-0014-001
+    statement: Governance state is accessible to tools and LLM agents without a graphical interface.
+  acceptance_criteria:
+  - id: AC-REQ-0014-001
+    statement: The report uses stable governed IDs and normalized graph nodes and edges.
+  - id: AC-REQ-0014-002
+    statement: Diagnostics are structured with severity, code, subject, evidence, and suggested action
+      fields.
+  - id: AC-REQ-0014-003
+    statement: The report can be consumed independently from the HTML page.
+  verification:
+    method: analysis
+    required_evidence:
+    - json-schema
+    - document
+    - tool-output
+- id: REQ-0015
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Future protected admin governance surface
+  statement: 'A future protected admin governance surface shall consume or expose the same governance
+    control report model instead of duplicating repository analysis logic.
+
+    '
+  rationale: 'The future admin interface must remain aligned with CLI tools, static reports, backend
+    contracts, and LLM consumers.
+
+    '
+  status: accepted
+  implementation_status: not_implemented
+  priority: should
+  type: functional
+  scope: governance-control
+  preconditions:
+  - id: PRE-REQ-0015-001
+    statement: The governance control report contract and static generator are defined.
+  main_flow:
+  - id: FLOW-REQ-0015-001
+    step: 1
+    actor: Admin backend
+    action: Exposes the governance control report through a protected interface.
+    expected_result: Admin clients receive the same data model used by static and CLI consumers.
+  - id: FLOW-REQ-0015-002
+    step: 2
+    actor: Admin UI
+    action: Renders governance views from the report model.
+    expected_result: Admin UI behavior stays aligned with deterministic report generation.
+  alternative_flows:
+  - id: ALT-REQ-0015-001
+    title: Admin UI duplicates analysis logic
+    trigger: The admin UI reads repository files independently using divergent parsing rules.
+    steps:
+    - id: FLOW-REQ-0015-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Moves parsing logic back into the shared report builder or backend report service.
+      expected_result: The admin UI becomes a consumer of the governed report model.
+  postconditions:
+  - id: POST-REQ-0015-001
+    statement: The future protected admin surface remains a consumer of the governed report model.
+  acceptance_criteria:
+  - id: AC-REQ-0015-001
+    statement: Future admin endpoints expose or derive from the same governance control report contract.
+  - id: AC-REQ-0015-002
+    statement: Future admin UI views do not duplicate repository parsing rules that belong to the
+      report builder.
+  - id: AC-REQ-0015-003
+    statement: Authentication and authorization are deferred until a backend admin runtime exists.
+  verification:
+    method: analysis
+    required_evidence:
+    - api-contract
+    - document
+    - tool-output
+- id: REQ-0016
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Governance control report JSON Schema validation
+  statement: 'The project shall provide a canonical JSON Schema contract for the Governance Control
+    Report and validate the schema file as part of deterministic documentation format checks.
+
+    '
+  rationale: 'The report-first governance control design needs an explicit machine contract before
+    report generation or HTML rendering can be implemented.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: data
+  scope: contracts
+  preconditions:
+  - id: PRE-REQ-0016-001
+    statement: The governance control report contract requirement is accepted.
+  - id: PRE-REQ-0016-002
+    statement: The repository has a governed contracts reference area.
+  main_flow:
+  - id: FLOW-REQ-0016-001
+    step: 1
+    actor: Maintainer
+    action: Defines the Governance Control Report JSON Schema.
+    expected_result: The schema declares the report top-level structure, required sections, graph
+      records, and diagnostics records.
+  - id: FLOW-REQ-0016-002
+    step: 2
+    actor: Format validator
+    action: Parses and checks the JSON Schema file.
+    expected_result: Invalid or incomplete schema structure is rejected.
+  - id: FLOW-REQ-0016-003
+    step: 3
+    actor: Future report generator
+    action: Uses the schema to validate generated Governance Control Reports.
+    expected_result: Generated report validation is ready to be implemented in a later step.
+  alternative_flows:
+  - id: ALT-REQ-0016-001
+    title: Invalid JSON Schema file
+    trigger: The schema file is not valid JSON or does not expose required JSON Schema baseline fields.
+    steps:
+    - id: FLOW-REQ-0016-ALT-001
+      step: 1
+      actor: Format validator
+      action: Reports the invalid schema contract.
+      expected_result: The documentation check fails.
+  postconditions:
+  - id: POST-REQ-0016-001
+    statement: The Governance Control Report has a canonical JSON Schema contract file.
+  acceptance_criteria:
+  - id: AC-REQ-0016-001
+    statement: The repository contains docs/reference/contracts/governance-control-report.schema.json.
+  - id: AC-REQ-0016-002
+    statement: The schema declares all required top-level Governance Control Report sections.
+  - id: AC-REQ-0016-003
+    statement: The format validator parses and checks the schema file.
+  - id: AC-REQ-0016-004
+    statement: The schema is linked to governance control report requirements through the graph matrix.
+  verification:
+    method: test
+    required_evidence:
+    - json-schema
+    - tool-output
+    - document
+- id: REQ-0017
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Static governance control report builder
+  statement: 'The project shall provide a deterministic command that builds a Governance Control Report
+    JSON from governed repository state and validates it against the canonical report contract.
+
+    '
+  rationale: 'The report builder is the shared data-production layer for the future static page, protected
+    admin UI, CLI consumers, backend APIs, and LLM agents.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: governance-control
+  preconditions:
+  - id: PRE-REQ-0017-001
+    statement: The Governance Control Report JSON Schema contract exists.
+  - id: PRE-REQ-0017-002
+    statement: Governed repository files can be read locally.
+  main_flow:
+  - id: FLOW-REQ-0017-001
+    step: 1
+    actor: Report builder
+    action: Reads project-model registries, graph matrix, documentation files, package scripts, and
+      repository metadata.
+    expected_result: The builder has deterministic input data.
+  - id: FLOW-REQ-0017-002
+    step: 2
+    actor: Report builder
+    action: Builds the Governance Control Report JSON object.
+    expected_result: The report includes repository metadata, checks, documents, requirements, decisions,
+      capabilities, commands, tools, gates, graphs, and diagnostics.
+  - id: FLOW-REQ-0017-003
+    step: 3
+    actor: Report builder
+    action: Validates the report against the canonical report schema baseline.
+    expected_result: Invalid reports are rejected before they are written or consumed.
+  - id: FLOW-REQ-0017-004
+    step: 4
+    actor: Report builder
+    action: Writes artifacts/governance-control/report.json unless running in check mode.
+    expected_result: A local generated report is available for human and automated consumers.
+  alternative_flows:
+  - id: ALT-REQ-0017-001
+    title: Check mode
+    trigger: The command is executed with --check.
+    steps:
+    - id: FLOW-REQ-0017-ALT-001
+      step: 1
+      actor: Report builder
+      action: Builds and validates the report without writing generated artifacts.
+      expected_result: The aggregate documentation check can validate report generation without modifying
+        the working tree.
+  - id: ALT-REQ-0017-002
+    title: Invalid report
+    trigger: The generated report violates the schema baseline.
+    steps:
+    - id: FLOW-REQ-0017-ALT-002
+      step: 1
+      actor: Report builder
+      action: Reports the validation failure.
+      expected_result: The command fails and no invalid report is accepted.
+  postconditions:
+  - id: POST-REQ-0017-001
+    statement: The repository can produce a valid machine-readable Governance Control Report.
+  acceptance_criteria:
+  - id: AC-REQ-0017-001
+    statement: The command npm run docs:control:report writes artifacts/governance-control/report.json.
+  - id: AC-REQ-0017-002
+    statement: The command npm run docs:check:control-report validates report generation without writing
+      artifacts.
+  - id: AC-REQ-0017-003
+    statement: The generated report contains the top-level sections required by the canonical JSON
+      Schema.
+  - id: AC-REQ-0017-004
+    statement: docs:check runs the control report check command.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - json-schema
+- id: REQ-0018
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Static governance control HTML page builder
+  statement: 'The project shall provide a deterministic command that renders a static HTML governance
+    control page from a validated Governance Control Report.
+
+    '
+  rationale: 'The HTML page is the first human-readable consumer of the report-first governance control
+    model and must not duplicate repository analysis logic.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: governance-control
+  preconditions:
+  - id: PRE-REQ-0018-001
+    statement: The Governance Control Report builder exists.
+  - id: PRE-REQ-0018-002
+    statement: The Governance Control Report can be generated and validated.
+  main_flow:
+  - id: FLOW-REQ-0018-001
+    step: 1
+    actor: Static page generator
+    action: Generates or reads a validated Governance Control Report.
+    expected_result: The page generator has a report-first data source.
+  - id: FLOW-REQ-0018-002
+    step: 2
+    actor: Static page generator
+    action: Renders repository health, documentation, requirements, graph, file relationship, and
+      diagnostics sections.
+    expected_result: A static HTML page is produced from report data.
+  - id: FLOW-REQ-0018-003
+    step: 3
+    actor: Static page generator
+    action: Writes artifacts/governance-control/index.html unless running in check mode.
+    expected_result: A local static page is available for exploration.
+  alternative_flows:
+  - id: ALT-REQ-0018-001
+    title: Check mode
+    trigger: The command is executed with --check.
+    steps:
+    - id: FLOW-REQ-0018-ALT-001
+      step: 1
+      actor: Static page generator
+      action: Builds the report in a temporary location and renders HTML in memory.
+      expected_result: The aggregate documentation check validates page generation without writing
+        generated artifacts.
+  - id: ALT-REQ-0018-002
+    title: Invalid or missing report
+    trigger: The Governance Control Report cannot be generated or parsed.
+    steps:
+    - id: FLOW-REQ-0018-ALT-002
+      step: 1
+      actor: Static page generator
+      action: Stops rendering and reports the problem.
+      expected_result: No page is generated from invalid report data.
+  postconditions:
+  - id: POST-REQ-0018-001
+    statement: The repository can generate a static HTML Governance Control Page from the report.
+  acceptance_criteria:
+  - id: AC-REQ-0018-001
+    statement: The command npm run docs:control:page writes artifacts/governance-control/index.html.
+  - id: AC-REQ-0018-002
+    statement: The command npm run docs:check:control-page validates page generation without writing
+      artifacts.
+  - id: AC-REQ-0018-003
+    statement: The generated page includes repository health, documentation explorer, requirements
+      explorer, graph tables, file relationship table, and diagnostics table.
+  - id: AC-REQ-0018-004
+    statement: The page generator consumes Governance Control Report data instead of re-reading repository
+      files directly.
+  - id: AC-REQ-0018-005
+    statement: docs:check runs the control page check command.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - document
+- id: REQ-0019
+  macro_requirement_id: MR-0003
+  capability_id: CAP-GOVERNANCE-CONTROL
+  title: Governance control check execution status
+  statement: 'The Governance Control Report builder shall execute leaf validation commands and record
+    their real pass/fail status, exit code, duration, and output excerpts without recursively invoking
+    aggregate documentation checks.
+
+    '
+  rationale: 'The control page must show real validation state rather than placeholder unknown values.
+    The report builder can safely execute leaf checks, but it must avoid calling aggregate commands
+    that include the report builder and would create recursion.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: governance-control
+  preconditions:
+  - id: PRE-REQ-0019-001
+    statement: The Governance Control Report builder exists.
+  - id: PRE-REQ-0019-002
+    statement: Leaf validation commands are declared independently from aggregate docs:check.
+  main_flow:
+  - id: FLOW-REQ-0019-001
+    step: 1
+    actor: Report builder
+    action: Executes each approved leaf validation command.
+    expected_result: Each leaf check returns an exit code, output, and duration.
+  - id: FLOW-REQ-0019-002
+    step: 2
+    actor: Report builder
+    action: Records pass or fail status, exit_code, duration_ms, stdout_excerpt, and stderr_excerpt
+      for each check.
+    expected_result: The report exposes real check execution status.
+  - id: FLOW-REQ-0019-003
+    step: 3
+    actor: Report builder
+    action: Marks the current control report check as pass after report validation succeeds.
+    expected_result: The report reflects that the current builder run succeeded.
+  alternative_flows:
+  - id: ALT-REQ-0019-001
+    title: Leaf check fails
+    trigger: A leaf validation command exits with a non-zero status.
+    steps:
+    - id: FLOW-REQ-0019-ALT-001
+      step: 1
+      actor: Report builder
+      action: Records the failure and output excerpt in the report.
+      expected_result: The report shows the failed check with diagnostic evidence.
+  - id: ALT-REQ-0019-002
+    title: Recursive aggregate command
+    trigger: A check candidate is docs:check, docs:check:control-report, docs:check:control-page,
+      or another aggregate command that can call the report builder.
+    steps:
+    - id: FLOW-REQ-0019-ALT-002
+      step: 1
+      actor: Report builder
+      action: Does not execute the recursive command.
+      expected_result: The report builder avoids recursive execution.
+  postconditions:
+  - id: POST-REQ-0019-001
+    statement: The Governance Control Report exposes real validation status for leaf checks.
+  acceptance_criteria:
+  - id: AC-REQ-0019-001
+    statement: The report builder runs leaf validation commands for structure, project model, format,
+      and negative fixtures.
+  - id: AC-REQ-0019-002
+    statement: The report records pass/fail status, exit_code, duration_ms, stdout_excerpt, and stderr_excerpt
+      for each executed check.
+  - id: AC-REQ-0019-003
+    statement: The report builder never invokes docs:check recursively.
+  - id: AC-REQ-0019-004
+    statement: The static page displays real check statuses from report data.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - tool-output
+    - json-schema

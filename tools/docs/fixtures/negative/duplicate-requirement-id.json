@@ -1,13 +1,13 @@
 {
   "id": "duplicate-requirement-id",
-  "description": "A requirement id is duplicated inside requirements.registry.yml.",
+  "description": "A requirement id is duplicated inside a modular requirements part.",
   "validator": "model",
-  "expected_error": "Duplicate governed id 'REQ-0006'",
+  "expected_error": "Duplicate governed id 'markdown-format:REQ-0003'",
   "mutations": [
     {
-      "path": "docs/reference/project-model/requirements.registry.yml",
-      "replace": "  - id: \"REQ-0007\"",
-      "with": "  - id: \"REQ-0006\""
+      "path": "docs/reference/project-model/requirements/markdown-format.requirements.yml",
+      "replace": "- id: REQ-0007",
+      "with": "- id: REQ-0003"
     }
   ]
 }

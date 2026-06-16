@@ -14,7 +14,7 @@
  * - docs/reference/project-model/graph.matrix.yml
  *
  * Related requirements:
- * - REQ-0008
+ * - requirements-governance:REQ-0008
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
