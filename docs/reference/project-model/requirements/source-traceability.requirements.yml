@@ -644,3 +644,74 @@ requirements:
     required_evidence:
     - document
     - yaml
+- id: REQ-0013
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Post-commit repository cleanliness command
+  statement: The project shall provide a governed repository cleanliness command that rejects staged, unstaged, untracked non-ignored changes and unsafe artifacts/ tracking after commit and before push.
+  rationale: The governed commit/push flow needs an executable post-commit boundary that can be used manually, by a future pre-push hook, and by a future commit/push helper without making docs:check incompatible with pre-commit execution.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0013-001
+    statement: The repository is inside a Git working tree.
+  - id: PRE-REQ-0013-002
+    statement: docs:check remains the pre-commit content validation gate and does not require a fully clean repository while files are staged for commit.
+  main_flow:
+  - id: FLOW-REQ-0013-001
+    step: 1
+    actor: Developer or automation
+    action: Runs npm run repo:check:clean after a commit and before pushing.
+    expected_result: The repository cleanliness command inspects Git state deterministically.
+  - id: FLOW-REQ-0013-002
+    step: 2
+    actor: Repository cleanliness command
+    action: Checks the index, working tree, untracked non-ignored files, tracked artifacts/, and staged artifacts/ entries.
+    expected_result: Any unsafe repository state is reported with review-oriented diagnostics.
+  - id: FLOW-REQ-0013-003
+    step: 3
+    actor: Repository cleanliness command
+    action: Exits with a non-zero status when unsafe state is found.
+    expected_result: A future hook or governed commit/push helper can fail closed before push.
+  alternative_flows:
+  - id: ALT-REQ-0013-001
+    title: Repository has uncommitted changes after commit
+    trigger: A generated output or manual edit remains unstaged, staged, or untracked after the commit.
+    steps:
+    - id: FLOW-REQ-0013-ALT-001
+      step: 1
+      actor: Repository cleanliness command
+      action: Lists the dirty repository entries and exits with failure.
+      expected_result: The developer must review, commit, revert, or intentionally ignore the entries before push.
+  - id: ALT-REQ-0013-002
+    title: artifacts/ is tracked or staged
+    trigger: A generated artifact or handoff archive is accidentally added to Git tracking or staging.
+    steps:
+    - id: FLOW-REQ-0013-ALT-002
+      step: 1
+      actor: Repository cleanliness command
+      action: Reports the artifacts/ entries and exits with failure.
+      expected_result: Generated artifacts cannot silently enter the governed repository history.
+  postconditions:
+  - id: POST-REQ-0013-001
+    statement: The repository has an executable post-commit/pre-push cleanliness command.
+  - id: POST-REQ-0013-002
+    statement: The command can be reused by a future pre-push hook without duplicating policy.
+  acceptance_criteria:
+  - id: AC-REQ-0013-001
+    statement: package.json exposes repo:check:clean as a governed npm script.
+  - id: AC-REQ-0013-002
+    statement: The graph contains a Command node for npm run repo:check:clean and links it to its ValidationTool.
+  - id: AC-REQ-0013-003
+    statement: The command rejects dirty index, dirty working tree, untracked non-ignored files, tracked artifacts/, and staged artifacts/ entries.
+  - id: AC-REQ-0013-004
+    statement: The command exits successfully when the repository is clean and artifacts/ is only ignored local output.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - repository-path
+    - tool-output

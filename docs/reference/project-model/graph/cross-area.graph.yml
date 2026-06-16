@@ -253,7 +253,70 @@ nodes:
 - id: tools/docs/fixtures/negative/untraced-package-script.json
   type: NegativeFixture
   description: package.json declares an executable script that has no matching graph Command node.
+- id: GATE-REPO-CLEAN
+  type: Gate
+  description: Post-commit/pre-push gate that blocks pushes when the repository is not clean or artifacts/ is unsafe.
+- id: CMD-REPO-CHECK-CLEAN
+  type: Command
+  command: npm run repo:check:clean
+  description: Runs the repository cleanliness guard after commit and before push.
+- id: TOOL-REPO-CLEAN-CHECK
+  type: ValidationTool
+  path: tools/git/check-repository-clean.mjs
+  description: Deterministic Git repository cleanliness and artifacts guard.
+- id: artifacts/
+  type: Document
+  description: Ignored local generated artifact root that must not contain tracked or staged repository content.
 triples:
+- subject:
+    id: GATE-REPO-CLEAN
+    type: Gate
+  predicate: HAS_COMMAND
+  object:
+    id: CMD-REPO-CHECK-CLEAN
+    type: Command
+- subject:
+    id: CMD-REPO-CHECK-CLEAN
+    type: Command
+  predicate: RUNS_TOOL
+  object:
+    id: TOOL-REPO-CLEAN-CHECK
+    type: ValidationTool
+- subject:
+    id: CMD-REPO-CHECK-CLEAN
+    type: Command
+  predicate: DECLARED_IN
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: GATE-REPO-CLEAN
+    type: Gate
+  predicate: DECLARED_IN
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: TOOL-REPO-CLEAN-CHECK
+    type: ValidationTool
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/git/check-repository-clean.mjs
+    type: SourceFile
+- subject:
+    id: TOOL-REPO-CLEAN-CHECK
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: TOOL-REPO-CLEAN-CHECK
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: artifacts/
+    type: Document
 - subject:
     id: global:DEC-0001
     type: Decision

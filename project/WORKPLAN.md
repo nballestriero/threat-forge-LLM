@@ -156,10 +156,12 @@ Micropasses:
 - M000.025E1 - Commit/push flow contract. Completed.
   - Scope: define the governed commit and push flow before adding operational scripts or hooks.
   - The contract keeps docs:check pre-commit safe, places full repository cleanliness enforcement after commit and before push, and requires future scripts/hooks to fail closed when blocking gates indicate that review is required.
+- M000.025E2 - Repository cleanliness command. Completed.
+  - Scope: add repo:check:clean as the governed post-commit/pre-push cleanliness command, register the command/tool/gate in the graph, and keep hook installation for a later micropasso.
+  - The command rejects dirty repository state and unsafe artifacts/ tracking while remaining separate from docs:check so normal pre-commit staging is not blocked.
 
 Expected follow-up scope:
 
-- add repo:check:clean as a governed post-commit/pre-push command
 - add a pre-push hook that invokes the governed cleanliness check
 - add a governed commit/push helper that runs checks, commits, verifies cleanliness, and pushes
 - add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable

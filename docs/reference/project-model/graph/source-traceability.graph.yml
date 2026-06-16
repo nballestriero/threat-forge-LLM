@@ -512,3 +512,66 @@ triples:
   object:
     id: docs/reference/project-model/schema-design/commit-push-flow-contract.md
     type: Document
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0013
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0013
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:DEC-0013
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0013
+    type: Requirement
+- subject:
+    id: source-traceability:DEC-0013
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: TOOL-REPO-CLEAN-CHECK
+    type: ValidationTool
+- subject:
+    id: source-traceability:REQ-0013
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/commit-push-flow-contract.md
+    type: Document
+- subject:
+    id: source-traceability:REQ-0013
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/git/check-repository-clean.mjs
+    type: SourceFile
+- subject:
+    id: source-traceability:REQ-0013
+    type: Requirement
+  predicate: IMPLEMENTED_BY
+  object:
+    id: package.json
+    type: ConfigFile
+- subject:
+    id: source-traceability:REQ-0013
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-REPO-CLEAN
+    type: Gate
+- subject:
+    id: GATE-REPO-CLEAN
+    type: Gate
+  predicate: IMPLEMENTED_BY
+  object:
+    id: tools/git/check-repository-clean.mjs
+    type: SourceFile

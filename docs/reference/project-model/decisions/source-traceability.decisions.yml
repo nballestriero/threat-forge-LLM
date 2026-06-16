@@ -130,3 +130,13 @@ decisions:
   - A future repo:check:clean command will enforce clean index and working tree expectations after commit and before push.
   - A future pre-push hook will invoke the same clean-check command so manual push cannot bypass the flow.
   - A future governed commit/push command will run checks, commit, run the post-commit cleanliness gate, and push only when all blocking gates pass.
+- id: DEC-0013
+  title: Repository cleanliness is implemented as a reusable pre-push command
+  status: accepted
+  statement: The repository shall implement repo:check:clean as the canonical cleanliness command used after commit and before push, while keeping hook installation and governed commit/push orchestration in later micropasses.
+  rationale: A small command-only micropasso proves the cleanliness policy in isolation before wiring it into Git hooks. This keeps the pre-commit gate safe, gives developers an explicit command to run before push, and gives future automation a single policy implementation to invoke.
+  consequences:
+  - repo:check:clean becomes the canonical post-commit/pre-push cleanliness check.
+  - The command fails closed and prints review-oriented remediation guidance when dirty state or unsafe artifacts/ tracking is detected.
+  - The future pre-push hook must invoke this command instead of reimplementing cleanliness policy.
+  - The future governed commit/push helper must invoke this command after commit and before push.

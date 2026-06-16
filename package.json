@@ -17,7 +17,8 @@
     "context:zip:handoff:dry-run": "node tools/context/create-project-handoff-zip.mjs --dry-run",
     "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format && npm run docs:check:control-report && npm run docs:check:control-page && npm run docs:test:negative",
     "check": "npm run docs:check",
-    "precommit": "npm run docs:check"
+    "precommit": "npm run docs:check",
+    "repo:check:clean": "node tools/git/check-repository-clean.mjs"
   },
   "dependencies": {
     "yaml": "^2.6.1"
