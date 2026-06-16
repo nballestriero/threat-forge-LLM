@@ -26,6 +26,10 @@ registry:
     document types, body profiles, taxonomies, graph node types, and graph
     predicates.
 
+decision_parts:
+  - area_id: schema-validation
+    path: docs/reference/project-model/decisions/schema-validation.decisions.yml
+    description: First extracted decisions part for governed schema validation decisions.
 taxonomies:
   capability_status:
     - id: "proposed"
@@ -186,45 +190,73 @@ taxonomies:
 
   project_model_areas:
     - id: "global"
-      description: "Cross-cutting project-model area for decisions, relationships, or policies that are intentionally not owned by a single functional area."
-      rationale: "Some governance decisions and graph relationships define repository-wide rules rather than one capability boundary."
-      validation_impact: "Future validators shall allow global only for explicitly cross-cutting indexes, decisions, or graph parts."
+      description: "Cross-cutting project-model area for decisions, relationships, or policies that
+        are intentionally not owned by a single functional area."
+      rationale: "Some governance decisions and graph relationships define repository-wide rules rather
+        than one capability boundary."
+      validation_impact: "Future validators shall allow global only for explicitly cross-cutting indexes,
+        decisions, or graph parts."
     - id: "documentation-structure"
-      description: "Area for governed documentation layout, Diátaxis placement, required files, and repository documentation boundaries."
-      rationale: "Documentation structure has distinct ownership from schema validation and semantic project-model checks."
-      validation_impact: "Future modular parts using this area shall own structure-related requirements, decisions, and graph relationships."
+      description: "Area for governed documentation layout, Diátaxis placement, required files, and
+        repository documentation boundaries."
+      rationale: "Documentation structure has distinct ownership from schema validation and semantic
+        project-model checks."
+      validation_impact: "Future modular parts using this area shall own structure-related requirements,
+        decisions, and graph relationships."
     - id: "schema-validation"
-      description: "Area for governed JSON Schema contracts, schema application traceability, and format validation entrypoint rules."
+      description: "Area for governed JSON Schema contracts, schema application traceability, and
+        format validation entrypoint rules."
       rationale: "Schema validation has a stable contract and tooling boundary around check-docs-format.mjs."
-      validation_impact: "Future modular parts using this area shall own schema contract and schema-driven validation requirements, decisions, and graph relationships."
+      validation_impact: "Future modular parts using this area shall own schema contract and schema-driven
+        validation requirements, decisions, and graph relationships."
     - id: "requirements-governance"
-      description: "Area for macro requirements, atomic requirements, lifecycle rules, acceptance criteria, and requirement registry governance."
-      rationale: "Requirements governance is a distinct model concern even when individual requirements belong to product capabilities."
-      validation_impact: "Future validators shall aggregate this area with other parts before checking requirement references and lifecycle semantics."
+      description: "Area for macro requirements, atomic requirements, lifecycle rules, acceptance
+        criteria, and requirement registry governance."
+      rationale: "Requirements governance is a distinct model concern even when individual requirements
+        belong to product capabilities."
+      validation_impact: "Future validators shall aggregate this area with other parts before checking
+        requirement references and lifecycle semantics."
     - id: "graph-traceability"
-      description: "Area for graph matrix contracts, SPO relationships, predicate compatibility, and cross-artifact traceability semantics."
-      rationale: "Traceability graph ownership must scale separately from the requirements registry and decision registry."
-      validation_impact: "Future validators shall aggregate graph-traceability parts before checking SPO compatibility and entity existence."
+      description: "Area for graph matrix contracts, SPO relationships, predicate compatibility, and
+        cross-artifact traceability semantics."
+      rationale: "Traceability graph ownership must scale separately from the requirements registry
+        and decision registry."
+      validation_impact: "Future validators shall aggregate graph-traceability parts before checking
+        SPO compatibility and entity existence."
     - id: "source-traceability"
-      description: "Area for governed source-file registration, JSDoc traceability, and implementation evidence checks."
-      rationale: "Source traceability connects model requirements to tools and source files and needs a clear modular ownership boundary."
-      validation_impact: "Future validators shall apply source traceability checks after aggregating all requirement and graph parts."
+      description: "Area for governed source-file registration, JSDoc traceability, and implementation
+        evidence checks."
+      rationale: "Source traceability connects model requirements to tools and source files and needs
+        a clear modular ownership boundary."
+      validation_impact: "Future validators shall apply source traceability checks after aggregating
+        all requirement and graph parts."
     - id: "governance-control"
-      description: "Area for governance control report, static control page, generated artifacts, and future admin/control surfaces."
-      rationale: "Governance control outputs are generated and consumed differently from project-model registries."
-      validation_impact: "Future modular parts using this area shall own report/page contract and generation traceability."
+      description: "Area for governance control report, static control page, generated artifacts,
+        and future admin/control surfaces."
+      rationale: "Governance control outputs are generated and consumed differently from project-model
+        registries."
+      validation_impact: "Future modular parts using this area shall own report/page contract and
+        generation traceability."
     - id: "project-handoff"
-      description: "Area for handoff ZIP generation, context packaging, and local artifact exclusion policy."
-      rationale: "Project handoff is an operational capability with distinct commands and artifact boundaries."
-      validation_impact: "Future modular parts using this area shall own handoff command, tool, and artifact-policy traceability."
+      description: "Area for handoff ZIP generation, context packaging, and local artifact exclusion
+        policy."
+      rationale: "Project handoff is an operational capability with distinct commands and artifact
+        boundaries."
+      validation_impact: "Future modular parts using this area shall own handoff command, tool, and
+        artifact-policy traceability."
     - id: "markdown-format"
       description: "Area for governed Markdown body profiles and Markdown document format checks."
-      rationale: "Markdown body governance is format-oriented and separate from YAML registry schema validation."
-      validation_impact: "Future modular parts using this area shall own body-profile requirements, decisions, and validation relationships."
+      rationale: "Markdown body governance is format-oriented and separate from YAML registry schema
+        validation."
+      validation_impact: "Future modular parts using this area shall own body-profile requirements,
+        decisions, and validation relationships."
     - id: "backend-architecture"
-      description: "Area for future backend layering, composition-root, API contract, and architecture governance requirements."
-      rationale: "Backend architecture will grow after product boundary work and should not be mixed into documentation governance files."
-      validation_impact: "Future modular parts using this area shall own backend architecture requirements and enforcement design when runtime code exists."
+      description: "Area for future backend layering, composition-root, API contract, and architecture
+        governance requirements."
+      rationale: "Backend architecture will grow after product boundary work and should not be mixed
+        into documentation governance files."
+      validation_impact: "Future modular parts using this area shall own backend architecture requirements
+        and enforcement design when runtime code exists."
 
 capabilities:
   - id: "CAP-DOCUMENTATION-GOVERNANCE"
@@ -349,9 +381,12 @@ decisions:
       source comments claim implementation that the matrix does not contain.
     consequences:
       - "Governed source files under controlled source roots must have IMPLEMENTED_BY graph traceability."
-      - "IMPLEMENTED_BY triples from requirements to source files must be mirrored by source-file comments."
-      - "Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY triples."
-      - "The initial validation level is file-level traceability; code-symbol traceability may be added later."
+      - "IMPLEMENTED_BY triples from requirements to source files must be mirrored by source-file
+        comments."
+      - "Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY
+        triples."
+      - "The initial validation level is file-level traceability; code-symbol traceability may be
+        added later."
 
   - id: "DEC-0006"
     title: "Validation commands must match package scripts"
@@ -433,7 +468,8 @@ decisions:
       - "The static HTML page is a consumer of the report, not the source of truth."
       - "Future protected admin UI and backend APIs must consume or expose the same report model."
       - "JSON Schema is the canonical external contract for the report."
-      - "Zod may be used for runtime validation inside TypeScript or JavaScript code, but it must not diverge from canonical JSON Schema or OpenAPI contracts."
+      - "Zod may be used for runtime validation inside TypeScript or JavaScript code, but it must
+        not diverge from canonical JSON Schema or OpenAPI contracts."
 
   - id: "DEC-0011"
     title: "Project handoff archives are generated by a Node.js repository tool"
@@ -471,7 +507,8 @@ decisions:
       - "Governance, requirements, and graph matrix registries require explicit schema files."
       - "Deterministic tools must read and validate against canonical registry schemas."
       - "Fields with controlled values must declare the authoritative dataset or taxonomy they use."
-      - "Controlled value sets must document meaning, rationale, and validation impact before they become binding."
+      - "Controlled value sets must document meaning, rationale, and validation impact before they
+        become binding."
 
   - id: "DEC-0013"
     title: "Baseline artifacts require bidirectional traceability"
@@ -487,235 +524,8 @@ decisions:
     consequences:
       - "Governed baseline artifacts declare decided_by and satisfies markers."
       - "The project model validator checks marker-to-graph and graph-to-marker consistency."
-      - "The initial enforcement covers the project-model registry files and can be extended to contract/schema roots."
-
-
-
-  - id: "DEC-0014"
-    title: "Governance registry schema analysis separates schema shape from semantic validation"
-    status: "accepted"
-    statement: >
-      The governance registry schema design shall classify fields by structural
-      shape, free text, controlled values, governed IDs, ID references, and
-      semantic validation responsibilities before creating the explicit schema.
-    rationale: >
-      Creating the schema directly from current validator code would preserve
-      hidden assumptions. A field-level analysis makes controlled datasets,
-      hardcoded rules, and semantic validator boundaries visible before they
-      become binding schema artifacts.
-    consequences:
-      - "The first registry schema step is a governed analysis document, not an immediate JSON Schema drop-in."
-      - "The analysis documents which current validator rules are schema shape rules and which must remain semantic checks."
-      - "Controlled value datasets must be identified before the governance registry schema becomes binding."
-
-  - id: "DEC-0015"
-    title: "Governance registry schema is a canonical JSON Schema baseline"
-    status: "accepted"
-    statement: >
-      The governance registry schema shall be captured in a versioned JSON Schema
-      artifact under docs/reference/project-model/schemas, with deterministic
-      checks validating the schema artifact before validators migrate from
-      hardcoded shape checks to schema-driven registry validation.
-    rationale: >
-      REQ-0021 requires explicit machine-readable registry schemas, and M000.022A
-      classified the governance registry fields. Creating the first schema
-      contract turns that analysis into a protected baseline artifact while
-      keeping semantic cross-file validation in deterministic tools.
-    consequences:
-      - "docs/reference/project-model/schemas/governance-registry.schema.json becomes the canonical shape contract for governance.registry.yml."
-      - "The schema declares structural constraints, field shapes, ID patterns, and initial controlled-value boundaries."
-      - "Cross-file checks such as ID existence, graph consistency, package script existence, and source traceability remain semantic validator responsibilities."
-      - "The schema carries file-local change-control metadata that is checked against graph.matrix.yml."
-
-
-  - id: "DEC-0016"
-    title: "Governance registry schema is executed by deterministic validation"
-    status: "accepted"
-    statement: >
-      The documentation format validator shall load and apply the canonical
-      Governance Registry JSON Schema to the parsed governance registry YAML
-      document as part of docs:check.
-    rationale: >
-      A schema artifact that is only registered but not executed does not prevent
-      registry drift. The schema must become validator input so structural
-      changes are checked by the governed contract instead of only by hardcoded
-      checks.
-    consequences:
-      - "docs:check:format validates governance.registry.yml against governance-registry.schema.json."
-      - "A negative fixture proves that schema-rejected fields fail validation."
-      - "Hardcoded semantic checks remain valid for cross-file references and graph consistency."
-
-  - id: "DEC-0017"
-    title: "Schema application must be bidirectionally traceable"
-    status: "accepted"
-    statement: >
-      Canonical schema artifacts shall explicitly declare the governed artifact
-      paths they apply to, governed artifacts shall declare their canonical
-      schema, and graph.matrix.yml shall contain matching schema-to-artifact
-      relationships.
-    rationale: >
-      A schema file can otherwise exist without being applied, or a validator can
-      apply a schema through hardcoded paths without the governed graph recording
-      that contract. Bidirectional schema application traceability makes schema
-      coverage auditable and prevents silent drift between schemas and target
-      artifacts.
-    consequences:
-      - "Schema artifacts declare x-applies_to target artifact paths."
-      - "Governed artifacts declare schema_control metadata that points to their canonical schema."
-      - "graph.matrix.yml records schema application relationships."
-      - "The project model validator checks schema-to-artifact and artifact-to-schema consistency."
-
-
-  - id: "DEC-0018"
-    title: "Requirements registry schema analysis separates lifecycle data from semantic traceability"
-    status: "accepted"
-    statement: >
-      The requirements registry schema design shall classify requirement fields,
-      nested flow entities, lifecycle values, verification evidence, and
-      cross-registry references before creating the explicit schema contract.
-    rationale: >
-      Requirements are the central governance objects for implementation,
-      verification, and traceability. Creating their schema directly from current
-      validator code would hide which fields are local shape constraints and
-      which require semantic checks against capabilities, graph relationships,
-      source files, commands, and evidence.
-    consequences:
-      - "The requirements registry schema starts with a field-level analysis document."
-      - "Lifecycle and verification fields are mapped to explicit controlled datasets."
-      - "Macro requirement implementation status remains manual, while every atomic requirement must reference an existing macro requirement."
-      - "Requirement scope remains a high-governance controlled taxonomy and must not grow without rationale, validation impact, and graph-backed governance."
-      - "Accepted requirements require acceptance criteria and verification."
-      - "Implemented requirements require deterministic VERIFIED_BY evidence, with IMPLEMENTED_BY required when an implementation artifact is applicable."
-      - "not_applicable implementation status is rationale-gated, constrained by requirement type, and decision-backed for important cases."
-      - "Nested requirement entity ID rules remain semantic validator responsibilities where they depend on parent requirement IDs."
-
-  - id: "DEC-0019"
-    title: "Requirements registry schema is a canonical JSON Schema baseline"
-    status: "accepted"
-    statement: >
-      The requirements registry schema shall be captured in a versioned JSON
-      Schema artifact under docs/reference/project-model/schemas, with
-      deterministic checks validating the schema artifact and schema application
-      traceability before validators migrate additional requirements registry
-      checks to schema-driven validation.
-    rationale: >
-      REQ-0027 classified the requirements registry fields and decided which
-      fields are local shape constraints, controlled lifecycle values, governed
-      nested IDs, or semantic cross-file validation responsibilities. Creating
-      the schema artifact turns that analysis into a protected baseline contract
-      without pretending to replace semantic graph validation.
-    consequences:
-      - "docs/reference/project-model/schemas/requirements-registry.schema.json becomes the canonical shape contract for requirements.registry.yml."
-      - "The schema declares structural constraints, field shapes, ID patterns, and the high-governance boundary for controlled fields such as scope."
-      - "Cross-file checks such as macro existence, capability existence, parent-specific nested IDs, graph consistency, and implemented requirement evidence remain semantic validator responsibilities."
-      - "The schema carries file-local change-control metadata and x-applies_to so schema application traceability can be checked bidirectionally."
-
-
-  - id: "DEC-0020"
-    title: "Requirements registry schema is executed by deterministic validation"
-    status: "accepted"
-    statement: >
-      The documentation format validator shall load and apply the canonical
-      Requirements Registry JSON Schema to the parsed requirements registry YAML
-      document as part of docs:check.
-    rationale: >
-      A requirements registry schema that is only registered and traceable does
-      not prevent structural drift in atomic requirements, macro requirements,
-      nested flows, acceptance criteria, or verification fields. The schema must
-      become validator input so requirements registry shape changes are checked
-      by the governed contract before semantic graph validation runs.
-    consequences:
-      - "docs:check:format validates requirements.registry.yml against requirements-registry.schema.json."
-      - "A negative fixture proves that schema-rejected requirements registry fields fail validation."
-      - "Semantic checks for macro ownership, capability references, graph evidence, and implementation evidence remain in project-model validation."
-
-
-
-
-  - id: "DEC-0021"
-    title: "Graph matrix schema analysis separates local shape from semantic graph validation"
-    status: "accepted"
-    statement: >
-      The graph matrix schema design shall classify graph.matrix.yml fields,
-      node records, SPO triples, controlled graph vocabulary, repository path
-      checks, command checks, and cross-artifact traceability before creating
-      the explicit graph matrix schema contract.
-    rationale: >
-      The graph matrix is the central traceability surface for decisions,
-      requirements, schemas, source files, commands, gates, tools, and governed
-      documents. Creating its schema directly from current validator code would
-      hide which rules are local YAML shape constraints and which depend on the
-      governance registry, requirements registry, package manifest, repository
-      filesystem, or source-file JSDoc.
-    consequences:
-      - "The graph matrix schema rollout starts with a field-level analysis document."
-      - "Local matrix shape rules are separated from semantic graph checks."
-      - "Predicate and node-type compatibility remain governed by governance.registry.yml, not by a second hidden schema enum."
-      - "Repository path checks, command checks, schema application checks, baseline artifact checks, and source-file traceability remain deterministic semantic validator responsibilities."
-      - "The future graph matrix schema step must add schema_control to graph.matrix.yml and register graph-matrix.schema.json as an applied SchemaFile."
-
-  - id: "DEC-0022"
-    title: "Graph matrix schema is a canonical JSON Schema baseline"
-    status: "accepted"
-    statement: >
-      The graph matrix schema shall be captured in a versioned JSON Schema
-      artifact under docs/reference/project-model/schemas, with deterministic
-      checks validating the schema artifact and schema application traceability
-      before graph.matrix.yml is validated by schema-driven execution.
-    rationale: >
-      REQ-0030 classified graph matrix fields and established that local YAML
-      shape belongs in JSON Schema while predicate compatibility, entity
-      existence, package command existence, repository path checks, baseline
-      artifact checks, schema application traceability, and source-file
-      traceability remain semantic validator responsibilities. Creating the
-      schema artifact turns that analysis into a protected baseline without
-      duplicating the graph vocabulary inside the schema.
-    consequences:
-      - "docs/reference/project-model/schemas/graph-matrix.schema.json becomes the canonical shape contract for graph.matrix.yml."
-      - "The schema declares structural constraints for matrix metadata, nodes, triples, change_control, and schema_control."
-      - "Predicate and node-type existence are still checked semantically against governance.registry.yml."
-      - "The schema carries file-local change-control metadata and x-applies_to so schema application traceability can be checked bidirectionally."
-
-
-  - id: "DEC-0023"
-    title: "Graph matrix schema is executed by deterministic validation"
-    status: "accepted"
-    statement: >
-      The documentation format validator shall load and apply the canonical Graph
-      Matrix JSON Schema to the parsed graph matrix YAML document as part of
-      docs:check.
-    rationale: >
-      A graph matrix schema that is only registered and traceable does not
-      prevent structural drift in matrix metadata, node records, triple records,
-      schema_control, or change_control fields. The schema must become validator
-      input so local graph matrix shape changes are checked by the governed
-      contract before semantic graph validation runs.
-    consequences:
-      - "docs:check:format validates graph.matrix.yml against graph-matrix.schema.json."
-      - "A negative fixture proves that schema-rejected graph matrix fields fail validation."
-      - "Predicate compatibility, entity existence, package command checks, repository path checks, schema application traceability, baseline artifact checks, and source-file traceability remain semantic validator responsibilities."
-
-
-  - id: "DEC-0024"
-    title: "Governed artifact schema validation has a single execution entrypoint"
-    status: "accepted"
-    statement: >
-      tools/docs/check-docs-format.mjs and docs:check:format are the canonical
-      deterministic execution path for governed artifact JSON Schema validation.
-      Other validators must not duplicate artifact JSON Schema validation logic;
-      they may validate semantic consistency, schema application traceability,
-      graph relationships, source-file references, package commands, repository
-      paths, and lifecycle evidence.
-    rationale: >
-      Governance, requirements, and graph matrix schemas now have executable
-      validation. Without an explicit entrypoint decision, future tools could
-      reimplement schema validation independently and drift from the canonical
-      diagnostics or supported JSON Schema subset.
-    consequences:
-      - "tools/docs/check-docs-format.mjs remains the schema execution boundary for governed artifacts."
-      - "docs:check:format is the command-level schema validation entrypoint."
-      - "tools/docs/check-project-model.mjs remains responsible for semantic and bidirectional traceability checks."
-      - "New schema-controlled artifacts must extend the format validator rather than introduce duplicate schema validators."
+      - "The initial enforcement covers the project-model registry files and can be extended to contract/schema
+        roots."
 
 
 
@@ -738,11 +548,15 @@ decisions:
       preferable to preserving long-term compatibility with the current
       monolithic layout.
     consequences:
-      - "Future modular requirements, graph, and decision files use central indexes and area-owned parts."
+      - "Future modular requirements, graph, and decision files use central indexes and area-owned
+        parts."
       - "Canonical references use <area_id>:<local_id> once modular loaders are introduced."
-      - "The project_model_areas taxonomy must be introduced with deterministic validation, bidirectional implementation traceability, and negative fixture evidence before broad use."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint, while check-project-model.mjs aggregates modular parts and validates semantics."
-      - "Long-term compatibility with the monolithic layout is not a requirement during the pre-release migration."
+      - "The project_model_areas taxonomy must be introduced with deterministic validation, bidirectional
+        implementation traceability, and negative fixture evidence before broad use."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint, while check-project-model.mjs
+        aggregates modular parts and validates semantics."
+      - "Long-term compatibility with the monolithic layout is not a requirement during the pre-release
+        migration."
 
 
   - id: "DEC-0026"
@@ -761,9 +575,12 @@ decisions:
       from silently moving governed records between files.
     consequences:
       - "taxonomies.project_model_areas becomes the controlled value set for future area_id fields."
-      - "Every project_model_areas value carries description, rationale, and validation impact before broad use."
-      - "Future schema and loader work shall validate area_id shape through check-docs-format.mjs and semantic membership through check-project-model.mjs."
-      - "Negative fixture coverage for invalid area_id values is required before modular parts rely on the taxonomy broadly."
+      - "Every project_model_areas value carries description, rationale, and validation impact before
+        broad use."
+      - "Future schema and loader work shall validate area_id shape through check-docs-format.mjs
+        and semantic membership through check-project-model.mjs."
+      - "Negative fixture coverage for invalid area_id values is required before modular parts rely
+        on the taxonomy broadly."
 
   - id: "DEC-0027"
     title: "Project model areas taxonomy is semantically enforced by the project model validator"
@@ -782,9 +599,11 @@ decisions:
       the single schema validation entrypoint and avoids duplicating semantic
       taxonomy checks in the format validator.
     consequences:
-      - "check-project-model.mjs rejects missing, malformed, duplicate, or incomplete project_model_areas entries."
+      - "check-project-model.mjs rejects missing, malformed, duplicate, or incomplete project_model_areas
+        entries."
       - "Negative fixture coverage proves invalid project_model_areas values fail deterministically."
-      - "Future area_id fields in modular index and part files shall reuse the same semantic taxonomy enforcement path."
+      - "Future area_id fields in modular index and part files shall reuse the same semantic taxonomy
+        enforcement path."
       - "check-docs-format.mjs remains responsible only for local schema and format validation."
 
 
@@ -802,11 +621,16 @@ decisions:
       area keeps local files readable while preserving one aggregated
       requirements model.
     consequences:
-      - "requirements.registry.yml remains the canonical loading entrypoint but should become an index in the modular model."
-      - "Future requirements parts use registered project_model_areas values and canonical <area_id>:<local_id> identities."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future requirements index and part schemas."
-      - "check-project-model.mjs remains responsible for semantic aggregation, parent macro resolution, capability references, and traceability."
-      - "No existing requirements are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
+      - "requirements.registry.yml remains the canonical loading entrypoint but should become an index
+        in the modular model."
+      - "Future requirements parts use registered project_model_areas values and canonical <area_id>:<local_id>
+        identities."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future requirements
+        index and part schemas."
+      - "check-project-model.mjs remains responsible for semantic aggregation, parent macro resolution,
+        capability references, and traceability."
+      - "No existing requirements are migrated by this decision; extraction is reserved for later
+        modular loader and area extraction micropasses."
 
 
   - id: "DEC-0029"
@@ -825,12 +649,18 @@ decisions:
       parts preserve one logical graph while keeping traceability ownership
       readable.
     consequences:
-      - "graph.matrix.yml remains the canonical graph loading entrypoint but should become an index in the modular model."
-      - "Future graph parts use registered project_model_areas values and canonical <area_id>:<local_id> identities for modular records."
-      - "A dedicated cross-area graph part or explicit cross-area role shall own relationships that connect different project-model areas."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future graph index and part schemas."
-      - "check-project-model.mjs remains responsible for semantic aggregation, SPO compatibility, entity existence, command checks, schema traceability, and source traceability."
-      - "No existing graph nodes or triples are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
+      - "graph.matrix.yml remains the canonical graph loading entrypoint but should become an index
+        in the modular model."
+      - "Future graph parts use registered project_model_areas values and canonical <area_id>:<local_id>
+        identities for modular records."
+      - "A dedicated cross-area graph part or explicit cross-area role shall own relationships that
+        connect different project-model areas."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future graph index
+        and part schemas."
+      - "check-project-model.mjs remains responsible for semantic aggregation, SPO compatibility,
+        entity existence, command checks, schema traceability, and source traceability."
+      - "No existing graph nodes or triples are migrated by this decision; extraction is reserved
+        for later modular loader and area extraction micropasses."
 
 
   - id: "DEC-0030"
@@ -850,12 +680,18 @@ decisions:
       preserve one logical governance model while making decision ownership
       explicit by project-model area.
     consequences:
-      - "governance.registry.yml remains the canonical governance loading entrypoint and shared vocabulary registry."
-      - "Future decisions parts use registered project_model_areas values and canonical <area_id>:<local_id> identities for modular decision records."
-      - "The global decisions part owns intentionally cross-cutting decisions and must not become an uncontrolled dumping ground."
-      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future governance index and decisions part schemas."
-      - "check-project-model.mjs remains responsible for semantic aggregation, canonical decision identity, duplicate detection, decision references, and graph traceability."
-      - "No existing decisions are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
+      - "governance.registry.yml remains the canonical governance loading entrypoint and shared vocabulary
+        registry."
+      - "Future decisions parts use registered project_model_areas values and canonical <area_id>:<local_id>
+        identities for modular decision records."
+      - "The global decisions part owns intentionally cross-cutting decisions and must not become
+        an uncontrolled dumping ground."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future governance
+        index and decisions part schemas."
+      - "check-project-model.mjs remains responsible for semantic aggregation, canonical decision
+        identity, duplicate detection, decision references, and graph traceability."
+      - "No existing decisions are migrated by this decision; extraction is reserved for later modular
+        loader and area extraction micropasses."
 
 
   - id: "DEC-0031"
@@ -873,13 +709,31 @@ decisions:
       uniqueness, predicate compatibility, source traceability, schema
       application traceability, and command validation.
     consequences:
-      - "requirements.registry.yml, graph.matrix.yml, and governance.registry.yml remain the future loading boundaries for modular parts."
-      - "Future part files must be declared by their owning index before they participate in the logical project model."
+      - "requirements.registry.yml, graph.matrix.yml, and governance.registry.yml remain the future
+        loading boundaries for modular parts."
+      - "Future part files must be declared by their owning index before they participate in the logical
+        project model."
       - "check-docs-format.mjs remains responsible for JSON Schema validation of index and part files."
-      - "check-project-model.mjs remains responsible for aggregating declared parts, deriving canonical identifiers, and running semantic validation."
-      - "Long-term compatibility with the monolithic project-model layout is not a target because the project is before first release."
-      - "No existing requirements, graph triples, or decisions are migrated by this decision; extraction is reserved for later loader implementation and first-area extraction micropasses."
+      - "check-project-model.mjs remains responsible for aggregating declared parts, deriving canonical
+        identifiers, and running semantic validation."
+      - "Long-term compatibility with the monolithic project-model layout is not a target because
+        the project is before first release."
+      - "No existing requirements, graph triples, or decisions are migrated by this decision; extraction
+        is reserved for later loader implementation and first-area extraction micropasses."
 
+  - id: DEC-0032
+    title: Schema-validation is the first extracted project model area
+    status: accepted
+    statement: The first modular extraction shall use the schema-validation area and introduce
+      governed requirements, decisions, and graph parts loaded into one aggregate model.
+    rationale: Schema validation is the smallest high-value area with existing schema contracts,
+      deterministic validation, source traceability, and project_model_areas governance.
+    consequences:
+      - The root registries remain central indexes and shared vocabulary boundaries.
+      - The extracted parts use the existing legacy REQ and DEC identifiers during this first
+        pilot extraction.
+      - Later steps may complete the clean <area_id>:<local_id> identity migration after the
+        loader pattern is proven.
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
@@ -959,7 +813,8 @@ node_types:
     description: "Product capability or product area."
 
   - id: "Taxonomy"
-    description: "Governed controlled value set with explicit value descriptions and deterministic validation responsibilities."
+    description: "Governed controlled value set with explicit value descriptions and deterministic
+      validation responsibilities."
 
   - id: "MacroRequirement"
     description: "High-level requirement decomposed into atomic requirements."
@@ -977,7 +832,8 @@ node_types:
     description: "Implementation source file."
 
   - id: "SchemaFile"
-    description: "Machine-readable schema artifact that defines structural validation for a governed target artifact."
+    description: "Machine-readable schema artifact that defines structural validation for a governed
+      target artifact."
 
   - id: "TestFile"
     description: "Automated test file."
@@ -1117,7 +973,8 @@ predicates:
       - "Document"
 
   - id: "APPLIES_TO"
-    description: "The schema file defines the structural validation contract for the target governed artifact."
+    description: "The schema file defines the structural validation contract for the target governed
+      artifact."
     allowed_subject_types:
       - "SchemaFile"
     allowed_object_types:
@@ -1126,7 +983,8 @@ predicates:
 
 
   - id: "DEPENDS_ON"
-    description: "The subject depends on the object and should be evaluated after or together with it."
+    description: "The subject depends on the object and should be evaluated after or together with
+      it."
     allowed_subject_types:
       - "Requirement"
       - "MacroRequirement"
@@ -1145,7 +1003,8 @@ predicates:
       - "Command"
 
   - id: "IMPLEMENTED_BY"
-    description: "The subject is implemented by a source file, configuration file, or future code symbol."
+    description: "The subject is implemented by a source file, configuration file, or future code
+      symbol."
     allowed_subject_types:
       - "Requirement"
       - "Gate"
@@ -1156,7 +1015,8 @@ predicates:
       - "CodeSymbol"
 
   - id: "VERIFIED_BY"
-    description: "The requirement or acceptance criterion is verified by a test file or validation gate."
+    description: "The requirement or acceptance criterion is verified by a test file or validation
+      gate."
     allowed_subject_types:
       - "Requirement"
       - "AcceptanceCriterion"

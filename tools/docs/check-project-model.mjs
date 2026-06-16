@@ -23,6 +23,7 @@
  * - REQ-0028
  * - REQ-0031
  * - REQ-0036
+ * - REQ-0041
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -57,6 +58,9 @@ const MODEL_FILES = {
   governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json",
   requirementsRegistrySchema: "docs/reference/project-model/schemas/requirements-registry.schema.json",
   graphMatrixSchema: "docs/reference/project-model/schemas/graph-matrix.schema.json",
+  requirementsPartSchema: "docs/reference/project-model/schemas/requirements-part.schema.json",
+  graphPartSchema: "docs/reference/project-model/schemas/graph-part.schema.json",
+  decisionsPartSchema: "docs/reference/project-model/schemas/decisions-part.schema.json",
   packageJson: "package.json"
 };
 
@@ -66,7 +70,10 @@ const GOVERNED_BASELINE_ARTIFACTS = [
   MODEL_FILES.matrix,
   MODEL_FILES.governanceRegistrySchema,
   MODEL_FILES.requirementsRegistrySchema,
-  MODEL_FILES.graphMatrixSchema
+  MODEL_FILES.graphMatrixSchema,
+  MODEL_FILES.requirementsPartSchema,
+  MODEL_FILES.graphPartSchema,
+  MODEL_FILES.decisionsPartSchema
 ];
 
 const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "REQ-0024", "REQ-0028", "REQ-0031"]);
@@ -875,10 +882,11 @@ function baselineChangeControl(document) {
  *
  * @param {object} indexes - Entity indexes.
  * @param {Map<string, object>} baselineDocuments - Baseline artifact path to parsed document.
+ * @param {string[]} baselineArtifactPaths - Governed baseline paths that require change-control traceability.
  * @returns {void}
  */
-function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments) {
-  for (const artifactPath of GOVERNED_BASELINE_ARTIFACTS) {
+function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments, baselineArtifactPaths) {
+  for (const artifactPath of baselineArtifactPaths) {
     const document = baselineDocuments.get(artifactPath);
     const changeControl = baselineChangeControl(document);
 
@@ -948,7 +956,7 @@ function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocu
       triple?.predicate !== "SPECIFIED_BY" ||
       !["Document", "SchemaFile"].includes(triple?.object?.type) ||
       !BASELINE_TRACEABILITY_REQUIREMENTS.has(requirementId) ||
-      !GOVERNED_BASELINE_ARTIFACTS.includes(artifactPath)
+      !baselineArtifactPaths.includes(artifactPath)
     ) {
       continue;
     }
@@ -1217,18 +1225,182 @@ function validateBidirectionalSourceTraceability(indexes) {
   }
 }
 
+/**
+ * Returns declared project-model part entries from an index document.
+ *
+ * @param {object | null | undefined} indexDocument - Parsed index document.
+ * @param {string} propertyName - Part declaration property name.
+ * @returns {unknown[]} Part declarations.
+ */
+function declaredPartEntries(indexDocument, propertyName) {
+  return asArray(indexDocument?.[propertyName]);
+}
+
+/**
+ * Loads modular project-model part documents declared by an index.
+ *
+ * @param {object | null | undefined} indexDocument - Parsed index document.
+ * @param {string} indexPath - Repository-relative index file path.
+ * @param {string} propertyName - Part declaration property name.
+ * @param {string} kind - Human-readable part kind.
+ * @returns {{ kind: string, indexPath: string, areaId: string | undefined, path: string | undefined, document: object | null }[]} Loaded part metadata.
+ */
+function loadDeclaredProjectModelParts(indexDocument, indexPath, propertyName, kind) {
+  return declaredPartEntries(indexDocument, propertyName).map((part, index) => {
+    const areaId = part?.area_id;
+    const partPath = part?.path;
+    const location = `${indexPath}.${propertyName}[${index}]`;
+
+    if (typeof partPath !== "string" || partPath.trim().length === 0) {
+      errors.push(`${location} must declare a non-empty path.`);
+      return { kind, indexPath, areaId, path: partPath, document: null };
+    }
+
+    return { kind, indexPath, areaId, path: partPath, document: readYaml(partPath) };
+  });
+}
+
+/**
+ * Builds an aggregate project model from root registries and modular part files.
+ *
+ * Root files remain the loading boundary. Declared part files are appended to
+ * the logical model before semantic validation so validators see one combined
+ * requirements, decisions, and graph model.
+ *
+ * @param {object} governanceRoot - Parsed governance registry.
+ * @param {object} requirementsRoot - Parsed requirements registry.
+ * @param {object} matrixRoot - Parsed graph matrix.
+ * @returns {{ governance: object, requirements: object, matrix: object, parts: object[], partDocuments: Map<string, object> }} Aggregate model and loaded part metadata.
+ */
+function buildAggregateProjectModel(governanceRoot, requirementsRoot, matrixRoot) {
+  const requirementParts = loadDeclaredProjectModelParts(requirementsRoot, MODEL_FILES.requirements, "parts", "requirements");
+  const decisionParts = loadDeclaredProjectModelParts(governanceRoot, MODEL_FILES.governance, "decision_parts", "decisions");
+  const graphParts = loadDeclaredProjectModelParts(matrixRoot, MODEL_FILES.matrix, "parts", "graph");
+
+  const partDocuments = new Map();
+  for (const part of [...requirementParts, ...decisionParts, ...graphParts]) {
+    if (part.path && part.document) {
+      partDocuments.set(part.path, part.document);
+    }
+  }
+
+  return {
+    governance: {
+      ...governanceRoot,
+      decisions: [
+        ...asArray(governanceRoot.decisions),
+        ...decisionParts.flatMap((part) => asArray(part.document?.decisions))
+      ]
+    },
+    requirements: {
+      ...requirementsRoot,
+      requirements: [
+        ...asArray(requirementsRoot.requirements),
+        ...requirementParts.flatMap((part) => asArray(part.document?.requirements))
+      ]
+    },
+    matrix: {
+      ...matrixRoot,
+      nodes: [
+        ...asArray(matrixRoot.nodes),
+        ...graphParts.flatMap((part) => asArray(part.document?.nodes))
+      ],
+      triples: [
+        ...asArray(matrixRoot.triples),
+        ...graphParts.flatMap((part) => asArray(part.document?.triples))
+      ]
+    },
+    parts: [...requirementParts, ...decisionParts, ...graphParts],
+    partDocuments
+  };
+}
+
+/**
+ * Validates modular part declarations against governed area and path rules.
+ *
+ * @param {object} indexes - Aggregate project-model indexes.
+ * @param {object[]} parts - Loaded part metadata.
+ * @returns {void}
+ */
+function validateProjectModelParts(indexes, parts) {
+  const areaEntries = indexes.taxonomyEntries.get(PROJECT_MODEL_AREAS_TAXONOMY) ?? [];
+  const areaIds = idSet(areaEntries);
+  const seenPaths = new Map();
+  const pathRules = {
+    requirements: { prefix: "docs/reference/project-model/requirements/", suffix: ".requirements.yml" },
+    decisions: { prefix: "docs/reference/project-model/decisions/", suffix: ".decisions.yml" },
+    graph: { prefix: "docs/reference/project-model/graph/", suffix: ".graph.yml" }
+  };
+
+  for (const part of parts) {
+    const pathValue = part.path;
+    const areaId = part.areaId;
+    const location = `${part.indexPath} ${part.kind} part ${pathValue ?? "<missing>"}`;
+
+    if (typeof areaId !== "string" || !PROJECT_MODEL_AREA_ID_PATTERN.test(areaId)) {
+      errors.push(`${location} declares invalid area_id ${areaId ?? "<missing>"}`);
+    } else if (!areaIds.has(areaId)) {
+      errors.push(`${location} references unknown project_model_areas value ${areaId}`);
+    }
+
+    if (typeof pathValue !== "string" || pathValue.trim().length === 0) {
+      continue;
+    }
+
+    const previousLocations = seenPaths.get(pathValue) ?? [];
+    previousLocations.push(location);
+    seenPaths.set(pathValue, previousLocations);
+
+    const rule = pathRules[part.kind];
+    if (rule && (!pathValue.startsWith(rule.prefix) || !pathValue.endsWith(rule.suffix))) {
+      errors.push(`${location} must use path pattern ${rule.prefix}*${rule.suffix}`);
+    }
+
+    if (!isFile(pathValue)) {
+      errors.push(`${location} references missing part file ${pathValue}`);
+    }
+
+    const documentAreaId = part.document?.part?.area_id;
+    if (documentAreaId !== areaId) {
+      errors.push(`${location} area_id ${areaId ?? "<missing>"} does not match part.part.area_id ${documentAreaId ?? "<missing>"}`);
+    }
+  }
+
+  for (const [partPath, locations] of seenPaths.entries()) {
+    if (locations.length > 1) {
+      errors.push(`Duplicate modular part path ${partPath} declared at: ${locations.join(", ")}`);
+    }
+  }
+}
+
 const governance = readYaml(MODEL_FILES.governance);
 const requirements = readYaml(MODEL_FILES.requirements);
 const matrix = readYaml(MODEL_FILES.matrix);
 const governanceRegistrySchema = readJson(MODEL_FILES.governanceRegistrySchema);
 const requirementsRegistrySchema = readJson(MODEL_FILES.requirementsRegistrySchema);
 const graphMatrixSchema = readJson(MODEL_FILES.graphMatrixSchema);
+const requirementsPartSchema = readJson(MODEL_FILES.requirementsPartSchema);
+const graphPartSchema = readJson(MODEL_FILES.graphPartSchema);
+const decisionsPartSchema = readJson(MODEL_FILES.decisionsPartSchema);
 const packageJson = readJson(MODEL_FILES.packageJson);
 
-if (governance && requirements && matrix && governanceRegistrySchema && requirementsRegistrySchema && graphMatrixSchema && packageJson) {
-  const indexes = buildIndexes(governance, requirements, matrix);
+if (
+  governance &&
+  requirements &&
+  matrix &&
+  governanceRegistrySchema &&
+  requirementsRegistrySchema &&
+  graphMatrixSchema &&
+  requirementsPartSchema &&
+  graphPartSchema &&
+  decisionsPartSchema &&
+  packageJson
+) {
+  const aggregate = buildAggregateProjectModel(governance, requirements, matrix);
+  const indexes = buildIndexes(aggregate.governance, aggregate.requirements, aggregate.matrix);
   validateTaxonomies(indexes);
   validateProjectModelAreasTaxonomy(indexes);
+  validateProjectModelParts(indexes, aggregate.parts);
   validateIds(indexes);
   validateRegistryReferences(indexes);
   validateTriples(indexes);
@@ -1239,9 +1411,14 @@ if (governance && requirements && matrix && governanceRegistrySchema && requirem
     [MODEL_FILES.matrix, matrix],
     [MODEL_FILES.governanceRegistrySchema, governanceRegistrySchema],
     [MODEL_FILES.requirementsRegistrySchema, requirementsRegistrySchema],
-    [MODEL_FILES.graphMatrixSchema, graphMatrixSchema]
+    [MODEL_FILES.graphMatrixSchema, graphMatrixSchema],
+    [MODEL_FILES.requirementsPartSchema, requirementsPartSchema],
+    [MODEL_FILES.graphPartSchema, graphPartSchema],
+    [MODEL_FILES.decisionsPartSchema, decisionsPartSchema],
+    ...aggregate.partDocuments.entries()
   ]);
-  validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments);
+  const baselineArtifactPaths = [...GOVERNED_BASELINE_ARTIFACTS, ...aggregate.partDocuments.keys()];
+  validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments, baselineArtifactPaths);
   validateBidirectionalSchemaApplicationTraceability(indexes, baselineDocuments);
   validateBidirectionalSourceTraceability(indexes);
 }

@@ -20,6 +20,7 @@
  * - REQ-0031
  * - REQ-0034
  * - REQ-0035
+ * - REQ-0041
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -54,6 +55,9 @@ const requiredDirectories = [
   "docs/reference/project-model",
   "docs/reference/project-model/schema-design",
   "docs/reference/project-model/schemas",
+  "docs/reference/project-model/requirements",
+  "docs/reference/project-model/graph",
+  "docs/reference/project-model/decisions",
   "docs/reference/contracts",
   "docs/reference/architecture",
   "docs/reference/domain-model",
@@ -90,9 +94,15 @@ const requiredFiles = [
   "docs/reference/project-model/schema-design/graph-index-and-part-schema-contract.md",
   "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md",
   "docs/reference/project-model/schema-design/modular-project-model-loader-design.md",
+  "docs/reference/project-model/requirements/schema-validation.requirements.yml",
+  "docs/reference/project-model/graph/schema-validation.graph.yml",
+  "docs/reference/project-model/decisions/schema-validation.decisions.yml",
   "docs/reference/project-model/schemas/governance-registry.schema.json",
   "docs/reference/project-model/schemas/requirements-registry.schema.json",
   "docs/reference/project-model/schemas/graph-matrix.schema.json",
+  "docs/reference/project-model/schemas/requirements-part.schema.json",
+  "docs/reference/project-model/schemas/graph-part.schema.json",
+  "docs/reference/project-model/schemas/decisions-part.schema.json",
   "docs/reference/contracts/README.md",
   "docs/reference/contracts/governance-control-report.contract.md",
   "docs/reference/contracts/governance-control-report.schema.json",
@@ -145,13 +155,32 @@ const allowedProjectModelEntries = new Set([
   "requirements.registry.yml",
   "graph.matrix.yml",
   "schema-design",
-  "schemas"
+  "schemas",
+  "requirements",
+  "graph",
+  "decisions"
 ]);
 
 const allowedProjectModelSchemasEntries = new Set([
   "governance-registry.schema.json",
   "requirements-registry.schema.json",
-  "graph-matrix.schema.json"
+  "graph-matrix.schema.json",
+  "requirements-part.schema.json",
+  "graph-part.schema.json",
+  "decisions-part.schema.json"
+]);
+
+
+const allowedProjectModelRequirementsEntries = new Set([
+  "schema-validation.requirements.yml"
+]);
+
+const allowedProjectModelGraphEntries = new Set([
+  "schema-validation.graph.yml"
+]);
+
+const allowedProjectModelDecisionsEntries = new Set([
+  "schema-validation.decisions.yml"
 ]);
 
 const allowedContractsEntries = new Set([
@@ -310,6 +339,9 @@ function checkDiataxisBoundaries() {
   checkAllowedEntries("docs/reference", allowedReferenceEntries, "reference");
   checkAllowedEntries("docs/reference/project-model", allowedProjectModelEntries, "project model");
   checkAllowedEntries("docs/reference/project-model/schemas", allowedProjectModelSchemasEntries, "project model schemas");
+  checkAllowedEntries("docs/reference/project-model/requirements", allowedProjectModelRequirementsEntries, "project model requirements parts");
+  checkAllowedEntries("docs/reference/project-model/graph", allowedProjectModelGraphEntries, "project model graph parts");
+  checkAllowedEntries("docs/reference/project-model/decisions", allowedProjectModelDecisionsEntries, "project model decision parts");
   checkAllowedEntries("docs/reference/contracts", allowedContractsEntries, "contracts");
   checkAllowedEntries("docs/explanation", allowedExplanationEntries, "explanation");
   checkAllowedEntries("docs/explanation/governance", allowedGovernanceExplanationEntries, "governance explanation");

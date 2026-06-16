@@ -29,6 +29,7 @@
  * - REQ-0033
  * - REQ-0034
  * - REQ-0035
+ * - REQ-0041
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -65,7 +66,10 @@ const CONTRACT_FILES = {
 const PROJECT_MODEL_SCHEMA_FILES = {
   governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json",
   requirementsRegistrySchema: "docs/reference/project-model/schemas/requirements-registry.schema.json",
-  graphMatrixSchema: "docs/reference/project-model/schemas/graph-matrix.schema.json"
+  graphMatrixSchema: "docs/reference/project-model/schemas/graph-matrix.schema.json",
+  requirementsPartSchema: "docs/reference/project-model/schemas/requirements-part.schema.json",
+  graphPartSchema: "docs/reference/project-model/schemas/graph-part.schema.json",
+  decisionsPartSchema: "docs/reference/project-model/schemas/decisions-part.schema.json"
 };
 
 const markdownDocuments = [
@@ -524,6 +528,34 @@ function checkProjectModelRegistryAgainstCanonicalSchema(registryDocument, regis
 }
 
 /**
+ * Loads modular project-model part files declared by an index document.
+ *
+ * Format validation remains local: this function reads declared part files so
+ * they can be validated by the canonical JSON Schema entrypoint without
+ * performing semantic area or cross-file checks.
+ *
+ * @param {Record<string, unknown> | null} indexDocument - Parsed index document.
+ * @param {string} indexPath - Repository-relative index path for diagnostics.
+ * @param {string} propertyName - Part declaration property name.
+ * @returns {{ path: string, document: Record<string, unknown> | null }[]} Loaded part documents.
+ */
+function loadDeclaredPartDocuments(indexDocument, indexPath, propertyName) {
+  if (!indexDocument || !Array.isArray(indexDocument[propertyName])) {
+    return [];
+  }
+
+  return indexDocument[propertyName].map((part, index) => {
+    const partPath = part?.path;
+    if (typeof partPath !== "string" || partPath.trim().length === 0) {
+      errors.push(`YAML file ${indexPath}.${propertyName}[${index}] must declare a non-empty path.`);
+      return { path: `<missing:${indexPath}.${propertyName}[${index}]>`, document: null };
+    }
+
+    return { path: partPath, document: readYaml(partPath) };
+  });
+}
+
+/**
  * Checks that a parsed YAML document is a non-array object.
  *
  * @param {unknown} document - Parsed YAML document.
@@ -699,9 +731,43 @@ checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.graphMatrixSchema, "g
   "nodes",
   "triples"
 ]);
+checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.requirementsPartSchema, "requirements part", [
+  "schema_version",
+  "change_control",
+  "schema_control",
+  "part",
+  "requirements"
+]);
+checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.graphPartSchema, "graph part", [
+  "schema_version",
+  "change_control",
+  "schema_control",
+  "part",
+  "nodes",
+  "triples"
+]);
+checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.decisionsPartSchema, "decisions part", [
+  "schema_version",
+  "change_control",
+  "schema_control",
+  "part",
+  "decisions"
+]);
 checkProjectModelRegistryAgainstCanonicalSchema(governance, MODEL_FILES.governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
 checkProjectModelRegistryAgainstCanonicalSchema(requirements, MODEL_FILES.requirements, PROJECT_MODEL_SCHEMA_FILES.requirementsRegistrySchema);
 checkProjectModelRegistryAgainstCanonicalSchema(matrix, MODEL_FILES.matrix, PROJECT_MODEL_SCHEMA_FILES.graphMatrixSchema);
+
+for (const part of loadDeclaredPartDocuments(requirements, MODEL_FILES.requirements, "parts")) {
+  checkProjectModelRegistryAgainstCanonicalSchema(part.document, part.path, PROJECT_MODEL_SCHEMA_FILES.requirementsPartSchema);
+}
+
+for (const part of loadDeclaredPartDocuments(matrix, MODEL_FILES.matrix, "parts")) {
+  checkProjectModelRegistryAgainstCanonicalSchema(part.document, part.path, PROJECT_MODEL_SCHEMA_FILES.graphPartSchema);
+}
+
+for (const part of loadDeclaredPartDocuments(governance, MODEL_FILES.governance, "decision_parts")) {
+  checkProjectModelRegistryAgainstCanonicalSchema(part.document, part.path, PROJECT_MODEL_SCHEMA_FILES.decisionsPartSchema);
+}
 
 if (governance) {
   const bodyProfiles = buildBodyProfileIndex(governance);

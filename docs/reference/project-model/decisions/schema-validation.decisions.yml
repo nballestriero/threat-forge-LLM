@@ -1,0 +1,272 @@
+schema_version: '1.0'
+change_control:
+  decided_by:
+    - DEC-0032
+  satisfies:
+    - REQ-0041
+  rationale: This first extracted decisions part proves that area-owned decisions can be loaded 
+    while governance remains one aggregate logical model.
+schema_control:
+  schema: docs/reference/project-model/schemas/decisions-part.schema.json
+  rationale: The decisions part declares the canonical schema that validates modular decisions 
+    part shape through check-docs-format.mjs.
+part:
+  area_id: schema-validation
+  title: Schema validation decisions part
+  status: draft
+  description: Extracted decisions owned by the schema-validation project-model area.
+decisions:
+  - id: "DEC-0014"
+    title: "Governance registry schema analysis separates schema shape from semantic validation"
+    status: "accepted"
+    statement: >
+      The governance registry schema design shall classify fields by structural
+      shape, free text, controlled values, governed IDs, ID references, and
+      semantic validation responsibilities before creating the explicit schema.
+    rationale: >
+      Creating the schema directly from current validator code would preserve
+      hidden assumptions. A field-level analysis makes controlled datasets,
+      hardcoded rules, and semantic validator boundaries visible before they
+      become binding schema artifacts.
+    consequences:
+      - "The first registry schema step is a governed analysis document, not an immediate JSON Schema
+        drop-in."
+      - "The analysis documents which current validator rules are schema shape rules and which must
+        remain semantic checks."
+      - "Controlled value datasets must be identified before the governance registry schema becomes
+        binding."
+
+  - id: "DEC-0015"
+    title: "Governance registry schema is a canonical JSON Schema baseline"
+    status: "accepted"
+    statement: >
+      The governance registry schema shall be captured in a versioned JSON Schema
+      artifact under docs/reference/project-model/schemas, with deterministic
+      checks validating the schema artifact before validators migrate from
+      hardcoded shape checks to schema-driven registry validation.
+    rationale: >
+      REQ-0021 requires explicit machine-readable registry schemas, and M000.022A
+      classified the governance registry fields. Creating the first schema
+      contract turns that analysis into a protected baseline artifact while
+      keeping semantic cross-file validation in deterministic tools.
+    consequences:
+      - "docs/reference/project-model/schemas/governance-registry.schema.json becomes the canonical
+        shape contract for governance.registry.yml."
+      - "The schema declares structural constraints, field shapes, ID patterns, and initial controlled-value
+        boundaries."
+      - "Cross-file checks such as ID existence, graph consistency, package script existence, and
+        source traceability remain semantic validator responsibilities."
+      - "The schema carries file-local change-control metadata that is checked against graph.matrix.yml."
+
+
+  - id: "DEC-0016"
+    title: "Governance registry schema is executed by deterministic validation"
+    status: "accepted"
+    statement: >
+      The documentation format validator shall load and apply the canonical
+      Governance Registry JSON Schema to the parsed governance registry YAML
+      document as part of docs:check.
+    rationale: >
+      A schema artifact that is only registered but not executed does not prevent
+      registry drift. The schema must become validator input so structural
+      changes are checked by the governed contract instead of only by hardcoded
+      checks.
+    consequences:
+      - "docs:check:format validates governance.registry.yml against governance-registry.schema.json."
+      - "A negative fixture proves that schema-rejected fields fail validation."
+      - "Hardcoded semantic checks remain valid for cross-file references and graph consistency."
+
+  - id: "DEC-0017"
+    title: "Schema application must be bidirectionally traceable"
+    status: "accepted"
+    statement: >
+      Canonical schema artifacts shall explicitly declare the governed artifact
+      paths they apply to, governed artifacts shall declare their canonical
+      schema, and graph.matrix.yml shall contain matching schema-to-artifact
+      relationships.
+    rationale: >
+      A schema file can otherwise exist without being applied, or a validator can
+      apply a schema through hardcoded paths without the governed graph recording
+      that contract. Bidirectional schema application traceability makes schema
+      coverage auditable and prevents silent drift between schemas and target
+      artifacts.
+    consequences:
+      - "Schema artifacts declare x-applies_to target artifact paths."
+      - "Governed artifacts declare schema_control metadata that points to their canonical schema."
+      - "graph.matrix.yml records schema application relationships."
+      - "The project model validator checks schema-to-artifact and artifact-to-schema consistency."
+
+
+  - id: "DEC-0018"
+    title: "Requirements registry schema analysis separates lifecycle data from semantic traceability"
+    status: "accepted"
+    statement: >
+      The requirements registry schema design shall classify requirement fields,
+      nested flow entities, lifecycle values, verification evidence, and
+      cross-registry references before creating the explicit schema contract.
+    rationale: >
+      Requirements are the central governance objects for implementation,
+      verification, and traceability. Creating their schema directly from current
+      validator code would hide which fields are local shape constraints and
+      which require semantic checks against capabilities, graph relationships,
+      source files, commands, and evidence.
+    consequences:
+      - "The requirements registry schema starts with a field-level analysis document."
+      - "Lifecycle and verification fields are mapped to explicit controlled datasets."
+      - "Macro requirement implementation status remains manual, while every atomic requirement must
+        reference an existing macro requirement."
+      - "Requirement scope remains a high-governance controlled taxonomy and must not grow without
+        rationale, validation impact, and graph-backed governance."
+      - "Accepted requirements require acceptance criteria and verification."
+      - "Implemented requirements require deterministic VERIFIED_BY evidence, with IMPLEMENTED_BY
+        required when an implementation artifact is applicable."
+      - "not_applicable implementation status is rationale-gated, constrained by requirement type,
+        and decision-backed for important cases."
+      - "Nested requirement entity ID rules remain semantic validator responsibilities where they
+        depend on parent requirement IDs."
+
+  - id: "DEC-0019"
+    title: "Requirements registry schema is a canonical JSON Schema baseline"
+    status: "accepted"
+    statement: >
+      The requirements registry schema shall be captured in a versioned JSON
+      Schema artifact under docs/reference/project-model/schemas, with
+      deterministic checks validating the schema artifact and schema application
+      traceability before validators migrate additional requirements registry
+      checks to schema-driven validation.
+    rationale: >
+      REQ-0027 classified the requirements registry fields and decided which
+      fields are local shape constraints, controlled lifecycle values, governed
+      nested IDs, or semantic cross-file validation responsibilities. Creating
+      the schema artifact turns that analysis into a protected baseline contract
+      without pretending to replace semantic graph validation.
+    consequences:
+      - "docs/reference/project-model/schemas/requirements-registry.schema.json becomes the canonical
+        shape contract for requirements.registry.yml."
+      - "The schema declares structural constraints, field shapes, ID patterns, and the high-governance
+        boundary for controlled fields such as scope."
+      - "Cross-file checks such as macro existence, capability existence, parent-specific nested IDs,
+        graph consistency, and implemented requirement evidence remain semantic validator responsibilities."
+      - "The schema carries file-local change-control metadata and x-applies_to so schema application
+        traceability can be checked bidirectionally."
+
+
+  - id: "DEC-0020"
+    title: "Requirements registry schema is executed by deterministic validation"
+    status: "accepted"
+    statement: >
+      The documentation format validator shall load and apply the canonical
+      Requirements Registry JSON Schema to the parsed requirements registry YAML
+      document as part of docs:check.
+    rationale: >
+      A requirements registry schema that is only registered and traceable does
+      not prevent structural drift in atomic requirements, macro requirements,
+      nested flows, acceptance criteria, or verification fields. The schema must
+      become validator input so requirements registry shape changes are checked
+      by the governed contract before semantic graph validation runs.
+    consequences:
+      - "docs:check:format validates requirements.registry.yml against requirements-registry.schema.json."
+      - "A negative fixture proves that schema-rejected requirements registry fields fail validation."
+      - "Semantic checks for macro ownership, capability references, graph evidence, and implementation
+        evidence remain in project-model validation."
+
+
+
+
+  - id: "DEC-0021"
+    title: "Graph matrix schema analysis separates local shape from semantic graph validation"
+    status: "accepted"
+    statement: >
+      The graph matrix schema design shall classify graph.matrix.yml fields,
+      node records, SPO triples, controlled graph vocabulary, repository path
+      checks, command checks, and cross-artifact traceability before creating
+      the explicit graph matrix schema contract.
+    rationale: >
+      The graph matrix is the central traceability surface for decisions,
+      requirements, schemas, source files, commands, gates, tools, and governed
+      documents. Creating its schema directly from current validator code would
+      hide which rules are local YAML shape constraints and which depend on the
+      governance registry, requirements registry, package manifest, repository
+      filesystem, or source-file JSDoc.
+    consequences:
+      - "The graph matrix schema rollout starts with a field-level analysis document."
+      - "Local matrix shape rules are separated from semantic graph checks."
+      - "Predicate and node-type compatibility remain governed by governance.registry.yml, not by
+        a second hidden schema enum."
+      - "Repository path checks, command checks, schema application checks, baseline artifact checks,
+        and source-file traceability remain deterministic semantic validator responsibilities."
+      - "The future graph matrix schema step must add schema_control to graph.matrix.yml and register
+        graph-matrix.schema.json as an applied SchemaFile."
+
+  - id: "DEC-0022"
+    title: "Graph matrix schema is a canonical JSON Schema baseline"
+    status: "accepted"
+    statement: >
+      The graph matrix schema shall be captured in a versioned JSON Schema
+      artifact under docs/reference/project-model/schemas, with deterministic
+      checks validating the schema artifact and schema application traceability
+      before graph.matrix.yml is validated by schema-driven execution.
+    rationale: >
+      REQ-0030 classified graph matrix fields and established that local YAML
+      shape belongs in JSON Schema while predicate compatibility, entity
+      existence, package command existence, repository path checks, baseline
+      artifact checks, schema application traceability, and source-file
+      traceability remain semantic validator responsibilities. Creating the
+      schema artifact turns that analysis into a protected baseline without
+      duplicating the graph vocabulary inside the schema.
+    consequences:
+      - "docs/reference/project-model/schemas/graph-matrix.schema.json becomes the canonical shape
+        contract for graph.matrix.yml."
+      - "The schema declares structural constraints for matrix metadata, nodes, triples, change_control,
+        and schema_control."
+      - "Predicate and node-type existence are still checked semantically against governance.registry.yml."
+      - "The schema carries file-local change-control metadata and x-applies_to so schema application
+        traceability can be checked bidirectionally."
+
+
+  - id: "DEC-0023"
+    title: "Graph matrix schema is executed by deterministic validation"
+    status: "accepted"
+    statement: >
+      The documentation format validator shall load and apply the canonical Graph
+      Matrix JSON Schema to the parsed graph matrix YAML document as part of
+      docs:check.
+    rationale: >
+      A graph matrix schema that is only registered and traceable does not
+      prevent structural drift in matrix metadata, node records, triple records,
+      schema_control, or change_control fields. The schema must become validator
+      input so local graph matrix shape changes are checked by the governed
+      contract before semantic graph validation runs.
+    consequences:
+      - "docs:check:format validates graph.matrix.yml against graph-matrix.schema.json."
+      - "A negative fixture proves that schema-rejected graph matrix fields fail validation."
+      - "Predicate compatibility, entity existence, package command checks, repository path checks,
+        schema application traceability, baseline artifact checks, and source-file traceability remain
+        semantic validator responsibilities."
+
+
+  - id: "DEC-0024"
+    title: "Governed artifact schema validation has a single execution entrypoint"
+    status: "accepted"
+    statement: >
+      tools/docs/check-docs-format.mjs and docs:check:format are the canonical
+      deterministic execution path for governed artifact JSON Schema validation.
+      Other validators must not duplicate artifact JSON Schema validation logic;
+      they may validate semantic consistency, schema application traceability,
+      graph relationships, source-file references, package commands, repository
+      paths, and lifecycle evidence.
+    rationale: >
+      Governance, requirements, and graph matrix schemas now have executable
+      validation. Without an explicit entrypoint decision, future tools could
+      reimplement schema validation independently and drift from the canonical
+      diagnostics or supported JSON Schema subset.
+    consequences:
+      - "tools/docs/check-docs-format.mjs remains the schema execution boundary for governed artifacts."
+      - "docs:check:format is the command-level schema validation entrypoint."
+      - "tools/docs/check-project-model.mjs remains responsible for semantic and bidirectional traceability
+        checks."
+      - "New schema-controlled artifacts must extend the format validator rather than introduce duplicate
+        schema validators."
+
+
+

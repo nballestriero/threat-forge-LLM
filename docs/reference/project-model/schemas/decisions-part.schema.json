@@ -1,31 +1,28 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://threat-forge-llm.local/schemas/project-model/governance-registry.schema.json",
-  "title": "Governance Registry Schema",
-  "description": "Canonical shape contract for docs/reference/project-model/governance.registry.yml after YAML parsing.",
+  "$id": "https://threat-forge-llm.local/schemas/project-model/decisions-part.schema.json",
+  "title": "Decisions Part Schema",
+  "description": "Canonical shape contract for modular decisions part files after YAML parsing.",
   "type": "object",
   "additionalProperties": false,
   "x-change_control": {
     "decided_by": [
-      "DEC-0015"
+      "DEC-0032"
     ],
     "satisfies": [
-      "REQ-0024"
+      "REQ-0041"
     ],
-    "rationale": "This schema is a governed baseline artifact and therefore declares file-local traceability that deterministic validation can compare against graph.matrix.yml relationships."
+    "rationale": "This schema is introduced by the first schema-validation area extraction and is validated through the canonical format checker."
   },
+  "x-applies_to": [
+    "docs/reference/project-model/decisions/schema-validation.decisions.yml"
+  ],
   "required": [
     "schema_version",
     "change_control",
     "schema_control",
-    "registry",
-    "taxonomies",
-    "capabilities",
-    "decisions",
-    "document_types",
-    "body_profiles",
-    "node_types",
-    "predicates"
+    "part",
+    "decisions"
   ],
   "properties": {
     "schema_version": {
@@ -34,64 +31,18 @@
     "change_control": {
       "$ref": "#/$defs/changeControl"
     },
-    "registry": {
-      "$ref": "#/$defs/registryMetadata"
-    },
-    "taxonomies": {
-      "$ref": "#/$defs/taxonomies"
-    },
-    "capabilities": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/capability"
-      }
-    },
-    "decisions": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/decision"
-      }
-    },
-    "document_types": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/documentType"
-      }
-    },
-    "body_profiles": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/bodyProfile"
-      }
-    },
-    "node_types": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/nodeType"
-      }
-    },
-    "predicates": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/predicate"
-      }
-    },
     "schema_control": {
       "$ref": "#/$defs/schemaControl"
     },
-    "decision_parts": {
+    "part": {
+      "$ref": "#/$defs/partMetadata"
+    },
+    "decisions": {
       "type": "array",
-      "minItems": 1,
       "items": {
-        "$ref": "#/$defs/partDeclaration"
+        "$ref": "#/$defs/decision"
       },
-      "description": "Optional modular decision part declarations loaded after the root governance registry."
+      "minItems": 1
     }
   },
   "$defs": {
@@ -425,13 +376,13 @@
       ],
       "properties": {
         "schema": {
-          "const": "docs/reference/project-model/schemas/governance-registry.schema.json"
+          "const": "docs/reference/project-model/schemas/decisions-part.schema.json"
         },
         "rationale": {
           "$ref": "#/$defs/textBlock"
         }
       },
-      "description": "Declares the canonical schema that structurally validates this governed artifact."
+      "description": "Declares the canonical schema that structurally validates this governed modular artifact."
     },
     "projectModelAreaId": {
       "type": "string",
@@ -457,9 +408,30 @@
         }
       },
       "description": "Index entry for a modular project-model part. Area taxonomy membership and path consistency remain semantic validation."
+    },
+    "partMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "area_id",
+        "title",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "area_id": {
+          "$ref": "#/$defs/projectModelAreaId"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
     }
-  },
-  "x-applies_to": [
-    "docs/reference/project-model/governance.registry.yml"
-  ]
+  }
 }

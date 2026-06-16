@@ -1,25 +1,27 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://threat-forge-llm.local/schemas/project-model/requirements-registry.schema.json",
-  "title": "Requirements Registry Schema",
-  "description": "Canonical shape contract for docs/reference/project-model/requirements.registry.yml after YAML parsing.",
+  "$id": "https://threat-forge-llm.local/schemas/project-model/requirements-part.schema.json",
+  "title": "Requirements Part Schema",
+  "description": "Canonical shape contract for modular requirements part files after YAML parsing.",
   "type": "object",
   "additionalProperties": false,
   "x-change_control": {
     "decided_by": [
-      "DEC-0019"
+      "DEC-0032"
     ],
     "satisfies": [
-      "REQ-0028"
+      "REQ-0041"
     ],
-    "rationale": "This schema is a governed baseline artifact and declares file-local traceability that deterministic validation can compare against graph.matrix.yml relationships."
+    "rationale": "This schema is introduced by the first schema-validation area extraction and is validated through the canonical format checker."
   },
+  "x-applies_to": [
+    "docs/reference/project-model/requirements/schema-validation.requirements.yml"
+  ],
   "required": [
     "schema_version",
     "change_control",
     "schema_control",
-    "registry",
-    "macro_requirements",
+    "part",
     "requirements"
   ],
   "properties": {
@@ -32,30 +34,15 @@
     "schema_control": {
       "$ref": "#/$defs/schemaControl"
     },
-    "registry": {
-      "$ref": "#/$defs/registryMetadata"
-    },
-    "macro_requirements": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/macroRequirement"
-      }
+    "part": {
+      "$ref": "#/$defs/partMetadata"
     },
     "requirements": {
       "type": "array",
-      "minItems": 1,
       "items": {
         "$ref": "#/$defs/requirement"
-      }
-    },
-    "parts": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "$ref": "#/$defs/partDeclaration"
       },
-      "description": "Optional modular requirements part declarations loaded after the root requirements index."
+      "minItems": 1
     }
   },
   "$defs": {
@@ -153,13 +140,13 @@
       ],
       "properties": {
         "schema": {
-          "const": "docs/reference/project-model/schemas/requirements-registry.schema.json"
+          "const": "docs/reference/project-model/schemas/requirements-part.schema.json"
         },
         "rationale": {
           "$ref": "#/$defs/textBlock"
         }
       },
-      "description": "Declares the canonical schema that structurally validates this governed artifact."
+      "description": "Declares the canonical schema that structurally validates this governed modular artifact."
     },
     "registryMetadata": {
       "type": "object",
@@ -495,9 +482,30 @@
         }
       },
       "description": "Index entry for a modular project-model part. Area taxonomy membership and path consistency remain semantic validation."
+    },
+    "partMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "area_id",
+        "title",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "area_id": {
+          "$ref": "#/$defs/projectModelAreaId"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
     }
-  },
-  "x-applies_to": [
-    "docs/reference/project-model/requirements.registry.yml"
-  ]
+  }
 }

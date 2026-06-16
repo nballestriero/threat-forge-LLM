@@ -48,6 +48,7 @@ Status: in progress.
 - M000.024F - Graph index and part schema contracts.
 - M000.024G - Decisions index and part schema contracts.
 - M000.024H - Modular project model loader design.
+- M000.024I - First schema-validation area extraction.
 
 ## Next steps
 
@@ -95,9 +96,10 @@ Planned micropasses:
 - M000.024H - Modular project model loader design. Completed.
   - Scope: define how format and semantic validators will load index files and aggregate parts into one logical model.
   - Added the modular project model loader design document; no loader implementation or area extraction yet.
-- M000.024I - First capability area extraction.
-  - Scope: extract one small capability area, preferably schema validation governance, across requirements, graph triples, and decisions.
-  - Prefer a clean coordinated migration over long-term dual support.
+- M000.024I - First capability area extraction. Completed.
+  - Scope: extract the schema-validation area across requirements, graph triples, and decisions.
+  - Added first governed modular part files, part schemas, index declarations, and aggregate loader support for semantic validation.
+  - The first pilot keeps legacy REQ/DEC identifiers inside the extracted area; later migration may introduce clean `<area_id>:<local_id>` identities after the loader pattern is proven.
 - M000.024J - Remaining capability area extraction plan.
   - Scope: use the first extraction results to plan the remaining area splits and required follow-up gates.
   - Avoid a single large migration commit.
