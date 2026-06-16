@@ -165,12 +165,19 @@ Micropasses:
 - M000.025E4 - Governed commit/push command. Completed.
   - Scope: add repo:commit-push as the governed command that computes Git changes, stages only allowed paths, runs docs:check, commits, runs repo:check:clean, and pushes.
   - The command fails closed for forbidden paths, generated artifacts, temporary archives, handoff manifests, unknown repository roots, empty commit messages, and blocking gate failures.
+- M000.025E5 - Governed commit/push shell warning cleanup. Completed.
+  - Scope: remove the Windows npm shell warning while preserving safe commit-message argument handling.
+  - The governed command now completes without DEP0190 while still running docs:check, repo:check:clean, the pre-push hook, and push.
+- M000.025F - Generated artifact canonical-source guard. Completed.
+  - Scope: make check-project-model reject artifacts/ paths used as governed source-like or canonical model inputs while still allowing generated artifacts as Document validation targets.
+  - Added negative fixture coverage for an artifact path modeled as a SourceFile implementation target.
 
 Expected follow-up scope:
 
 - use npm run repo:commit-push -- "message" as the preferred normal commit/push flow after applying reviewed changes
 - add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable
-- keep protected artifact root detection as part of the cleanliness guard workstream
+- close M000.025 with a review/tag now that protected artifact root detection is enforced both operationally and semantically
+- start a new workstream for governed Markdown body/profile validation after M000.025 is tagged
 
 ### M000.026 - Governance control report and page negative fixtures
 

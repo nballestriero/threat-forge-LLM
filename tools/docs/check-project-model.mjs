@@ -22,6 +22,7 @@
  * - source-traceability:REQ-0008
  * - source-traceability:REQ-0009
  * - source-traceability:REQ-0011
+ * - source-traceability:REQ-0016
  * - graph-traceability:REQ-0022
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0004
@@ -45,6 +46,7 @@
  * - source-traceability:DEC-0008
  * - source-traceability:DEC-0009
  * - source-traceability:DEC-0011
+ * - source-traceability:DEC-0016
  *
  * Related commands:
  * - CMD-PROJECT-MODEL-CHECK
@@ -1173,6 +1175,51 @@ function isGeneratedArtifactPath(value) {
 }
 
 /**
+ * Validates that generated artifacts are never modeled as governed source
+ * material. The ignored artifacts/ tree may be represented only as a Document
+ * validation target so validators can state that they inspect generated output.
+ * It must not become an implementation, specification, declaration, schema,
+ * source, config, test, or fixture target.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateGeneratedArtifactReferences(indexes) {
+  const allowedSubjectTypes = new Set(["ValidationTool", "Gate", "Command"]);
+
+  for (const node of indexes.matrixNodes) {
+    if (!isGeneratedArtifactPath(node?.id)) {
+      continue;
+    }
+
+    if (node?.type !== "Document") {
+      errors.push(`Generated artifact path ${node.id} must be modeled only as Document, not ${node?.type ?? "<missing>"}`);
+    }
+  }
+
+  for (const [index, triple] of indexes.triples.entries()) {
+    for (const side of ["subject", "object"]) {
+      const endpoint = triple?.[side];
+
+      if (!isGeneratedArtifactPath(endpoint?.id)) {
+        continue;
+      }
+
+      const location = `triple[${index}].${side}`;
+
+      if (endpoint?.type !== "Document") {
+        errors.push(`${location} generated artifact path ${endpoint.id} must be modeled only as Document, not ${endpoint?.type ?? "<missing>"}`);
+        continue;
+      }
+
+      if (side !== "object" || triple?.predicate !== "VALIDATES" || !allowedSubjectTypes.has(triple?.subject?.type)) {
+        errors.push(`${location} generated artifact Document ${endpoint.id} may only be the object of a VALIDATES triple from a ValidationTool, Gate, or Command`);
+      }
+    }
+  }
+}
+
+/**
  * Validates repository-backed graph nodes and endpoints. Source, schema, test,
  * and config targets must be real files in the checkout. Document targets must
  * exist unless they are generated artifacts under the ignored artifacts tree.
@@ -2212,6 +2259,7 @@ if (
   validateImplementedRequirementEvidence(indexes);
   validatePackageScripts(indexes, packageJson);
   validateGraphPathTargets(indexes);
+  validateGeneratedArtifactReferences(indexes);
   validateNegativeFixtureTraceability(indexes);
   const baselineDocuments = new Map([
     [MODEL_FILES.governance, governance],

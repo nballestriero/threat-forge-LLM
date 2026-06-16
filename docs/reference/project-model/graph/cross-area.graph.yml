@@ -175,6 +175,9 @@ nodes:
 - id: artifacts/governance-control/report.json
   type: Document
   description: Generated Governance Control Report JSON artifact under the ignored artifacts directory.
+- id: tools/docs/fixtures/negative/artifact-as-governed-source.json
+  type: NegativeFixture
+  description: A generated artifact path is incorrectly modeled as a governed SourceFile implementation target.
 - id: tools/docs/fixtures/negative/duplicate-requirement-id.json
   type: NegativeFixture
   description: A requirement id is duplicated inside a modular requirements part.
@@ -1306,6 +1309,27 @@ triples:
   object:
     id: docs/reference/project-model/graph/backend-architecture.graph.yml
     type: Document
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/artifact-as-governed-source.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/artifact-as-governed-source.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/artifact-as-governed-source.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
 - subject:
     id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
     type: ValidationTool

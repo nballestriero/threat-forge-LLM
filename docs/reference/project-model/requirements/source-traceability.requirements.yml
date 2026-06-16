@@ -864,3 +864,61 @@ requirements:
     - command
     - source-comment
     - tool-output
+- id: REQ-0016
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Generated artifact canonical-source guard
+  statement: The project model shall reject generated artifacts under artifacts/ when they are modeled as governed source, schema, config, test, fixture, implementation, specification, declaration, or canonical source material.
+  rationale: artifacts/ is an ignored local output tree. It can be inspected by validators as generated output, but allowing it to appear as governed source material would let transient files become false sources of truth and weaken the repository cleanliness guarantees.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0016-001
+    statement: The repository uses artifacts/ for generated local outputs that are excluded from Git.
+  - id: PRE-REQ-0016-002
+    statement: The graph may need to mention generated outputs as validation targets.
+  main_flow:
+  - id: FLOW-REQ-0016-001
+    step: 1
+    actor: Project model validator
+    action: Inspects graph nodes and triple endpoints for repository paths under artifacts/.
+    expected_result: Generated artifact paths are recognized deterministically.
+  - id: FLOW-REQ-0016-002
+    step: 2
+    actor: Project model validator
+    action: Allows generated artifact paths only as Document validation targets.
+    expected_result: Validators can still declare that they validate generated outputs.
+  - id: FLOW-REQ-0016-003
+    step: 3
+    actor: Project model validator
+    action: Rejects generated artifact paths used as source-like or canonical model inputs.
+    expected_result: Generated local outputs cannot become governed sources of truth.
+  alternative_flows:
+  - id: ALT-REQ-0016-001
+    title: Artifact is modeled as source implementation
+    trigger: A graph triple uses artifacts/... as a SourceFile IMPLEMENTED_BY target.
+    steps:
+    - id: FLOW-REQ-0016-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Reports the generated artifact source misuse and exits with failure.
+      expected_result: The developer must move the source reference to a real governed file or remove the invalid trace.
+  postconditions:
+  - id: POST-REQ-0016-001
+    statement: artifacts/ remains a generated output location, not a canonical source root.
+  acceptance_criteria:
+  - id: AC-REQ-0016-001
+    statement: Graph nodes under artifacts/ are allowed only as Document nodes.
+  - id: AC-REQ-0016-002
+    statement: Graph triple endpoints under artifacts/ are allowed only as Document objects of VALIDATES triples from ValidationTool, Gate, or Command subjects.
+  - id: AC-REQ-0016-003
+    statement: A negative fixture proves an artifact path modeled as SourceFile is rejected.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - yaml
+    - tool-output

@@ -159,3 +159,12 @@ decisions:
   - The command computes changed paths from Git status and stages only allowed repository paths.
   - The command rejects artifacts/, temporary archives, generated handoff manifests, and paths outside the governed automatic-staging allowlist.
   - docs:check, git commit, repo:check:clean, and git push remain blocking stages whose failures require review before retrying.
+- id: DEC-0016
+  title: Generated artifacts are validation outputs, not canonical sources
+  status: accepted
+  statement: The project model shall allow artifacts/ paths only as generated Document validation targets and shall reject them as source-like governed model inputs.
+  rationale: Repository cleanliness checks keep artifacts out of Git, but the semantic graph also needs to prevent generated outputs from being treated as implementation, specification, schema, config, or fixture inputs. Keeping the exception narrow preserves the ability to validate generated reports while preventing artifacts from becoming false authority.
+  consequences:
+  - Generated artifact paths can remain graph-visible when a ValidationTool, Gate, or Command validates generated output.
+  - Generated artifact paths cannot be SourceFile, SchemaFile, TestFile, ConfigFile, NegativeFixture, or canonical implementation/specification/declaration targets.
+  - The model check becomes the semantic backstop for artifact source misuse, complementing repo:check:clean and the pre-push hook.

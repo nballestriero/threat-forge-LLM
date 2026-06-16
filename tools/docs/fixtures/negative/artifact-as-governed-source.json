@@ -1,0 +1,13 @@
+{
+  "id": "artifact-as-governed-source",
+  "description": "A generated artifact path is incorrectly modeled as a governed SourceFile implementation target.",
+  "validator": "model",
+  "expected_error": "generated artifact path artifacts/generated-check.mjs must be modeled only as Document, not SourceFile",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/source-traceability.graph.yml",
+      "replace": "    id: tools/docs/check-project-model.mjs\n    type: SourceFile",
+      "with": "    id: artifacts/generated-check.mjs\n    type: SourceFile"
+    }
+  ]
+}
