@@ -14,6 +14,7 @@
  * - REQ-0004
  * - REQ-0023
  * - REQ-0024
+ * - REQ-0027
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -76,6 +77,7 @@ const requiredFiles = [
   "docs/reference/project-model/requirements.registry.yml",
   "docs/reference/project-model/graph.matrix.yml",
   "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md",
+  "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md",
   "docs/reference/project-model/schemas/governance-registry.schema.json",
   "docs/reference/contracts/README.md",
   "docs/reference/contracts/governance-control-report.contract.md",

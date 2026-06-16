@@ -18,6 +18,7 @@
  * - REQ-0023
  * - REQ-0024
  * - REQ-0025
+ * - REQ-0027
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -62,6 +63,7 @@ const markdownDocuments = [
   { path: "docs/reference/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md", bodyProfileId: "BODY-REFERENCE" },
+  { path: "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/contracts/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/contracts/governance-control-report.contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/architecture/README.md", bodyProfileId: "BODY-REFERENCE" },

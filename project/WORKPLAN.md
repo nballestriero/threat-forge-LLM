@@ -33,20 +33,9 @@ Status: in progress.
 - M000.022B - Governance registry explicit schema contract.
 - M000.022C - Governance registry schema-driven validation.
 - M000.022D - Bidirectional schema application traceability.
+- M000.022E - Requirements registry schema analysis.
 
 ## Next steps
-
-### M000.022E - Requirements registry schema analysis
-
-Goal: classify requirements.registry.yml fields before creating explicit schema artifacts.
-
-Expected scope:
-
-- requirements registry field inventory
-- free text vs controlled value classification
-- requirement lifecycle and verification dataset mapping
-- current hardcoded validator rule inventory
-- schema boundary vs semantic validator boundary
 
 ### M000.022F - Graph matrix schema analysis
 

@@ -524,6 +524,30 @@ decisions:
       - "The project model validator checks schema-to-artifact and artifact-to-schema consistency."
 
 
+  - id: "DEC-0018"
+    title: "Requirements registry schema analysis separates lifecycle data from semantic traceability"
+    status: "accepted"
+    statement: >
+      The requirements registry schema design shall classify requirement fields,
+      nested flow entities, lifecycle values, verification evidence, and
+      cross-registry references before creating the explicit schema contract.
+    rationale: >
+      Requirements are the central governance objects for implementation,
+      verification, and traceability. Creating their schema directly from current
+      validator code would hide which fields are local shape constraints and
+      which require semantic checks against capabilities, graph relationships,
+      source files, commands, and evidence.
+    consequences:
+      - "The requirements registry schema starts with a field-level analysis document."
+      - "Lifecycle and verification fields are mapped to explicit controlled datasets."
+      - "Macro requirement implementation status remains manual, while every atomic requirement must reference an existing macro requirement."
+      - "Requirement scope remains a high-governance controlled taxonomy and must not grow without rationale, validation impact, and graph-backed governance."
+      - "Accepted requirements require acceptance criteria and verification."
+      - "Implemented requirements require deterministic VERIFIED_BY evidence, with IMPLEMENTED_BY required when an implementation artifact is applicable."
+      - "not_applicable implementation status is rationale-gated, constrained by requirement type, and decision-backed for important cases."
+      - "Nested requirement entity ID rules remain semantic validator responsibilities where they depend on parent requirement IDs."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
