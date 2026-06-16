@@ -45,6 +45,7 @@ Status: in progress.
 - M000.024C - Project model areas taxonomy contract.
 - M000.024D - Project model areas taxonomy enforcement.
 - M000.024E - Requirements index and part schema contracts.
+- M000.024F - Graph index and part schema contracts.
 
 ## Next steps
 
@@ -83,9 +84,9 @@ Planned micropasses:
 - M000.024E - Requirements index and part schema contracts. Completed.
   - Scope: design the future requirements index and requirements part schemas while preserving current validation entrypoint rules.
   - Added the requirements index and part contract document; no requirements extraction or modular loader yet.
-- M000.024F - Graph index and part schema contracts.
+- M000.024F - Graph index and part schema contracts. Completed.
   - Scope: design graph index and graph part schemas, including cross-area graph part policy.
-  - No full graph extraction yet.
+  - Added the graph index and part contract document; no graph extraction or modular loader yet.
 - M000.024G - Decisions index and part schema contracts.
   - Scope: design decision index and decision part schemas, distinguishing global decisions from area decisions.
   - No full decision extraction yet.

@@ -80,6 +80,7 @@ const markdownDocuments = [
   { path: "docs/reference/project-model/schema-design/project-model-modularization-analysis.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md", bodyProfileId: "BODY-REFERENCE" },
+  { path: "docs/reference/project-model/schema-design/graph-index-and-part-schema-contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/contracts/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/contracts/governance-control-report.contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/architecture/README.md", bodyProfileId: "BODY-REFERENCE" },

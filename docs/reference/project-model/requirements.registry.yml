@@ -3280,3 +3280,93 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+  - id: "REQ-0038"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Graph index and part schema contracts"
+    statement: >
+      The project shall define the future graph index and graph part schema
+      contract before splitting the monolithic graph matrix into area-owned
+      graph part files.
+    rationale: >
+      Graph modularization changes traceability ownership, node and triple
+      loading boundaries, cross-area relationship ownership, predicate
+      compatibility checks, entity resolution, command validation, schema
+      application checks, and source traceability checks. Defining the contract
+      first prevents an ad hoc graph split that loses deterministic semantic
+      validation or duplicates schema validation logic.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "documentation"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0038-001"
+        statement: "REQ-0034 defines the overall project model modularization model."
+      - id: "PRE-REQ-0038-002"
+        statement: "REQ-0036 enforces project_model_areas before modular graph parts rely broadly on area_id values."
+      - id: "PRE-REQ-0038-003"
+        statement: "REQ-0037 defines the requirements index and part contract so graph references can stay aligned with future modular requirement identities."
+
+    main_flow:
+      - id: "FLOW-REQ-0038-001"
+        step: 1
+        actor: "Project model maintainer"
+        action: "Defines graph.matrix.yml as the future graph index entrypoint."
+        expected_result: "The central graph matrix file remains the canonical graph loading boundary."
+      - id: "FLOW-REQ-0038-002"
+        step: 2
+        actor: "Project model maintainer"
+        action: "Defines area-owned graph part files under docs/reference/project-model/graph."
+        expected_result: "Future graph nodes and triples can be split by registered project_model_areas values."
+      - id: "FLOW-REQ-0038-003"
+        step: 3
+        actor: "Project model maintainer"
+        action: "Defines cross-area graph relationship ownership."
+        expected_result: "Future triples connecting different areas have one deterministic ownership boundary instead of being duplicated in endpoint areas."
+      - id: "FLOW-REQ-0038-004"
+        step: 4
+        actor: "Project model maintainer"
+        action: "Defines the validation responsibility split for future graph index and part schemas."
+        expected_result: "Schema validation remains in check-docs-format.mjs and semantic graph aggregation remains in check-project-model.mjs."
+
+    alternative_flows:
+      - id: "ALT-REQ-0038-001"
+        title: "Cross-area relationship is needed"
+        trigger: "A future graph triple connects subject and object records owned by different project-model areas."
+        steps:
+          - id: "FLOW-REQ-0038-ALT-001"
+            step: 1
+            actor: "Project model validator"
+            action: "Requires the triple to be owned by the dedicated cross-area graph part or by an explicitly governed future exception."
+            expected_result: "Cross-area graph relationships remain explicit, deterministic, and non-duplicated."
+
+    postconditions:
+      - id: "POST-REQ-0038-001"
+        statement: "docs/reference/project-model/schema-design/graph-index-and-part-schema-contract.md defines the future graph index and part contract."
+      - id: "POST-REQ-0038-002"
+        statement: "No existing graph nodes or triples are migrated before the decisions contract and modular loader design are also defined."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0038-001"
+        statement: "The contract document defines the future graph index path and graph part path pattern."
+      - id: "AC-REQ-0038-002"
+        statement: "The contract document states that canonical modular graph references use <area_id>:<local_id> for modular records."
+      - id: "AC-REQ-0038-003"
+        statement: "The contract document defines a cross-area graph ownership policy."
+      - id: "AC-REQ-0038-004"
+        statement: "The contract document preserves check-docs-format.mjs as the schema validation entrypoint."
+      - id: "AC-REQ-0038-005"
+        statement: "The contract document preserves check-project-model.mjs as the semantic graph aggregation and cross-file validation tool."
+      - id: "AC-REQ-0038-006"
+        statement: "The workplan keeps decisions contract and modular loader design before graph extraction."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "document"
+        - "yaml"
+        - "command"
+        - "tool-output"

@@ -808,6 +808,30 @@ decisions:
       - "check-project-model.mjs remains responsible for semantic aggregation, parent macro resolution, capability references, and traceability."
       - "No existing requirements are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
 
+
+  - id: "DEC-0029"
+    title: "Graph modularization uses index, area parts, and cross-area ownership"
+    status: "accepted"
+    statement: >
+      The graph matrix shall evolve toward a central graph index and
+      area-owned graph part files, with a dedicated cross-area ownership policy
+      for relationships whose subject and object belong to different
+      project-model areas.
+    rationale: >
+      graph.matrix.yml is growing with nodes, SPO triples, schema
+      traceability, command traceability, and source traceability. Splitting
+      requirements without splitting graph traceability would leave the graph
+      matrix as the next monolithic scaling bottleneck. A graph index and area
+      parts preserve one logical graph while keeping traceability ownership
+      readable.
+    consequences:
+      - "graph.matrix.yml remains the canonical graph loading entrypoint but should become an index in the modular model."
+      - "Future graph parts use registered project_model_areas values and canonical <area_id>:<local_id> identities for modular records."
+      - "A dedicated cross-area graph part or explicit cross-area role shall own relationships that connect different project-model areas."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future graph index and part schemas."
+      - "check-project-model.mjs remains responsible for semantic aggregation, SPO compatibility, entity existence, command checks, schema traceability, and source traceability."
+      - "No existing graph nodes or triples are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
