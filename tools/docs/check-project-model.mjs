@@ -20,6 +20,7 @@
  * - REQ-0022
  * - REQ-0024
  * - REQ-0026
+ * - REQ-0028
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -52,6 +53,7 @@ const MODEL_FILES = {
   requirements: "docs/reference/project-model/requirements.registry.yml",
   matrix: "docs/reference/project-model/graph.matrix.yml",
   governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json",
+  requirementsRegistrySchema: "docs/reference/project-model/schemas/requirements-registry.schema.json",
   packageJson: "package.json"
 };
 
@@ -59,10 +61,11 @@ const GOVERNED_BASELINE_ARTIFACTS = [
   MODEL_FILES.governance,
   MODEL_FILES.requirements,
   MODEL_FILES.matrix,
-  MODEL_FILES.governanceRegistrySchema
+  MODEL_FILES.governanceRegistrySchema,
+  MODEL_FILES.requirementsRegistrySchema
 ];
 
-const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "REQ-0024"]);
+const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "REQ-0024", "REQ-0028"]);
 
 const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
 const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
@@ -1156,9 +1159,10 @@ const governance = readYaml(MODEL_FILES.governance);
 const requirements = readYaml(MODEL_FILES.requirements);
 const matrix = readYaml(MODEL_FILES.matrix);
 const governanceRegistrySchema = readJson(MODEL_FILES.governanceRegistrySchema);
+const requirementsRegistrySchema = readJson(MODEL_FILES.requirementsRegistrySchema);
 const packageJson = readJson(MODEL_FILES.packageJson);
 
-if (governance && requirements && matrix && governanceRegistrySchema && packageJson) {
+if (governance && requirements && matrix && governanceRegistrySchema && requirementsRegistrySchema && packageJson) {
   const indexes = buildIndexes(governance, requirements, matrix);
   validateTaxonomies(indexes);
   validateIds(indexes);
@@ -1169,7 +1173,8 @@ if (governance && requirements && matrix && governanceRegistrySchema && packageJ
     [MODEL_FILES.governance, governance],
     [MODEL_FILES.requirements, requirements],
     [MODEL_FILES.matrix, matrix],
-    [MODEL_FILES.governanceRegistrySchema, governanceRegistrySchema]
+    [MODEL_FILES.governanceRegistrySchema, governanceRegistrySchema],
+    [MODEL_FILES.requirementsRegistrySchema, requirementsRegistrySchema]
   ]);
   validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments);
   validateBidirectionalSchemaApplicationTraceability(indexes, baselineDocuments);

@@ -19,6 +19,7 @@
  * - REQ-0024
  * - REQ-0025
  * - REQ-0027
+ * - REQ-0028
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -53,7 +54,8 @@ const CONTRACT_FILES = {
 };
 
 const PROJECT_MODEL_SCHEMA_FILES = {
-  governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json"
+  governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json",
+  requirementsRegistrySchema: "docs/reference/project-model/schemas/requirements-registry.schema.json"
 };
 
 const markdownDocuments = [
@@ -223,16 +225,17 @@ function checkGovernanceControlReportSchema(relativePath) {
 
 
 /**
- * Checks the baseline shape of the Governance Registry JSON Schema.
+ * Checks the baseline shape of a project-model registry JSON Schema.
  *
- * This check validates the schema artifact itself before later work migrates
+ * This validates schema artifacts before later work migrates additional
  * registry validation from hardcoded shape checks to schema-driven validation.
  *
  * @param {string} relativePath - Repository-relative JSON Schema file path.
+ * @param {string} label - Human-readable registry label for diagnostics.
+ * @param {string[]} requiredRegistryKeys - Required top-level registry keys.
  * @returns {void}
  */
-
-function checkGovernanceRegistrySchema(relativePath) {
+function checkProjectModelRegistrySchema(relativePath, label, requiredRegistryKeys) {
   const schema = readJson(relativePath);
   if (!isJsonObject(schema, relativePath)) {
     return;
@@ -250,33 +253,19 @@ function checkGovernanceRegistrySchema(relativePath) {
     errors.push(`JSON Schema file ${relativePath} must declare top-level type "object".`);
   }
 
-  const requiredRegistryKeys = [
-    "schema_version",
-    "change_control",
-    "schema_control",
-    "registry",
-    "taxonomies",
-    "capabilities",
-    "decisions",
-    "document_types",
-    "body_profiles",
-    "node_types",
-    "predicates"
-  ];
-
   if (!Array.isArray(schema.required)) {
     errors.push(`JSON Schema file ${relativePath} must declare a top-level required array.`);
   } else {
     for (const key of requiredRegistryKeys) {
       if (!schema.required.includes(key)) {
-        errors.push(`JSON Schema file ${relativePath} required array is missing governance registry key: ${key}`);
+        errors.push(`JSON Schema file ${relativePath} required array is missing ${label} key: ${key}`);
       }
     }
   }
 
   for (const key of requiredRegistryKeys) {
     if (!schema.properties || !Object.prototype.hasOwnProperty.call(schema.properties, key)) {
-      errors.push(`JSON Schema file ${relativePath} properties object is missing governance registry key: ${key}`);
+      errors.push(`JSON Schema file ${relativePath} properties object is missing ${label} key: ${key}`);
     }
   }
 
@@ -663,7 +652,27 @@ checkYamlBaseline(MODEL_FILES.matrix, [
 ]);
 
 checkGovernanceControlReportSchema(CONTRACT_FILES.governanceControlReportSchema);
-checkGovernanceRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
+checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema, "governance registry", [
+  "schema_version",
+  "change_control",
+  "schema_control",
+  "registry",
+  "taxonomies",
+  "capabilities",
+  "decisions",
+  "document_types",
+  "body_profiles",
+  "node_types",
+  "predicates"
+]);
+checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.requirementsRegistrySchema, "requirements registry", [
+  "schema_version",
+  "change_control",
+  "schema_control",
+  "registry",
+  "macro_requirements",
+  "requirements"
+]);
 checkGovernanceRegistryAgainstSchema(governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
 
 if (governance) {

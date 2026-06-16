@@ -10,6 +10,13 @@ change_control:
     deterministic validation can compare file-local change-control metadata with
     graph.matrix.yml relationships.
 
+schema_control:
+  schema: "docs/reference/project-model/schemas/requirements-registry.schema.json"
+  rationale: >
+    The requirements registry declares the canonical schema that validates its
+    structural shape so schema-to-artifact application can be checked
+    bidirectionally against graph.matrix.yml.
+
 registry:
   id: "requirements-registry"
   title: "Requirements registry"
@@ -2348,6 +2355,105 @@ requirements:
       method: "inspection"
       required_evidence:
         - "document"
+        - "yaml"
+        - "command"
+        - "tool-output"
+  - id: "REQ-0028"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Requirements registry explicit schema contract"
+    statement: >
+      The project shall provide a canonical machine-readable JSON Schema that
+      defines the structural shape of docs/reference/project-model/requirements.registry.yml
+      and records the boundary between schema validation, controlled datasets,
+      and semantic cross-file validation.
+    rationale: >
+      M000.022E classified requirements registry fields and settled key policy
+      decisions for macro ownership, scope governance, accepted requirements,
+      implemented evidence, and not_applicable usage. The next governed step is
+      to capture those local shape decisions in an explicit schema artifact
+      before validators progressively move additional checks from hardcoded
+      assumptions to schema-driven validation.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "data"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0028-001"
+        statement: "REQ-0021 requires explicit governed registry schemas."
+
+      - id: "PRE-REQ-0028-002"
+        statement: "REQ-0027 provides the requirements registry field classification and schema boundary analysis."
+
+      - id: "PRE-REQ-0028-003"
+        statement: "REQ-0026 requires schema application traceability between schemas, target artifacts, and graph.matrix.yml."
+
+    main_flow:
+      - id: "FLOW-REQ-0028-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Creates docs/reference/project-model/schemas/requirements-registry.schema.json."
+        expected_result: "The canonical schema artifact exists under the governed schema root."
+
+      - id: "FLOW-REQ-0028-002"
+        step: 2
+        actor: "Documentation structure guard"
+        action: "Registers the requirements registry schema as an allowed and required project-model schema artifact."
+        expected_result: "The repository structure guard protects the schema path."
+
+      - id: "FLOW-REQ-0028-003"
+        step: 3
+        actor: "Documentation format validator"
+        action: "Checks the baseline shape and traceability metadata of the requirements registry schema artifact."
+        expected_result: "Malformed schema artifacts are rejected before schema-driven requirements validation is introduced."
+
+      - id: "FLOW-REQ-0028-004"
+        step: 4
+        actor: "Project model validator"
+        action: "Checks bidirectional schema application traceability between the schema, requirements registry, and graph matrix."
+        expected_result: "Schema coverage for the requirements registry is auditable."
+
+    alternative_flows:
+      - id: "ALT-REQ-0028-001"
+        title: "Semantic rule cannot be encoded locally"
+        trigger: "A requirements registry constraint depends on cross-file references, graph relationships, or parent-specific nested IDs."
+        steps:
+          - id: "FLOW-REQ-0028-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Leaves the rule in deterministic semantic validation and documents the schema boundary in the schema description."
+            expected_result: "The schema contract remains honest about what it can enforce locally."
+
+    postconditions:
+      - id: "POST-REQ-0028-001"
+        statement: "The requirements registry has a canonical JSON Schema artifact."
+
+      - id: "POST-REQ-0028-002"
+        statement: "The schema application relationship is declared in the schema, requirements registry, and graph matrix."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0028-001"
+        statement: "docs/reference/project-model/schemas/requirements-registry.schema.json exists."
+
+      - id: "AC-REQ-0028-002"
+        statement: "The requirements registry schema declares x-change_control and x-applies_to metadata."
+
+      - id: "AC-REQ-0028-003"
+        statement: "docs/reference/project-model/requirements.registry.yml declares schema_control.schema for the requirements registry schema."
+
+      - id: "AC-REQ-0028-004"
+        statement: "graph.matrix.yml contains a SchemaFile APPLIES_TO requirements registry triple."
+
+      - id: "AC-REQ-0028-005"
+        statement: "The structure, format, and project model validators recognize the requirements registry schema artifact as governed."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "json-schema"
         - "yaml"
         - "command"
         - "tool-output"

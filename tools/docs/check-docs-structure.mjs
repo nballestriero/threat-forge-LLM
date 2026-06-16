@@ -15,6 +15,7 @@
  * - REQ-0023
  * - REQ-0024
  * - REQ-0027
+ * - REQ-0028
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -79,6 +80,7 @@ const requiredFiles = [
   "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md",
   "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md",
   "docs/reference/project-model/schemas/governance-registry.schema.json",
+  "docs/reference/project-model/schemas/requirements-registry.schema.json",
   "docs/reference/contracts/README.md",
   "docs/reference/contracts/governance-control-report.contract.md",
   "docs/reference/contracts/governance-control-report.schema.json",
@@ -135,7 +137,8 @@ const allowedProjectModelEntries = new Set([
 ]);
 
 const allowedProjectModelSchemasEntries = new Set([
-  "governance-registry.schema.json"
+  "governance-registry.schema.json",
+  "requirements-registry.schema.json"
 ]);
 
 const allowedContractsEntries = new Set([

@@ -1,0 +1,470 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://threat-forge-llm.local/schemas/project-model/requirements-registry.schema.json",
+  "title": "Requirements Registry Schema",
+  "description": "Canonical shape contract for docs/reference/project-model/requirements.registry.yml after YAML parsing.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-change_control": {
+    "decided_by": [
+      "DEC-0019"
+    ],
+    "satisfies": [
+      "REQ-0028"
+    ],
+    "rationale": "This schema is a governed baseline artifact and declares file-local traceability that deterministic validation can compare against graph.matrix.yml relationships."
+  },
+  "required": [
+    "schema_version",
+    "change_control",
+    "schema_control",
+    "registry",
+    "macro_requirements",
+    "requirements"
+  ],
+  "properties": {
+    "schema_version": {
+      "$ref": "#/$defs/schemaVersion"
+    },
+    "change_control": {
+      "$ref": "#/$defs/changeControl"
+    },
+    "schema_control": {
+      "$ref": "#/$defs/schemaControl"
+    },
+    "registry": {
+      "$ref": "#/$defs/registryMetadata"
+    },
+    "macro_requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/macroRequirement"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/requirement"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "textBlock": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ],
+      "description": "Current governed registry schema version. Future versions require explicit governance."
+    },
+    "requirementId": {
+      "type": "string",
+      "pattern": "^REQ-[0-9]{4}$"
+    },
+    "macroRequirementId": {
+      "type": "string",
+      "pattern": "^MR-[0-9]{4}$"
+    },
+    "capabilityId": {
+      "type": "string",
+      "pattern": "^CAP-[A-Z0-9-]+$"
+    },
+    "decisionId": {
+      "type": "string",
+      "pattern": "^DEC-[0-9]{4}$"
+    },
+    "preconditionId": {
+      "type": "string",
+      "pattern": "^PRE-REQ-[0-9]{4}-[0-9]{3}$"
+    },
+    "mainFlowStepId": {
+      "type": "string",
+      "pattern": "^FLOW-REQ-[0-9]{4}-[0-9]{3}$"
+    },
+    "alternativeFlowId": {
+      "type": "string",
+      "pattern": "^ALT-REQ-[0-9]{4}-[0-9]{3}$"
+    },
+    "alternativeFlowStepId": {
+      "type": "string",
+      "pattern": "^FLOW-REQ-[0-9]{4}-ALT-[0-9]{3}$"
+    },
+    "postconditionId": {
+      "type": "string",
+      "pattern": "^POST-REQ-[0-9]{4}-[0-9]{3}$"
+    },
+    "acceptanceCriterionId": {
+      "type": "string",
+      "pattern": "^AC-REQ-[0-9]{4}-[0-9]{3}$"
+    },
+    "changeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decided_by",
+        "satisfies",
+        "rationale"
+      ],
+      "properties": {
+        "decided_by": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/decisionId"
+          },
+          "uniqueItems": true
+        },
+        "satisfies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/requirementId"
+          },
+          "uniqueItems": true
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "schemaControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "rationale"
+      ],
+      "properties": {
+        "schema": {
+          "const": "docs/reference/project-model/schemas/requirements-registry.schema.json"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        }
+      },
+      "description": "Declares the canonical schema that structurally validates this governed artifact."
+    },
+    "registryMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "const": "requirements-registry"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "accepted",
+            "deprecated",
+            "superseded"
+          ]
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "macroRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "statement",
+        "rationale",
+        "status",
+        "implementation_status",
+        "priority"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/macroRequirementId"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "statement": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by governance.registry.yml taxonomies.requirement_status."
+        },
+        "implementation_status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Manual governance field controlled by taxonomies.requirement_implementation_status."
+        },
+        "priority": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.priority."
+        }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "macro_requirement_id",
+        "capability_id",
+        "title",
+        "statement",
+        "rationale",
+        "status",
+        "implementation_status",
+        "priority",
+        "type",
+        "scope",
+        "preconditions",
+        "main_flow",
+        "alternative_flows",
+        "postconditions",
+        "acceptance_criteria",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/requirementId"
+        },
+        "macro_requirement_id": {
+          "$ref": "#/$defs/macroRequirementId",
+          "description": "Every atomic requirement must belong to an existing macro requirement; existence is semantic validation."
+        },
+        "capability_id": {
+          "$ref": "#/$defs/capabilityId",
+          "description": "Capability existence is semantic validation against governance.registry.yml."
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "statement": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.requirement_status. Accepted requirements require non-empty acceptance criteria and verification."
+        },
+        "implementation_status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.requirement_implementation_status. Implemented requirements require VERIFIED_BY evidence; IMPLEMENTED_BY is required when an implementation artifact is applicable."
+        },
+        "implementation_rationale": {
+          "$ref": "#/$defs/textBlock",
+          "description": "Required by semantic validation when implementation_status is not_applicable."
+        },
+        "priority": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.priority."
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.requirement_type."
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1,
+          "description": "High-governance controlled value from taxonomies.scope. New values require explicit rationale, validation impact, and graph-backed governance."
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nestedStatement"
+          }
+        },
+        "main_flow": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/mainFlowStep"
+          }
+        },
+        "alternative_flows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/alternativeFlow"
+          }
+        },
+        "postconditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nestedStatement"
+          }
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/nestedStatement"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        }
+      }
+    },
+    "nestedStatement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Pattern depends on the nested entity kind and parent requirement; semantic validation enforces parent-specific IDs."
+        },
+        "statement": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "mainFlowStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "step",
+        "actor",
+        "action",
+        "expected_result"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/mainFlowStepId"
+        },
+        "step": {
+          "type": "integer"
+        },
+        "actor": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Free text role, tool, component, or process performing the step."
+        },
+        "action": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "expected_result": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "alternativeFlow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "trigger",
+        "steps"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/alternativeFlowId"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "trigger": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/alternativeFlowStep"
+          }
+        }
+      }
+    },
+    "alternativeFlowStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "step",
+        "actor",
+        "action",
+        "expected_result"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/alternativeFlowStepId"
+        },
+        "step": {
+          "type": "integer"
+        },
+        "actor": {
+          "$ref": "#/$defs/nonEmptyString",
+          "description": "Free text role, tool, component, or process performing the step."
+        },
+        "action": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "expected_result": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "required_evidence"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.verification_method."
+        },
+        "required_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Controlled by taxonomies.evidence_type."
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  },
+  "x-applies_to": [
+    "docs/reference/project-model/requirements.registry.yml"
+  ]
+}
