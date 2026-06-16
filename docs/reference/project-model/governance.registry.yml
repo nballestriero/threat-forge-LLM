@@ -589,6 +589,29 @@ decisions:
 
 
 
+
+  - id: "DEC-0021"
+    title: "Graph matrix schema analysis separates local shape from semantic graph validation"
+    status: "accepted"
+    statement: >
+      The graph matrix schema design shall classify graph.matrix.yml fields,
+      node records, SPO triples, controlled graph vocabulary, repository path
+      checks, command checks, and cross-artifact traceability before creating
+      the explicit graph matrix schema contract.
+    rationale: >
+      The graph matrix is the central traceability surface for decisions,
+      requirements, schemas, source files, commands, gates, tools, and governed
+      documents. Creating its schema directly from current validator code would
+      hide which rules are local YAML shape constraints and which depend on the
+      governance registry, requirements registry, package manifest, repository
+      filesystem, or source-file JSDoc.
+    consequences:
+      - "The graph matrix schema rollout starts with a field-level analysis document."
+      - "Local matrix shape rules are separated from semantic graph checks."
+      - "Predicate and node-type compatibility remain governed by governance.registry.yml, not by a second hidden schema enum."
+      - "Repository path checks, command checks, schema application checks, baseline artifact checks, and source-file traceability remain deterministic semantic validator responsibilities."
+      - "The future graph matrix schema step must add schema_control to graph.matrix.yml and register graph-matrix.schema.json as an applied SchemaFile."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

@@ -36,31 +36,33 @@ Status: in progress.
 - M000.022E - Requirements registry schema analysis.
 - M000.022F - Requirements registry explicit schema contract.
 - M000.022G - Requirements registry schema-driven validation.
+- M000.023A - Graph matrix schema analysis.
 
 ## Next steps
 
-### M000.022H - Graph matrix schema analysis
+### M000.023B - Graph matrix explicit schema contract
 
-Goal: classify graph.matrix.yml fields before creating the explicit graph matrix schema artifact.
-
-Expected scope:
-
-- graph matrix node and triple field inventory
-- controlled node type and predicate mapping
-- repository path and command field policy
-- current hardcoded graph validator rule inventory
-- schema boundary vs semantic validator boundary
-
-### M000.022I - Remaining schema contracts and schema-driven validation
-
-Goal: continue the registry/schema contract rollout after the requirements registry schema-driven validation baseline.
+Goal: create the canonical JSON Schema contract for docs/reference/project-model/graph.matrix.yml.
 
 Expected scope:
 
-- graph matrix schema contract
-- graph matrix schema-driven validation
-- controlled field to dataset/taxonomy mapping
-- validator updated to read canonical registry schemas where appropriate
+- graph-matrix.schema.json contract artifact
+- x-change_control and x-applies_to metadata
+- graph.matrix.yml schema_control metadata
+- SchemaFile APPLIES_TO Document graph relationship
+- structure/format/model tool registration for the new schema artifact
+- no graph storage, visualization, or runtime product implementation
+
+### M000.023C - Graph matrix schema-driven validation
+
+Goal: make docs:check:format execute graph-matrix.schema.json against graph.matrix.yml.
+
+Expected scope:
+
+- format validator loads the graph matrix schema
+- negative fixture for schema-rejected graph matrix fields
+- semantic validator keeps predicate compatibility, entity existence, path, command, baseline, schema application, and source traceability checks
+- controlled field to dataset/taxonomy mapping remains governed by governance.registry.yml
 
 ### M000.023 - Protected baseline artifact roots
 

@@ -2546,3 +2546,92 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+
+  - id: "REQ-0030"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Graph matrix schema analysis"
+    statement: >
+      The project shall analyze docs/reference/project-model/graph.matrix.yml
+      field by field before creating its explicit JSON Schema contract, including
+      the top-level matrix shape, node records, SPO triples, controlled graph
+      vocabulary, repository path checks, command checks, and schema-versus-semantic
+      validation boundary.
+    rationale: >
+      The graph matrix connects the rest of the governed project model. Its
+      schema must therefore be designed deliberately instead of copied from
+      current hardcoded validator assumptions. The analysis must make visible
+      which checks belong in JSON Schema and which checks require semantic
+      validation across registries, package scripts, files, and traceability
+      metadata.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "documentation"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0030-001"
+        statement: "The graph matrix exists as a governed project-model artifact."
+
+      - id: "PRE-REQ-0030-002"
+        statement: "The project has already established explicit schema analysis precedents for governed registries."
+
+    main_flow:
+      - id: "FLOW-REQ-0030-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Reviews the graph matrix top-level fields, nodes, triples, and current deterministic validator rules."
+        expected_result: "The analysis identifies local shape constraints and semantic validation responsibilities."
+
+      - id: "FLOW-REQ-0030-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Documents which graph matrix checks belong in JSON Schema and which must remain in semantic validation."
+        expected_result: "The future graph matrix schema contract has a clear implementation boundary."
+
+      - id: "FLOW-REQ-0030-003"
+        step: 3
+        actor: "Documentation gates"
+        action: "Validate that the new schema-analysis document is governed by the structure and format checks."
+        expected_result: "The analysis document is present, non-empty, and conforms to the reference body profile."
+
+    alternative_flows:
+      - id: "ALT-REQ-0030-001"
+        title: "A rule depends on another governed artifact"
+        trigger: "A graph matrix rule requires the governance registry, requirements registry, package.json, repository filesystem, or source-file JSDoc."
+        steps:
+          - id: "FLOW-REQ-0030-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Keeps the rule in deterministic semantic validation instead of encoding it as a local schema-only rule."
+            expected_result: "The future schema validates matrix shape without becoming a duplicate source of graph semantics."
+
+    postconditions:
+      - id: "POST-REQ-0030-001"
+        statement: "The graph matrix schema analysis document exists under docs/reference/project-model/schema-design."
+
+      - id: "POST-REQ-0030-002"
+        statement: "The next graph matrix schema contract step has a documented schema-versus-semantic validation boundary."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0030-001"
+        statement: "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md exists."
+
+      - id: "AC-REQ-0030-002"
+        statement: "The analysis classifies top-level graph matrix fields, node fields, triple fields, and current hardcoded tool responsibilities."
+
+      - id: "AC-REQ-0030-003"
+        statement: "The analysis explicitly states what belongs in graph-matrix.schema.json and what remains in semantic validation."
+
+      - id: "AC-REQ-0030-004"
+        statement: "docs:check validates the new schema-analysis document through structure and format gates."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "document"
+        - "command"
+        - "tool-output"
