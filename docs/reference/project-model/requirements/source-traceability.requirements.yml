@@ -572,3 +572,75 @@ requirements:
     - yaml
     - command
     - tool-output
+- id: REQ-0012
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Governed commit and push flow contract
+  statement: The project shall define a governed commit and push flow that separates pre-commit content validation from post-commit/pre-push repository cleanliness enforcement.
+  rationale: A full repository cleanliness check is unsafe inside docs:check because the pre-commit gate runs while files are staged. The project still needs a post-commit/pre-push guard so generated or unintended changes cannot remain outside the commit before push. Recording the contract before scripts and hooks are added prevents the workflow automation from breaking legitimate commits or silently bypassing review.
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0012-001
+    statement: The repository uses docs:check as the pre-commit validation gate.
+  - id: PRE-REQ-0012-002
+    statement: The repository generates transient artifacts under artifacts/ and excludes that directory from Git by policy.
+  - id: PRE-REQ-0012-003
+    statement: Developers can still run git commit and git push manually unless a governed wrapper or hook blocks unsafe flows.
+  main_flow:
+  - id: FLOW-REQ-0012-001
+    step: 1
+    actor: Project model designer
+    action: Defines the difference between commit-time content validation and post-commit/pre-push cleanliness validation.
+    expected_result: Future controls do not place a full working-tree cleanliness rule inside docs:check.
+  - id: FLOW-REQ-0012-002
+    step: 2
+    actor: Project model designer
+    action: Defines the future repo:check:clean command boundary.
+    expected_result: The repository has an explicit target for post-commit cleanliness enforcement.
+  - id: FLOW-REQ-0012-003
+    step: 3
+    actor: Project model designer
+    action: Defines the future governed commit/push helper and pre-push hook behavior.
+    expected_result: Future automation can block unsafe commits or pushes without duplicating policy.
+  alternative_flows:
+  - id: ALT-REQ-0012-001
+    title: Full cleanliness check is placed in pre-commit
+    trigger: A future implementation makes docs:check fail merely because files are staged for a legitimate commit.
+    steps:
+    - id: FLOW-REQ-0012-ALT-001
+      step: 1
+      actor: Repository operator
+      action: Moves full cleanliness enforcement to the post-commit/pre-push clean check boundary.
+      expected_result: docs:check remains pre-commit safe while pre-push still blocks incomplete commits.
+  - id: ALT-REQ-0012-002
+    title: Push is attempted with uncommitted generated changes
+    trigger: A generator or manual edit leaves tracked changes after the commit.
+    steps:
+    - id: FLOW-REQ-0012-ALT-002
+      step: 1
+      actor: Pre-push gate
+      action: Rejects the push and reports that repository changes require review.
+      expected_result: The developer must inspect, commit, or revert the remaining changes before pushing.
+  postconditions:
+  - id: POST-REQ-0012-001
+    statement: The project has a documented boundary for pre-commit, post-commit/pre-push, hook, and governed command responsibilities.
+  - id: POST-REQ-0012-002
+    statement: Future implementation can add script and hook enforcement without making docs:check incompatible with pre-commit execution.
+  acceptance_criteria:
+  - id: AC-REQ-0012-001
+    statement: The contract states that docs:check must not require a fully clean working tree while it is used as a pre-commit gate.
+  - id: AC-REQ-0012-002
+    statement: The contract states that a future post-commit/pre-push check must reject staged changes, unstaged tracked changes, and unsafe artifacts before push.
+  - id: AC-REQ-0012-003
+    statement: The contract states that a future pre-push hook must invoke the same clean-check script as the governed command.
+  - id: AC-REQ-0012-004
+    statement: The contract states that a future commit/push helper must fail closed and require review when blocking gates fail.
+  verification:
+    method: analysis
+    required_evidence:
+    - document
+    - yaml

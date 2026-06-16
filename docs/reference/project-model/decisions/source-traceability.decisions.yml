@@ -120,3 +120,13 @@ decisions:
   - Every NegativeFixture must be connected through VALIDATES, EXERCISES, and EXPECTS_FAILURE_OF traceability.
   - The first enforcement fixture proves that an extra unregistered fixture file is rejected.
   - Expected diagnostic/control-level fixture assertions remain a later hardening step.
+- id: DEC-0012
+  title: Commit and push enforcement is split between pre-commit content checks and pre-push cleanliness checks
+  status: accepted
+  statement: The project shall keep docs:check pre-commit safe and add repository cleanliness enforcement as a separate post-commit/pre-push boundary used by future scripts and hooks.
+  rationale: During a pre-commit hook the index intentionally contains staged files, so a full repository cleanliness check inside docs:check would reject valid commits. The repository still needs a blocking pre-push cleanliness gate to prevent incomplete commits, generated-output drift, or accidental artifact staging from reaching the remote.
+  consequences:
+  - docs:check remains the commit-time content validity gate and must not require a fully clean working tree.
+  - A future repo:check:clean command will enforce clean index and working tree expectations after commit and before push.
+  - A future pre-push hook will invoke the same clean-check command so manual push cannot bypass the flow.
+  - A future governed commit/push command will run checks, commit, run the post-commit cleanliness gate, and push only when all blocking gates pass.

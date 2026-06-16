@@ -484,3 +484,31 @@ triples:
   object:
     id: tools/docs/fixtures/negative/unregistered-negative-fixture.json
     type: NegativeFixture
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0012
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0012
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:DEC-0012
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0012
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0012
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/commit-push-flow-contract.md
+    type: Document

@@ -153,12 +153,17 @@ Micropasses:
 - M000.025D2 - Real-repository negative fixture traceability enforcement. Completed.
   - Scope: discover real files under tools/docs/fixtures/negative, require each one to be represented as a NegativeFixture graph node, require VALIDATES, EXERCISES, and EXPECTS_FAILURE_OF traceability for each fixture, and add a negative fixture for an unregistered real fixture file.
   - The enforcement is intentionally scoped to the real repository inventory and does not require isolated invalid fixture workspaces to synthesize unrelated fixture catalogue data.
+- M000.025E1 - Commit/push flow contract. Completed.
+  - Scope: define the governed commit and push flow before adding operational scripts or hooks.
+  - The contract keeps docs:check pre-commit safe, places full repository cleanliness enforcement after commit and before push, and requires future scripts/hooks to fail closed when blocking gates indicate that review is required.
 
 Expected follow-up scope:
 
-- add repository cleanliness and ignored-artifact guards before new runtime functionality
+- add repo:check:clean as a governed post-commit/pre-push command
+- add a pre-push hook that invokes the governed cleanliness check
+- add a governed commit/push helper that runs checks, commits, verifies cleanliness, and pushes
 - add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable
-- keep protected artifact root detection as a later M000.025 micropass, not as a separate milestone
+- keep protected artifact root detection as part of the cleanliness guard workstream
 
 ### M000.026 - Governance control report and page negative fixtures
 
