@@ -2180,3 +2180,86 @@ requirements:
         - "command"
         - "tool-output"
 
+  - id: "REQ-0026"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Bidirectional schema application traceability"
+    statement: >
+      Canonical schema artifacts shall declare the governed artifact paths they
+      apply to, governed artifacts shall declare their canonical schema, and the
+      graph matrix shall contain matching schema-to-artifact relationships that
+      deterministic validation checks bidirectionally.
+    rationale: >
+      Schema-driven validation is not fully governed if a schema can exist
+      without being applied, or if a validator can apply a schema through
+      hardcoded paths without the graph recording that contract. Bidirectional
+      schema application traceability makes schema coverage explicit and
+      auditable.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "data"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0026-001"
+        statement: "The governance registry schema artifact exists."
+
+      - id: "PRE-REQ-0026-002"
+        statement: "The governance registry is validated against the schema by docs:check:format."
+
+    main_flow:
+      - id: "FLOW-REQ-0026-001"
+        step: 1
+        actor: "Schema artifact"
+        action: "Declares the governed target artifact paths it applies to."
+        expected_result: "Schema coverage is explicit inside the schema artifact."
+
+      - id: "FLOW-REQ-0026-002"
+        step: 2
+        actor: "Governed target artifact"
+        action: "Declares its canonical schema through schema_control metadata."
+        expected_result: "The target artifact exposes artifact-to-schema traceability."
+
+      - id: "FLOW-REQ-0026-003"
+        step: 3
+        actor: "Project model validator"
+        action: "Compares schema-local x-applies_to metadata, artifact schema_control metadata, and graph.matrix.yml APPLIES_TO triples."
+        expected_result: "Schema application traceability is consistent in both directions."
+
+    alternative_flows:
+      - id: "ALT-REQ-0026-001"
+        title: "Schema application is missing from one side"
+        trigger: "A schema, target artifact, or graph relationship omits the schema application relationship."
+        steps:
+          - id: "FLOW-REQ-0026-ALT-001"
+            step: 1
+            actor: "Project model validator"
+            action: "Reports the missing schema application traceability side."
+            expected_result: "The change is rejected until schema, artifact, and graph agree."
+
+    postconditions:
+      - id: "POST-REQ-0026-001"
+        statement: "The governance registry schema application relationship is explicit in the schema, target artifact, and graph matrix."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0026-001"
+        statement: "docs/reference/project-model/schemas/governance-registry.schema.json declares x-applies_to for docs/reference/project-model/governance.registry.yml."
+
+      - id: "AC-REQ-0026-002"
+        statement: "docs/reference/project-model/governance.registry.yml declares schema_control.schema for the governance registry schema."
+
+      - id: "AC-REQ-0026-003"
+        statement: "graph.matrix.yml contains a schema APPLIES_TO governance registry triple."
+
+      - id: "AC-REQ-0026-004"
+        statement: "A negative fixture proves that missing schema application traceability fails validation."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "command"
+        - "tool-output"

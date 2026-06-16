@@ -1,0 +1,13 @@
+{
+  "id": "missing-schema-applies-to",
+  "description": "The governance registry schema no longer declares the artifact it applies to.",
+  "validator": "model",
+  "expected_error": "graph.matrix.yml, but x-applies_to does not include docs/reference/project-model/governance.registry.yml",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/schemas/governance-registry.schema.json",
+      "replace": "  \"x-applies_to\": [\n    \"docs/reference/project-model/governance.registry.yml\"\n  ]",
+      "with": "  \"x-applies_to\": []"
+    }
+  ]
+}

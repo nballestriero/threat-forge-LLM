@@ -236,7 +236,7 @@ function checkGovernanceRegistrySchema(relativePath) {
     return;
   }
 
-  const requiredTopLevelKeys = ["$schema", "$id", "title", "type", "required", "properties", "$defs", "x-change_control"];
+  const requiredTopLevelKeys = ["$schema", "$id", "title", "type", "required", "properties", "$defs", "x-change_control", "x-applies_to"];
 
   for (const key of requiredTopLevelKeys) {
     if (!Object.prototype.hasOwnProperty.call(schema, key)) {
@@ -251,6 +251,7 @@ function checkGovernanceRegistrySchema(relativePath) {
   const requiredRegistryKeys = [
     "schema_version",
     "change_control",
+    "schema_control",
     "registry",
     "taxonomies",
     "capabilities",
@@ -286,6 +287,11 @@ function checkGovernanceRegistrySchema(relativePath) {
         errors.push(`JSON Schema file ${relativePath} x-change_control is missing key: ${key}`);
       }
     }
+  }
+
+  const appliesTo = schema["x-applies_to"];
+  if (!Array.isArray(appliesTo) || appliesTo.length === 0 || !appliesTo.every((entry) => typeof entry === "string" && entry.length > 0)) {
+    errors.push(`JSON Schema file ${relativePath} must declare a non-empty x-applies_to string array.`);
   }
 }
 

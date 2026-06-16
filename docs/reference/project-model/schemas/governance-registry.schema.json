@@ -17,6 +17,7 @@
   "required": [
     "schema_version",
     "change_control",
+    "schema_control",
     "registry",
     "taxonomies",
     "capabilities",
@@ -80,6 +81,9 @@
       "items": {
         "$ref": "#/$defs/predicate"
       }
+    },
+    "schema_control": {
+      "$ref": "#/$defs/schemaControl"
     }
   },
   "$defs": {
@@ -403,6 +407,26 @@
           "uniqueItems": true
         }
       }
+    },
+    "schemaControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "rationale"
+      ],
+      "properties": {
+        "schema": {
+          "const": "docs/reference/project-model/schemas/governance-registry.schema.json"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        }
+      },
+      "description": "Declares the canonical schema that structurally validates this governed artifact."
     }
-  }
+  },
+  "x-applies_to": [
+    "docs/reference/project-model/governance.registry.yml"
+  ]
 }

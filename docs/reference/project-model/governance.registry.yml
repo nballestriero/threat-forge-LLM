@@ -10,6 +10,13 @@ change_control:
     deterministic validation can compare file-local change-control metadata with
     graph.matrix.yml relationships.
 
+schema_control:
+  schema: "docs/reference/project-model/schemas/governance-registry.schema.json"
+  rationale: >
+    The governance registry declares the canonical schema that validates its
+    structural shape so schema-to-artifact application can be checked
+    bidirectionally against graph.matrix.yml.
+
 registry:
   id: "project-governance-registry"
   title: "Project governance registry"
@@ -496,6 +503,26 @@ decisions:
       - "A negative fixture proves that schema-rejected fields fail validation."
       - "Hardcoded semantic checks remain valid for cross-file references and graph consistency."
 
+  - id: "DEC-0017"
+    title: "Schema application must be bidirectionally traceable"
+    status: "accepted"
+    statement: >
+      Canonical schema artifacts shall explicitly declare the governed artifact
+      paths they apply to, governed artifacts shall declare their canonical
+      schema, and graph.matrix.yml shall contain matching schema-to-artifact
+      relationships.
+    rationale: >
+      A schema file can otherwise exist without being applied, or a validator can
+      apply a schema through hardcoded paths without the governed graph recording
+      that contract. Bidirectional schema application traceability makes schema
+      coverage auditable and prevents silent drift between schemas and target
+      artifacts.
+    consequences:
+      - "Schema artifacts declare x-applies_to target artifact paths."
+      - "Governed artifacts declare schema_control metadata that points to their canonical schema."
+      - "graph.matrix.yml records schema application relationships."
+      - "The project model validator checks schema-to-artifact and artifact-to-schema consistency."
+
 
 document_types:
   - id: "tutorial"
@@ -589,6 +616,9 @@ node_types:
 
   - id: "SourceFile"
     description: "Implementation source file."
+
+  - id: "SchemaFile"
+    description: "Machine-readable schema artifact that defines structural validation for a governed target artifact."
 
   - id: "TestFile"
     description: "Automated test file."
@@ -710,6 +740,7 @@ predicates:
     allowed_object_types:
       - "Document"
       - "ConfigFile"
+      - "SchemaFile"
 
   - id: "EXPLAINED_BY"
     description: "The subject is explained by an explanatory document."
@@ -723,6 +754,14 @@ predicates:
       - "Command"
     allowed_object_types:
       - "Document"
+
+  - id: "APPLIES_TO"
+    description: "The schema file defines the structural validation contract for the target governed artifact."
+    allowed_subject_types:
+      - "SchemaFile"
+    allowed_object_types:
+      - "Document"
+      - "ConfigFile"
 
 
   - id: "DEPENDS_ON"

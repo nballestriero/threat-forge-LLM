@@ -1,0 +1,13 @@
+{
+  "id": "missing-artifact-schema-control",
+  "description": "The governance registry no longer declares its canonical schema metadata.",
+  "validator": "model",
+  "expected_error": "Artifact docs/reference/project-model/governance.registry.yml is targeted by schema docs/reference/project-model/schemas/governance-registry.schema.json, but schema_control.schema does not match",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/governance.registry.yml",
+      "replace": "schema_control:\n  schema: \"docs/reference/project-model/schemas/governance-registry.schema.json\"",
+      "with": "schema_control:\n  schema: \"docs/reference/project-model/schemas/unknown.schema.json\""
+    }
+  ]
+}

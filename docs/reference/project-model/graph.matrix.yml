@@ -157,8 +157,8 @@ nodes:
     description: "Deterministic cross-platform project handoff ZIP builder."
 
   - id: "docs/reference/project-model/schemas/governance-registry.schema.json"
-    type: "Document"
-    description: "Planned canonical JSON Schema for docs/reference/project-model/governance.registry.yml."
+    type: "SchemaFile"
+    description: "Canonical JSON Schema for docs/reference/project-model/governance.registry.yml."
 
   - id: "docs/reference/project-model/schemas/requirements-registry.schema.json"
     type: "Document"
@@ -2205,7 +2205,7 @@ triples:
     predicate: "SPECIFIED_BY"
     object:
       id: "docs/reference/project-model/schemas/governance-registry.schema.json"
-      type: "Document"
+      type: "SchemaFile"
 
   - subject:
       id: "REQ-0021"
@@ -2462,7 +2462,7 @@ triples:
     predicate: "SPECIFIED_BY"
     object:
       id: "docs/reference/project-model/schemas/governance-registry.schema.json"
-      type: "Document"
+      type: "SchemaFile"
 
   - subject:
       id: "REQ-0024"
@@ -2577,4 +2577,100 @@ triples:
     object:
       id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
       type: "Gate"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0026"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0017"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0026"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0024"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0025"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schemas/governance-registry.schema.json"
+      type: "SchemaFile"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0026"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "Gate"
+
+  - subject:
+      id: "docs/reference/project-model/schemas/governance-registry.schema.json"
+      type: "SchemaFile"
+    predicate: "APPLIES_TO"
+    object:
+      id: "docs/reference/project-model/governance.registry.yml"
+      type: "Document"
 

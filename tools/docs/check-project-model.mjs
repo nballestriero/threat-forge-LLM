@@ -19,6 +19,7 @@
  * - REQ-0006
  * - REQ-0022
  * - REQ-0024
+ * - REQ-0026
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -844,7 +845,7 @@ function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocu
           triple?.subject?.id === requirementId &&
           triple?.predicate === "SPECIFIED_BY" &&
           triple?.object?.id === artifactPath &&
-          triple?.object?.type === "Document"
+          ["Document", "SchemaFile"].includes(triple?.object?.type)
       );
 
       if (!hasSpecifiedBy) {
@@ -880,7 +881,7 @@ function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocu
     if (
       triple?.subject?.type !== "Requirement" ||
       triple?.predicate !== "SPECIFIED_BY" ||
-      triple?.object?.type !== "Document" ||
+      !["Document", "SchemaFile"].includes(triple?.object?.type) ||
       !BASELINE_TRACEABILITY_REQUIREMENTS.has(requirementId) ||
       !GOVERNED_BASELINE_ARTIFACTS.includes(artifactPath)
     ) {
@@ -892,6 +893,140 @@ function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocu
 
     if (!satisfies.includes(requirementId)) {
       errors.push(`graph.matrix.yml says ${requirementId} SPECIFIED_BY ${artifactPath}, but the artifact change_control.satisfies marker does not cite ${requirementId}`);
+    }
+  }
+}
+
+
+/**
+ * Reads schema application targets declared by a schema artifact.
+ *
+ * @param {object | null | undefined} schemaDocument - Parsed schema document.
+ * @returns {string[]} Target artifact paths declared by x-applies_to.
+ */
+function schemaAppliesTo(schemaDocument) {
+  if (!isObject(schemaDocument)) {
+    return [];
+  }
+
+  return stringArray(schemaDocument["x-applies_to"]);
+}
+
+/**
+ * Reads schema-control metadata declared by a governed target artifact.
+ *
+ * @param {object | null | undefined} artifactDocument - Parsed target artifact document.
+ * @returns {object | undefined} Schema-control object when present.
+ */
+function artifactSchemaControl(artifactDocument) {
+  if (!isObject(artifactDocument)) {
+    return undefined;
+  }
+
+  return artifactDocument.schema_control;
+}
+
+/**
+ * Returns graph.matrix.yml schema application triples.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {unknown[]} APPLIES_TO triples whose subject is a SchemaFile.
+ */
+function schemaApplicationTriples(indexes) {
+  return indexes.triples.filter(
+    (triple) => triple?.predicate === "APPLIES_TO" && triple?.subject?.type === "SchemaFile"
+  );
+}
+
+/**
+ * Validates bidirectional traceability between schema artifacts, governed
+ * target artifacts, and graph.matrix.yml schema application triples.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @param {Map<string, object>} baselineDocuments - Baseline artifact path to parsed document.
+ * @returns {void}
+ */
+function validateBidirectionalSchemaApplicationTraceability(indexes, baselineDocuments) {
+  const applicationTriples = schemaApplicationTriples(indexes);
+
+  for (const triple of applicationTriples) {
+    const schemaPath = triple?.subject?.id;
+    const targetPath = triple?.object?.id;
+
+    if (!schemaPath || !targetPath) {
+      continue;
+    }
+
+    const schemaDocument = baselineDocuments.get(schemaPath);
+    const targetDocument = baselineDocuments.get(targetPath);
+
+    if (!schemaDocument) {
+      errors.push(`Schema application triple references unmanaged or unread schema artifact ${schemaPath}`);
+      continue;
+    }
+
+    if (!targetDocument) {
+      errors.push(`Schema application triple references unmanaged or unread target artifact ${targetPath}`);
+      continue;
+    }
+
+    const appliesTo = schemaAppliesTo(schemaDocument);
+    if (!appliesTo.includes(targetPath)) {
+      errors.push(`Schema ${schemaPath} APPLIES_TO ${targetPath} in graph.matrix.yml, but x-applies_to does not include ${targetPath}`);
+    }
+
+    const schemaControl = artifactSchemaControl(targetDocument);
+    if (!isObject(schemaControl) || schemaControl.schema !== schemaPath) {
+      errors.push(`Artifact ${targetPath} is targeted by schema ${schemaPath}, but schema_control.schema does not match`);
+    }
+  }
+
+  for (const [schemaPath, schemaDocument] of baselineDocuments.entries()) {
+    const appliesTo = schemaAppliesTo(schemaDocument);
+
+    for (const targetPath of appliesTo) {
+      const hasGraphTriple = applicationTriples.some(
+        (triple) => triple?.subject?.id === schemaPath && triple?.object?.id === targetPath
+      );
+
+      if (!hasGraphTriple) {
+        errors.push(`Schema ${schemaPath} x-applies_to cites ${targetPath}, but graph.matrix.yml has no matching APPLIES_TO triple`);
+      }
+
+      const targetDocument = baselineDocuments.get(targetPath);
+      const schemaControl = artifactSchemaControl(targetDocument);
+      if (!isObject(schemaControl) || schemaControl.schema !== schemaPath) {
+        errors.push(`Schema ${schemaPath} x-applies_to cites ${targetPath}, but the target artifact schema_control.schema does not match`);
+      }
+    }
+  }
+
+  for (const [artifactPath, artifactDocument] of baselineDocuments.entries()) {
+    const schemaControl = artifactSchemaControl(artifactDocument);
+
+    if (!isObject(schemaControl) || typeof schemaControl.schema !== "string") {
+      continue;
+    }
+
+    const schemaPath = schemaControl.schema;
+    const schemaDocument = baselineDocuments.get(schemaPath);
+
+    if (!schemaDocument) {
+      errors.push(`Artifact ${artifactPath} schema_control.schema references unmanaged or unread schema artifact ${schemaPath}`);
+      continue;
+    }
+
+    const appliesTo = schemaAppliesTo(schemaDocument);
+    if (!appliesTo.includes(artifactPath)) {
+      errors.push(`Artifact ${artifactPath} schema_control.schema cites ${schemaPath}, but the schema x-applies_to does not include the artifact`);
+    }
+
+    const hasGraphTriple = applicationTriples.some(
+      (triple) => triple?.subject?.id === schemaPath && triple?.object?.id === artifactPath
+    );
+
+    if (!hasGraphTriple) {
+      errors.push(`Artifact ${artifactPath} schema_control.schema cites ${schemaPath}, but graph.matrix.yml has no matching APPLIES_TO triple`);
     }
   }
 }
@@ -1030,12 +1165,14 @@ if (governance && requirements && matrix && governanceRegistrySchema && packageJ
   validateRegistryReferences(indexes);
   validateTriples(indexes);
   validatePackageScripts(indexes, packageJson);
-  validateBidirectionalBaselineArtifactTraceability(indexes, new Map([
+  const baselineDocuments = new Map([
     [MODEL_FILES.governance, governance],
     [MODEL_FILES.requirements, requirements],
     [MODEL_FILES.matrix, matrix],
     [MODEL_FILES.governanceRegistrySchema, governanceRegistrySchema]
-  ]));
+  ]);
+  validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments);
+  validateBidirectionalSchemaApplicationTraceability(indexes, baselineDocuments);
   validateBidirectionalSourceTraceability(indexes);
 }
 
