@@ -25,6 +25,7 @@
  * - REQ-0036
  * - REQ-0041
  * - REQ-0042
+ * - REQ-0043
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT

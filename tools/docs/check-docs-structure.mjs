@@ -22,6 +22,7 @@
  * - REQ-0035
  * - REQ-0041
  * - REQ-0042
+ * - REQ-0043
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -96,6 +97,7 @@ const requiredFiles = [
   "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md",
   "docs/reference/project-model/schema-design/modular-project-model-loader-design.md",
   "docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md",
+  "docs/reference/project-model/schema-design/remaining-area-extraction-plan.md",
   "docs/reference/project-model/requirements/schema-validation.requirements.yml",
   "docs/reference/project-model/graph/schema-validation.graph.yml",
   "docs/reference/project-model/decisions/schema-validation.decisions.yml",

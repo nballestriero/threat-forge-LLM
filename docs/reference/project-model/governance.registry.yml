@@ -753,6 +753,24 @@ decisions:
       - The control review records which bidirectional and cross-file checks are already enforced
         and which should be added before broad extraction.
 
+  - id: DEC-0034
+    title: Remaining area extraction proceeds control-first
+    status: accepted
+    statement: The remaining project-model areas shall be extracted in small gated micropasses,
+      with missing ownership and reference controls added before broad or traceability-heavy
+      migrations.
+    rationale: The schema-validation pilot proved modular loading and canonical IDs, but it
+      also exposed that cross-area graph ownership and same-area reference policy must be
+      explicit before many more records move into parts.
+    consequences:
+      - The next work adds cross-area graph ownership validation before broad extraction.
+      - Documentation-structure and markdown-format are the next low-risk extraction targets.
+      - Requirements-governance, graph-traceability, and source-traceability are deferred until
+        the relevant ownership and reference rules are explicit.
+      - Governance-control and project-handoff remain separate later extractions because they
+        have generated artifact and operational command boundaries.
+      - Backend-architecture remains deferred until product-boundary work defines runtime scope.
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

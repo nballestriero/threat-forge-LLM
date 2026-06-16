@@ -49,6 +49,8 @@ Status: in progress.
 - M000.024G - Decisions index and part schema contracts.
 - M000.024H - Modular project model loader design.
 - M000.024I - First schema-validation area extraction.
+- M000.024J - Schema-validation canonical ID and control review.
+- M000.024K - Remaining area extraction plan.
 
 ## Next steps
 
@@ -96,16 +98,27 @@ Planned micropasses:
 - M000.024H - Modular project model loader design. Completed.
   - Scope: define how format and semantic validators will load index files and aggregate parts into one logical model.
   - Added the modular project model loader design document; no loader implementation or area extraction yet.
-- M000.024I - First capability area extraction. Completed.
+- M000.024I - First schema-validation area extraction. Completed.
   - Scope: extract the schema-validation area across requirements, graph triples, and decisions.
   - Added first governed modular part files, part schemas, index declarations, and aggregate loader support for semantic validation.
-  - The first pilot keeps legacy REQ/DEC identifiers inside the extracted area; later migration may introduce clean `<area_id>:<local_id>` identities after the loader pattern is proven.
 - M000.024J - Schema-validation canonical ID and control review. Completed.
   - Scope: normalize the first extracted area to area-local IDs, derive canonical `<area_id>:<local_id>` IDs in the semantic aggregate, and document bidirectional/cross-file controls.
   - Added the schema-validation area ID and control review; no additional areas extracted.
-- M000.024K - Remaining capability area extraction plan.
+- M000.024K - Remaining area extraction plan. Completed.
   - Scope: use the first extraction and canonical ID review results to plan the remaining area splits and required follow-up gates.
-  - Avoid a single large migration commit.
+  - Added the remaining project-model area extraction plan; no additional areas extracted.
+- M000.024L - Cross-area graph ownership guard.
+  - Scope: add deterministic validation and negative fixture coverage for triples placed in the wrong area graph part.
+  - Do this before traceability-heavy extractions.
+- M000.024M - Same-area local reference policy design.
+  - Scope: define where part-local references are allowed outside graph triples and where canonical references are required.
+  - No broad extraction yet.
+- M000.024N - Documentation-structure area extraction.
+  - Scope: extract documentation layout, required-file, and structure-guard requirements, decisions, and graph relationships into documentation-structure parts.
+  - Keep the migration small and gated.
+- M000.024O - Markdown-format area extraction.
+  - Scope: extract Markdown body profile and Markdown format validation requirements, decisions, and graph relationships into markdown-format parts.
+  - Keep JSON Schema validation ownership with schema-validation.
 
 ### M000.025 - Protected baseline artifact roots
 

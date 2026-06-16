@@ -2899,3 +2899,89 @@ requirements:
         - command
         - source-comment
         - tool-output
+
+  - id: REQ-0043
+    macro_requirement_id: MR-0001
+    capability_id: CAP-DOCUMENTATION-GOVERNANCE
+    title: Remaining project model area extraction plan
+    statement: The project shall record a post-pilot plan for extracting the remaining
+      project-model areas, including extraction order, required controls, and explicit
+      boundaries for areas that should not move yet.
+    rationale: After the schema-validation pilot and canonical ID review, continuing with
+      another ad hoc extraction would risk moving records before ownership and reference
+      policies are explicit. A documented plan keeps future micropasses small, ordered,
+      and checkable.
+    status: accepted
+    implementation_status: implemented
+    priority: must
+    type: documentation
+    scope: project-model
+    preconditions:
+      - id: PRE-REQ-0043-001
+        statement: The schema-validation area has already been extracted into modular parts.
+      - id: PRE-REQ-0043-002
+        statement: The schema-validation canonical ID and control review has identified present
+          controls and future control gaps.
+    main_flow:
+      - id: FLOW-REQ-0043-001
+        step: 1
+        actor: Maintainer
+        action: Reviews the schema-validation pilot extraction result.
+        expected_result: The plan is grounded in the controls proven by the first extracted area.
+      - id: FLOW-REQ-0043-002
+        step: 2
+        actor: Maintainer
+        action: Identifies blocking and advisory controls for the remaining extraction work.
+        expected_result: Cross-area graph ownership and same-area local-reference policy are
+          separated from non-blocking reporting improvements.
+      - id: FLOW-REQ-0043-003
+        step: 3
+        actor: Maintainer
+        action: Orders the remaining project-model areas by risk and dependency.
+        expected_result: Low-risk documentation areas move before requirements, graph, source,
+          governance-control, and project-handoff areas.
+      - id: FLOW-REQ-0043-004
+        step: 4
+        actor: Maintainer
+        action: Updates the workplan with the next control-first micropasses.
+        expected_result: Future work proceeds through small gated steps rather than one broad
+          migration.
+    alternative_flows:
+      - id: ALT-REQ-0043-001
+        title: A planned extraction requires a missing control
+        trigger: A future extraction depends on graph ownership or reference semantics that are
+          still only documented as convention.
+        steps:
+          - id: FLOW-REQ-0043-ALT-001
+            step: 1
+            actor: Maintainer
+            action: Adds a dedicated design or validator micropasso before the extraction.
+            expected_result: The extraction does not proceed until the required control is explicit
+              and gateable.
+    postconditions:
+      - id: POST-REQ-0043-001
+        statement: The remaining area extraction plan exists under docs/reference/project-model/schema-design.
+      - id: POST-REQ-0043-002
+        statement: The workplan records the next control-first modularization micropasses.
+      - id: POST-REQ-0043-003
+        statement: Backend-architecture extraction remains deferred until product-boundary work.
+    acceptance_criteria:
+      - id: AC-REQ-0043-001
+        statement: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
+          exists and follows the BODY-REFERENCE profile.
+      - id: AC-REQ-0043-002
+        statement: The plan records pilot controls that are already present and future controls
+          that should be added before broad extraction.
+      - id: AC-REQ-0043-003
+        statement: The plan defines an ordered sequence for remaining project-model area extraction.
+      - id: AC-REQ-0043-004
+        statement: The workplan records M000.024L, M000.024M, M000.024N, and M000.024O as the
+          next modularization micropasses.
+    verification:
+      method: test
+      required_evidence:
+        - document
+        - yaml
+        - command
+        - source-comment
+        - tool-output

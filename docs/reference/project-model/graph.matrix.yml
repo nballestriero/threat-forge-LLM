@@ -236,6 +236,11 @@ nodes:
     description: "Design document for the future modular project-model loader, part aggregation, canonical
       ID derivation, and semantic validation boundary."
 
+
+  - id: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
+    type: Document
+    description: Post-pilot plan for extracting the remaining project-model areas in
+      small control-first micropasses.
   - id: docs/reference/project-model/schemas/requirements-part.schema.json
     type: SchemaFile
     description: Canonical JSON Schema for modular requirements part files.
@@ -3384,6 +3389,105 @@ triples:
       type: Gate
   - subject:
       id: REQ-0042
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-PROJECT-MODEL
+      type: Gate
+
+  - subject:
+      id: MR-0001
+      type: MacroRequirement
+    predicate: CONTAINS
+    object:
+      id: REQ-0043
+      type: Requirement
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: BELONGS_TO_CAPABILITY
+    object:
+      id: CAP-DOCUMENTATION-GOVERNANCE
+      type: Capability
+  - subject:
+      id: DEC-0034
+      type: Decision
+    predicate: DECIDES
+    object:
+      id: REQ-0043
+      type: Requirement
+  - subject:
+      id: DEC-0034
+      type: Decision
+    predicate: DECIDES
+    object:
+      id: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
+      type: Document
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: DEPENDS_ON
+    object:
+      id: REQ-0042
+      type: Requirement
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: SPECIFIED_BY
+    object:
+      id: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
+      type: Document
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: IMPLEMENTED_BY
+    object:
+      id: tools/docs/check-docs-structure.mjs
+      type: SourceFile
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: IMPLEMENTED_BY
+    object:
+      id: tools/docs/check-docs-format.mjs
+      type: SourceFile
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: IMPLEMENTED_BY
+    object:
+      id: tools/docs/check-project-model.mjs
+      type: SourceFile
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-DOCS-CHECK
+      type: Gate
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-PRE-COMMIT
+      type: Gate
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-DOCS-STRUCTURE
+      type: Gate
+  - subject:
+      id: REQ-0043
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-DOCS-FORMAT
+      type: Gate
+  - subject:
+      id: REQ-0043
       type: Requirement
     predicate: VERIFIED_BY
     object:
