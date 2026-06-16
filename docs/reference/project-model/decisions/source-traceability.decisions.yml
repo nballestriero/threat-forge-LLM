@@ -118,3 +118,21 @@ decisions:
   - Every package.json script must have a matching Command node, and every Command node must run a
     ValidationTool through graph traceability.
   - Generated artifacts under artifacts/ remain excluded from Git and are not treated as source inputs.
+- id: DEC-0010
+  title: Negative fixture traceability requires a real-repository enforcement boundary
+  status: accepted
+  statement: 'Negative fixture traceability shall be specified before enforcement, and future enforcement
+    shall distinguish the real repository fixture inventory from isolated invalid fixture workspaces.
+
+    '
+  rationale: 'A repository-wide fixture inventory rule is valuable only when applied to the real checkout.
+    Applying the same rule inside every negative fixture workspace can mask the intended validation
+    failure and make negative tests prove the wrong behavior. The project therefore records the contract
+    first and defers enforcement until the validator boundary is explicit.
+
+    '
+  consequences:
+  - NegativeFixture becomes the target model entity for governed negative fixtures.
+  - Future fixture traceability enforcement must run against the real repository inventory, not blindly inside every isolated negative fixture workspace.
+  - Existing ConfigFile-based fixture graph references remain transitional until the enforcement micropasso migrates them intentionally.
+  - Expected diagnostic or expected-control assertions are deferred until basic fixture inventory enforcement is stable.

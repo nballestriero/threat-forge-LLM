@@ -414,6 +414,9 @@ node_types:
   description: Executable command used to run a validation tool or gate.
 - id: ValidationTool
   description: Deterministic tool used to validate repository artifacts.
+- id: NegativeFixture
+  description: Repository-owned invalid input fixture expected to make a deterministic validator fail
+    for a governed reason.
 - id: CodeSymbol
   description: Future function, class, method, or exported symbol inside a source file.
 - id: AcceptanceCriterion
@@ -559,12 +562,14 @@ predicates:
   - ConfigFile
   - CodeSymbol
 - id: VERIFIED_BY
-  description: The requirement or acceptance criterion is verified by a test file or validation gate.
+  description: The requirement or acceptance criterion is verified by a test file, negative fixture,
+    or validation gate.
   allowed_subject_types:
   - Requirement
   - AcceptanceCriterion
   allowed_object_types:
   - TestFile
+  - NegativeFixture
   - Gate
 - id: HAS_COMMAND
   description: The subject exposes or is executed through the command.
@@ -595,6 +600,27 @@ predicates:
   - Document
   - ConfigFile
   - SourceFile
+  - NegativeFixture
   - Requirement
   - MacroRequirement
   - Taxonomy
+
+- id: EXERCISES
+  description: The negative fixture exercises the governed requirement, gate, validation tool, or
+    command whose failure behavior it protects.
+  allowed_subject_types:
+  - NegativeFixture
+  allowed_object_types:
+  - Requirement
+  - Gate
+  - ValidationTool
+  - Command
+- id: EXPECTS_FAILURE_OF
+  description: The negative fixture is expected to make the target validation tool, gate, or command
+    fail for a governed reason.
+  allowed_subject_types:
+  - NegativeFixture
+  allowed_object_types:
+  - ValidationTool
+  - Gate
+  - Command

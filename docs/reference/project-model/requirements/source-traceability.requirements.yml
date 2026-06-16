@@ -472,3 +472,72 @@ requirements:
     - yaml
     - command
     - tool-output
+- id: REQ-0010
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Negative fixture traceability contract
+  statement: 'The project shall define negative validator fixtures as governed traceability artifacts
+    before enforcing repository-wide fixture inventory checks.
+
+    '
+  rationale: 'Negative fixtures protect deterministic controls, but they are executed in intentionally
+    invalid isolated workspaces. The model must distinguish real-repository fixture inventory from
+    fixture execution workspaces before enforcement is added, otherwise negative tests can fail for
+    the wrong reason and stop proving their intended diagnostic class.
+
+    '
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: operational
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0010-001
+    statement: Negative fixtures are stored under tools/docs/fixtures/negative in the real repository.
+  - id: PRE-REQ-0010-002
+    statement: The negative fixture runner builds isolated invalid workspaces to verify validator failures.
+  main_flow:
+  - id: FLOW-REQ-0010-001
+    step: 1
+    actor: Project model designer
+    action: Defines the NegativeFixture entity type and fixture traceability relationships.
+    expected_result: Future graph records can distinguish fixture files from generic configuration files.
+  - id: FLOW-REQ-0010-002
+    step: 2
+    actor: Project model designer
+    action: Defines the real-repository enforcement context separately from fixture execution isolation.
+    expected_result: Future enforcement can inventory real fixtures without changing the intended failure reason of isolated negative fixtures.
+  - id: FLOW-REQ-0010-003
+    step: 3
+    actor: Project model validator
+    action: Defers enforcement until the real-repository and fixture-execution contexts are separated.
+    expected_result: The contract is available without introducing an unstable or over-broad gate.
+  alternative_flows:
+  - id: ALT-REQ-0010-001
+    title: Fixture inventory is enforced inside isolated fixture workspace
+    trigger: A future validator applies repository-wide fixture inventory while validating a deliberately incomplete negative fixture workspace.
+    steps:
+    - id: FLOW-REQ-0010-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Skips repository-wide fixture inventory unless the fixture explicitly targets fixture inventory enforcement.
+      expected_result: The negative fixture continues to fail for its intended governed reason.
+  postconditions:
+  - id: POST-REQ-0010-001
+    statement: Negative fixture traceability has an explicit contract before runtime enforcement.
+  - id: POST-REQ-0010-002
+    statement: Future enforcement can target only the real repository inventory unless explicitly testing fixture inventory behavior.
+  acceptance_criteria:
+  - id: AC-REQ-0010-001
+    statement: The project model documents NegativeFixture as the target entity type for governed negative fixtures.
+  - id: AC-REQ-0010-002
+    statement: The project model documents the required fixture traceability relationships.
+  - id: AC-REQ-0010-003
+    statement: The contract states that real-repository fixture inventory enforcement must not be applied blindly inside isolated invalid fixture workspaces.
+  - id: AC-REQ-0010-004
+    statement: This requirement remains not_implemented until a later micropasso adds deterministic enforcement and negative coverage.
+  verification:
+    method: analysis
+    required_evidence:
+    - document
+    - yaml

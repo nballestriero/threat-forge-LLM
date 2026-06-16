@@ -147,12 +147,15 @@ Micropasses:
 - M000.025C - Graph target existence and command/source hardening. Completed.
   - Scope: reject graph SourceFile, SchemaFile, TestFile, and ConfigFile targets that do not exist; require ValidationTool nodes to declare existing implementation paths with matching IMPLEMENTED_BY relationships; require every package.json script to have a graph Command node and every Command node to run a ValidationTool.
   - Added negative fixtures for missing graph source targets, missing validation-tool paths, and untraced package scripts.
+- M000.025D1 - Negative fixture traceability contract. Completed.
+  - Scope: define NegativeFixture as the target model entity, record fixture-to-control traceability semantics, and explicitly separate real-repository fixture inventory from isolated negative fixture execution workspaces.
+  - No enforcement added in this micropasso; D2 will implement the real-repository inventory gate after this boundary is stable.
 
 Expected follow-up scope:
 
+- implement real-repository negative fixture inventory enforcement without applying that inventory rule blindly inside isolated fixture workspaces
 - add repository cleanliness and ignored-artifact guards before new runtime functionality
-- add repository cleanliness and ignored-artifact guards before new runtime functionality
-- harden fixture-to-control traceability so each deterministic control has explicit negative coverage
+- add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable
 - keep protected artifact root detection as a later M000.025 micropass, not as a separate milestone
 
 ### M000.026 - Governance control report and page negative fixtures

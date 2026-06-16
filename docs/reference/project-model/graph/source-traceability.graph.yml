@@ -374,3 +374,45 @@ triples:
   object:
     id: GATE-VALIDATOR-NEGATIVE-FIXTURES
     type: Gate
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: source-traceability:REQ-0010
+    type: Requirement
+- subject:
+    id: source-traceability:REQ-0010
+    type: Requirement
+  predicate: BELONGS_TO_CAPABILITY
+  object:
+    id: CAP-REQUIREMENTS-MANAGEMENT
+    type: Capability
+- subject:
+    id: source-traceability:DEC-0010
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: source-traceability:REQ-0010
+    type: Requirement
+- subject:
+    id: source-traceability:DEC-0010
+    type: Decision
+  predicate: SUPPORTS
+  object:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+- subject:
+    id: source-traceability:REQ-0010
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/schema-design/negative-fixture-traceability-contract.md
+    type: Document
+- subject:
+    id: source-traceability:REQ-0010
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
