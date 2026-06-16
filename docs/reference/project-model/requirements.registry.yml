@@ -2024,7 +2024,7 @@ requirements:
           baseline artifacts."
 
       - id: "PRE-REQ-0034-002"
-        statement: "REQ-0033 establishes tools/docs/check-docs-format.mjs as the single JSON Schema
+        statement: "schema-validation:REQ-0011 establishes tools/docs/check-docs-format.mjs as the single JSON Schema
           validation entrypoint for governed artifacts."
 
       - id: "PRE-REQ-0034-003"
@@ -2795,3 +2795,107 @@ requirements:
         - json-schema
         - command
         - source-comment
+  - id: REQ-0042
+    macro_requirement_id: MR-0001
+    capability_id: CAP-DOCUMENTATION-GOVERNANCE
+    title: Schema-validation canonical ID enforcement and control review
+    statement: The project shall normalize the first extracted schema-validation area to
+      the canonical modular identity model, reject legacy extracted IDs as aliases,
+      and document the bidirectional and cross-file controls that protect the extracted
+      area before additional areas are migrated.
+    rationale: The first extraction proved modular loading. Before extracting more areas,
+      the pilot area must prove the intended `<area_id>:<local_id>` identity model
+      without retaining compatibility aliases for removed global IDs, and identify
+      the controls that are already present or still missing.
+    status: accepted
+    implementation_status: implemented
+    priority: must
+    type: documentation
+    scope: project-model
+    preconditions:
+      - id: PRE-REQ-0042-001
+        statement: M000.024I extracted the schema-validation area across requirements,
+          decisions, and graph parts.
+      - id: PRE-REQ-0042-002
+        statement: The modular loader design defines `<area_id>:<local_id>` as the canonical
+          logical identity model.
+    main_flow:
+      - id: FLOW-REQ-0042-001
+        step: 1
+        actor: Maintainer
+        action: Renumbers schema-validation part-local requirement and decision IDs to area-local
+          sequences.
+        expected_result: The extracted area no longer depends on the legacy global numeric
+          sequence for local authoring.
+      - id: FLOW-REQ-0042-002
+        step: 2
+        actor: Validator
+        action: Derives canonical aggregate IDs from the part area_id and local IDs.
+        expected_result: The logical project model exposes schema-validation requirements and
+          decisions as canonical modular IDs.
+      - id: FLOW-REQ-0042-003
+        step: 3
+        actor: Maintainer
+        action: Updates graph and cross-file references to canonical IDs for modular entities.
+        expected_result: Graph traceability does not rely on ambiguous local IDs or removed
+          legacy global IDs.
+      - id: FLOW-REQ-0042-004
+        step: 4
+        actor: Validator
+        action: Rejects local-only modular graph references and removed legacy extracted IDs.
+        expected_result: The first extracted area has no compatibility path for obsolete IDs.
+      - id: FLOW-REQ-0042-005
+        step: 5
+        actor: Maintainer
+        action: Reviews current bidirectional and cross-file controls for the extracted area.
+        expected_result: Present controls and future control gaps are documented before further
+          extraction.
+    alternative_flows:
+      - id: ALT-REQ-0042-001
+        title: Canonical ID reference is ambiguous
+        trigger: A graph or source traceability reference points to a modular entity using only
+          a local ID.
+        steps:
+          - id: FLOW-REQ-0042-ALT-001
+            step: 1
+            actor: Validator
+            action: Rejects the reference once canonical modular IDs are required for modular
+              graph references.
+            expected_result: Ambiguous modular references cannot silently pass semantic validation.
+    postconditions:
+      - id: POST-REQ-0042-001
+        statement: Schema-validation part files use area-local IDs for authoring.
+      - id: POST-REQ-0042-002
+        statement: The aggregate semantic model uses canonical IDs for schema-validation records.
+      - id: POST-REQ-0042-003
+        statement: Local-only graph references and legacy extracted IDs are rejected for the
+          schema-validation area.
+      - id: POST-REQ-0042-004
+        statement: Current and future bidirectional/cross-file controls are documented.
+    acceptance_criteria:
+      - id: AC-REQ-0042-001
+        statement: Schema-validation requirements use local IDs beginning at REQ-0001 inside the
+          requirements part.
+      - id: AC-REQ-0042-002
+        statement: Schema-validation decisions use local IDs beginning at DEC-0001 inside the
+          decisions part.
+      - id: AC-REQ-0042-003
+        statement: Graph references to schema-validation requirements and decisions use canonical
+          IDs in the form `schema-validation:<local_id>`.
+      - id: AC-REQ-0042-004
+        statement: The project-model checker derives canonical modular requirement and decision
+          IDs during aggregation and source traceability checks without retaining legacy aliases.
+      - id: AC-REQ-0042-005
+        statement: Negative fixtures prove local-only modular graph references and removed
+          schema-validation legacy IDs fail validation.
+      - id: AC-REQ-0042-006
+        statement: The control review document records present bidirectional controls and future
+          cross-file control gaps.
+    verification:
+      method: test
+      required_evidence:
+        - document
+        - yaml
+        - command
+        - source-comment
+        - tool-output

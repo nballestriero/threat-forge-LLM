@@ -17,19 +17,20 @@
  * Related requirements:
  * - REQ-0007
  * - REQ-0016
- * - REQ-0023
- * - REQ-0024
- * - REQ-0025
- * - REQ-0027
- * - REQ-0028
- * - REQ-0029
- * - REQ-0030
- * - REQ-0031
- * - REQ-0032
- * - REQ-0033
+ * - schema-validation:REQ-0001
+ * - schema-validation:REQ-0002
+ * - schema-validation:REQ-0003
+ * - schema-validation:REQ-0005
+ * - schema-validation:REQ-0006
+ * - schema-validation:REQ-0007
+ * - schema-validation:REQ-0008
+ * - schema-validation:REQ-0009
+ * - schema-validation:REQ-0010
+ * - schema-validation:REQ-0011
  * - REQ-0034
  * - REQ-0035
  * - REQ-0041
+ * - REQ-0042
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -87,6 +88,7 @@ const markdownDocuments = [
   { path: "docs/reference/project-model/schema-design/graph-index-and-part-schema-contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/project-model/schema-design/modular-project-model-loader-design.md", bodyProfileId: "BODY-REFERENCE" },
+  { path: "docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/contracts/README.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/contracts/governance-control-report.contract.md", bodyProfileId: "BODY-REFERENCE" },
   { path: "docs/reference/architecture/README.md", bodyProfileId: "BODY-REFERENCE" },

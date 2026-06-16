@@ -12,15 +12,16 @@
  *
  * Related requirements:
  * - REQ-0004
- * - REQ-0023
- * - REQ-0024
- * - REQ-0027
- * - REQ-0028
- * - REQ-0030
- * - REQ-0031
+ * - schema-validation:REQ-0001
+ * - schema-validation:REQ-0002
+ * - schema-validation:REQ-0005
+ * - schema-validation:REQ-0006
+ * - schema-validation:REQ-0008
+ * - schema-validation:REQ-0009
  * - REQ-0034
  * - REQ-0035
  * - REQ-0041
+ * - REQ-0042
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -94,6 +95,7 @@ const requiredFiles = [
   "docs/reference/project-model/schema-design/graph-index-and-part-schema-contract.md",
   "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md",
   "docs/reference/project-model/schema-design/modular-project-model-loader-design.md",
+  "docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md",
   "docs/reference/project-model/requirements/schema-validation.requirements.yml",
   "docs/reference/project-model/graph/schema-validation.graph.yml",
   "docs/reference/project-model/decisions/schema-validation.decisions.yml",

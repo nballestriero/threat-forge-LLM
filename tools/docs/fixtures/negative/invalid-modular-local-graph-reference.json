@@ -1,0 +1,13 @@
+{
+  "id": "invalid-modular-local-graph-reference",
+  "description": "A graph part references a modular schema-validation requirement by local ID instead of its canonical area-qualified ID.",
+  "validator": "model",
+  "expected_error": "must use canonical modular id schema-validation:REQ-0001",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/schema-validation.graph.yml",
+      "replace": "id: \"schema-validation:REQ-0001\"",
+      "with": "id: \"REQ-0001\""
+    }
+  ]
+}

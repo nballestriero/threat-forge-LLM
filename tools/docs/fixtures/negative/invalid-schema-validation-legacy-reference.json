@@ -1,0 +1,13 @@
+{
+  "id": "invalid-schema-validation-legacy-reference",
+  "description": "A graph part references a removed schema-validation legacy requirement ID instead of the canonical modular ID.",
+  "validator": "model",
+  "expected_error": "uses legacy extracted requirement id REQ-0023; use schema-validation:REQ-0001",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/schema-validation.graph.yml",
+      "replace": "id: \"schema-validation:REQ-0001\"",
+      "with": "id: \"REQ-0023\""
+    }
+  ]
+}

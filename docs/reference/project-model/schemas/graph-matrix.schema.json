@@ -7,10 +7,10 @@
   "additionalProperties": false,
   "x-change_control": {
     "decided_by": [
-      "DEC-0022"
+      "schema-validation:DEC-0009"
     ],
     "satisfies": [
-      "REQ-0031"
+      "schema-validation:REQ-0009"
     ],
     "rationale": "This schema is a governed baseline artifact and declares file-local traceability that deterministic validation can compare against graph.matrix.yml relationships."
   },

@@ -100,8 +100,11 @@ Planned micropasses:
   - Scope: extract the schema-validation area across requirements, graph triples, and decisions.
   - Added first governed modular part files, part schemas, index declarations, and aggregate loader support for semantic validation.
   - The first pilot keeps legacy REQ/DEC identifiers inside the extracted area; later migration may introduce clean `<area_id>:<local_id>` identities after the loader pattern is proven.
-- M000.024J - Remaining capability area extraction plan.
-  - Scope: use the first extraction results to plan the remaining area splits and required follow-up gates.
+- M000.024J - Schema-validation canonical ID and control review. Completed.
+  - Scope: normalize the first extracted area to area-local IDs, derive canonical `<area_id>:<local_id>` IDs in the semantic aggregate, and document bidirectional/cross-file controls.
+  - Added the schema-validation area ID and control review; no additional areas extracted.
+- M000.024K - Remaining capability area extraction plan.
+  - Scope: use the first extraction and canonical ID review results to plan the remaining area splits and required follow-up gates.
   - Avoid a single large migration commit.
 
 ### M000.025 - Protected baseline artifact roots

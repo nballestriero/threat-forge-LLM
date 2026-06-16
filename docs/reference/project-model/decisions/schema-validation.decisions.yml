@@ -16,7 +16,7 @@ part:
   status: draft
   description: Extracted decisions owned by the schema-validation project-model area.
 decisions:
-  - id: "DEC-0014"
+  - id: "DEC-0001"
     title: "Governance registry schema analysis separates schema shape from semantic validation"
     status: "accepted"
     statement: >
@@ -36,7 +36,7 @@ decisions:
       - "Controlled value datasets must be identified before the governance registry schema becomes
         binding."
 
-  - id: "DEC-0015"
+  - id: "DEC-0002"
     title: "Governance registry schema is a canonical JSON Schema baseline"
     status: "accepted"
     statement: >
@@ -59,7 +59,7 @@ decisions:
       - "The schema carries file-local change-control metadata that is checked against graph.matrix.yml."
 
 
-  - id: "DEC-0016"
+  - id: "DEC-0003"
     title: "Governance registry schema is executed by deterministic validation"
     status: "accepted"
     statement: >
@@ -76,7 +76,7 @@ decisions:
       - "A negative fixture proves that schema-rejected fields fail validation."
       - "Hardcoded semantic checks remain valid for cross-file references and graph consistency."
 
-  - id: "DEC-0017"
+  - id: "DEC-0004"
     title: "Schema application must be bidirectionally traceable"
     status: "accepted"
     statement: >
@@ -97,7 +97,7 @@ decisions:
       - "The project model validator checks schema-to-artifact and artifact-to-schema consistency."
 
 
-  - id: "DEC-0018"
+  - id: "DEC-0005"
     title: "Requirements registry schema analysis separates lifecycle data from semantic traceability"
     status: "accepted"
     statement: >
@@ -125,7 +125,7 @@ decisions:
       - "Nested requirement entity ID rules remain semantic validator responsibilities where they
         depend on parent requirement IDs."
 
-  - id: "DEC-0019"
+  - id: "DEC-0006"
     title: "Requirements registry schema is a canonical JSON Schema baseline"
     status: "accepted"
     statement: >
@@ -135,7 +135,7 @@ decisions:
       traceability before validators migrate additional requirements registry
       checks to schema-driven validation.
     rationale: >
-      REQ-0027 classified the requirements registry fields and decided which
+      REQ-0005 classified the requirements registry fields and decided which
       fields are local shape constraints, controlled lifecycle values, governed
       nested IDs, or semantic cross-file validation responsibilities. Creating
       the schema artifact turns that analysis into a protected baseline contract
@@ -151,7 +151,7 @@ decisions:
         traceability can be checked bidirectionally."
 
 
-  - id: "DEC-0020"
+  - id: "DEC-0007"
     title: "Requirements registry schema is executed by deterministic validation"
     status: "accepted"
     statement: >
@@ -173,7 +173,7 @@ decisions:
 
 
 
-  - id: "DEC-0021"
+  - id: "DEC-0008"
     title: "Graph matrix schema analysis separates local shape from semantic graph validation"
     status: "accepted"
     statement: >
@@ -198,7 +198,7 @@ decisions:
       - "The future graph matrix schema step must add schema_control to graph.matrix.yml and register
         graph-matrix.schema.json as an applied SchemaFile."
 
-  - id: "DEC-0022"
+  - id: "DEC-0009"
     title: "Graph matrix schema is a canonical JSON Schema baseline"
     status: "accepted"
     statement: >
@@ -207,7 +207,7 @@ decisions:
       checks validating the schema artifact and schema application traceability
       before graph.matrix.yml is validated by schema-driven execution.
     rationale: >
-      REQ-0030 classified graph matrix fields and established that local YAML
+      REQ-0008 classified graph matrix fields and established that local YAML
       shape belongs in JSON Schema while predicate compatibility, entity
       existence, package command existence, repository path checks, baseline
       artifact checks, schema application traceability, and source-file
@@ -224,7 +224,7 @@ decisions:
         traceability can be checked bidirectionally."
 
 
-  - id: "DEC-0023"
+  - id: "DEC-0010"
     title: "Graph matrix schema is executed by deterministic validation"
     status: "accepted"
     statement: >
@@ -245,7 +245,7 @@ decisions:
         semantic validator responsibilities."
 
 
-  - id: "DEC-0024"
+  - id: "DEC-0011"
     title: "Governed artifact schema validation has a single execution entrypoint"
     status: "accepted"
     statement: >

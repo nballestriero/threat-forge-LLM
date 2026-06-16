@@ -18,12 +18,13 @@
  * - REQ-0005
  * - REQ-0006
  * - REQ-0022
- * - REQ-0024
- * - REQ-0026
- * - REQ-0028
- * - REQ-0031
+ * - schema-validation:REQ-0002
+ * - schema-validation:REQ-0004
+ * - schema-validation:REQ-0006
+ * - schema-validation:REQ-0009
  * - REQ-0036
  * - REQ-0041
+ * - REQ-0042
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -76,10 +77,43 @@ const GOVERNED_BASELINE_ARTIFACTS = [
   MODEL_FILES.decisionsPartSchema
 ];
 
-const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "REQ-0024", "REQ-0028", "REQ-0031"]);
+const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "schema-validation:REQ-0002", "schema-validation:REQ-0006", "schema-validation:REQ-0009"]);
 
 const PROJECT_MODEL_AREAS_TAXONOMY = "project_model_areas";
 const PROJECT_MODEL_AREA_ID_PATTERN = /^(global|[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
+const LOCAL_REQUIREMENT_ID_PATTERN = /^REQ-\d{4}$/;
+const LOCAL_MACRO_REQUIREMENT_ID_PATTERN = /^MR-\d{4}$/;
+const LOCAL_DECISION_ID_PATTERN = /^DEC-\d{4}$/;
+const CANONICAL_REQUIREMENT_REFERENCE_PATTERN = /(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*:)?REQ-\d{4}/g;
+
+const MIGRATED_SCHEMA_VALIDATION_REQUIREMENT_IDS = new Map([
+  ["REQ-0023", "schema-validation:REQ-0001"],
+  ["REQ-0024", "schema-validation:REQ-0002"],
+  ["REQ-0025", "schema-validation:REQ-0003"],
+  ["REQ-0026", "schema-validation:REQ-0004"],
+  ["REQ-0027", "schema-validation:REQ-0005"],
+  ["REQ-0028", "schema-validation:REQ-0006"],
+  ["REQ-0029", "schema-validation:REQ-0007"],
+  ["REQ-0030", "schema-validation:REQ-0008"],
+  ["REQ-0031", "schema-validation:REQ-0009"],
+  ["REQ-0032", "schema-validation:REQ-0010"],
+  ["REQ-0033", "schema-validation:REQ-0011"]
+]);
+
+const MIGRATED_SCHEMA_VALIDATION_DECISION_IDS = new Map([
+  ["DEC-0014", "schema-validation:DEC-0001"],
+  ["DEC-0015", "schema-validation:DEC-0002"],
+  ["DEC-0016", "schema-validation:DEC-0003"],
+  ["DEC-0017", "schema-validation:DEC-0004"],
+  ["DEC-0018", "schema-validation:DEC-0005"],
+  ["DEC-0019", "schema-validation:DEC-0006"],
+  ["DEC-0020", "schema-validation:DEC-0007"],
+  ["DEC-0021", "schema-validation:DEC-0008"],
+  ["DEC-0022", "schema-validation:DEC-0009"],
+  ["DEC-0023", "schema-validation:DEC-0010"],
+  ["DEC-0024", "schema-validation:DEC-0011"]
+]);
+
 
 const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
 const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
@@ -332,6 +366,114 @@ function checkIdPattern(id, pattern, location) {
 }
 
 /**
+ * Splits a root or canonical modular ID into area and local components.
+ *
+ * @param {unknown} id - ID to split.
+ * @returns {{ areaId: string | null, localId: string | undefined }} Split ID components.
+ */
+function splitProjectModelId(id) {
+  if (typeof id !== "string") {
+    return { areaId: null, localId: undefined };
+  }
+
+  const separatorIndex = id.indexOf(":");
+  if (separatorIndex === -1) {
+    return { areaId: null, localId: id };
+  }
+
+  return {
+    areaId: id.slice(0, separatorIndex),
+    localId: id.slice(separatorIndex + 1)
+  };
+}
+
+/**
+ * Returns the local component of a root or canonical modular ID.
+ *
+ * @param {unknown} id - ID to inspect.
+ * @returns {string | undefined} Local ID component.
+ */
+function localProjectModelId(id) {
+  return splitProjectModelId(id).localId;
+}
+
+/**
+ * Builds a canonical modular ID from a governed area and part-local ID.
+ *
+ * @param {string | undefined} areaId - Owning project-model area.
+ * @param {unknown} localId - Part-local ID.
+ * @returns {unknown} Canonical ID when possible, otherwise original value.
+ */
+function canonicalizeProjectModelId(areaId, localId) {
+  if (typeof areaId !== "string" || typeof localId !== "string") {
+    return localId;
+  }
+
+  if (localId.includes(":")) {
+    return localId;
+  }
+
+  return `${areaId}:${localId}`;
+}
+
+/**
+ * Validates a root or canonical modular ID by checking its optional area prefix
+ * and its local ID component.
+ *
+ * @param {unknown} id - ID to validate.
+ * @param {RegExp} localPattern - Expected local ID pattern.
+ * @param {string} location - Human-readable error location.
+ * @returns {void}
+ */
+function checkRootOrCanonicalIdPattern(id, localPattern, location) {
+  const { areaId, localId } = splitProjectModelId(id);
+
+  if (areaId !== null && !PROJECT_MODEL_AREA_ID_PATTERN.test(areaId)) {
+    errors.push(`Invalid area prefix at ${location}: ${id ?? "<missing>"}`);
+    return;
+  }
+
+  if (typeof localId !== "string" || !localPattern.test(localId)) {
+    errors.push(`Invalid id pattern at ${location}: ${id ?? "<missing>"}`);
+  }
+}
+
+/**
+ * Returns the canonical modular replacement for a migrated legacy ID.
+ *
+ * @param {unknown} id - Requirement or decision ID to inspect.
+ * @param {unknown} type - Graph node type associated with the ID.
+ * @returns {string | undefined} Canonical replacement when the ID is a removed legacy alias.
+ */
+function migratedSchemaValidationCanonicalId(id, type) {
+  if (type === "Requirement") {
+    return MIGRATED_SCHEMA_VALIDATION_REQUIREMENT_IDS.get(id);
+  }
+
+  if (type === "Decision") {
+    return MIGRATED_SCHEMA_VALIDATION_DECISION_IDS.get(id);
+  }
+
+  return undefined;
+}
+
+/**
+ * Rejects references to legacy global IDs that were removed by the first
+ * schema-validation area canonicalization.
+ *
+ * @param {unknown} id - ID to inspect.
+ * @param {unknown} type - Graph node type associated with the ID.
+ * @param {string} location - Human-readable error location.
+ * @returns {void}
+ */
+function checkNoMigratedSchemaValidationLegacyId(id, type, location) {
+  const canonicalId = migratedSchemaValidationCanonicalId(id, type);
+  if (canonicalId) {
+    errors.push(`${location} uses legacy extracted ${String(type).toLowerCase()} id ${id}; use ${canonicalId}`);
+  }
+}
+
+/**
  * Extracts the first file-level JSDoc block from source content.
  *
  * @param {string} content - Source file content.
@@ -354,7 +496,7 @@ function extractFileJSDoc(content) {
  */
 function extractTraceabilityReferences(jsdoc) {
   return {
-    requirements: new Set(jsdoc.match(/\bREQ-\d{4}\b/g) ?? []),
+    requirements: new Set(jsdoc.match(CANONICAL_REQUIREMENT_REFERENCE_PATTERN) ?? []),
     tools: new Set(jsdoc.match(/\bTOOL-[A-Z0-9-]+\b/g) ?? []),
     commands: new Set(jsdoc.match(/\bCMD-[A-Z0-9-]+\b/g) ?? []),
     capabilities: new Set(jsdoc.match(/\bCAP-[A-Z0-9-]+\b/g) ?? [])
@@ -614,38 +756,39 @@ function validateIds(indexes) {
   }
 
   for (const capability of indexes.capabilities) checkIdPattern(capability?.id, /^CAP-[A-Z0-9-]+$/, `capability ${capability?.id}`);
-  for (const decision of indexes.decisions) checkIdPattern(decision?.id, /^DEC-\d{4}$/, `decision ${decision?.id}`);
+  for (const decision of indexes.decisions) checkRootOrCanonicalIdPattern(decision?.id, LOCAL_DECISION_ID_PATTERN, `decision ${decision?.id}`);
   for (const bodyProfile of indexes.bodyProfiles) checkIdPattern(bodyProfile?.id, /^BODY-[A-Z0-9-]+$/, `body profile ${bodyProfile?.id}`);
   for (const nodeType of indexes.nodeTypes) checkIdPattern(nodeType?.id, /^[A-Z][A-Za-z0-9]*$/, `node type ${nodeType?.id}`);
   for (const predicate of indexes.predicates) checkIdPattern(predicate?.id, /^[A-Z][A-Z0-9_]+$/, `predicate ${predicate?.id}`);
-  for (const macroRequirement of indexes.macroRequirements) checkIdPattern(macroRequirement?.id, /^MR-\d{4}$/, `macro requirement ${macroRequirement?.id}`);
+  for (const macroRequirement of indexes.macroRequirements) checkRootOrCanonicalIdPattern(macroRequirement?.id, LOCAL_MACRO_REQUIREMENT_ID_PATTERN, `macro requirement ${macroRequirement?.id}`);
 
   for (const requirement of indexes.atomicRequirements) {
     const requirementId = requirement?.id;
-    checkIdPattern(requirementId, /^REQ-\d{4}$/, `requirement ${requirementId}`);
+    checkRootOrCanonicalIdPattern(requirementId, LOCAL_REQUIREMENT_ID_PATTERN, `requirement ${requirementId}`);
+    const localRequirementId = localProjectModelId(requirementId);
 
     for (const entry of asArray(requirement?.preconditions)) {
-      checkIdPattern(entry?.id, new RegExp(`^PRE-${requirementId}-\\d{3}$`), `${requirementId}.preconditions`);
+      checkRootOrCanonicalIdPattern(entry?.id, new RegExp(`^PRE-${localRequirementId}-\\d{3}$`), `${requirementId}.preconditions`);
     }
 
     for (const entry of asArray(requirement?.main_flow)) {
-      checkIdPattern(entry?.id, new RegExp(`^FLOW-${requirementId}-\\d{3}$`), `${requirementId}.main_flow`);
+      checkRootOrCanonicalIdPattern(entry?.id, new RegExp(`^FLOW-${localRequirementId}-\\d{3}$`), `${requirementId}.main_flow`);
     }
 
     for (const entry of asArray(requirement?.alternative_flows)) {
-      checkIdPattern(entry?.id, new RegExp(`^ALT-${requirementId}-\\d{3}$`), `${requirementId}.alternative_flows`);
+      checkRootOrCanonicalIdPattern(entry?.id, new RegExp(`^ALT-${localRequirementId}-\\d{3}$`), `${requirementId}.alternative_flows`);
 
       for (const step of asArray(entry?.steps)) {
-        checkIdPattern(step?.id, new RegExp(`^FLOW-${requirementId}-ALT-\\d{3}$`), `${requirementId}.${entry?.id}.steps`);
+        checkRootOrCanonicalIdPattern(step?.id, new RegExp(`^FLOW-${localRequirementId}-ALT-\\d{3}$`), `${requirementId}.${entry?.id}.steps`);
       }
     }
 
     for (const entry of asArray(requirement?.postconditions)) {
-      checkIdPattern(entry?.id, new RegExp(`^POST-${requirementId}-\\d{3}$`), `${requirementId}.postconditions`);
+      checkRootOrCanonicalIdPattern(entry?.id, new RegExp(`^POST-${localRequirementId}-\\d{3}$`), `${requirementId}.postconditions`);
     }
 
     for (const entry of asArray(requirement?.acceptance_criteria)) {
-      checkIdPattern(entry?.id, new RegExp(`^AC-${requirementId}-\\d{3}$`), `${requirementId}.acceptance_criteria`);
+      checkRootOrCanonicalIdPattern(entry?.id, new RegExp(`^AC-${localRequirementId}-\\d{3}$`), `${requirementId}.acceptance_criteria`);
     }
   }
 
@@ -1168,6 +1311,10 @@ function validateBidirectionalSourceTraceability(indexes) {
     checkJSDocCompleteness(file, jsdoc);
     const refs = extractTraceabilityReferences(jsdoc);
 
+    for (const requirementId of refs.requirements) {
+      checkNoMigratedSchemaValidationLegacyId(requirementId, "Requirement", `Source file ${file} JSDoc`);
+    }
+
     for (const requirementId of requirementByFile.get(file) ?? []) {
       if (!refs.requirements.has(requirementId)) {
         errors.push(`Matrix says ${requirementId} IMPLEMENTED_BY ${file}, but file JSDoc does not cite ${requirementId}`);
@@ -1260,6 +1407,221 @@ function loadDeclaredProjectModelParts(indexDocument, indexPath, propertyName, k
   });
 }
 
+
+/**
+ * Returns a shallow object copy with selected nested ID fields canonicalized.
+ *
+ * @param {object} value - Object to copy.
+ * @param {string | undefined} areaId - Owning project-model area.
+ * @returns {object} Copied object with canonical ID when present.
+ */
+function canonicalizeOwnedId(value, areaId) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return value;
+  }
+
+  return {
+    ...value,
+    id: canonicalizeProjectModelId(areaId, value.id)
+  };
+}
+
+/**
+ * Canonicalizes an extracted requirements part for semantic aggregation.
+ *
+ * Part files keep local IDs for authoring and schema validation. The semantic
+ * aggregate uses `<area_id>:<local_id>` so local sequences can restart across
+ * project-model areas without ID collisions.
+ *
+ * @param {{ areaId: string | undefined, document: object | null }} part - Loaded requirements part.
+ * @returns {object[]} Canonical requirement records.
+ */
+function canonicalRequirementsFromPart(part) {
+  const areaId = part.areaId;
+  const document = part.document;
+  const macroLocalIds = idSet(asArray(document?.macro_requirements));
+
+  return asArray(document?.requirements).map((requirement) => {
+    const localRequirementId = requirement?.id;
+    const canonicalRequirement = {
+      ...requirement,
+      id: canonicalizeProjectModelId(areaId, requirement?.id),
+      macro_requirement_id: macroLocalIds.has(requirement?.macro_requirement_id)
+        ? canonicalizeProjectModelId(areaId, requirement?.macro_requirement_id)
+        : requirement?.macro_requirement_id,
+      preconditions: asArray(requirement?.preconditions).map((entry) => canonicalizeOwnedId(entry, areaId)),
+      main_flow: asArray(requirement?.main_flow).map((entry) => canonicalizeOwnedId(entry, areaId)),
+      alternative_flows: asArray(requirement?.alternative_flows).map((entry) => ({
+        ...canonicalizeOwnedId(entry, areaId),
+        steps: asArray(entry?.steps).map((step) => canonicalizeOwnedId(step, areaId))
+      })),
+      postconditions: asArray(requirement?.postconditions).map((entry) => canonicalizeOwnedId(entry, areaId)),
+      acceptance_criteria: asArray(requirement?.acceptance_criteria).map((entry) => canonicalizeOwnedId(entry, areaId))
+    };
+
+    if (!LOCAL_REQUIREMENT_ID_PATTERN.test(localRequirementId ?? "")) {
+      errors.push(`Requirement part ${part.path} contains invalid local requirement id ${localRequirementId ?? "<missing>"}`);
+    }
+
+    return canonicalRequirement;
+  });
+}
+
+/**
+ * Canonicalizes macro requirements declared inside an extracted requirements part.
+ *
+ * @param {{ areaId: string | undefined, document: object | null }} part - Loaded requirements part.
+ * @returns {object[]} Canonical macro requirement records.
+ */
+function canonicalMacroRequirementsFromPart(part) {
+  return asArray(part.document?.macro_requirements).map((macroRequirement) => ({
+    ...macroRequirement,
+    id: canonicalizeProjectModelId(part.areaId, macroRequirement?.id)
+  }));
+}
+
+/**
+ * Canonicalizes decisions declared inside an extracted decisions part.
+ *
+ * @param {{ areaId: string | undefined, document: object | null }} part - Loaded decisions part.
+ * @returns {object[]} Canonical decision records.
+ */
+function canonicalDecisionsFromPart(part) {
+  return asArray(part.document?.decisions).map((decision) => {
+    const localDecisionId = decision?.id;
+    if (!LOCAL_DECISION_ID_PATTERN.test(localDecisionId ?? "")) {
+      errors.push(`Decision part ${part.path} contains invalid local decision id ${localDecisionId ?? "<missing>"}`);
+    }
+
+    return {
+      ...decision,
+      id: canonicalizeProjectModelId(part.areaId, decision?.id)
+    };
+  });
+}
+
+/**
+ * Adds a local modular ID to a per-area index and reports duplicates inside the
+ * owning part.
+ *
+ * @param {Map<string, Set<string>>} idsByArea - Area to local IDs.
+ * @param {Map<string, string[]>} locationsByKey - Canonical area/local key to locations.
+ * @param {string | undefined} areaId - Owning area.
+ * @param {unknown} localId - Part-local ID.
+ * @param {string} location - Human-readable local ID location.
+ * @returns {void}
+ */
+function addLocalModularId(idsByArea, locationsByKey, areaId, localId, location) {
+  if (typeof areaId !== "string" || typeof localId !== "string") {
+    return;
+  }
+
+  const ids = idsByArea.get(areaId) ?? new Set();
+  ids.add(localId);
+  idsByArea.set(areaId, ids);
+
+  const key = `${areaId}:${localId}`;
+  const locations = locationsByKey.get(key) ?? [];
+  locations.push(location);
+  locationsByKey.set(key, locations);
+}
+
+/**
+ * Builds local requirement and decision ID indexes from modular part files.
+ *
+ * @param {object[]} parts - Loaded project-model parts.
+ * @returns {{ requirementsByArea: Map<string, Set<string>>, decisionsByArea: Map<string, Set<string>>, locationsByKey: Map<string, string[]> }} Local ID indexes.
+ */
+function modularLocalIdIndexes(parts) {
+  const requirementsByArea = new Map();
+  const decisionsByArea = new Map();
+  const locationsByKey = new Map();
+
+  for (const part of parts) {
+    if (part.kind === "requirements") {
+      for (const requirement of asArray(part.document?.requirements)) {
+        addLocalModularId(requirementsByArea, locationsByKey, part.areaId, requirement?.id, `${part.path}.requirements.${requirement?.id ?? "<missing>"}`);
+      }
+    }
+
+    if (part.kind === "decisions") {
+      for (const decision of asArray(part.document?.decisions)) {
+        addLocalModularId(decisionsByArea, locationsByKey, part.areaId, decision?.id, `${part.path}.decisions.${decision?.id ?? "<missing>"}`);
+      }
+    }
+  }
+
+  return { requirementsByArea, decisionsByArea, locationsByKey };
+}
+
+/**
+ * Validates local modular ID uniqueness inside the aggregate part model.
+ *
+ * @param {object[]} parts - Loaded project-model parts.
+ * @returns {{ requirementsByArea: Map<string, Set<string>>, decisionsByArea: Map<string, Set<string>> }} Local ID indexes.
+ */
+function validateModularLocalIds(parts) {
+  const { requirementsByArea, decisionsByArea, locationsByKey } = modularLocalIdIndexes(parts);
+
+  for (const [key, locations] of locationsByKey.entries()) {
+    if (locations.length > 1) {
+      errors.push(`Duplicate local modular id ${key} at: ${locations.join(", ")}`);
+    }
+  }
+
+  return { requirementsByArea, decisionsByArea };
+}
+
+/**
+ * Rejects ambiguous local-only graph references for modular entities.
+ *
+ * Graph parts are outside the owning requirements/decisions part, so references
+ * to modular requirements and decisions must use canonical `<area_id>:<local_id>`
+ * IDs. Local-only references are not supported as aliases.
+ *
+ * @param {object[]} parts - Loaded project-model parts.
+ * @param {{ requirementsByArea: Map<string, Set<string>>, decisionsByArea: Map<string, Set<string>> }} localIds - Local ID indexes.
+ * @returns {void}
+ */
+function validateModularGraphReferences(parts, localIds) {
+  for (const part of parts.filter((candidate) => candidate.kind === "graph")) {
+    const areaId = part.areaId;
+    const localRequirements = localIds.requirementsByArea.get(areaId) ?? new Set();
+    const localDecisions = localIds.decisionsByArea.get(areaId) ?? new Set();
+
+    for (const [index, triple] of asArray(part.document?.triples).entries()) {
+      for (const side of ["subject", "object"]) {
+        const entity = triple?.[side];
+        const location = `${part.path}.triples[${index}].${side}`;
+
+        checkNoMigratedSchemaValidationLegacyId(entity?.id, entity?.type, location);
+
+        if (entity?.type === "Requirement" && localRequirements.has(entity?.id)) {
+          errors.push(`${location} references local modular requirement id ${entity.id}; must use canonical modular id ${areaId}:${entity.id}`);
+        }
+
+        if (entity?.type === "Decision" && localDecisions.has(entity?.id)) {
+          errors.push(`${location} references local modular decision id ${entity.id}; must use canonical modular id ${areaId}:${entity.id}`);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Rejects legacy IDs removed by schema-validation canonicalization anywhere in
+ * the aggregate graph. The migration intentionally does not keep aliases.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateNoMigratedSchemaValidationLegacyReferences(indexes) {
+  for (const [index, triple] of indexes.triples.entries()) {
+    checkNoMigratedSchemaValidationLegacyId(triple?.subject?.id, triple?.subject?.type, `triple[${index}].subject`);
+    checkNoMigratedSchemaValidationLegacyId(triple?.object?.id, triple?.object?.type, `triple[${index}].object`);
+  }
+}
+
 /**
  * Builds an aggregate project model from root registries and modular part files.
  *
@@ -1289,14 +1651,18 @@ function buildAggregateProjectModel(governanceRoot, requirementsRoot, matrixRoot
       ...governanceRoot,
       decisions: [
         ...asArray(governanceRoot.decisions),
-        ...decisionParts.flatMap((part) => asArray(part.document?.decisions))
+        ...decisionParts.flatMap((part) => canonicalDecisionsFromPart(part))
       ]
     },
     requirements: {
       ...requirementsRoot,
+      macro_requirements: [
+        ...asArray(requirementsRoot.macro_requirements),
+        ...requirementParts.flatMap((part) => canonicalMacroRequirementsFromPart(part))
+      ],
       requirements: [
         ...asArray(requirementsRoot.requirements),
-        ...requirementParts.flatMap((part) => asArray(part.document?.requirements))
+        ...requirementParts.flatMap((part) => canonicalRequirementsFromPart(part))
       ]
     },
     matrix: {
@@ -1401,6 +1767,9 @@ if (
   validateTaxonomies(indexes);
   validateProjectModelAreasTaxonomy(indexes);
   validateProjectModelParts(indexes, aggregate.parts);
+  const modularLocalIds = validateModularLocalIds(aggregate.parts);
+  validateModularGraphReferences(aggregate.parts, modularLocalIds);
+  validateNoMigratedSchemaValidationLegacyReferences(indexes);
   validateIds(indexes);
   validateRegistryReferences(indexes);
   validateTriples(indexes);

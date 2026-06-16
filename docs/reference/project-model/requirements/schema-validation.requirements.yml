@@ -16,7 +16,7 @@ part:
   status: draft
   description: Extracted requirements owned by the schema-validation project-model area.
 requirements:
-  - id: "REQ-0023"
+  - id: "REQ-0001"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -39,21 +39,21 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0023-001"
+      - id: "PRE-REQ-0001-001"
         statement: "REQ-0021 requires explicit governed registry schemas and motivated controlled
           datasets."
 
-      - id: "PRE-REQ-0023-002"
+      - id: "PRE-REQ-0001-002"
         statement: "The governance registry exists and is already consumed by deterministic validators."
 
     main_flow:
-      - id: "FLOW-REQ-0023-001"
+      - id: "FLOW-REQ-0001-001"
         step: 1
         actor: "Maintainer"
         action: "Inventories the top-level sections and nested fields of governance.registry.yml."
         expected_result: "The future schema scope is explicit."
 
-      - id: "FLOW-REQ-0023-002"
+      - id: "FLOW-REQ-0001-002"
         step: 2
         actor: "Maintainer"
         action: "Classifies each field as structural, free text, controlled value, governed ID, ID
@@ -61,14 +61,14 @@ requirements:
         expected_result: "The project can decide what belongs in JSON Schema and what remains in semantic
           validation."
 
-      - id: "FLOW-REQ-0023-003"
+      - id: "FLOW-REQ-0001-003"
         step: 3
         actor: "Maintainer"
         action: "Maps controlled fields to authoritative datasets or identifies missing datasets that
           must be introduced."
         expected_result: "Controlled values are explicit and motivated before becoming binding."
 
-      - id: "FLOW-REQ-0023-004"
+      - id: "FLOW-REQ-0001-004"
         step: 4
         actor: "Maintainer"
         action: "Inventories current hardcoded validator rules related to governance registry shape
@@ -76,43 +76,43 @@ requirements:
         expected_result: "Validator assumptions are visible before schema migration."
 
     alternative_flows:
-      - id: "ALT-REQ-0023-001"
+      - id: "ALT-REQ-0001-001"
         title: "Field cannot be classified yet"
         trigger: "A governance registry field has unclear ownership between schema, dataset, and semantic
           validator."
         steps:
-          - id: "FLOW-REQ-0023-ALT-001"
+          - id: "FLOW-REQ-0001-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Records the uncertainty as an open design decision in the analysis document."
             expected_result: "Unclear fields are not silently encoded into the schema."
 
     postconditions:
-      - id: "POST-REQ-0023-001"
+      - id: "POST-REQ-0001-001"
         statement: "The governance registry schema design has a field-level analysis artifact."
 
-      - id: "POST-REQ-0023-002"
+      - id: "POST-REQ-0001-002"
         statement: "The project has an explicit list of controlled datasets to add or enrich for the
           governance registry."
 
     acceptance_criteria:
-      - id: "AC-REQ-0023-001"
+      - id: "AC-REQ-0001-001"
         statement: "The analysis document lists governance.registry.yml top-level sections and nested
           field classifications."
 
-      - id: "AC-REQ-0023-002"
+      - id: "AC-REQ-0001-002"
         statement: "The analysis document identifies controlled values and their authoritative datasets
           or missing dataset decisions."
 
-      - id: "AC-REQ-0023-003"
+      - id: "AC-REQ-0001-003"
         statement: "The analysis document separates future JSON Schema responsibility from semantic
           validator responsibility."
 
-      - id: "AC-REQ-0023-004"
+      - id: "AC-REQ-0001-004"
         statement: "The analysis document inventories current hardcoded validator rules relevant to
           the governance registry."
 
-      - id: "AC-REQ-0023-005"
+      - id: "AC-REQ-0001-005"
         statement: "docs:check validates the new analysis document through the structure and Markdown
           format guards."
 
@@ -124,7 +124,7 @@ requirements:
         - "command"
         - "tool-output"
 
-  - id: "REQ-0024"
+  - id: "REQ-0002"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -146,21 +146,21 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0024-001"
+      - id: "PRE-REQ-0002-001"
         statement: "REQ-0021 requires explicit governed registry schemas."
 
-      - id: "PRE-REQ-0024-002"
-        statement: "REQ-0023 provides the governance registry field classification and schema boundary
+      - id: "PRE-REQ-0002-002"
+        statement: "REQ-0001 provides the governance registry field classification and schema boundary
           analysis."
 
     main_flow:
-      - id: "FLOW-REQ-0024-001"
+      - id: "FLOW-REQ-0002-001"
         step: 1
         actor: "Maintainer"
         action: "Creates the canonical JSON Schema file for governance.registry.yml."
         expected_result: "The governance registry has an explicit machine-readable schema baseline."
 
-      - id: "FLOW-REQ-0024-002"
+      - id: "FLOW-REQ-0002-002"
         step: 2
         actor: "Maintainer"
         action: "Encodes structural fields, required sections, basic type constraints, ID patterns,
@@ -168,7 +168,7 @@ requirements:
         expected_result: "The schema captures the registry shape without replacing semantic cross-file
           validation."
 
-      - id: "FLOW-REQ-0024-003"
+      - id: "FLOW-REQ-0002-003"
         step: 3
         actor: "Format validator"
         action: "Checks the schema artifact baseline before future validators consume it as canonical
@@ -176,12 +176,12 @@ requirements:
         expected_result: "Invalid schema artifacts are rejected before use."
 
     alternative_flows:
-      - id: "ALT-REQ-0024-001"
+      - id: "ALT-REQ-0002-001"
         title: "Semantic rule cannot be represented in JSON Schema"
         trigger: "A governance rule depends on other registries, graph triples, package scripts, or
           repository files."
         steps:
-          - id: "FLOW-REQ-0024-ALT-001"
+          - id: "FLOW-REQ-0002-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Leaves the rule in the semantic validator and documents the boundary in the schema
@@ -190,29 +190,29 @@ requirements:
               cross-file semantics."
 
     postconditions:
-      - id: "POST-REQ-0024-001"
+      - id: "POST-REQ-0002-001"
         statement: "The governance registry has a canonical JSON Schema artifact."
 
-      - id: "POST-REQ-0024-002"
+      - id: "POST-REQ-0002-002"
         statement: "The schema artifact is registered and traceable as a governed baseline artifact."
 
     acceptance_criteria:
-      - id: "AC-REQ-0024-001"
+      - id: "AC-REQ-0002-001"
         statement: "docs/reference/project-model/schemas/governance-registry.schema.json exists and
           is valid JSON."
 
-      - id: "AC-REQ-0024-002"
+      - id: "AC-REQ-0002-002"
         statement: "The schema declares required governance registry top-level sections."
 
-      - id: "AC-REQ-0024-003"
+      - id: "AC-REQ-0002-003"
         statement: "The schema declares field shapes for registry metadata, taxonomies, capabilities,
           decisions, document types, body profiles, node types, and predicates."
 
-      - id: "AC-REQ-0024-004"
+      - id: "AC-REQ-0002-004"
         statement: "The schema artifact has file-local change-control metadata matching graph.matrix.yml
           relationships."
 
-      - id: "AC-REQ-0024-005"
+      - id: "AC-REQ-0002-005"
         statement: "docs:check validates the schema artifact baseline."
 
     verification:
@@ -223,7 +223,7 @@ requirements:
         - "command"
         - "tool-output"
 
-  - id: "REQ-0025"
+  - id: "REQ-0003"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -234,7 +234,7 @@ requirements:
       so structural registry drift is rejected by schema-driven validation rather
       than only by hardcoded shape checks.
     rationale: >
-      REQ-0024 introduced the schema artifact. The next safety step is proving
+      REQ-0002 introduced the schema artifact. The next safety step is proving
       that deterministic tooling consumes the schema as an executable contract,
       including rejection of fields that the previous hardcoded top-level checks
       would not catch.
@@ -245,26 +245,26 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0025-001"
+      - id: "PRE-REQ-0003-001"
         statement: "The Governance Registry JSON Schema artifact exists."
 
-      - id: "PRE-REQ-0025-002"
+      - id: "PRE-REQ-0003-002"
         statement: "The documentation format validator parses governed YAML and JSON files."
 
     main_flow:
-      - id: "FLOW-REQ-0025-001"
+      - id: "FLOW-REQ-0003-001"
         step: 1
         actor: "Documentation format validator"
         action: "Loads docs/reference/project-model/schemas/governance-registry.schema.json."
         expected_result: "The canonical schema artifact is available as validator input."
 
-      - id: "FLOW-REQ-0025-002"
+      - id: "FLOW-REQ-0003-002"
         step: 2
         actor: "Documentation format validator"
         action: "Applies the supported JSON Schema subset to the parsed governance registry YAML document."
         expected_result: "The governance registry is checked against the explicit schema contract."
 
-      - id: "FLOW-REQ-0025-003"
+      - id: "FLOW-REQ-0003-003"
         step: 3
         actor: "Negative fixture runner"
         action: "Mutates the governance registry with a schema-invalid field."
@@ -272,11 +272,11 @@ requirements:
           validation."
 
     alternative_flows:
-      - id: "ALT-REQ-0025-001"
+      - id: "ALT-REQ-0003-001"
         title: "Schema contains unsupported feature"
         trigger: "The canonical schema uses a keyword outside the local supported subset."
         steps:
-          - id: "FLOW-REQ-0025-ALT-001"
+          - id: "FLOW-REQ-0003-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Either extends the deterministic validator or defers that schema keyword until
@@ -285,26 +285,26 @@ requirements:
               subset."
 
     postconditions:
-      - id: "POST-REQ-0025-001"
+      - id: "POST-REQ-0003-001"
         statement: "The governance registry is validated against its canonical schema by docs:check:format."
 
-      - id: "POST-REQ-0025-002"
+      - id: "POST-REQ-0003-002"
         statement: "Schema-invalid governance registry fields are rejected by a controlled negative
           fixture."
 
     acceptance_criteria:
-      - id: "AC-REQ-0025-001"
+      - id: "AC-REQ-0003-001"
         statement: "tools/docs/check-docs-format.mjs reads docs/reference/project-model/schemas/governance-registry.schema.json."
 
-      - id: "AC-REQ-0025-002"
+      - id: "AC-REQ-0003-002"
         statement: "docs:check:format validates docs/reference/project-model/governance.registry.yml
           against the Governance Registry schema."
 
-      - id: "AC-REQ-0025-003"
+      - id: "AC-REQ-0003-003"
         statement: "A negative fixture proves that an additional property rejected by the schema fails
           validation."
 
-      - id: "AC-REQ-0025-004"
+      - id: "AC-REQ-0003-004"
         statement: "docs:check runs the schema-driven governance registry validation through the canonical
           docs:check:format / tools/docs/check-docs-format.mjs schema validation entrypoint."
 
@@ -316,7 +316,7 @@ requirements:
         - "command"
         - "tool-output"
 
-  - id: "REQ-0026"
+  - id: "REQ-0004"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -339,26 +339,26 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0026-001"
+      - id: "PRE-REQ-0004-001"
         statement: "The governance registry schema artifact exists."
 
-      - id: "PRE-REQ-0026-002"
+      - id: "PRE-REQ-0004-002"
         statement: "The governance registry is validated against the schema by docs:check:format."
 
     main_flow:
-      - id: "FLOW-REQ-0026-001"
+      - id: "FLOW-REQ-0004-001"
         step: 1
         actor: "Schema artifact"
         action: "Declares the governed target artifact paths it applies to."
         expected_result: "Schema coverage is explicit inside the schema artifact."
 
-      - id: "FLOW-REQ-0026-002"
+      - id: "FLOW-REQ-0004-002"
         step: 2
         actor: "Governed target artifact"
         action: "Declares its canonical schema through schema_control metadata."
         expected_result: "The target artifact exposes artifact-to-schema traceability."
 
-      - id: "FLOW-REQ-0026-003"
+      - id: "FLOW-REQ-0004-003"
         step: 3
         actor: "Project model validator"
         action: "Compares schema-local x-applies_to metadata, artifact schema_control metadata, and
@@ -366,34 +366,34 @@ requirements:
         expected_result: "Schema application traceability is consistent in both directions."
 
     alternative_flows:
-      - id: "ALT-REQ-0026-001"
+      - id: "ALT-REQ-0004-001"
         title: "Schema application is missing from one side"
         trigger: "A schema, target artifact, or graph relationship omits the schema application relationship."
         steps:
-          - id: "FLOW-REQ-0026-ALT-001"
+          - id: "FLOW-REQ-0004-ALT-001"
             step: 1
             actor: "Project model validator"
             action: "Reports the missing schema application traceability side."
             expected_result: "The change is rejected until schema, artifact, and graph agree."
 
     postconditions:
-      - id: "POST-REQ-0026-001"
+      - id: "POST-REQ-0004-001"
         statement: "The governance registry schema application relationship is explicit in the schema,
           target artifact, and graph matrix."
 
     acceptance_criteria:
-      - id: "AC-REQ-0026-001"
+      - id: "AC-REQ-0004-001"
         statement: "docs/reference/project-model/schemas/governance-registry.schema.json declares
           x-applies_to for docs/reference/project-model/governance.registry.yml."
 
-      - id: "AC-REQ-0026-002"
+      - id: "AC-REQ-0004-002"
         statement: "docs/reference/project-model/governance.registry.yml declares schema_control.schema
           for the governance registry schema."
 
-      - id: "AC-REQ-0026-003"
+      - id: "AC-REQ-0004-003"
         statement: "graph.matrix.yml contains a schema APPLIES_TO governance registry triple."
 
-      - id: "AC-REQ-0026-004"
+      - id: "AC-REQ-0004-004"
         statement: "A negative fixture proves that missing schema application traceability fails validation."
 
     verification:
@@ -404,7 +404,7 @@ requirements:
         - "command"
         - "tool-output"
 
-  - id: "REQ-0027"
+  - id: "REQ-0005"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -425,28 +425,28 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0027-001"
+      - id: "PRE-REQ-0005-001"
         statement: "REQ-0021 requires explicit governed registry schemas."
 
-      - id: "PRE-REQ-0027-002"
+      - id: "PRE-REQ-0005-002"
         statement: "The governance registry schema analysis exists as the first schema-design precedent."
 
     main_flow:
-      - id: "FLOW-REQ-0027-001"
+      - id: "FLOW-REQ-0005-001"
         step: 1
         actor: "Maintainer"
         action: "Inventories requirements registry top-level fields, macro requirement fields, atomic
           requirement fields, nested requirement entities, and verification fields."
         expected_result: "The registry shape is visible before schema creation."
 
-      - id: "FLOW-REQ-0027-002"
+      - id: "FLOW-REQ-0005-002"
         step: 2
         actor: "Maintainer"
         action: "Classifies fields as structural, free text, controlled value, governed ID, ID reference,
           or semantic validator responsibility."
         expected_result: "The schema boundary and semantic validation boundary are explicit."
 
-      - id: "FLOW-REQ-0027-003"
+      - id: "FLOW-REQ-0005-003"
         step: 3
         actor: "Maintainer"
         action: "Maps lifecycle, type, scope, verification method, and evidence fields to authoritative
@@ -454,12 +454,12 @@ requirements:
         expected_result: "Controlled values are not hidden inside validator code."
 
     alternative_flows:
-      - id: "ALT-REQ-0027-001"
+      - id: "ALT-REQ-0005-001"
         title: "Constraint depends on parent requirement ID"
         trigger: "A nested requirement entity ID pattern cannot be cleanly expressed by the initial
           JSON Schema subset."
         steps:
-          - id: "FLOW-REQ-0027-ALT-001"
+          - id: "FLOW-REQ-0005-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Leaves the parent-dependent rule in the semantic validator and documents the
@@ -468,30 +468,30 @@ requirements:
               cross-field logic."
 
     postconditions:
-      - id: "POST-REQ-0027-001"
+      - id: "POST-REQ-0005-001"
         statement: "The requirements registry has a governed schema analysis document."
 
-      - id: "POST-REQ-0027-002"
+      - id: "POST-REQ-0005-002"
         statement: "The next requirements registry schema contract can be derived from documented
           field decisions."
 
     acceptance_criteria:
-      - id: "AC-REQ-0027-001"
+      - id: "AC-REQ-0005-001"
         statement: "docs/reference/project-model/schema-design/requirements-registry-schema-analysis.md
           exists."
 
-      - id: "AC-REQ-0027-002"
+      - id: "AC-REQ-0005-002"
         statement: "The analysis classifies top-level, macro requirement, atomic requirement, nested
           entity, and verification fields."
 
-      - id: "AC-REQ-0027-003"
+      - id: "AC-REQ-0005-003"
         statement: "The analysis maps controlled fields to authoritative taxonomy datasets."
 
-      - id: "AC-REQ-0027-004"
+      - id: "AC-REQ-0005-004"
         statement: "The analysis documents which current hardcoded validator rules belong in schema
           and which remain semantic validation."
 
-      - id: "AC-REQ-0027-005"
+      - id: "AC-REQ-0005-005"
         statement: "The analysis records the decided policies for manual macro requirement implementation
           status, mandatory macro ownership for atomic requirements, high-governance scope values,
           accepted requirement verification, implemented requirement evidence, and not_applicable
@@ -504,7 +504,7 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
-  - id: "REQ-0028"
+  - id: "REQ-0006"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -528,32 +528,32 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0028-001"
+      - id: "PRE-REQ-0006-001"
         statement: "REQ-0021 requires explicit governed registry schemas."
 
-      - id: "PRE-REQ-0028-002"
-        statement: "REQ-0027 provides the requirements registry field classification and schema boundary
+      - id: "PRE-REQ-0006-002"
+        statement: "REQ-0005 provides the requirements registry field classification and schema boundary
           analysis."
 
-      - id: "PRE-REQ-0028-003"
-        statement: "REQ-0026 requires schema application traceability between schemas, target artifacts,
+      - id: "PRE-REQ-0006-003"
+        statement: "REQ-0004 requires schema application traceability between schemas, target artifacts,
           and graph.matrix.yml."
 
     main_flow:
-      - id: "FLOW-REQ-0028-001"
+      - id: "FLOW-REQ-0006-001"
         step: 1
         actor: "Maintainer"
         action: "Creates docs/reference/project-model/schemas/requirements-registry.schema.json."
         expected_result: "The canonical schema artifact exists under the governed schema root."
 
-      - id: "FLOW-REQ-0028-002"
+      - id: "FLOW-REQ-0006-002"
         step: 2
         actor: "Documentation structure guard"
         action: "Registers the requirements registry schema as an allowed and required project-model
           schema artifact."
         expected_result: "The repository structure guard protects the schema path."
 
-      - id: "FLOW-REQ-0028-003"
+      - id: "FLOW-REQ-0006-003"
         step: 3
         actor: "Documentation format validator"
         action: "Checks the baseline shape and traceability metadata of the requirements registry
@@ -561,7 +561,7 @@ requirements:
         expected_result: "Malformed schema artifacts are rejected before schema-driven requirements
           validation is introduced."
 
-      - id: "FLOW-REQ-0028-004"
+      - id: "FLOW-REQ-0006-004"
         step: 4
         actor: "Project model validator"
         action: "Checks bidirectional schema application traceability between the schema, requirements
@@ -569,12 +569,12 @@ requirements:
         expected_result: "Schema coverage for the requirements registry is auditable."
 
     alternative_flows:
-      - id: "ALT-REQ-0028-001"
+      - id: "ALT-REQ-0006-001"
         title: "Semantic rule cannot be encoded locally"
         trigger: "A requirements registry constraint depends on cross-file references, graph relationships,
           or parent-specific nested IDs."
         steps:
-          - id: "FLOW-REQ-0028-ALT-001"
+          - id: "FLOW-REQ-0006-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Leaves the rule in deterministic semantic validation and documents the schema
@@ -582,28 +582,28 @@ requirements:
             expected_result: "The schema contract remains honest about what it can enforce locally."
 
     postconditions:
-      - id: "POST-REQ-0028-001"
+      - id: "POST-REQ-0006-001"
         statement: "The requirements registry has a canonical JSON Schema artifact."
 
-      - id: "POST-REQ-0028-002"
+      - id: "POST-REQ-0006-002"
         statement: "The schema application relationship is declared in the schema, requirements registry,
           and graph matrix."
 
     acceptance_criteria:
-      - id: "AC-REQ-0028-001"
+      - id: "AC-REQ-0006-001"
         statement: "docs/reference/project-model/schemas/requirements-registry.schema.json exists."
 
-      - id: "AC-REQ-0028-002"
+      - id: "AC-REQ-0006-002"
         statement: "The requirements registry schema declares x-change_control and x-applies_to metadata."
 
-      - id: "AC-REQ-0028-003"
+      - id: "AC-REQ-0006-003"
         statement: "docs/reference/project-model/requirements.registry.yml declares schema_control.schema
           for the requirements registry schema."
 
-      - id: "AC-REQ-0028-004"
+      - id: "AC-REQ-0006-004"
         statement: "graph.matrix.yml contains a SchemaFile APPLIES_TO requirements registry triple."
 
-      - id: "AC-REQ-0028-005"
+      - id: "AC-REQ-0006-005"
         statement: "The structure, format, and project model validators recognize the requirements
           registry schema artifact as governed."
 
@@ -615,7 +615,7 @@ requirements:
         - "command"
         - "tool-output"
 
-  - id: "REQ-0029"
+  - id: "REQ-0007"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -626,7 +626,7 @@ requirements:
       so structural requirements registry drift is rejected by schema-driven
       validation rather than only by hardcoded shape checks.
     rationale: >
-      REQ-0028 introduced the schema artifact and schema application
+      REQ-0006 introduced the schema artifact and schema application
       traceability. The next safety step is proving that deterministic tooling
       consumes the schema as an executable contract, including rejection of
       requirement fields that previous top-level checks would not catch.
@@ -637,32 +637,32 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0029-001"
+      - id: "PRE-REQ-0007-001"
         statement: "The Requirements Registry JSON Schema artifact exists."
 
-      - id: "PRE-REQ-0029-002"
+      - id: "PRE-REQ-0007-002"
         statement: "The requirements registry declares schema_control metadata for its canonical schema."
 
-      - id: "PRE-REQ-0029-003"
+      - id: "PRE-REQ-0007-003"
         statement: "The documentation format validator already supports the JSON Schema subset required
           by governed registry schemas."
 
     main_flow:
-      - id: "FLOW-REQ-0029-001"
+      - id: "FLOW-REQ-0007-001"
         step: 1
         actor: "Documentation format validator"
         action: "Loads docs/reference/project-model/schemas/requirements-registry.schema.json."
         expected_result: "The canonical requirements registry schema artifact is available as validator
           input."
 
-      - id: "FLOW-REQ-0029-002"
+      - id: "FLOW-REQ-0007-002"
         step: 2
         actor: "Documentation format validator"
         action: "Applies the supported JSON Schema subset to the parsed requirements registry YAML
           document."
         expected_result: "The requirements registry is checked against the explicit schema contract."
 
-      - id: "FLOW-REQ-0029-003"
+      - id: "FLOW-REQ-0007-003"
         step: 3
         actor: "Negative fixture runner"
         action: "Mutates the requirements registry with a schema-invalid field."
@@ -670,12 +670,12 @@ requirements:
           validation."
 
     alternative_flows:
-      - id: "ALT-REQ-0029-001"
+      - id: "ALT-REQ-0007-001"
         title: "Schema cannot express semantic requirement evidence"
         trigger: "A requirements registry rule depends on graph relationships, source files, package
           commands, or requirement lifecycle semantics."
         steps:
-          - id: "FLOW-REQ-0029-ALT-001"
+          - id: "FLOW-REQ-0007-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Keeps the rule in deterministic semantic validation and documents the boundary."
@@ -683,26 +683,26 @@ requirements:
               remains responsible for cross-file evidence."
 
     postconditions:
-      - id: "POST-REQ-0029-001"
+      - id: "POST-REQ-0007-001"
         statement: "The requirements registry is validated against its canonical schema by docs:check:format."
 
-      - id: "POST-REQ-0029-002"
+      - id: "POST-REQ-0007-002"
         statement: "Schema-invalid requirements registry fields are rejected by a controlled negative
           fixture."
 
     acceptance_criteria:
-      - id: "AC-REQ-0029-001"
+      - id: "AC-REQ-0007-001"
         statement: "tools/docs/check-docs-format.mjs reads docs/reference/project-model/schemas/requirements-registry.schema.json."
 
-      - id: "AC-REQ-0029-002"
+      - id: "AC-REQ-0007-002"
         statement: "docs:check:format validates docs/reference/project-model/requirements.registry.yml
           against the Requirements Registry schema."
 
-      - id: "AC-REQ-0029-003"
+      - id: "AC-REQ-0007-003"
         statement: "A negative fixture proves that an additional property rejected by the schema fails
           validation."
 
-      - id: "AC-REQ-0029-004"
+      - id: "AC-REQ-0007-004"
         statement: "docs:check runs the schema-driven requirements registry validation through the
           canonical docs:check:format / tools/docs/check-docs-format.mjs schema validation entrypoint."
 
@@ -715,7 +715,7 @@ requirements:
         - "tool-output"
 
 
-  - id: "REQ-0030"
+  - id: "REQ-0008"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
 
@@ -740,15 +740,15 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0030-001"
+      - id: "PRE-REQ-0008-001"
         statement: "The graph matrix exists as a governed project-model artifact."
 
-      - id: "PRE-REQ-0030-002"
+      - id: "PRE-REQ-0008-002"
         statement: "The project has already established explicit schema analysis precedents for governed
           registries."
 
     main_flow:
-      - id: "FLOW-REQ-0030-001"
+      - id: "FLOW-REQ-0008-001"
         step: 1
         actor: "Maintainer"
         action: "Reviews the graph matrix top-level fields, nodes, triples, and current deterministic
@@ -756,14 +756,14 @@ requirements:
         expected_result: "The analysis identifies local shape constraints and semantic validation
           responsibilities."
 
-      - id: "FLOW-REQ-0030-002"
+      - id: "FLOW-REQ-0008-002"
         step: 2
         actor: "Maintainer"
         action: "Documents which graph matrix checks belong in JSON Schema and which must remain in
           semantic validation."
         expected_result: "The future graph matrix schema contract has a clear implementation boundary."
 
-      - id: "FLOW-REQ-0030-003"
+      - id: "FLOW-REQ-0008-003"
         step: 3
         actor: "Documentation gates"
         action: "Validate that the new schema-analysis document is governed by the structure and format
@@ -772,12 +772,12 @@ requirements:
           body profile."
 
     alternative_flows:
-      - id: "ALT-REQ-0030-001"
+      - id: "ALT-REQ-0008-001"
         title: "A rule depends on another governed artifact"
         trigger: "A graph matrix rule requires the governance registry, requirements registry, package.json,
           repository filesystem, or source-file JSDoc."
         steps:
-          - id: "FLOW-REQ-0030-ALT-001"
+          - id: "FLOW-REQ-0008-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Keeps the rule in deterministic semantic validation instead of encoding it as
@@ -786,26 +786,26 @@ requirements:
               source of graph semantics."
 
     postconditions:
-      - id: "POST-REQ-0030-001"
+      - id: "POST-REQ-0008-001"
         statement: "The graph matrix schema analysis document exists under docs/reference/project-model/schema-design."
 
-      - id: "POST-REQ-0030-002"
+      - id: "POST-REQ-0008-002"
         statement: "The next graph matrix schema contract step has a documented schema-versus-semantic
           validation boundary."
 
     acceptance_criteria:
-      - id: "AC-REQ-0030-001"
+      - id: "AC-REQ-0008-001"
         statement: "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md exists."
 
-      - id: "AC-REQ-0030-002"
+      - id: "AC-REQ-0008-002"
         statement: "The analysis classifies top-level graph matrix fields, node fields, triple fields,
           and current hardcoded tool responsibilities."
 
-      - id: "AC-REQ-0030-003"
+      - id: "AC-REQ-0008-003"
         statement: "The analysis explicitly states what belongs in graph-matrix.schema.json and what
           remains in semantic validation."
 
-      - id: "AC-REQ-0030-004"
+      - id: "AC-REQ-0008-004"
         statement: "docs:check validates the new schema-analysis document through structure and format
           gates."
 
@@ -817,7 +817,7 @@ requirements:
         - "tool-output"
 
 
-  - id: "REQ-0031"
+  - id: "REQ-0009"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
     title: "Graph matrix explicit schema contract"
@@ -840,39 +840,39 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0031-001"
+      - id: "PRE-REQ-0009-001"
         statement: "REQ-0021 requires explicit governed registry schemas."
 
-      - id: "PRE-REQ-0031-002"
-        statement: "REQ-0026 requires schema application traceability between schemas, target artifacts,
+      - id: "PRE-REQ-0009-002"
+        statement: "REQ-0004 requires schema application traceability between schemas, target artifacts,
           and graph.matrix.yml."
 
-      - id: "PRE-REQ-0031-003"
-        statement: "REQ-0030 provides the graph matrix field classification and schema-versus-semantic
+      - id: "PRE-REQ-0009-003"
+        statement: "REQ-0008 provides the graph matrix field classification and schema-versus-semantic
           validation boundary."
 
     main_flow:
-      - id: "FLOW-REQ-0031-001"
+      - id: "FLOW-REQ-0009-001"
         step: 1
         actor: "Maintainer"
         action: "Creates docs/reference/project-model/schemas/graph-matrix.schema.json."
         expected_result: "The canonical schema artifact exists under the governed schema root."
 
-      - id: "FLOW-REQ-0031-002"
+      - id: "FLOW-REQ-0009-002"
         step: 2
         actor: "Documentation structure guard"
         action: "Registers the graph matrix schema as an allowed and required project-model schema
           artifact."
         expected_result: "The repository structure guard protects the schema path."
 
-      - id: "FLOW-REQ-0031-003"
+      - id: "FLOW-REQ-0009-003"
         step: 3
         actor: "Documentation format validator"
         action: "Checks the baseline shape and traceability metadata of the graph matrix schema artifact."
         expected_result: "Malformed schema artifacts are rejected before schema-driven graph matrix
           validation is introduced."
 
-      - id: "FLOW-REQ-0031-004"
+      - id: "FLOW-REQ-0009-004"
         step: 4
         actor: "Project model validator"
         action: "Checks bidirectional schema application traceability between the schema, graph matrix,
@@ -880,12 +880,12 @@ requirements:
         expected_result: "Schema coverage for the graph matrix is auditable."
 
     alternative_flows:
-      - id: "ALT-REQ-0031-001"
+      - id: "ALT-REQ-0009-001"
         title: "Semantic graph rule cannot be encoded locally"
         trigger: "A graph matrix constraint depends on registry vocabulary, package scripts, repository
           paths, baseline artifact metadata, schema application metadata, or source-file JSDoc."
         steps:
-          - id: "FLOW-REQ-0031-ALT-001"
+          - id: "FLOW-REQ-0009-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Leaves the rule in deterministic semantic validation and documents the schema
@@ -893,28 +893,28 @@ requirements:
             expected_result: "The schema contract remains honest about what it can enforce locally."
 
     postconditions:
-      - id: "POST-REQ-0031-001"
+      - id: "POST-REQ-0009-001"
         statement: "The graph matrix has a canonical JSON Schema artifact."
 
-      - id: "POST-REQ-0031-002"
+      - id: "POST-REQ-0009-002"
         statement: "The schema application relationship is declared in the schema, graph matrix, and
           graph matrix SPO triples."
 
     acceptance_criteria:
-      - id: "AC-REQ-0031-001"
+      - id: "AC-REQ-0009-001"
         statement: "docs/reference/project-model/schemas/graph-matrix.schema.json exists."
 
-      - id: "AC-REQ-0031-002"
+      - id: "AC-REQ-0009-002"
         statement: "The graph matrix schema declares x-change_control and x-applies_to metadata."
 
-      - id: "AC-REQ-0031-003"
+      - id: "AC-REQ-0009-003"
         statement: "docs/reference/project-model/graph.matrix.yml declares schema_control.schema for
           the graph matrix schema."
 
-      - id: "AC-REQ-0031-004"
+      - id: "AC-REQ-0009-004"
         statement: "graph.matrix.yml contains a SchemaFile APPLIES_TO graph matrix triple."
 
-      - id: "AC-REQ-0031-005"
+      - id: "AC-REQ-0009-005"
         statement: "The structure, format, and project model validators recognize the graph matrix
           schema artifact as governed."
 
@@ -926,7 +926,7 @@ requirements:
         - "command"
         - "tool-output"
 
-  - id: "REQ-0032"
+  - id: "REQ-0010"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
     title: "Graph matrix schema-driven validation"
@@ -936,7 +936,7 @@ requirements:
       so structural graph matrix drift is rejected by schema-driven validation
       rather than only by hardcoded shape checks.
     rationale: >
-      REQ-0031 introduced the schema artifact and schema application traceability.
+      REQ-0009 introduced the schema artifact and schema application traceability.
       The next safety step is proving that deterministic tooling consumes the
       schema as an executable contract, including rejection of graph matrix fields
       that previous top-level checks would not catch.
@@ -947,30 +947,30 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0032-001"
+      - id: "PRE-REQ-0010-001"
         statement: "The Graph Matrix JSON Schema artifact exists."
 
-      - id: "PRE-REQ-0032-002"
+      - id: "PRE-REQ-0010-002"
         statement: "The graph matrix declares schema_control metadata for its canonical schema."
 
-      - id: "PRE-REQ-0032-003"
+      - id: "PRE-REQ-0010-003"
         statement: "The documentation format validator already supports the JSON Schema subset required
           by governed registry schemas."
 
     main_flow:
-      - id: "FLOW-REQ-0032-001"
+      - id: "FLOW-REQ-0010-001"
         step: 1
         actor: "Documentation format validator"
         action: "Loads docs/reference/project-model/schemas/graph-matrix.schema.json."
         expected_result: "The canonical graph matrix schema artifact is available as validator input."
 
-      - id: "FLOW-REQ-0032-002"
+      - id: "FLOW-REQ-0010-002"
         step: 2
         actor: "Documentation format validator"
         action: "Applies the supported JSON Schema subset to the parsed graph matrix YAML document."
         expected_result: "The graph matrix is checked against the explicit schema contract."
 
-      - id: "FLOW-REQ-0032-003"
+      - id: "FLOW-REQ-0010-003"
         step: 3
         actor: "Negative fixture runner"
         action: "Mutates the graph matrix with a schema-invalid field."
@@ -978,12 +978,12 @@ requirements:
           validation."
 
     alternative_flows:
-      - id: "ALT-REQ-0032-001"
+      - id: "ALT-REQ-0010-001"
         title: "Schema cannot express semantic graph evidence"
         trigger: "A graph matrix rule depends on registered graph vocabulary, package scripts, repository
           paths, baseline artifact metadata, schema application metadata, or source-file JSDoc."
         steps:
-          - id: "FLOW-REQ-0032-ALT-001"
+          - id: "FLOW-REQ-0010-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Keeps the rule in deterministic semantic validation and documents the boundary."
@@ -991,25 +991,25 @@ requirements:
               remains responsible for cross-file graph evidence."
 
     postconditions:
-      - id: "POST-REQ-0032-001"
+      - id: "POST-REQ-0010-001"
         statement: "The graph matrix is validated against its canonical schema by docs:check:format."
 
-      - id: "POST-REQ-0032-002"
+      - id: "POST-REQ-0010-002"
         statement: "Schema-invalid graph matrix fields are rejected by a controlled negative fixture."
 
     acceptance_criteria:
-      - id: "AC-REQ-0032-001"
+      - id: "AC-REQ-0010-001"
         statement: "tools/docs/check-docs-format.mjs reads docs/reference/project-model/schemas/graph-matrix.schema.json."
 
-      - id: "AC-REQ-0032-002"
+      - id: "AC-REQ-0010-002"
         statement: "docs:check:format validates docs/reference/project-model/graph.matrix.yml against
           the Graph Matrix schema."
 
-      - id: "AC-REQ-0032-003"
+      - id: "AC-REQ-0010-003"
         statement: "A negative fixture proves that an additional property rejected by the schema fails
           validation."
 
-      - id: "AC-REQ-0032-004"
+      - id: "AC-REQ-0010-004"
         statement: "docs:check runs the schema-driven graph matrix validation through the canonical
           docs:check:format / tools/docs/check-docs-format.mjs schema validation entrypoint."
 
@@ -1022,7 +1022,7 @@ requirements:
         - "tool-output"
 
 
-  - id: "REQ-0033"
+  - id: "REQ-0011"
     macro_requirement_id: "MR-0001"
     capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
     title: "Single governed schema validation entrypoint"
@@ -1046,27 +1046,27 @@ requirements:
     scope: "project-model"
 
     preconditions:
-      - id: "PRE-REQ-0033-001"
+      - id: "PRE-REQ-0011-001"
         statement: "Governed artifact schemas exist for project-model baseline artifacts."
 
-      - id: "PRE-REQ-0033-002"
+      - id: "PRE-REQ-0011-002"
         statement: "tools/docs/check-docs-format.mjs already applies governed project-model schemas."
 
     main_flow:
-      - id: "FLOW-REQ-0033-001"
+      - id: "FLOW-REQ-0011-001"
         step: 1
         actor: "Documentation format validator"
         action: "Discovers or references the governed schema artifact for each schema-controlled artifact."
         expected_result: "Schema-controlled artifact shape validation starts from the canonical format
           validator."
 
-      - id: "FLOW-REQ-0033-002"
+      - id: "FLOW-REQ-0011-002"
         step: 2
         actor: "Documentation format validator"
         action: "Applies the supported JSON Schema subset to the governed artifact."
         expected_result: "Schema-invalid local artifact shape is rejected by docs:check:format."
 
-      - id: "FLOW-REQ-0033-003"
+      - id: "FLOW-REQ-0011-003"
         step: 3
         actor: "Project model validator"
         action: "Validates schema traceability, graph semantics, entity existence, commands, paths,
@@ -1075,12 +1075,12 @@ requirements:
           it."
 
     alternative_flows:
-      - id: "ALT-REQ-0033-001"
+      - id: "ALT-REQ-0011-001"
         title: "New schema-controlled artifact is introduced"
         trigger: "A governed artifact declares schema_control or a SchemaFile APPLIES_TO relationship
           is added."
         steps:
-          - id: "FLOW-REQ-0033-ALT-001"
+          - id: "FLOW-REQ-0011-ALT-001"
             step: 1
             actor: "Maintainer"
             action: "Extends tools/docs/check-docs-format.mjs as the schema execution entrypoint instead
@@ -1089,26 +1089,26 @@ requirements:
               path."
 
     postconditions:
-      - id: "POST-REQ-0033-001"
+      - id: "POST-REQ-0011-001"
         statement: "Governed artifact JSON Schema execution has one canonical deterministic entrypoint."
 
-      - id: "POST-REQ-0033-002"
+      - id: "POST-REQ-0011-002"
         statement: "Semantic project-model validation remains separate from local schema shape validation."
 
     acceptance_criteria:
-      - id: "AC-REQ-0033-001"
+      - id: "AC-REQ-0011-001"
         statement: "tools/docs/check-docs-format.mjs is documented as the canonical JSON Schema validation
           entrypoint for governed artifacts."
 
-      - id: "AC-REQ-0033-002"
+      - id: "AC-REQ-0011-002"
         statement: "Existing schema-driven validation requirements reference docs:check:format / tools/docs/check-docs-format.mjs
           as the canonical schema execution path."
 
-      - id: "AC-REQ-0033-003"
+      - id: "AC-REQ-0011-003"
         statement: "tools/docs/check-project-model.mjs remains responsible for schema traceability
           and semantic project-model checks, not duplicate JSON Schema execution."
 
-      - id: "AC-REQ-0033-004"
+      - id: "AC-REQ-0011-004"
         statement: "docs:check includes the canonical format validator so schema execution remains
           part of the aggregate documentation gate."
 

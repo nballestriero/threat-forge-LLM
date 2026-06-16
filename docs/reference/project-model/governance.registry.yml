@@ -730,10 +730,29 @@ decisions:
       deterministic validation, source traceability, and project_model_areas governance.
     consequences:
       - The root registries remain central indexes and shared vocabulary boundaries.
-      - The extracted parts use the existing legacy REQ and DEC identifiers during this first
-        pilot extraction.
-      - Later steps may complete the clean <area_id>:<local_id> identity migration after the
-        loader pattern is proven.
+      - The initial pilot extraction is immediately followed by canonical ID enforcement for
+        the extracted area, without retaining long-term compatibility aliases.
+  - id: DEC-0033
+    title: Schema-validation area enforces canonical modular IDs before broad extraction
+    status: accepted
+    statement: The schema-validation pilot area shall use part-local IDs for authoring,
+      canonical `<area_id>:<local_id>` IDs in the aggregate semantic model, canonical
+      IDs in graph references, and no legacy extracted ID aliases before additional
+      project-model areas are extracted.
+    rationale: Activating the canonical ID model on the first extracted area exposes ambiguity,
+      source traceability, schema traceability, and cross-file control issues while the migration
+      surface is still small.
+    consequences:
+      - Schema-validation requirements and decisions can restart local numeric sequences without
+        colliding with root records.
+      - check-project-model.mjs derives canonical IDs for requirements and decisions loaded from
+        modular parts.
+      - Source-file traceability accepts canonical modular requirement IDs.
+      - Local-only modular graph references and removed schema-validation legacy IDs are rejected
+        by deterministic validation.
+      - The control review records which bidirectional and cross-file checks are already enforced
+        and which should be added before broad extraction.
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

@@ -3284,3 +3284,108 @@ triples:
     object:
       id: GATE-PROJECT-MODEL
       type: Gate
+  - subject:
+      id: MR-0001
+      type: MacroRequirement
+    predicate: CONTAINS
+    object:
+      id: REQ-0042
+      type: Requirement
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: BELONGS_TO_CAPABILITY
+    object:
+      id: CAP-DOCUMENTATION-GOVERNANCE
+      type: Capability
+  - subject:
+      id: DEC-0033
+      type: Decision
+    predicate: DECIDES
+    object:
+      id: REQ-0042
+      type: Requirement
+  - subject:
+      id: DEC-0033
+      type: Decision
+    predicate: DECIDES
+    object:
+      id: docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md
+      type: Document
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: DEPENDS_ON
+    object:
+      id: REQ-0040
+      type: Requirement
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: DEPENDS_ON
+    object:
+      id: REQ-0041
+      type: Requirement
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: SPECIFIED_BY
+    object:
+      id: docs/reference/project-model/schema-design/schema-validation-area-id-and-control-review.md
+      type: Document
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: IMPLEMENTED_BY
+    object:
+      id: tools/docs/check-docs-structure.mjs
+      type: SourceFile
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: IMPLEMENTED_BY
+    object:
+      id: tools/docs/check-docs-format.mjs
+      type: SourceFile
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: IMPLEMENTED_BY
+    object:
+      id: tools/docs/check-project-model.mjs
+      type: SourceFile
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-DOCS-CHECK
+      type: Gate
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-PRE-COMMIT
+      type: Gate
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-DOCS-STRUCTURE
+      type: Gate
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-DOCS-FORMAT
+      type: Gate
+  - subject:
+      id: REQ-0042
+      type: Requirement
+    predicate: VERIFIED_BY
+    object:
+      id: GATE-PROJECT-MODEL
+      type: Gate

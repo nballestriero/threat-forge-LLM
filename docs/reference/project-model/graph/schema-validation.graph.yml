@@ -22,11 +22,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -34,15 +34,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0014"
+      id: "schema-validation:DEC-0001"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
 
   - subject:
-      id: "DEC-0014"
+      id: "schema-validation:DEC-0001"
       type: "Decision"
     predicate: "DECIDES"
     object:
@@ -50,7 +50,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -58,7 +58,7 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -66,7 +66,7 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -74,7 +74,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -82,7 +82,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -90,7 +90,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -98,7 +98,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -106,7 +106,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -118,11 +118,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -130,15 +130,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0015"
+      id: "schema-validation:DEC-0002"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -146,15 +146,15 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -162,7 +162,7 @@ triples:
       type: "SchemaFile"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -170,7 +170,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -178,7 +178,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -187,7 +187,7 @@ triples:
 
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -196,7 +196,7 @@ triples:
 
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -204,7 +204,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -216,11 +216,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -228,15 +228,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0016"
+      id: "schema-validation:DEC-0003"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -244,15 +244,15 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -260,7 +260,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -268,7 +268,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -280,11 +280,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -292,31 +292,31 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0017"
+      id: "schema-validation:DEC-0004"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0024"
+      id: "schema-validation:REQ-0002"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -324,7 +324,7 @@ triples:
       type: "SchemaFile"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -332,7 +332,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -340,7 +340,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -348,7 +348,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -356,7 +356,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -368,11 +368,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -380,15 +380,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0018"
+      id: "schema-validation:DEC-0005"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -396,15 +396,15 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0023"
+      id: "schema-validation:REQ-0001"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -412,7 +412,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -420,7 +420,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -428,7 +428,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -436,7 +436,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -444,7 +444,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -455,11 +455,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -467,15 +467,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0019"
+      id: "schema-validation:DEC-0006"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -483,23 +483,23 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0027"
+      id: "schema-validation:REQ-0005"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -507,7 +507,7 @@ triples:
       type: "SchemaFile"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -515,7 +515,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -523,7 +523,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -531,7 +531,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -539,7 +539,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -547,7 +547,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -555,7 +555,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -567,11 +567,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -579,15 +579,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0020"
+      id: "schema-validation:DEC-0007"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -595,15 +595,15 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0028"
+      id: "schema-validation:REQ-0006"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -611,7 +611,7 @@ triples:
       type: "SchemaFile"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -619,7 +619,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -627,7 +627,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -635,7 +635,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -648,11 +648,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -660,15 +660,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0021"
+      id: "schema-validation:DEC-0008"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -676,15 +676,15 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -692,7 +692,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -700,7 +700,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -708,7 +708,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -716,7 +716,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -724,7 +724,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -737,11 +737,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -749,15 +749,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0022"
+      id: "schema-validation:DEC-0009"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -765,23 +765,23 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0026"
+      id: "schema-validation:REQ-0004"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0030"
+      id: "schema-validation:REQ-0008"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -789,7 +789,7 @@ triples:
       type: "SchemaFile"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -797,7 +797,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -805,7 +805,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -813,7 +813,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -821,7 +821,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -829,7 +829,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -837,7 +837,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -849,11 +849,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -861,15 +861,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0023"
+      id: "schema-validation:DEC-0010"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
@@ -877,15 +877,15 @@ triples:
       type: "Requirement"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0031"
+      id: "schema-validation:REQ-0009"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -893,7 +893,7 @@ triples:
       type: "SchemaFile"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "SPECIFIED_BY"
     object:
@@ -901,7 +901,7 @@ triples:
       type: "Document"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -909,7 +909,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -917,7 +917,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -929,11 +929,11 @@ triples:
       type: "MacroRequirement"
     predicate: "CONTAINS"
     object:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "BELONGS_TO_CAPABILITY"
     object:
@@ -941,15 +941,15 @@ triples:
       type: "Capability"
 
   - subject:
-      id: "DEC-0024"
+      id: "schema-validation:DEC-0011"
       type: "Decision"
     predicate: "DECIDES"
     object:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
 
   - subject:
-      id: "DEC-0024"
+      id: "schema-validation:DEC-0011"
       type: "Decision"
     predicate: "DECIDES"
     object:
@@ -957,31 +957,31 @@ triples:
       type: "ValidationTool"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0025"
+      id: "schema-validation:REQ-0003"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0029"
+      id: "schema-validation:REQ-0007"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0032"
+      id: "schema-validation:REQ-0010"
       type: "Requirement"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "IMPLEMENTED_BY"
     object:
@@ -989,7 +989,7 @@ triples:
       type: "SourceFile"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -997,7 +997,7 @@ triples:
       type: "Gate"
 
   - subject:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:
@@ -1010,6 +1010,6 @@ triples:
       type: "Requirement"
     predicate: "DEPENDS_ON"
     object:
-      id: "REQ-0033"
+      id: "schema-validation:REQ-0011"
       type: "Requirement"
 
