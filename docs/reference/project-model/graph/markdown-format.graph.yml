@@ -4,12 +4,10 @@ change_control:
   - graph-traceability:DEC-0029
   satisfies:
   - graph-traceability:REQ-0038
-  rationale: This graph part is loaded through the governed graph index as part of the complete modular
-    project-model layout.
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part shape
-    through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape through check-docs-format.mjs.
 part:
   area_id: markdown-format
   title: Markdown Format graph part
@@ -24,13 +22,6 @@ triples:
   object:
     id: markdown-format:REQ-0003
     type: Requirement
-- subject:
-    id: markdown-format:REQ-0003
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: markdown-format:REQ-0003
     type: Requirement
@@ -52,13 +43,6 @@ triples:
   object:
     id: markdown-format:REQ-0007
     type: Requirement
-- subject:
-    id: markdown-format:REQ-0007
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: markdown-format:DEC-0007
     type: Decision

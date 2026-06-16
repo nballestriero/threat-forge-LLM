@@ -4,12 +4,10 @@ change_control:
   - graph-traceability:DEC-0029
   satisfies:
   - graph-traceability:REQ-0038
-  rationale: This graph part is loaded through the governed graph index as part of the complete modular
-    project-model layout.
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part shape
-    through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape through check-docs-format.mjs.
 part:
   area_id: schema-validation
   title: Schema Validation graph part
@@ -24,13 +22,6 @@ triples:
   object:
     id: schema-validation:REQ-0021
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0021
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0012
     type: Decision
@@ -94,13 +85,6 @@ triples:
   object:
     id: schema-validation:REQ-0041
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0041
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:REQ-0041
     type: Requirement
@@ -249,13 +233,6 @@ triples:
     id: schema-validation:REQ-0042
     type: Requirement
 - subject:
-    id: schema-validation:REQ-0042
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: schema-validation:DEC-0033
     type: Decision
   predicate: DECIDES
@@ -347,13 +324,6 @@ triples:
     id: schema-validation:REQ-0001
     type: Requirement
 - subject:
-    id: schema-validation:REQ-0001
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: schema-validation:DEC-0001
     type: Decision
   predicate: DECIDES
@@ -423,13 +393,6 @@ triples:
   object:
     id: schema-validation:REQ-0002
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0002
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0002
     type: Decision
@@ -508,13 +471,6 @@ triples:
     id: schema-validation:REQ-0003
     type: Requirement
 - subject:
-    id: schema-validation:REQ-0003
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: schema-validation:DEC-0003
     type: Decision
   predicate: DECIDES
@@ -563,13 +519,6 @@ triples:
   object:
     id: schema-validation:REQ-0004
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0004
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0004
     type: Decision
@@ -641,13 +590,6 @@ triples:
     id: schema-validation:REQ-0005
     type: Requirement
 - subject:
-    id: schema-validation:REQ-0005
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: schema-validation:DEC-0005
     type: Decision
   predicate: DECIDES
@@ -717,13 +659,6 @@ triples:
   object:
     id: schema-validation:REQ-0006
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0006
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0006
     type: Decision
@@ -816,13 +751,6 @@ triples:
     id: schema-validation:REQ-0007
     type: Requirement
 - subject:
-    id: schema-validation:REQ-0007
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: schema-validation:DEC-0007
     type: Decision
   predicate: DECIDES
@@ -885,13 +813,6 @@ triples:
   object:
     id: schema-validation:REQ-0008
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0008
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0008
     type: Decision
@@ -962,13 +883,6 @@ triples:
   object:
     id: schema-validation:REQ-0009
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0009
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0009
     type: Decision
@@ -1061,13 +975,6 @@ triples:
     id: schema-validation:REQ-0010
     type: Requirement
 - subject:
-    id: schema-validation:REQ-0010
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: schema-validation:DEC-0010
     type: Decision
   predicate: DECIDES
@@ -1130,13 +1037,6 @@ triples:
   object:
     id: schema-validation:REQ-0011
     type: Requirement
-- subject:
-    id: schema-validation:REQ-0011
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: schema-validation:DEC-0011
     type: Decision

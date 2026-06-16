@@ -775,7 +775,6 @@ function validateTaxonomies(indexes) {
     checkTaxonomyValue(indexes.taxonomies, "requirement_implementation_status", requirement?.implementation_status, `requirement ${requirement?.id}`);
     checkTaxonomyValue(indexes.taxonomies, "priority", requirement?.priority, `requirement ${requirement?.id}`);
     checkTaxonomyValue(indexes.taxonomies, "requirement_type", requirement?.type, `requirement ${requirement?.id}`);
-    checkTaxonomyValue(indexes.taxonomies, "scope", requirement?.scope, `requirement ${requirement?.id}`);
 
     checkTaxonomyValue(indexes.taxonomies, "verification_method", requirement?.verification?.method, `requirement ${requirement?.id}.verification.method`);
     for (const evidence of asArray(requirement?.verification?.required_evidence)) {
@@ -845,8 +844,8 @@ function validateIds(indexes) {
 }
 
 /**
- * Validates references among requirements, macro requirements, capabilities,
- * document types, body profiles, node types, and predicates.
+ * Validates references among requirements, macro requirements, document types,
+ * body profiles, node types, and predicates.
  *
  * @param {object} indexes - Entity indexes.
  * @returns {void}
@@ -875,10 +874,6 @@ function validateRegistryReferences(indexes) {
   for (const requirement of indexes.atomicRequirements) {
     if (!indexes.macroRequirementIds.has(requirement?.macro_requirement_id)) {
       errors.push(`Requirement ${requirement?.id} references unknown macro requirement ${requirement?.macro_requirement_id}`);
-    }
-
-    if (!indexes.capabilityIds.has(requirement?.capability_id)) {
-      errors.push(`Requirement ${requirement?.id} references unknown capability ${requirement?.capability_id}`);
     }
   }
 

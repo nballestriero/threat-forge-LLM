@@ -84,7 +84,6 @@ const TOP_LEVEL_REQUIREMENT_FIELDS = [
   "area_id",
   "source_path",
   "macro_requirement_id",
-  "capability_id",
   "title",
   "statement",
   "rationale",
@@ -93,7 +92,6 @@ const TOP_LEVEL_REQUIREMENT_FIELDS = [
   "implementation_rationale",
   "priority",
   "type",
-  "scope",
   "preconditions",
   "main_flow",
   "alternative_flows",
@@ -358,12 +356,10 @@ function buildFieldOptions(governanceRegistry, macroRequirements) {
   return {
     area_id: taxonomyOptions(taxonomies.project_model_areas),
     macro_requirement_id: referenceOptions([...macroRequirements.values()]),
-    capability_id: referenceOptions(governanceRegistry?.capabilities),
     status: taxonomyOptions(taxonomies.requirement_status),
     implementation_status: taxonomyOptions(taxonomies.requirement_implementation_status),
     priority: taxonomyOptions(taxonomies.priority),
     type: taxonomyOptions(taxonomies.requirement_type),
-    scope: taxonomyOptions(taxonomies.scope),
     verification_method: taxonomyOptions(taxonomies.verification_method),
     evidence_type: taxonomyOptions(taxonomies.evidence_type)
   };
@@ -609,20 +605,18 @@ function requirementFieldSheet(requirement, fieldOptions) {
   return `
     <details class="field-sheet" open>
       <summary>Requirement field sheet</summary>
-      <p class="muted">Read-only review controls. Select fields can be opened to inspect the current allowed values, but changes are immediately reverted because the HTML page is generated output.</p>
+      <p class="muted">Read-only review controls. The canonical id is derived from area_id + id; select fields can be opened to inspect allowed values, but changes are immediately reverted because the HTML page is generated output.</p>
       <div class="field-grid">
-        ${readonlyInput("canonical_id", requirement.canonical_id)}
+        ${readonlyInput("derived_canonical_id", requirement.canonical_id)}
         ${readonlyInput("id", requirement.id)}
         ${readonlySelect("area_id", requirement.area_id, fieldOptions.area_id ?? [])}
         ${readonlyInput("source_path", requirement.source_path)}
         ${readonlySelect("macro_requirement_id", requirement.macro_requirement_id, fieldOptions.macro_requirement_id ?? [])}
-        ${readonlySelect("capability_id", requirement.capability_id, fieldOptions.capability_id ?? [])}
         ${readonlyInput("title", requirement.title)}
         ${readonlySelect("status", requirement.status, fieldOptions.status ?? [])}
         ${readonlySelect("implementation_status", requirement.implementation_status, fieldOptions.implementation_status ?? [])}
         ${readonlySelect("priority", requirement.priority, fieldOptions.priority ?? [])}
         ${readonlySelect("type", requirement.type, fieldOptions.type ?? [])}
-        ${readonlySelect("scope", requirement.scope, fieldOptions.scope ?? [])}
         ${readonlyTextArea("statement", requirement.statement)}
         ${readonlyTextArea("rationale", requirement.rationale)}
         ${readonlyTextArea("implementation_rationale", requirement.implementation_rationale)}
@@ -687,9 +681,7 @@ function requirementCards(requirements, outgoing, incoming, fieldOptions) {
       requirement.rationale,
       requirement.area_id,
       requirement.macro_requirement_id,
-      requirement.capability_id,
-      requirement.type,
-      requirement.scope
+      requirement.type
     ].filter(Boolean).join(" ").toLowerCase();
 
     return `
@@ -699,7 +691,6 @@ function requirementCards(requirements, outgoing, incoming, fieldOptions) {
         data-status="${escapeHtml(requirement.status)}"
         data-implementation="${escapeHtml(requirement.implementation_status)}"
         data-type="${escapeHtml(requirement.type)}"
-        data-scope="${escapeHtml(requirement.scope)}"
         data-search="${escapeHtml(searchText)}">
         <header class="card-header">
           <div>
@@ -712,7 +703,6 @@ function requirementCards(requirements, outgoing, incoming, fieldOptions) {
             ${pill("status", requirement.status)}
             ${pill("implementation", requirement.implementation_status)}
             ${pill("type", requirement.type)}
-            ${pill("scope", requirement.scope)}
           </div>
         </header>
 
@@ -753,8 +743,6 @@ function renderHtml(requirements, macroRequirements, triples, governanceRegistry
   const statuses = sortedUnique(requirements.map((requirement) => requirement.status));
   const implementations = sortedUnique(requirements.map((requirement) => requirement.implementation_status));
   const types = sortedUnique(requirements.map((requirement) => requirement.type));
-  const scopes = sortedUnique(requirements.map((requirement) => requirement.scope));
-
   const relationshipProposalHtml = RELATIONSHIP_PROPOSALS.map((relationship) => `
     <li><code>${escapeHtml(relationship.id)}</code> = ${escapeHtml(relationship.description)}</li>
   `).join("");
@@ -1066,7 +1054,6 @@ function renderHtml(requirements, macroRequirements, triples, governanceRegistry
       ${optionLegend("Implementation status", fieldOptions.implementation_status ?? [])}
       ${optionLegend("Priority", fieldOptions.priority ?? [])}
       ${optionLegend("Requirement type", fieldOptions.type ?? [])}
-      ${optionLegend("Scope", fieldOptions.scope ?? [])}
       ${optionLegend("Verification method", fieldOptions.verification_method ?? [])}
       ${optionLegend("Evidence type", fieldOptions.evidence_type ?? [])}
     </section>
@@ -1088,9 +1075,6 @@ function renderHtml(requirements, macroRequirements, triples, governanceRegistry
         </label>
         <label>Type
           <select id="typeFilter">${selectOptions(types, "All types")}</select>
-        </label>
-        <label>Scope
-          <select id="scopeFilter">${selectOptions(scopes, "All scopes")}</select>
         </label>
         <label>Search
           <input id="searchFilter" type="search" placeholder="ID, title, statement, rationale...">
@@ -1116,7 +1100,6 @@ function renderHtml(requirements, macroRequirements, triples, governanceRegistry
       status: document.querySelector("#statusFilter"),
       implementation: document.querySelector("#implementationFilter"),
       type: document.querySelector("#typeFilter"),
-      scope: document.querySelector("#scopeFilter"),
       search: document.querySelector("#searchFilter")
     };
     const cards = [...document.querySelectorAll(".requirement-card")];
@@ -1137,7 +1120,6 @@ function renderHtml(requirements, macroRequirements, triples, governanceRegistry
           matches(card, "status", filters.status.value) &&
           matches(card, "implementation", filters.implementation.value) &&
           matches(card, "type", filters.type.value) &&
-          matches(card, "scope", filters.scope.value) &&
           (!search || card.dataset.search.includes(search));
 
         card.classList.toggle("hidden", !shouldShow);

@@ -4,12 +4,10 @@ change_control:
   - requirements-governance:DEC-0028
   satisfies:
   - requirements-governance:REQ-0037
-  rationale: This requirements part is loaded through the governed requirements index as part of the
-    complete modular project-model layout.
+  rationale: This requirements part is loaded through the governed requirements index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/requirements-part.schema.json
-  rationale: The requirements part declares the canonical schema that validates modular requirements
-    part shape through check-docs-format.mjs.
+  rationale: The requirements part declares the canonical schema that validates modular requirements part shape through check-docs-format.mjs.
 part:
   area_id: backend-architecture
   title: Backend Architecture requirements part
@@ -18,21 +16,17 @@ part:
 requirements:
 - id: REQ-0009
   macro_requirement_id: MR-0002
-  capability_id: CAP-BACKEND-ARCHITECTURE
   title: Default backend composition pattern
-  statement: 'Backend implementation shall use factory or composition-root based dependency composition
-    as the default pattern.
+  statement: 'Backend implementation shall use factory or composition-root based dependency composition as the default pattern.
 
     '
-  rationale: 'Dependency composition must stay explicit and centralized so controllers, route handlers,
-    and application services do not create concrete infrastructure dependencies directly.
+  rationale: 'Dependency composition must stay explicit and centralized so controllers, route handlers, and application services do not create concrete infrastructure dependencies directly.
 
     '
   status: accepted
   implementation_status: not_implemented
   priority: must
   type: non-functional
-  scope: repository
   preconditions:
   - id: PRE-REQ-0009-001
     statement: Runtime backend implementation has not yet started.
@@ -40,10 +34,8 @@ requirements:
   - id: FLOW-REQ-0009-001
     step: 1
     actor: Maintainer
-    action: Defines backend components using separated controller, service, port, adapter, and factory
-      boundaries.
-    expected_result: Concrete dependency assembly remains centralized in a factory or composition
-      root.
+    action: Defines backend components using separated controller, service, port, adapter, and factory boundaries.
+    expected_result: Concrete dependency assembly remains centralized in a factory or composition root.
   - id: FLOW-REQ-0009-002
     step: 2
     actor: Maintainer
@@ -58,8 +50,7 @@ requirements:
       step: 1
       actor: Architecture checker
       action: Reports a backend composition violation.
-      expected_result: The implementation is rejected until dependency assembly is moved to a factory
-        or composition root.
+      expected_result: The implementation is rejected until dependency assembly is moved to a factory or composition root.
   postconditions:
   - id: POST-REQ-0009-001
     statement: Backend implementation follows the default composition pattern.
@@ -69,8 +60,7 @@ requirements:
   - id: AC-REQ-0009-002
     statement: Concrete dependencies are assembled in factories or composition roots.
   - id: AC-REQ-0009-003
-    statement: Application services depend on explicit ports or boundaries where external dependencies
-      are required.
+    statement: Application services depend on explicit ports or boundaries where external dependencies are required.
   verification:
     method: analysis
     required_evidence:
@@ -79,22 +69,17 @@ requirements:
     - tool-output
 - id: REQ-0010
   macro_requirement_id: MR-0002
-  capability_id: CAP-BACKEND-ARCHITECTURE
   title: Backend architecture pattern enforcement
-  statement: 'The project shall provide deterministic tooling that checks backend code against approved
-    composition and layering patterns.
+  statement: 'The project shall provide deterministic tooling that checks backend code against approved composition and layering patterns.
 
     '
-  rationale: 'Architecture rules should not rely only on human memory or code review. A deterministic
-    checker must catch direct adapter instantiation, controller-to-infrastructure coupling, missing
-    factories, and contract drift where practical.
+  rationale: 'Architecture rules should not rely only on human memory or code review. A deterministic checker must catch direct adapter instantiation, controller-to-infrastructure coupling, missing factories, and contract drift where practical.
 
     '
   status: accepted
   implementation_status: not_implemented
   priority: must
   type: operational
-  scope: tooling
   preconditions:
   - id: PRE-REQ-0010-001
     statement: A runtime backend source tree exists.
@@ -131,14 +116,11 @@ requirements:
     statement: Backend architecture violations are detectable by deterministic tooling.
   acceptance_criteria:
   - id: AC-REQ-0010-001
-    statement: The checker detects controller or route-handler imports of concrete infrastructure
-      adapters.
+    statement: The checker detects controller or route-handler imports of concrete infrastructure adapters.
   - id: AC-REQ-0010-002
-    statement: The checker detects direct concrete adapter construction outside approved factories
-      or composition roots.
+    statement: The checker detects direct concrete adapter construction outside approved factories or composition roots.
   - id: AC-REQ-0010-003
-    statement: The checker can be added to the repository aggregate check command when backend code
-      exists.
+    statement: The checker can be added to the repository aggregate check command when backend code exists.
   verification:
     method: test
     required_evidence:
@@ -147,21 +129,17 @@ requirements:
     - source-comment
 - id: REQ-0011
   macro_requirement_id: MR-0002
-  capability_id: CAP-API-CONTRACTS
   title: Backend API contracts as documentation source
-  statement: 'Backend/API contracts shall be treated as authoritative documentation sources for public
-    HTTP behavior.
+  statement: 'Backend/API contracts shall be treated as authoritative documentation sources for public HTTP behavior.
 
     '
-  rationale: 'Public API behavior must be documented by governed contracts so future implementation,
-    tests, admin documentation, and generated views share the same source of truth.
+  rationale: 'Public API behavior must be documented by governed contracts so future implementation, tests, admin documentation, and generated views share the same source of truth.
 
     '
   status: accepted
   implementation_status: not_implemented
   priority: must
   type: documentation
-  scope: repository
   preconditions:
   - id: PRE-REQ-0011-001
     statement: A public backend API is introduced.

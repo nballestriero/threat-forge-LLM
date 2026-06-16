@@ -16,7 +16,6 @@ part:
 requirements:
 - id: REQ-0005
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Bidirectional implementation traceability
   statement: 'The project shall verify that governed source files are registered in graph.matrix.yml, that implementation relationships declared in graph.matrix.yml are mirrored by traceability references in source-file comments, and that source-file traceability claims are mirrored by graph matrix triples.
 
@@ -28,7 +27,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0005-001
     statement: The graph matrix contains IMPLEMENTED_BY relationships involving source files.
@@ -111,7 +109,6 @@ requirements:
     - tool-output
 - id: REQ-0006
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Validation command consistency
   statement: 'The project shall verify that governed validation Command nodes in graph.matrix.yml are consistent with executable scripts declared in package.json.
 
@@ -123,7 +120,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: tooling
   preconditions:
   - id: PRE-REQ-0006-001
     statement: The repository declares validation commands as Command nodes in graph.matrix.yml.
@@ -182,7 +178,6 @@ requirements:
     - tool-output
 - id: REQ-0007
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Decision-backed source traceability
   statement: 'The project shall reject governed source files whose file-level traceability is not backed by at least one accepted project decision connected through the graph to a requirement or validation tool implemented by that source file.
 
@@ -194,7 +189,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0007-001
     statement: Governed source files declare file-level JSDoc traceability comments.
@@ -258,7 +252,6 @@ requirements:
     - tool-output
 - id: REQ-0008
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Implemented requirement evidence closure
   statement: 'The project shall reject accepted requirements marked as implemented unless the graph records implementation or specification evidence, verification evidence, and an accepted decision relationship for the same requirement.
 
@@ -270,7 +263,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: project-model
   preconditions:
   - id: PRE-REQ-0008-001
     statement: Requirements declare status and implementation_status fields in governed part files.
@@ -349,7 +341,6 @@ requirements:
     - tool-output
 - id: REQ-0009
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Graph target and command existence closure
   statement: 'The project shall reject graph relationships, graph nodes, and package command declarations that reference missing repository-backed source, schema, config, test, validation-tool, or package script targets.
 
@@ -361,7 +352,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0009-001
     statement: The graph matrix declares repository-backed nodes and SPO endpoints for source, schema, config, test, command, and validation-tool entities.
@@ -440,7 +430,6 @@ requirements:
     - tool-output
 - id: REQ-0010
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Negative fixture traceability contract
   statement: 'The project shall define negative validator fixtures as governed traceability artifacts before enforcing repository-wide fixture inventory checks.
 
@@ -452,7 +441,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: project-model
   preconditions:
   - id: PRE-REQ-0010-001
     statement: Negative fixtures are stored under tools/docs/fixtures/negative in the real repository.
@@ -505,7 +493,6 @@ requirements:
     - yaml
 - id: REQ-0011
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Real-repository negative fixture inventory enforcement
   statement: The project-model validator shall reject any real repository negative fixture file that is not represented and traced as a governed NegativeFixture graph entity.
   rationale: Negative fixtures are safety controls for deterministic validators. A fixture file that exists outside the graph can silently stop protecting a requirement, validator, gate, or command. Real-repository inventory enforcement makes fixture coverage explicit without forcing every isolated invalid workspace to carry extra traceability unrelated to the diagnostic under test.
@@ -513,7 +500,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0011-001
     statement: Negative fixtures are stored as JSON files under tools/docs/fixtures/negative.
@@ -574,7 +560,6 @@ requirements:
     - tool-output
 - id: REQ-0012
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Governed commit and push flow contract
   statement: The project shall define a governed commit and push flow that separates pre-commit content validation from post-commit/pre-push repository cleanliness enforcement.
   rationale: A full repository cleanliness check is unsafe inside docs:check because the pre-commit gate runs while files are staged. The project still needs a post-commit/pre-push guard so generated or unintended changes cannot remain outside the commit before push. Recording the contract before scripts and hooks are added prevents the workflow automation from breaking legitimate commits or silently bypassing review.
@@ -582,7 +567,6 @@ requirements:
   implementation_status: not_implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0012-001
     statement: The repository uses docs:check as the pre-commit validation gate.
@@ -646,7 +630,6 @@ requirements:
     - yaml
 - id: REQ-0013
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Post-commit repository cleanliness command
   statement: The project shall provide a governed repository cleanliness command that rejects staged, unstaged, untracked non-ignored changes and unsafe artifacts/ tracking after commit and before push.
   rationale: The governed commit/push flow needs an executable post-commit boundary that can be used manually, by a future pre-push hook, and by a future commit/push helper without making docs:check incompatible with pre-commit execution.
@@ -654,7 +637,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0013-001
     statement: The repository is inside a Git working tree.
@@ -717,7 +699,6 @@ requirements:
     - tool-output
 - id: REQ-0014
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Pre-push repository cleanliness hook
   statement: The project shall provide a versioned Git pre-push hook that invokes the governed repository cleanliness command before allowing manual pushes.
   rationale: repo:check:clean is useful as a manual command, but manual git push remains bypassable unless the repository provides a hook that delegates to the same governed policy. The hook must not duplicate cleanliness logic; it must invoke the canonical command so policy remains centralized and traceable.
@@ -725,7 +706,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0014-001
     statement: repo:check:clean is available as the canonical post-commit/pre-push cleanliness command.
@@ -779,7 +759,6 @@ requirements:
     - tool-output
 - id: REQ-0015
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Governed commit and push command with computed staging
   statement: The project shall provide a governed commit/push command that computes the Git change set internally, stages only allowed repository paths, runs blocking validation gates, commits, verifies post-commit cleanliness, and pushes only when all gates pass.
   rationale: A governed helper that still requires manual git add can accidentally omit new files, include stale staging, or allow unsafe artifacts to enter review by habit. Computing the change set from Git status and failing closed for forbidden or unknown paths gives the project one auditable flow for normal changes while preserving human review for unusual repository additions.
@@ -787,7 +766,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0015-001
     statement: repo:check:clean is available as the canonical post-commit/pre-push cleanliness command.
@@ -866,7 +844,6 @@ requirements:
     - tool-output
 - id: REQ-0016
   macro_requirement_id: MR-0001
-  capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Generated artifact canonical-source guard
   statement: The project model shall reject generated artifacts under artifacts/ when they are modeled as governed source, schema, config, test, fixture, implementation, specification, declaration, or canonical source material.
   rationale: artifacts/ is an ignored local output tree. It can be inspected by validators as generated output, but allowing it to appear as governed source material would let transient files become false sources of truth and weaken the repository cleanliness guarantees.
@@ -874,7 +851,6 @@ requirements:
   implementation_status: implemented
   priority: must
   type: operational
-  scope: repository
   preconditions:
   - id: PRE-REQ-0016-001
     statement: The repository uses artifacts/ for generated local outputs that are excluded from Git.

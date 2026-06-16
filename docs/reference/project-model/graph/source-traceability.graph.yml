@@ -30,20 +30,6 @@ triples:
     id: source-traceability:REQ-0006
     type: Requirement
 - subject:
-    id: source-traceability:REQ-0005
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
-    id: source-traceability:REQ-0006
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: source-traceability:DEC-0004
     type: Decision
   predicate: DECIDES
@@ -149,13 +135,6 @@ triples:
     id: source-traceability:REQ-0007
     type: Requirement
 - subject:
-    id: source-traceability:REQ-0007
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: source-traceability:DEC-0007
     type: Decision
   predicate: DECIDES
@@ -254,13 +233,6 @@ triples:
     id: source-traceability:REQ-0008
     type: Requirement
 - subject:
-    id: source-traceability:REQ-0008
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: source-traceability:DEC-0008
     type: Decision
   predicate: DECIDES
@@ -317,13 +289,6 @@ triples:
     id: source-traceability:REQ-0009
     type: Requirement
 - subject:
-    id: source-traceability:REQ-0009
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: source-traceability:DEC-0009
     type: Decision
   predicate: DECIDES
@@ -379,13 +344,6 @@ triples:
   object:
     id: source-traceability:REQ-0010
     type: Requirement
-- subject:
-    id: source-traceability:REQ-0010
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: source-traceability:DEC-0010
     type: Decision
@@ -428,13 +386,6 @@ triples:
   object:
     id: source-traceability:REQ-0011
     type: Requirement
-- subject:
-    id: source-traceability:REQ-0011
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: source-traceability:DEC-0011
     type: Decision
@@ -492,13 +443,6 @@ triples:
     id: source-traceability:REQ-0012
     type: Requirement
 - subject:
-    id: source-traceability:REQ-0012
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: source-traceability:DEC-0012
     type: Decision
   predicate: DECIDES
@@ -519,13 +463,6 @@ triples:
   object:
     id: source-traceability:REQ-0013
     type: Requirement
-- subject:
-    id: source-traceability:REQ-0013
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: source-traceability:DEC-0013
     type: Decision
@@ -584,13 +521,6 @@ triples:
     id: source-traceability:REQ-0014
     type: Requirement
 - subject:
-    id: source-traceability:REQ-0014
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: source-traceability:DEC-0014
     type: Decision
   predicate: DECIDES
@@ -632,13 +562,6 @@ triples:
   object:
     id: source-traceability:REQ-0015
     type: Requirement
-- subject:
-    id: source-traceability:REQ-0015
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: source-traceability:DEC-0015
     type: Decision
@@ -696,13 +619,6 @@ triples:
   object:
     id: source-traceability:REQ-0016
     type: Requirement
-- subject:
-    id: source-traceability:REQ-0016
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: source-traceability:DEC-0016
     type: Decision

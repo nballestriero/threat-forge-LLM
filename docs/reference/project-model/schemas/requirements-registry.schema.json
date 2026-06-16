@@ -82,10 +82,6 @@
       "type": "string",
       "pattern": "^MR-[0-9]{4}$"
     },
-    "capabilityId": {
-      "type": "string",
-      "pattern": "^CAP-[A-Z0-9-]+$"
-    },
     "decisionId": {
       "type": "string",
       "pattern": "^(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*:)?DEC-[0-9]{4}$",
@@ -240,7 +236,6 @@
       "required": [
         "id",
         "macro_requirement_id",
-        "capability_id",
         "title",
         "statement",
         "rationale",
@@ -248,7 +243,6 @@
         "implementation_status",
         "priority",
         "type",
-        "scope",
         "preconditions",
         "main_flow",
         "alternative_flows",
@@ -263,10 +257,6 @@
         "macro_requirement_id": {
           "$ref": "#/$defs/macroRequirementId",
           "description": "Every atomic requirement must belong to an existing macro requirement; existence is semantic validation."
-        },
-        "capability_id": {
-          "$ref": "#/$defs/capabilityId",
-          "description": "Capability existence is semantic validation against governance.registry.yml."
         },
         "title": {
           "$ref": "#/$defs/nonEmptyString"
@@ -300,11 +290,6 @@
           "type": "string",
           "minLength": 1,
           "description": "Controlled by taxonomies.requirement_type."
-        },
-        "scope": {
-          "type": "string",
-          "minLength": 1,
-          "description": "High-governance controlled value from taxonomies.scope. New values require explicit rationale, validation impact, and graph-backed governance."
         },
         "preconditions": {
           "type": "array",

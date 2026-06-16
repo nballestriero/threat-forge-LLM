@@ -4,12 +4,10 @@ change_control:
   - requirements-governance:DEC-0028
   satisfies:
   - requirements-governance:REQ-0037
-  rationale: This requirements part is loaded through the governed requirements index as part of the
-    complete modular project-model layout.
+  rationale: This requirements part is loaded through the governed requirements index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/requirements-part.schema.json
-  rationale: The requirements part declares the canonical schema that validates modular requirements
-    part shape through check-docs-format.mjs.
+  rationale: The requirements part declares the canonical schema that validates modular requirements part shape through check-docs-format.mjs.
 part:
   area_id: markdown-format
   title: Markdown Format requirements part
@@ -18,21 +16,17 @@ part:
 requirements:
 - id: REQ-0003
   macro_requirement_id: MR-0001
-  capability_id: CAP-DOCUMENTATION-GOVERNANCE
   title: Validated Markdown body profiles
-  statement: 'Governed Markdown documents shall be validated against registered body profiles, not
-    only against frontmatter.
+  statement: 'Governed Markdown documents shall be validated against registered body profiles, not only against frontmatter.
 
     '
-  rationale: 'Validating only frontmatter leaves the body uncontrolled. Body profiles make documents
-    predictable, parseable, and suitable for future deterministic checks.
+  rationale: 'Validating only frontmatter leaves the body uncontrolled. Body profiles make documents predictable, parseable, and suitable for future deterministic checks.
 
     '
   status: accepted
   implementation_status: implemented
   priority: must
   type: documentation
-  scope: repository
   preconditions:
   - id: PRE-REQ-0003-001
     statement: Governed Markdown documents exist in the documentation corpus.
@@ -72,22 +66,17 @@ requirements:
     - document
 - id: REQ-0007
   macro_requirement_id: MR-0001
-  capability_id: CAP-DOCUMENTATION-GOVERNANCE
   title: Governed file format validation
-  statement: 'The project shall provide deterministic validation for governed YAML and Markdown file
-    formats.
+  statement: 'The project shall provide deterministic validation for governed YAML and Markdown file formats.
 
     '
-  rationale: 'Governed files must remain parseable and structurally predictable. YAML project-model
-    files need baseline top-level format checks, and Markdown documentation files need body profile
-    checks.
+  rationale: 'Governed files must remain parseable and structurally predictable. YAML project-model files need baseline top-level format checks, and Markdown documentation files need body profile checks.
 
     '
   status: accepted
   implementation_status: implemented
   priority: must
   type: documentation
-  scope: documentation-corpus
   preconditions:
   - id: PRE-REQ-0007-001
     statement: The repository contains governed YAML project-model files.

@@ -4,12 +4,10 @@ change_control:
   - graph-traceability:DEC-0029
   satisfies:
   - graph-traceability:REQ-0038
-  rationale: This graph part is loaded through the governed graph index as part of the complete modular
-    project-model layout.
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part shape
-    through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape through check-docs-format.mjs.
 part:
   area_id: graph-traceability
   title: Graph Traceability graph part
@@ -24,13 +22,6 @@ triples:
   object:
     id: graph-traceability:REQ-0002
     type: Requirement
-- subject:
-    id: graph-traceability:REQ-0002
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GRAPH-IMPORT
-    type: Capability
 - subject:
     id: graph-traceability:DEC-0003
     type: Decision
@@ -59,13 +50,6 @@ triples:
   object:
     id: graph-traceability:REQ-0022
     type: Requirement
-- subject:
-    id: graph-traceability:REQ-0022
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: graph-traceability:DEC-0013
     type: Decision
@@ -122,13 +106,6 @@ triples:
   object:
     id: graph-traceability:REQ-0038
     type: Requirement
-- subject:
-    id: graph-traceability:REQ-0038
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: graph-traceability:DEC-0029
     type: Decision

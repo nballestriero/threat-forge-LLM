@@ -278,9 +278,6 @@
             "macro_requirement_id": {
               "type": "string"
             },
-            "capability_id": {
-              "type": "string"
-            },
             "priority": {
               "type": "string"
             },

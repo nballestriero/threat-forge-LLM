@@ -338,7 +338,6 @@ function buildRequirements(requirementsRegistry, linkIndex) {
     status: requirement.status,
     implementation_status: requirement.implementation_status,
     macro_requirement_id: requirement.macro_requirement_id,
-    capability_id: requirement.capability_id,
     priority: requirement.priority,
     verification_method: requirement.verification?.method,
     links: linksFor(linkIndex, requirement.id),

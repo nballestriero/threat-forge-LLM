@@ -174,7 +174,7 @@ function renderHtml(report) {
     escapeHtml(requirement.title ?? ""),
     statusPill(requirement.status),
     statusPill(requirement.implementation_status),
-    escapeHtml(requirement.capability_id ?? "")
+    escapeHtml(requirement.macro_requirement_id ?? "")
   ]);
 
   const checkRows = report.checks.map((check) => [
@@ -343,7 +343,7 @@ function renderHtml(report) {
 
     <section>
       <h2>Requirements explorer</h2>
-      ${table(["ID", "Title", "Status", "Implementation", "Capability"], requirementRows)}
+      ${table(["ID", "Title", "Status", "Implementation", "Macro requirement"], requirementRows)}
     </section>
 
     <section>

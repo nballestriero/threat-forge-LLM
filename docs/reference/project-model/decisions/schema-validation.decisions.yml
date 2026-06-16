@@ -109,8 +109,9 @@ decisions:
   - Lifecycle and verification fields are mapped to explicit controlled datasets.
   - Macro requirement implementation status remains manual, while every atomic requirement must reference
     an existing macro requirement.
-  - Requirement scope remains a high-governance controlled taxonomy and must not grow without rationale,
-    validation impact, and graph-backed governance.
+  - Requirement application context is no longer carried as a separate scope field; controlled
+    area ownership, statement, and rationale carry that meaning after the minimal requirement record
+    migration.
   - Accepted requirements require acceptance criteria and verification.
   - Implemented requirements require deterministic VERIFIED_BY evidence, with IMPLEMENTED_BY required
     when an implementation artifact is applicable.
@@ -137,9 +138,9 @@ decisions:
   - docs/reference/project-model/schemas/requirements-registry.schema.json becomes the canonical shape
     contract for requirements.registry.yml.
   - The schema declares structural constraints, field shapes, ID patterns, and the high-governance
-    boundary for controlled fields such as scope.
-  - Cross-file checks such as macro existence, capability existence, parent-specific nested IDs, graph
-    consistency, and implemented requirement evidence remain semantic validator responsibilities.
+    boundary for controlled fields such as requirement type, verification method, and evidence.
+  - Cross-file checks such as macro existence, area/macro coherence, parent-specific nested IDs,
+    graph consistency, and implemented requirement evidence remain semantic validator responsibilities.
   - The schema carries file-local change-control metadata and x-applies_to so schema application traceability
     can be checked bidirectionally.
 - id: DEC-0007

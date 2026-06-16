@@ -6,7 +6,7 @@
   "mutations": [
     {
       "path": "docs/reference/project-model/graph/documentation-structure.graph.yml",
-      "replace": "  predicate: BELONGS_TO_CAPABILITY",
+      "replace": "  predicate: CONTAINS",
       "with": "  predicate: UNKNOWN_PREDICATE"
     }
   ]

@@ -4,12 +4,10 @@ change_control:
   - graph-traceability:DEC-0029
   satisfies:
   - graph-traceability:REQ-0038
-  rationale: This graph part is loaded through the governed graph index as part of the complete modular
-    project-model layout.
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part shape
-    through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape through check-docs-format.mjs.
 part:
   area_id: requirements-governance
   title: Requirements Governance graph part
@@ -39,13 +37,6 @@ triples:
   object:
     id: requirements-governance:REQ-0008
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0008
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0008
     type: Decision
@@ -95,13 +86,6 @@ triples:
   object:
     id: requirements-governance:REQ-0034
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0034
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0025
     type: Decision
@@ -158,13 +142,6 @@ triples:
   object:
     id: requirements-governance:REQ-0035
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0035
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0026
     type: Decision
@@ -242,13 +219,6 @@ triples:
   object:
     id: requirements-governance:REQ-0036
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0036
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0027
     type: Decision
@@ -313,13 +283,6 @@ triples:
     id: requirements-governance:REQ-0037
     type: Requirement
 - subject:
-    id: requirements-governance:REQ-0037
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
-- subject:
     id: requirements-governance:DEC-0028
     type: Decision
   predicate: DECIDES
@@ -389,13 +352,6 @@ triples:
   object:
     id: requirements-governance:REQ-0039
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0039
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0030
     type: Decision
@@ -473,13 +429,6 @@ triples:
   object:
     id: requirements-governance:REQ-0040
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0040
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0031
     type: Decision
@@ -564,13 +513,6 @@ triples:
   object:
     id: requirements-governance:REQ-0043
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0043
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-DOCUMENTATION-GOVERNANCE
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0034
     type: Decision
@@ -783,13 +725,6 @@ triples:
     id: requirements-governance:REQ-0044
     type: Requirement
 - subject:
-    id: requirements-governance:REQ-0044
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
-- subject:
     id: requirements-governance:DEC-0035
     type: Decision
   predicate: DECIDES
@@ -957,13 +892,6 @@ triples:
   object:
     id: requirements-governance:REQ-0045
     type: Requirement
-- subject:
-    id: requirements-governance:REQ-0045
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-REQUIREMENTS-MANAGEMENT
-    type: Capability
 - subject:
     id: requirements-governance:DEC-0036
     type: Decision

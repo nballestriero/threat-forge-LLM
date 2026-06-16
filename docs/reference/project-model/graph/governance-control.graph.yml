@@ -4,12 +4,10 @@ change_control:
   - graph-traceability:DEC-0029
   satisfies:
   - graph-traceability:REQ-0038
-  rationale: This graph part is loaded through the governed graph index as part of the complete modular
-    project-model layout.
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part shape
-    through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape through check-docs-format.mjs.
 part:
   area_id: governance-control
   title: Governance Control graph part
@@ -80,34 +78,6 @@ triples:
   object:
     id: governance-control:REQ-0015
     type: Requirement
-- subject:
-    id: governance-control:REQ-0012
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
-- subject:
-    id: governance-control:REQ-0013
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
-- subject:
-    id: governance-control:REQ-0014
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
-- subject:
-    id: governance-control:REQ-0015
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
 - subject:
     id: governance-control:REQ-0012
     type: Requirement
@@ -200,13 +170,6 @@ triples:
     id: governance-control:REQ-0016
     type: Requirement
 - subject:
-    id: governance-control:REQ-0016
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
-- subject:
     id: governance-control:DEC-0010
     type: Decision
   predicate: DECIDES
@@ -262,13 +225,6 @@ triples:
   object:
     id: governance-control:REQ-0017
     type: Requirement
-- subject:
-    id: governance-control:REQ-0017
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
 - subject:
     id: governance-control:DEC-0010
     type: Decision
@@ -346,13 +302,6 @@ triples:
   object:
     id: governance-control:REQ-0018
     type: Requirement
-- subject:
-    id: governance-control:REQ-0018
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
 - subject:
     id: governance-control:DEC-0010
     type: Decision
@@ -423,13 +372,6 @@ triples:
   object:
     id: governance-control:REQ-0019
     type: Requirement
-- subject:
-    id: governance-control:REQ-0019
-    type: Requirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
 - subject:
     id: governance-control:DEC-0010
     type: Decision

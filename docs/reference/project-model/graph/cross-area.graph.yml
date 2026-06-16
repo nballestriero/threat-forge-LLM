@@ -715,20 +715,6 @@ triples:
     id: tools/docs/check-validator-negative-fixtures.mjs
     type: SourceFile
 - subject:
-    id: MR-0002
-    type: MacroRequirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-BACKEND-ARCHITECTURE
-    type: Capability
-- subject:
-    id: MR-0003
-    type: MacroRequirement
-  predicate: BELONGS_TO_CAPABILITY
-  object:
-    id: CAP-GOVERNANCE-CONTROL
-    type: Capability
-- subject:
     id: backend-architecture:REQ-0011
     type: Requirement
   predicate: SUPPORTS
