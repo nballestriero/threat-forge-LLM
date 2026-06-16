@@ -40,48 +40,59 @@ Status: in progress.
 - M000.023B - Graph matrix explicit schema contract.
 - M000.023C - Graph matrix schema-driven validation.
 - M000.023D - Single schema validation entrypoint governance.
+- M000.024A - Project model modularization roadmap.
+- M000.024B - Project model modularization analysis.
 
 ## Next steps
 
 ### M000.024 - Project model modularization
 
-Goal: split the growing project-model registries by governed capability area while preserving deterministic validation, traceability, and a single logical model.
+Goal: split the growing project-model registries by governed project-model area while preserving deterministic validation, traceability, and a single logical model.
 
-Status: planned.
+Status: in progress.
 
 Design direction:
 
 - Use canonical composite identifiers in the form `<area_id>:<local_id>` so local sequences can restart inside each governed area.
+- Introduce `project_model_areas` as an explicit controlled taxonomy before broad modular extraction.
 - Keep central index files for requirements, graph traceability, and decisions.
 - Move area-specific requirements, graph triples, and decisions into area parts loaded from the indexes.
+- Use a dedicated cross-area graph part for relationships whose subject and object belong to different project-model areas.
 - Keep `tools/docs/check-docs-format.mjs` as the single JSON Schema validation entrypoint.
 - Keep `tools/docs/check-project-model.mjs` responsible for semantic aggregation and cross-file validation.
 - Keep `tools/docs/check-docs-structure.mjs` responsible for required files, directories, and repository structure.
+- Prefer clean coordinated breaking changes over long-term compatibility with the current monolithic layout because the project is before first release.
 
 Planned micropasses:
 
-- M000.024A - Project model modularization roadmap.
+- M000.024A - Project model modularization roadmap. Completed.
   - Scope: record the planned split of requirements, graph traceability, and decisions in this workplan.
   - No schema, loader, graph, or registry migration yet.
-- M000.024B - Project model modularization analysis.
-  - Scope: define area IDs, composite ID rules, index/part boundaries, cross-area relationship ownership, and decision ownership.
+- M000.024B - Project model modularization analysis. Completed.
+  - Scope: define area IDs, composite ID rules, index/part boundaries, cross-area relationship ownership, decision ownership, taxonomy governance, and clean migration policy.
   - No file migration yet.
-- M000.024C - Requirements index and part schema contracts.
+- M000.024C - Project model areas taxonomy contract.
+  - Scope: introduce `project_model_areas` as a governed taxonomy with value descriptions and bidirectional traceability requirements.
+  - No modular requirements, graph, or decision extraction yet.
+- M000.024D - Project model areas taxonomy enforcement.
+  - Scope: add deterministic validation and negative fixture coverage for `project_model_areas` before modular parts rely on it broadly.
+  - Keep JSON Schema execution in `check-docs-format.mjs` and semantic taxonomy checks in `check-project-model.mjs`.
+- M000.024E - Requirements index and part schema contracts.
   - Scope: design the future requirements index and requirements part schemas while preserving current validation entrypoint rules.
   - No full requirements extraction yet.
-- M000.024D - Graph index and part schema contracts.
+- M000.024F - Graph index and part schema contracts.
   - Scope: design graph index and graph part schemas, including cross-area graph part policy.
   - No full graph extraction yet.
-- M000.024E - Decisions index and part schema contracts.
+- M000.024G - Decisions index and part schema contracts.
   - Scope: design decision index and decision part schemas, distinguishing global decisions from area decisions.
   - No full decision extraction yet.
-- M000.024F - Modular project model loader design.
+- M000.024H - Modular project model loader design.
   - Scope: define how format and semantic validators will load index files and aggregate parts into one logical model.
   - No broad migration yet.
-- M000.024G - First capability area extraction.
+- M000.024I - First capability area extraction.
   - Scope: extract one small capability area, preferably schema validation governance, across requirements, graph triples, and decisions.
-  - Keep compatibility with existing checks.
-- M000.024H - Remaining capability area extraction plan.
+  - Prefer a clean coordinated migration over long-term dual support.
+- M000.024J - Remaining capability area extraction plan.
   - Scope: use the first extraction results to plan the remaining area splits and required follow-up gates.
   - Avoid a single large migration commit.
 

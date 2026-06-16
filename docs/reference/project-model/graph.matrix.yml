@@ -192,6 +192,10 @@ nodes:
     type: "Document"
     description: "Field-level design analysis for the explicit graph matrix schema."
 
+  - id: "docs/reference/project-model/schema-design/project-model-modularization-analysis.md"
+    type: "Document"
+    description: "Design analysis for modularizing requirements, graph traceability, and decisions by governed project-model area."
+
 triples:
   - subject:
       id: "MR-0001"
@@ -3343,6 +3347,87 @@ triples:
 
   - subject:
       id: "REQ-0033"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-CHECK"
+      type: "Gate"
+
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0034"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0025"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0034"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0033"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schema-design/project-model-modularization-analysis.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-structure.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-STRUCTURE"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0034"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0034"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:

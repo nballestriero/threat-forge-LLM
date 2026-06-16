@@ -2912,3 +2912,103 @@ requirements:
         - "source-comment"
         - "yaml"
         - "command"
+        - "tool-output"
+
+  - id: "REQ-0034"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Project model modularization analysis"
+    statement: >
+      The project shall define the modularization model for requirements,
+      graph traceability, and decisions before splitting monolithic project-model
+      registries into area-owned parts.
+    rationale: >
+      requirements.registry.yml, graph.matrix.yml, and governance.registry.yml
+      are growing together. Splitting only one artifact would move the scaling
+      problem elsewhere and could break deterministic traceability. The project
+      needs a governed analysis that defines composite identifiers, project-model
+      areas, index and part boundaries, decision ownership, cross-area graph
+      relationships, and validator responsibilities before any migration.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "documentation"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0034-001"
+        statement: "The governance, requirements, and graph matrix registries are schema-controlled baseline artifacts."
+
+      - id: "PRE-REQ-0034-002"
+        statement: "REQ-0033 establishes tools/docs/check-docs-format.mjs as the single JSON Schema validation entrypoint for governed artifacts."
+
+      - id: "PRE-REQ-0034-003"
+        statement: "The project is before first release, so coordinated clean breaking changes are allowed for project-model refactoring."
+
+    main_flow:
+      - id: "FLOW-REQ-0034-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Defines the canonical composite identifier form <area_id>:<local_id>."
+        expected_result: "Future modular registries can restart local sequences inside governed project-model areas."
+
+      - id: "FLOW-REQ-0034-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Defines requirements, graph, and decision index/part boundaries."
+        expected_result: "The future project model can split growing files without losing one aggregated logical model."
+
+      - id: "FLOW-REQ-0034-003"
+        step: 3
+        actor: "Maintainer"
+        action: "Defines that project_model_areas must be a controlled taxonomy with deterministic validation and bidirectional traceability before broad extraction."
+        expected_result: "Modularization does not rely on free-form area identifiers."
+
+      - id: "FLOW-REQ-0034-004"
+        step: 4
+        actor: "Maintainer"
+        action: "Defines clean migration policy for the pre-release project model."
+        expected_result: "Future migration steps prefer coordinated breaking changes over long-term compatibility with the monolithic layout."
+
+    alternative_flows:
+      - id: "ALT-REQ-0034-001"
+        title: "A taxonomy is introduced during modularization"
+        trigger: "A modular file or index introduces a new controlled taxonomy such as project_model_areas."
+        steps:
+          - id: "FLOW-REQ-0034-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Introduces a dedicated taxonomy contract and enforcement step with graph and tool traceability before broad use."
+            expected_result: "New taxonomy values are controlled by deterministic validation rather than convention."
+
+    postconditions:
+      - id: "POST-REQ-0034-001"
+        statement: "The modularization analysis document exists under docs/reference/project-model/schema-design."
+
+      - id: "POST-REQ-0034-002"
+        statement: "The workplan records the taxonomy contract and enforcement steps before requirements, graph, or decision part extraction."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0034-001"
+        statement: "docs/reference/project-model/schema-design/project-model-modularization-analysis.md exists."
+
+      - id: "AC-REQ-0034-002"
+        statement: "The analysis defines <area_id>:<local_id> as the future canonical composite identifier model."
+
+      - id: "AC-REQ-0034-003"
+        statement: "The analysis covers requirements parts, graph parts, decision parts, cross-area graph ownership, and central indexes."
+
+      - id: "AC-REQ-0034-004"
+        statement: "The analysis states that project_model_areas must be a governed taxonomy with deterministic validation, bidirectional implementation traceability, and negative fixture coverage before broad use."
+
+      - id: "AC-REQ-0034-005"
+        statement: "The analysis states that the migration may prefer clean coordinated breaking changes over preserving compatibility with the monolithic layout."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "document"
+        - "registry-entry"
+        - "yaml"
+        - "command"
+        - "tool-output"

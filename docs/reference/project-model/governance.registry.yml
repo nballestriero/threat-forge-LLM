@@ -676,6 +676,32 @@ decisions:
       - "New schema-controlled artifacts must extend the format validator rather than introduce duplicate schema validators."
 
 
+
+  - id: "DEC-0025"
+    title: "Project model modularization uses governed areas and clean migration"
+    status: "accepted"
+    statement: >
+      Requirements, graph traceability, and decisions shall be modularized by
+      governed project-model area using canonical composite identifiers in the
+      form <area_id>:<local_id>. The `area_id` value shall be controlled by an
+      explicit `project_model_areas` taxonomy, aligned with capabilities where
+      useful but not derived from capability_id automatically.
+    rationale: >
+      requirements.registry.yml, graph.matrix.yml, and governance.registry.yml
+      are growing together. A requirements-only split would leave graph triples
+      and decisions as monolithic scaling bottlenecks. A governed area boundary
+      gives requirements, graph parts, and decisions the same ownership model
+      while allowing local identifier sequences to restart safely. Since the
+      project is before first release, clean coordinated breaking changes are
+      preferable to preserving long-term compatibility with the current
+      monolithic layout.
+    consequences:
+      - "Future modular requirements, graph, and decision files use central indexes and area-owned parts."
+      - "Canonical references use <area_id>:<local_id> once modular loaders are introduced."
+      - "The project_model_areas taxonomy must be introduced with deterministic validation, bidirectional implementation traceability, and negative fixture evidence before broad use."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint, while check-project-model.mjs aggregates modular parts and validates semantics."
+      - "Long-term compatibility with the monolithic layout is not a requirement during the pre-release migration."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
