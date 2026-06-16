@@ -788,6 +788,26 @@ decisions:
       - "check-docs-format.mjs remains responsible only for local schema and format validation."
 
 
+  - id: "DEC-0028"
+    title: "Requirements modularization uses index and area part contracts"
+    status: "accepted"
+    statement: >
+      The requirements registry shall evolve toward a central requirements index
+      and area-owned requirements part files governed by future requirements
+      index and part schema contracts.
+    rationale: >
+      requirements.registry.yml is growing as macro requirements, atomic
+      requirements, flows, acceptance criteria, verification evidence, and
+      governance requirements accumulate. Splitting by governed project-model
+      area keeps local files readable while preserving one aggregated
+      requirements model.
+    consequences:
+      - "requirements.registry.yml remains the canonical loading entrypoint but should become an index in the modular model."
+      - "Future requirements parts use registered project_model_areas values and canonical <area_id>:<local_id> identities."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future requirements index and part schemas."
+      - "check-project-model.mjs remains responsible for semantic aggregation, parent macro resolution, capability references, and traceability."
+      - "No existing requirements are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

@@ -3201,3 +3201,82 @@ requirements:
         - "source-comment"
         - "command"
         - "tool-output"
+
+  - id: "REQ-0037"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Requirements index and part schema contracts"
+    statement: >
+      The project shall define the future requirements index and requirements
+      part schema contract before splitting the monolithic requirements
+      registry into area-owned part files.
+    rationale: >
+      Requirements modularization changes identifier semantics, loading
+      boundaries, parent macro resolution, graph references, and schema
+      validation. Defining the contract first prevents an ad hoc split that
+      duplicates validation logic or loses traceability.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "documentation"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0037-001"
+        statement: "REQ-0034 defines the overall project model modularization model."
+      - id: "PRE-REQ-0037-002"
+        statement: "REQ-0036 enforces project_model_areas before modular parts rely broadly on area_id values."
+
+    main_flow:
+      - id: "FLOW-REQ-0037-001"
+        step: 1
+        actor: "Project model maintainer"
+        action: "Defines requirements.registry.yml as the future requirements index entrypoint."
+        expected_result: "The central requirements file remains the canonical loading boundary."
+      - id: "FLOW-REQ-0037-002"
+        step: 2
+        actor: "Project model maintainer"
+        action: "Defines area-owned requirements part files under docs/reference/project-model/requirements."
+        expected_result: "Future requirements can be split by registered project_model_areas values."
+      - id: "FLOW-REQ-0037-003"
+        step: 3
+        actor: "Project model maintainer"
+        action: "Defines the validation responsibility split for future requirements index and part schemas."
+        expected_result: "Schema validation remains in check-docs-format.mjs and semantic aggregation remains in check-project-model.mjs."
+
+    alternative_flows:
+      - id: "ALT-REQ-0037-001"
+        title: "Cross-area parent reference is needed"
+        trigger: "A future atomic requirement belongs to one area but depends on a macro requirement owned by another area."
+        steps:
+          - id: "FLOW-REQ-0037-ALT-001"
+            step: 1
+            actor: "Project model validator"
+            action: "Requires the parent reference to use canonical <area_id>:<local_id> identity."
+            expected_result: "Cross-area parent references remain explicit and deterministic."
+
+    postconditions:
+      - id: "POST-REQ-0037-001"
+        statement: "docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md defines the future requirements index and part contract."
+      - id: "POST-REQ-0037-002"
+        statement: "No existing requirements are migrated before graph and decisions contracts are also defined."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0037-001"
+        statement: "The contract document defines the future requirements index path and requirements part path pattern."
+      - id: "AC-REQ-0037-002"
+        statement: "The contract document states that canonical modular requirement identity uses <area_id>:<local_id>."
+      - id: "AC-REQ-0037-003"
+        statement: "The contract document preserves check-docs-format.mjs as the schema validation entrypoint."
+      - id: "AC-REQ-0037-004"
+        statement: "The contract document preserves check-project-model.mjs as the semantic aggregation and cross-file validation tool."
+      - id: "AC-REQ-0037-005"
+        statement: "The workplan keeps graph and decisions contracts before modular loader design and first area extraction."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "document"
+        - "yaml"
+        - "command"
+        - "tool-output"

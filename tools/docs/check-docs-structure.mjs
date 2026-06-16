@@ -86,6 +86,7 @@ const requiredFiles = [
   "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md",
   "docs/reference/project-model/schema-design/project-model-modularization-analysis.md",
   "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md",
+  "docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md",
   "docs/reference/project-model/schemas/governance-registry.schema.json",
   "docs/reference/project-model/schemas/requirements-registry.schema.json",
   "docs/reference/project-model/schemas/graph-matrix.schema.json",

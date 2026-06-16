@@ -44,6 +44,7 @@ Status: in progress.
 - M000.024B - Project model modularization analysis.
 - M000.024C - Project model areas taxonomy contract.
 - M000.024D - Project model areas taxonomy enforcement.
+- M000.024E - Requirements index and part schema contracts.
 
 ## Next steps
 
@@ -79,9 +80,9 @@ Planned micropasses:
 - M000.024D - Project model areas taxonomy enforcement. Completed.
   - Scope: add deterministic validation and negative fixture coverage for `project_model_areas` before modular parts rely on it broadly.
   - Enforced project_model_areas semantic checks in `check-project-model.mjs` and added invalid-project-model-area negative fixture coverage.
-- M000.024E - Requirements index and part schema contracts.
+- M000.024E - Requirements index and part schema contracts. Completed.
   - Scope: design the future requirements index and requirements part schemas while preserving current validation entrypoint rules.
-  - No full requirements extraction yet.
+  - Added the requirements index and part contract document; no requirements extraction or modular loader yet.
 - M000.024F - Graph index and part schema contracts.
   - Scope: design graph index and graph part schemas, including cross-area graph part policy.
   - No full graph extraction yet.
