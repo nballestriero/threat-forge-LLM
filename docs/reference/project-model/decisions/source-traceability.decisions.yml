@@ -149,3 +149,13 @@ decisions:
   - Manual git push is blocked when repo:check:clean detects uncommitted changes or unsafe artifacts.
   - The hook remains safe to maintain because all policy stays in tools/git/check-repository-clean.mjs.
   - Future commit/push orchestration can call the same command and does not need to special-case hook behavior.
+- id: DEC-0015
+  title: Governed commit/push command owns staging and fails closed
+  status: accepted
+  statement: The official commit/push command shall compute and stage the allowed Git change set internally instead of requiring developers to run git add manually.
+  rationale: Manual staging is a common source of accidental omissions, stale staged files, and generated artifact leakage. The governed command should make the normal path safe by default, while still rejecting unexpected paths so unusual repository changes receive explicit review.
+  consequences:
+  - repo:commit-push becomes the preferred command for normal reviewed changes after a drop-in is applied.
+  - The command computes changed paths from Git status and stages only allowed repository paths.
+  - The command rejects artifacts/, temporary archives, generated handoff manifests, and paths outside the governed automatic-staging allowlist.
+  - docs:check, git commit, repo:check:clean, and git push remain blocking stages whose failures require review before retrying.

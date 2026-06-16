@@ -162,11 +162,13 @@ Micropasses:
 - M000.025E3 - Pre-push hook. Completed.
   - Scope: add the versioned .githooks/pre-push hook, require the hook file through structure validation, and trace the hook to the governed repository cleanliness command.
   - The hook delegates to npm run repo:check:clean and contains no duplicate cleanliness policy.
+- M000.025E4 - Governed commit/push command. Completed.
+  - Scope: add repo:commit-push as the governed command that computes Git changes, stages only allowed paths, runs docs:check, commits, runs repo:check:clean, and pushes.
+  - The command fails closed for forbidden paths, generated artifacts, temporary archives, handoff manifests, unknown repository roots, empty commit messages, and blocking gate failures.
 
 Expected follow-up scope:
 
-- add a pre-push hook that invokes the governed cleanliness check. Completed by M000.025E3.
-- add a governed commit/push helper that runs checks, commits, verifies cleanliness, and pushes
+- use npm run repo:commit-push -- "message" as the preferred normal commit/push flow after applying reviewed changes
 - add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable
 - keep protected artifact root detection as part of the cleanliness guard workstream
 

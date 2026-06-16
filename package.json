@@ -18,7 +18,8 @@
     "docs:check": "npm run docs:check:structure && npm run docs:check:model && npm run docs:check:format && npm run docs:check:control-report && npm run docs:check:control-page && npm run docs:test:negative",
     "check": "npm run docs:check",
     "precommit": "npm run docs:check",
-    "repo:check:clean": "node tools/git/check-repository-clean.mjs"
+    "repo:check:clean": "node tools/git/check-repository-clean.mjs",
+    "repo:commit-push": "node tools/git/commit-and-push.mjs"
   },
   "dependencies": {
     "yaml": "^2.6.1"

@@ -777,3 +777,90 @@ requirements:
     - git-hook
     - command
     - tool-output
+- id: REQ-0015
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Governed commit and push command with computed staging
+  statement: The project shall provide a governed commit/push command that computes the Git change set internally, stages only allowed repository paths, runs blocking validation gates, commits, verifies post-commit cleanliness, and pushes only when all gates pass.
+  rationale: A governed helper that still requires manual git add can accidentally omit new files, include stale staging, or allow unsafe artifacts to enter review by habit. Computing the change set from Git status and failing closed for forbidden or unknown paths gives the project one auditable flow for normal changes while preserving human review for unusual repository additions.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0015-001
+    statement: repo:check:clean is available as the canonical post-commit/pre-push cleanliness command.
+  - id: PRE-REQ-0015-002
+    statement: docs:check remains the canonical pre-commit content validation gate.
+  - id: PRE-REQ-0015-003
+    statement: The repository has a controlled set of paths that may be staged automatically by the governed command.
+  main_flow:
+  - id: FLOW-REQ-0015-001
+    step: 1
+    actor: Developer
+    action: Runs npm run repo:commit-push with a non-empty commit message.
+    expected_result: The governed command starts from the current Git status instead of requiring manual staging.
+  - id: FLOW-REQ-0015-002
+    step: 2
+    actor: Governed commit/push command
+    action: Computes changed, new, renamed, and deleted repository paths from Git status.
+    expected_result: The exact candidate change set is known before staging.
+  - id: FLOW-REQ-0015-003
+    step: 3
+    actor: Governed commit/push command
+    action: Rejects forbidden paths, generated artifacts, temporary archives, and paths outside the automatic-staging allowlist.
+    expected_result: Unsafe or unusual paths require explicit review before the flow can continue.
+  - id: FLOW-REQ-0015-004
+    step: 4
+    actor: Governed commit/push command
+    action: Stages only the computed allowed paths and runs npm run docs:check.
+    expected_result: The commit includes the reviewed change set and cannot proceed if blocking documentation/model gates fail.
+  - id: FLOW-REQ-0015-005
+    step: 5
+    actor: Governed commit/push command
+    action: Creates the commit, runs npm run repo:check:clean, and pushes.
+    expected_result: The push occurs only after the commit is created and the repository is clean.
+  alternative_flows:
+  - id: ALT-REQ-0015-001
+    title: Change set contains forbidden or unknown path
+    trigger: Git status reports artifacts/, temporary archives, generated manifests, or a path outside the automatic-staging allowlist.
+    steps:
+    - id: FLOW-REQ-0015-ALT-001
+      step: 1
+      actor: Governed commit/push command
+      action: Prints the rejected path and exits with failure before staging.
+      expected_result: The developer must review the path and either remove it or intentionally update the governed allowlist in a separate reviewed change.
+  - id: ALT-REQ-0015-002
+    title: Blocking validation gate fails
+    trigger: docs:check, git commit, repo:check:clean, or git push exits with failure.
+    steps:
+    - id: FLOW-REQ-0015-ALT-002
+      step: 1
+      actor: Governed commit/push command
+      action: Propagates the failing command status and prints that review is required.
+      expected_result: The flow stops before later stages can hide the failed gate.
+  postconditions:
+  - id: POST-REQ-0015-001
+    statement: Normal repository changes can be committed and pushed through one governed command.
+  - id: POST-REQ-0015-002
+    statement: The command stages internally and does not require manual git add.
+  - id: POST-REQ-0015-003
+    statement: The command fails closed when it sees unsafe paths, gate failures, or post-commit dirty state.
+  acceptance_criteria:
+  - id: AC-REQ-0015-001
+    statement: package.json exposes repo:commit-push as a governed npm script.
+  - id: AC-REQ-0015-002
+    statement: The command computes the Git change set internally and stages only allowed changed paths.
+  - id: AC-REQ-0015-003
+    statement: The command rejects artifacts/, generated ZIP/log/temp files, generated handoff manifests, and paths outside the automatic-staging allowlist.
+  - id: AC-REQ-0015-004
+    statement: The command runs docs:check before git commit and repo:check:clean after git commit.
+  - id: AC-REQ-0015-005
+    statement: The graph records the command, validation tool, source file, requirement, decision, and post-commit cleanliness dependency.
+  verification:
+    method: test
+    required_evidence:
+    - command
+    - source-comment
+    - tool-output

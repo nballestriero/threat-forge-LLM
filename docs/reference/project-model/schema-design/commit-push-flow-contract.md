@@ -46,14 +46,19 @@ Blocking failures at this layer indicate that a commit was incomplete or that ge
 
 ### Governed commit/push command
 
-A future governed command shall provide the standard operator path for repository changes. The command should:
+The governed command provides the standard operator path for repository changes. The command must own staging rather than requiring a manual `git add` step. It shall:
 
-1. run `docs:check`
-2. create the requested commit when the gate passes
-3. run `repo:check:clean`
-4. push only if the post-commit cleanliness gate passes
+1. read Git status and compute the changed, new, renamed, and deleted path set
+2. reject forbidden paths, generated artifacts, temporary archives, handoff manifests, and paths outside the governed automatic-staging allowlist
+3. stage only the computed allowed paths
+4. run `docs:check`
+5. create the requested commit when the gate passes
+6. run `repo:check:clean`
+7. push only if the post-commit cleanliness gate passes
 
-The command must fail closed: a blocking gate must stop the commit or push and report that human review is required. It must not silently add files, silently bypass hooks, or automatically include `artifacts/`.
+The command must fail closed: a blocking gate must stop the commit or push and report that human review is required. It must not use `git add -A`, silently bypass hooks, or automatically include `artifacts/`.
+
+The automatic-staging allowlist is intentionally conservative. Normal governed project changes may be staged from `.githooks/`, `docs/`, `project/`, `tools/`, and selected root metadata files such as `package.json`, `package-lock.json`, `.gitignore`, `.gitattributes`, and `README.md`. A new path outside that boundary requires an intentional change to the allowlist and its traceability.
 
 ## Hook policy
 
@@ -72,4 +77,4 @@ The intended sequence is:
 1. Define this contract and the requirement/decision that governs it. Completed by M000.025E1.
 2. Add `repo:check:clean` as a governed script. Completed by M000.025E2.
 3. Add a Git `pre-push` hook that invokes the same clean check. Completed by M000.025E3.
-4. Add a governed commit/push helper command that runs checks, commits, verifies cleanliness, and pushes. Deferred to M000.025E4.
+4. Add a governed commit/push helper command that computes staging, runs checks, commits, verifies cleanliness, and pushes. Completed by M000.025E4.
