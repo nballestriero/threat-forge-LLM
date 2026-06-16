@@ -803,3 +803,95 @@ requirements:
     - command
     - tool-output
     - source-comment
+- id: REQ-0045
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Minimal requirement record model
+  statement: The project shall simplify the atomic requirement record so capability_id and scope are
+    removed from individual requirements, area_id is treated as a controlled subcategory of a macro
+    requirement, and requirement type describes the nature of the requirement rather than the domain
+    it applies to.
+  rationale: The current requirement record repeats classification data that can be derived from the
+    controlled macro requirement and area hierarchy. Keeping capability_id and scope on every atomic
+    requirement makes the model more verbose and harder to keep coherent. A smaller record keeps canonical
+    requirement semantics in structured YAML while avoiding duplicate category fields that are better
+    represented by macro-owned areas, statement, rationale, and graph relationships.
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: data
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0045-001
+    statement: Requirements are loaded through area-owned requirements part files.
+  - id: PRE-REQ-0045-002
+    statement: Each requirements part file declares the area_id that owns its local requirements.
+  - id: PRE-REQ-0045-003
+    statement: The existing model still requires capability_id and scope until the schema and validator
+      migration is performed.
+  main_flow:
+  - id: FLOW-REQ-0045-001
+    step: 1
+    actor: Maintainer
+    action: Registers each area_id under exactly one macro requirement or macro category.
+    expected_result: Requirement area ownership is controlled before individual requirement fields are
+      simplified.
+  - id: FLOW-REQ-0045-002
+    step: 2
+    actor: Maintainer
+    action: Treats capability_id as derived from the macro requirement and area hierarchy rather than
+      authored on each atomic requirement.
+    expected_result: Individual requirements no longer repeat capability classification.
+  - id: FLOW-REQ-0045-003
+    step: 3
+    actor: Maintainer
+    action: Treats scope as derived from area_id, statement, and rationale rather than authored on each
+      atomic requirement.
+    expected_result: Individual requirements no longer carry a separate scope field unless a future
+      controlled exception model is explicitly introduced.
+  - id: FLOW-REQ-0045-004
+    step: 4
+    actor: Maintainer
+    action: Replaces document-domain requirement type values with a controlled list that describes the
+      nature of the requirement.
+    expected_result: Requirement type distinguishes functional, security-control, governance-control,
+      structural, schema, tooling, verification, operational, and quality requirements.
+  alternative_flows:
+  - id: ALT-REQ-0045-001
+    title: Capability links remain during transition
+    trigger: Existing graph triples still use BELONGS_TO_CAPABILITY while capability_id is being removed
+      from atomic requirements.
+    steps:
+    - id: FLOW-REQ-0045-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Removes or replaces requirement capability triples in the same migration that removes
+        capability_id from requirement records.
+      expected_result: The graph does not preserve stale capability cross-references after the field
+        is removed.
+  postconditions:
+  - id: POST-REQ-0045-001
+    statement: The future requirement schema does not require capability_id on atomic requirements.
+  - id: POST-REQ-0045-002
+    statement: The future requirement schema does not require scope on atomic requirements.
+  - id: POST-REQ-0045-003
+    statement: The future requirement validator rejects uncontrolled area_id and macro_requirement_id
+      combinations.
+  acceptance_criteria:
+  - id: AC-REQ-0045-001
+    statement: The requirements governance decision records that capability_id and scope are transitional
+      fields to remove from atomic requirements.
+  - id: AC-REQ-0045-002
+    statement: The requirements governance decision records that each area_id belongs to exactly one
+      macro requirement or macro category.
+  - id: AC-REQ-0045-003
+    statement: The requirements governance decision records the future controlled requirement type list.
+  - id: AC-REQ-0045-004
+    statement: The migration plan records that BELONGS_TO_CAPABILITY graph triples must be removed or
+      replaced together with capability_id.
+  verification:
+    method: inspection
+    required_evidence:
+    - yaml
+    - registry-entry
+    - document

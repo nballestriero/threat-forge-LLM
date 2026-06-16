@@ -211,3 +211,32 @@ decisions:
   - REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR appear as fixed review text before
     they are introduced as governed predicates.
   - The aggregate documentation gate checks that the page can be rendered without writing tracked artifacts.
+- id: DEC-0036
+  title: Requirement records use macro-owned areas and minimal classification fields
+  status: accepted
+  statement: Atomic requirement records shall remove capability_id and scope after a dedicated schema
+    and validator migration, use area_id as a controlled subcategory of exactly one macro requirement
+    or macro category, and use type to describe the nature of the requirement rather than the document
+    or domain it applies to.
+  rationale: The generated requirements review exposed that capability_id and scope make each requirement
+    record harder to reason about without adding non-derivable meaning. The project already has macro
+    requirements and modular area-owned requirement parts. Making area_id a controlled subcategory of
+    the macro requirement gives a clearer hierarchy, while statement and rationale explain the concrete
+    application context. The capability field has existing graph cross-references through BELONGS_TO_CAPABILITY,
+    so field removal must be coordinated with graph cleanup instead of being treated as a simple YAML edit.
+  consequences:
+  - Each area_id must belong to exactly one macro requirement or macro category.
+  - Every requirements part file must declare its area_id and must contain only requirements owned by
+    that area.
+  - Requirement macro_requirement_id values must be coherent with the owning area_id.
+  - capability_id is a transitional field on atomic requirements and will be removed from the requirement
+    schema, validator, generated reports, and requirement review page in a later migration.
+  - scope is a transitional field on atomic requirements and will be removed from the requirement schema,
+    validator, generated reports, and requirement review page in a later migration.
+  - BELONGS_TO_CAPABILITY triples that mirror requirement capability_id values must be removed or replaced
+    during the capability_id migration.
+  - Requirement type shall describe requirement nature using functional, security-control, governance-control,
+    structural, schema, tooling, verification, operational, and quality values after the controlled taxonomy
+    migration.
+  - Explanation documents remain context, theory, principles, architecture, and design rationale; they
+    must not become canonical sources for requirements, schemas, commands, or procedures.
