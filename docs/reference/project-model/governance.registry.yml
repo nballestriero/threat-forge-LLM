@@ -765,6 +765,29 @@ decisions:
       - "Future schema and loader work shall validate area_id shape through check-docs-format.mjs and semantic membership through check-project-model.mjs."
       - "Negative fixture coverage for invalid area_id values is required before modular parts rely on the taxonomy broadly."
 
+  - id: "DEC-0027"
+    title: "Project model areas taxonomy is semantically enforced by the project model validator"
+    status: "accepted"
+    statement: >
+      The project_model_areas taxonomy shall be enforced by
+      tools/docs/check-project-model.mjs as semantic project-model validation,
+      while local YAML shape validation remains the responsibility of
+      tools/docs/check-docs-format.mjs.
+    rationale: >
+      project_model_areas defines future modular project-model ownership and
+      canonical <area_id>:<local_id> identifiers. Its values are not merely
+      local YAML shape; they are governed semantic identifiers that must remain
+      complete, unique, and deliberately controlled before modular parts rely
+      on them. Keeping this enforcement in the project-model validator preserves
+      the single schema validation entrypoint and avoids duplicating semantic
+      taxonomy checks in the format validator.
+    consequences:
+      - "check-project-model.mjs rejects missing, malformed, duplicate, or incomplete project_model_areas entries."
+      - "Negative fixture coverage proves invalid project_model_areas values fail deterministically."
+      - "Future area_id fields in modular index and part files shall reuse the same semantic taxonomy enforcement path."
+      - "check-docs-format.mjs remains responsible only for local schema and format validation."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

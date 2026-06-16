@@ -1,0 +1,13 @@
+{
+  "id": "invalid-project-model-area",
+  "description": "The project_model_areas taxonomy contains an invalid area identifier rejected by the project model semantic validator.",
+  "validator": "model",
+  "expected_error": "Invalid project_model_areas value 'schema_validation'",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/governance.registry.yml",
+      "replace": "    - id: \"schema-validation\"",
+      "with": "    - id: \"schema_validation\""
+    }
+  ]
+}

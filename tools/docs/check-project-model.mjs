@@ -22,6 +22,7 @@
  * - REQ-0026
  * - REQ-0028
  * - REQ-0031
+ * - REQ-0036
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -69,6 +70,9 @@ const GOVERNED_BASELINE_ARTIFACTS = [
 ];
 
 const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "REQ-0024", "REQ-0028", "REQ-0031"]);
+
+const PROJECT_MODEL_AREAS_TAXONOMY = "project_model_areas";
+const PROJECT_MODEL_AREA_ID_PATTERN = /^(global|[a-z][a-z0-9]*(?:-[a-z0-9]+)*)$/;
 
 const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
 const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
@@ -486,6 +490,10 @@ function buildIndexes(governance, requirements, matrix) {
     matrixNodes,
     triples,
     taxonomies,
+    taxonomyEntries: new Map(Object.entries(governance?.taxonomies ?? {}).map(([name, entries]) => [
+      name,
+      asArray(entries)
+    ])),
     governedIds,
     capabilityIds: idSet(capabilities),
     decisionIds: idSet(decisions),
@@ -497,6 +505,57 @@ function buildIndexes(governance, requirements, matrix) {
     matrixNodeIds: idSet(matrixNodes),
     predicateById: new Map(predicates.map((predicate) => [predicate.id, predicate]))
   };
+}
+
+/**
+ * Validates the governed project_model_areas taxonomy contract.
+ *
+ * The taxonomy is the future source of truth for modular project-model area_id
+ * values. This check enforces semantic membership prerequisites before modular
+ * requirements, graph, or decisions parts rely on area_id broadly.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateProjectModelAreasTaxonomy(indexes) {
+  const areas = indexes.taxonomyEntries.get(PROJECT_MODEL_AREAS_TAXONOMY);
+
+  if (!areas) {
+    errors.push(`Missing taxonomy '${PROJECT_MODEL_AREAS_TAXONOMY}' required for project-model modularization`);
+    return;
+  }
+
+  const seenAreaIds = new Map();
+
+  for (const [index, area] of areas.entries()) {
+    const id = area?.id;
+    const location = `${PROJECT_MODEL_AREAS_TAXONOMY}[${index}]`;
+
+    if (!id || !PROJECT_MODEL_AREA_ID_PATTERN.test(id)) {
+      errors.push(`Invalid project_model_areas value '${id ?? "<missing>"}' at ${location}`);
+      continue;
+    }
+
+    const locations = seenAreaIds.get(id) ?? [];
+    locations.push(location);
+    seenAreaIds.set(id, locations);
+
+    for (const field of ["description", "rationale", "validation_impact"]) {
+      if (typeof area?.[field] !== "string" || area[field].trim().length === 0) {
+        errors.push(`project_model_areas value '${id}' must declare non-empty ${field}`);
+      }
+    }
+  }
+
+  for (const [id, locations] of seenAreaIds.entries()) {
+    if (locations.length > 1) {
+      errors.push(`Duplicate project_model_areas value '${id}' at: ${locations.join(", ")}`);
+    }
+  }
+
+  if (!seenAreaIds.has("global")) {
+    errors.push("project_model_areas must declare the required global area");
+  }
 }
 
 /**
@@ -1169,6 +1228,7 @@ const packageJson = readJson(MODEL_FILES.packageJson);
 if (governance && requirements && matrix && governanceRegistrySchema && requirementsRegistrySchema && graphMatrixSchema && packageJson) {
   const indexes = buildIndexes(governance, requirements, matrix);
   validateTaxonomies(indexes);
+  validateProjectModelAreasTaxonomy(indexes);
   validateIds(indexes);
   validateRegistryReferences(indexes);
   validateTriples(indexes);

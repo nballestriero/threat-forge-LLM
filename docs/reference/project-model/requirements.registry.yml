@@ -3111,3 +3111,93 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+  - id: "REQ-0036"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Project model areas taxonomy enforcement"
+    statement: >
+      The project model validator shall enforce the governed
+      project_model_areas taxonomy before modular requirements, graph, or
+      decision parts rely broadly on area_id values.
+    rationale: >
+      M000.024C introduced the taxonomy contract, but a contract alone is not
+      enough. The future modular project model will use area_id values as part
+      of canonical identifiers and file ownership boundaries. The semantic
+      validator must therefore reject invalid, duplicate, incomplete, or
+      ungoverned project_model_areas entries before modular loaders and part
+      files are introduced.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0036-001"
+        statement: "REQ-0035 introduces project_model_areas as a governed taxonomy contract."
+
+      - id: "PRE-REQ-0036-002"
+        statement: "DEC-0026 separates project_model_areas from capability_id derivation."
+
+    main_flow:
+      - id: "FLOW-REQ-0036-001"
+        step: 1
+        actor: "Project model validator"
+        action: "Loads taxonomies.project_model_areas from governance.registry.yml."
+        expected_result: "The semantic validator can use the governed taxonomy as the source of truth for future area_id values."
+
+      - id: "FLOW-REQ-0036-002"
+        step: 2
+        actor: "Project model validator"
+        action: "Rejects missing, malformed, duplicate, or incomplete project_model_areas entries."
+        expected_result: "The area taxonomy cannot silently degrade into free-form labels."
+
+      - id: "FLOW-REQ-0036-003"
+        step: 3
+        actor: "Negative fixture runner"
+        action: "Exercises an invalid project_model_areas value against the project model validator."
+        expected_result: "The validator rejects the invalid fixture with a deterministic diagnostic."
+
+    alternative_flows:
+      - id: "ALT-REQ-0036-001"
+        title: "Future modular part uses area_id"
+        trigger: "Requirements, graph, or decision part files introduce area_id fields."
+        steps:
+          - id: "FLOW-REQ-0036-ALT-001"
+            step: 1
+            actor: "Project model validator"
+            action: "Validates that the referenced area_id exists in project_model_areas after loading the index and part files."
+            expected_result: "Future modular parts use the same taxonomy enforcement path instead of local ad hoc checks."
+
+    postconditions:
+      - id: "POST-REQ-0036-001"
+        statement: "tools/docs/check-project-model.mjs enforces the semantic project_model_areas taxonomy contract."
+
+      - id: "POST-REQ-0036-002"
+        statement: "A controlled negative fixture proves invalid project_model_areas values are rejected."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0036-001"
+        statement: "check-project-model.mjs rejects project_model_areas values with invalid local ID shape."
+
+      - id: "AC-REQ-0036-002"
+        statement: "check-project-model.mjs rejects project_model_areas entries missing description, rationale, or validation impact."
+
+      - id: "AC-REQ-0036-003"
+        statement: "check-project-model.mjs rejects duplicate project_model_areas values."
+
+      - id: "AC-REQ-0036-004"
+        statement: "tools/docs/fixtures/negative/invalid-project-model-area.json exercises the taxonomy enforcement path."
+
+      - id: "AC-REQ-0036-005"
+        statement: "The project model graph traces REQ-0036 to the project_model_areas taxonomy, the semantic validator, the project-model gate, and the negative-fixture gate."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "registry-entry"
+        - "yaml"
+        - "source-comment"
+        - "command"
+        - "tool-output"

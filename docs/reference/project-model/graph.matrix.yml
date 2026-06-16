@@ -3569,3 +3569,99 @@ triples:
     object:
       id: "GATE-DOCS-CHECK"
       type: "Gate"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0036"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0027"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0036"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0027"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "project_model_areas"
+      type: "Taxonomy"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0035"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "TOOL-PROJECT-MODEL-CHECK"
+      type: "ValidationTool"
+    predicate: "VALIDATES"
+    object:
+      id: "project_model_areas"
+      type: "Taxonomy"
+
+  - subject:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+    predicate: "VALIDATES"
+    object:
+      id: "project_model_areas"
+      type: "Taxonomy"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-VALIDATOR-NEGATIVE-FIXTURES"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0036"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-CHECK"
+      type: "Gate"

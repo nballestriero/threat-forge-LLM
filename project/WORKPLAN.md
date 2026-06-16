@@ -42,6 +42,8 @@ Status: in progress.
 - M000.023D - Single schema validation entrypoint governance.
 - M000.024A - Project model modularization roadmap.
 - M000.024B - Project model modularization analysis.
+- M000.024C - Project model areas taxonomy contract.
+- M000.024D - Project model areas taxonomy enforcement.
 
 ## Next steps
 
@@ -74,9 +76,9 @@ Planned micropasses:
 - M000.024C - Project model areas taxonomy contract. Completed.
   - Scope: introduce `project_model_areas` as a governed taxonomy with value descriptions and bidirectional traceability requirements.
   - Added the project-model area value contract; no modular requirements, graph, or decision extraction yet.
-- M000.024D - Project model areas taxonomy enforcement.
+- M000.024D - Project model areas taxonomy enforcement. Completed.
   - Scope: add deterministic validation and negative fixture coverage for `project_model_areas` before modular parts rely on it broadly.
-  - Keep JSON Schema execution in `check-docs-format.mjs` and semantic taxonomy checks in `check-project-model.mjs`.
+  - Enforced project_model_areas semantic checks in `check-project-model.mjs` and added invalid-project-model-area negative fixture coverage.
 - M000.024E - Requirements index and part schema contracts.
   - Scope: design the future requirements index and requirements part schemas while preserving current validation entrypoint rules.
   - No full requirements extraction yet.
