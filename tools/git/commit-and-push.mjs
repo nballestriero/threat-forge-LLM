@@ -112,43 +112,40 @@ function resolveExecutable(command) {
 }
 
 /**
- * Resolves an npm script invocation.
+ * Resolves an npm script invocation without enabling shell mode.
  *
- * On Windows, npm is normally exposed through a .cmd shim. That shim cannot be
- * executed reliably with shell=false, while enabling shell=true for every
- * command would split commit-message arguments. Keep Git shell-free and use a
- * shell only for npm script invocations, whose arguments are controlled script
- * names without user-provided whitespace.
+ * When this command is launched through `npm run repo:commit-push`, npm exposes
+ * the JavaScript CLI path through npm_execpath. Invoking that CLI with the
+ * current Node executable avoids Windows shell shims, keeps arguments escaped by
+ * argv boundaries, and removes Node DEP0190 warnings.
  *
  * @param {string} scriptName - package.json script name.
- * @returns {{ command: string, args: string[], shell: boolean }} Invocation.
+ * @returns {{ command: string, args: string[] }} Invocation.
  */
 function resolveNpmScriptInvocation(scriptName) {
-  if (process.platform === "win32") {
-    return { command: "npm", args: ["run", scriptName], shell: true };
+  const npmExecPath = process.env.npm_execpath;
+  if (npmExecPath) {
+    return { command: process.execPath, args: [npmExecPath, "run", scriptName] };
   }
 
-  return { command: "npm", args: ["run", scriptName], shell: false };
+  return { command: "npm", args: ["run", scriptName] };
 }
 
 /**
  * Runs a command with inherited stdio and fails closed on non-zero status.
  *
- * The default execution path avoids shell mode so arguments containing spaces,
- * such as commit messages, are passed as one argv entry. Callers may explicitly
- * enable shell mode only for controlled invocations such as npm script names.
+ * The command avoids shell mode so arguments containing spaces, such as commit
+ * messages, are passed as one argv entry on every supported platform.
  *
  * @param {string} command - Executable name.
  * @param {string[]} args - Command arguments.
  * @param {string} failureMessage - Message printed when the command fails.
- * @param {{ shell?: boolean }} [options] - Spawn options.
  * @returns {void}
  */
-function runBlocking(command, args, failureMessage, options = {}) {
-  const useShell = options.shell === true;
-  const result = spawnSync(useShell ? command : resolveExecutable(command), args, {
+function runBlocking(command, args, failureMessage) {
+  const result = spawnSync(resolveExecutable(command), args, {
     stdio: "inherit",
-    shell: useShell
+    shell: false
   });
 
   if (result.error) {
@@ -173,7 +170,7 @@ function runBlocking(command, args, failureMessage, options = {}) {
  */
 function runNpmScript(scriptName, failureMessage) {
   const invocation = resolveNpmScriptInvocation(scriptName);
-  runBlocking(invocation.command, invocation.args, failureMessage, { shell: invocation.shell });
+  runBlocking(invocation.command, invocation.args, failureMessage);
 }
 
 /**
