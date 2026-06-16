@@ -1,0 +1,408 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://threat-forge-llm.local/schemas/project-model/governance-registry.schema.json",
+  "title": "Governance Registry Schema",
+  "description": "Canonical shape contract for docs/reference/project-model/governance.registry.yml after YAML parsing.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-change_control": {
+    "decided_by": [
+      "DEC-0015"
+    ],
+    "satisfies": [
+      "REQ-0024"
+    ],
+    "rationale": "This schema is a governed baseline artifact and therefore declares file-local traceability that deterministic validation can compare against graph.matrix.yml relationships."
+  },
+  "required": [
+    "schema_version",
+    "change_control",
+    "registry",
+    "taxonomies",
+    "capabilities",
+    "decisions",
+    "document_types",
+    "body_profiles",
+    "node_types",
+    "predicates"
+  ],
+  "properties": {
+    "schema_version": {
+      "$ref": "#/$defs/schemaVersion"
+    },
+    "change_control": {
+      "$ref": "#/$defs/changeControl"
+    },
+    "registry": {
+      "$ref": "#/$defs/registryMetadata"
+    },
+    "taxonomies": {
+      "$ref": "#/$defs/taxonomies"
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/capability"
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/decision"
+      }
+    },
+    "document_types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/documentType"
+      }
+    },
+    "body_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/bodyProfile"
+      }
+    },
+    "node_types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/nodeType"
+      }
+    },
+    "predicates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/predicate"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "textBlock": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ],
+      "description": "Current governed registry schema version. Future versions require explicit governance."
+    },
+    "requirementId": {
+      "type": "string",
+      "pattern": "^REQ-[0-9]{4}$"
+    },
+    "decisionId": {
+      "type": "string",
+      "pattern": "^DEC-[0-9]{4}$"
+    },
+    "capabilityId": {
+      "type": "string",
+      "pattern": "^CAP-[A-Z0-9-]+$"
+    },
+    "bodyProfileId": {
+      "type": "string",
+      "pattern": "^BODY-[A-Z0-9-]+$"
+    },
+    "predicateId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]*$"
+    },
+    "nodeTypeId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$"
+    },
+    "kebabId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "taxonomyName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "changeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decided_by",
+        "satisfies",
+        "rationale"
+      ],
+      "properties": {
+        "decided_by": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/decisionId"
+          },
+          "uniqueItems": true
+        },
+        "satisfies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/requirementId"
+          },
+          "uniqueItems": true
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "registryMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "const": "project-governance-registry"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "accepted",
+            "deprecated",
+            "superseded"
+          ]
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "taxonomyValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "validation_impact": {
+          "$ref": "#/$defs/textBlock"
+        }
+      },
+      "description": "A controlled value. Rationale and validation impact are optional in this first schema and must become mandatory after taxonomy enrichment."
+    },
+    "taxonomies": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/$defs/taxonomyName"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/$defs/taxonomyValue"
+        }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/capabilityId"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.capability_status."
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "statement",
+        "rationale",
+        "consequences"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/decisionId"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by taxonomies.decision_status."
+        },
+        "statement": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "consequences": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        }
+      }
+    },
+    "documentType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "diataxis_section",
+        "description",
+        "body_profile_id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/kebabId"
+        },
+        "diataxis_section": {
+          "type": "string",
+          "enum": [
+            "tutorials",
+            "how-to",
+            "reference",
+            "explanation"
+          ]
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "body_profile_id": {
+          "$ref": "#/$defs/bodyProfileId"
+        }
+      }
+    },
+    "bodyProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description",
+        "required_headings",
+        "forbidden_headings"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/bodyProfileId"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "required_headings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        },
+        "forbidden_headings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "nodeType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nodeTypeId"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "predicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description",
+        "allowed_subject_types",
+        "allowed_object_types"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/predicateId"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "allowed_subject_types": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/nodeTypeId"
+          },
+          "uniqueItems": true
+        },
+        "allowed_object_types": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/nodeTypeId"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

@@ -13,6 +13,7 @@
  * Related requirements:
  * - REQ-0004
  * - REQ-0023
+ * - REQ-0024
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -46,6 +47,7 @@ const requiredDirectories = [
   "docs/reference",
   "docs/reference/project-model",
   "docs/reference/project-model/schema-design",
+  "docs/reference/project-model/schemas",
   "docs/reference/contracts",
   "docs/reference/architecture",
   "docs/reference/domain-model",
@@ -74,6 +76,7 @@ const requiredFiles = [
   "docs/reference/project-model/requirements.registry.yml",
   "docs/reference/project-model/graph.matrix.yml",
   "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md",
+  "docs/reference/project-model/schemas/governance-registry.schema.json",
   "docs/reference/contracts/README.md",
   "docs/reference/contracts/governance-control-report.contract.md",
   "docs/reference/contracts/governance-control-report.schema.json",
@@ -125,7 +128,12 @@ const allowedProjectModelEntries = new Set([
   "governance.registry.yml",
   "requirements.registry.yml",
   "graph.matrix.yml",
-  "schema-design"
+  "schema-design",
+  "schemas"
+]);
+
+const allowedProjectModelSchemasEntries = new Set([
+  "governance-registry.schema.json"
 ]);
 
 const allowedContractsEntries = new Set([
@@ -283,6 +291,7 @@ function checkDiataxisBoundaries() {
   checkAllowedEntries("docs", allowedDocsEntries, "docs root");
   checkAllowedEntries("docs/reference", allowedReferenceEntries, "reference");
   checkAllowedEntries("docs/reference/project-model", allowedProjectModelEntries, "project model");
+  checkAllowedEntries("docs/reference/project-model/schemas", allowedProjectModelSchemasEntries, "project model schemas");
   checkAllowedEntries("docs/reference/contracts", allowedContractsEntries, "contracts");
   checkAllowedEntries("docs/explanation", allowedExplanationEntries, "explanation");
   checkAllowedEntries("docs/explanation/governance", allowedGovernanceExplanationEntries, "governance explanation");

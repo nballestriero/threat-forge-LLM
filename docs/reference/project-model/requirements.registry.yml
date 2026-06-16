@@ -2005,4 +2005,92 @@ requirements:
         - "command"
         - "tool-output"
 
+  - id: "REQ-0024"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Governance registry explicit schema contract"
+    statement: >
+      The project shall provide a canonical machine-readable JSON Schema that
+      defines the structural shape of docs/reference/project-model/governance.registry.yml
+      and records the boundary between schema validation, controlled datasets,
+      and semantic cross-file validation.
+    rationale: >
+      M000.022A classified governance registry fields and hardcoded validator
+      assumptions. The next governed step is to capture the registry shape in an
+      explicit schema artifact before validators progressively move from
+      hardcoded shape checks to schema-driven validation.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "data"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0024-001"
+        statement: "REQ-0021 requires explicit governed registry schemas."
+
+      - id: "PRE-REQ-0024-002"
+        statement: "REQ-0023 provides the governance registry field classification and schema boundary analysis."
+
+    main_flow:
+      - id: "FLOW-REQ-0024-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Creates the canonical JSON Schema file for governance.registry.yml."
+        expected_result: "The governance registry has an explicit machine-readable schema baseline."
+
+      - id: "FLOW-REQ-0024-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Encodes structural fields, required sections, basic type constraints, ID patterns, and schema-local controlled values."
+        expected_result: "The schema captures the registry shape without replacing semantic cross-file validation."
+
+      - id: "FLOW-REQ-0024-003"
+        step: 3
+        actor: "Format validator"
+        action: "Checks the schema artifact baseline before future validators consume it as canonical input."
+        expected_result: "Invalid schema artifacts are rejected before use."
+
+    alternative_flows:
+      - id: "ALT-REQ-0024-001"
+        title: "Semantic rule cannot be represented in JSON Schema"
+        trigger: "A governance rule depends on other registries, graph triples, package scripts, or repository files."
+        steps:
+          - id: "FLOW-REQ-0024-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Leaves the rule in the semantic validator and documents the boundary in the schema analysis."
+            expected_result: "The schema remains a shape contract and does not pretend to validate cross-file semantics."
+
+    postconditions:
+      - id: "POST-REQ-0024-001"
+        statement: "The governance registry has a canonical JSON Schema artifact."
+
+      - id: "POST-REQ-0024-002"
+        statement: "The schema artifact is registered and traceable as a governed baseline artifact."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0024-001"
+        statement: "docs/reference/project-model/schemas/governance-registry.schema.json exists and is valid JSON."
+
+      - id: "AC-REQ-0024-002"
+        statement: "The schema declares required governance registry top-level sections."
+
+      - id: "AC-REQ-0024-003"
+        statement: "The schema declares field shapes for registry metadata, taxonomies, capabilities, decisions, document types, body profiles, node types, and predicates."
+
+      - id: "AC-REQ-0024-004"
+        statement: "The schema artifact has file-local change-control metadata matching graph.matrix.yml relationships."
+
+      - id: "AC-REQ-0024-005"
+        statement: "docs:check validates the schema artifact baseline."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "command"
+        - "tool-output"
 

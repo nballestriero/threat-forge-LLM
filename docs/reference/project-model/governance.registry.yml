@@ -130,6 +130,53 @@ taxonomies:
     - id: "source-comment"
       description: "Evidence based on a parseable source-file comment."
 
+  registry_schema_version:
+    - id: "1.0"
+      description: "Initial governed registry schema version."
+      rationale: >
+        Registry schema versions must be controlled because validators, schema
+        files, editor integrations, and future tools need an explicit compatibility
+        boundary.
+      validation_impact: >
+        Deterministic validators shall reject unsupported registry schema
+        versions instead of accepting unreviewed registry shapes.
+
+  registry_status:
+    - id: "draft"
+      description: "Registry is under active design and may change through governed work."
+      rationale: "Draft registries allow schema and dataset design before stabilization."
+      validation_impact: "Draft status is accepted but should remain visible in reports."
+    - id: "accepted"
+      description: "Registry is accepted as a stable governed baseline."
+      rationale: "Accepted registries become normative inputs for deterministic tools."
+      validation_impact: "Accepted status may require stricter future change controls."
+    - id: "deprecated"
+      description: "Registry remains readable but is no longer recommended for new work."
+      rationale: "Deprecation preserves historical compatibility while discouraging new use."
+      validation_impact: "Future validators may warn or block new references to deprecated registries."
+    - id: "superseded"
+      description: "Registry has been replaced by a newer governed artifact."
+      rationale: "Supersession makes replacement explicit instead of silently changing authority."
+      validation_impact: "Future validators may require a SUPERSEDES relationship."
+
+  diataxis_section:
+    - id: "tutorials"
+      description: "Learning-oriented Diátaxis section."
+      rationale: "Document type placement must be deterministic for structure guards and readers."
+      validation_impact: "Document types using this value shall map to docs/tutorials."
+    - id: "how-to"
+      description: "Task-oriented Diátaxis section."
+      rationale: "Document type placement must be deterministic for structure guards and readers."
+      validation_impact: "Document types using this value shall map to docs/how-to."
+    - id: "reference"
+      description: "Information-oriented Diátaxis section."
+      rationale: "Document type placement must be deterministic for structure guards and readers."
+      validation_impact: "Document types using this value shall map to docs/reference."
+    - id: "explanation"
+      description: "Understanding-oriented Diátaxis section."
+      rationale: "Document type placement must be deterministic for structure guards and readers."
+      validation_impact: "Document types using this value shall map to docs/explanation."
+
 capabilities:
   - id: "CAP-DOCUMENTATION-GOVERNANCE"
     title: "Documentation governance"
@@ -411,6 +458,25 @@ decisions:
       - "The first registry schema step is a governed analysis document, not an immediate JSON Schema drop-in."
       - "The analysis documents which current validator rules are schema shape rules and which must remain semantic checks."
       - "Controlled value datasets must be identified before the governance registry schema becomes binding."
+
+  - id: "DEC-0015"
+    title: "Governance registry schema is a canonical JSON Schema baseline"
+    status: "accepted"
+    statement: >
+      The governance registry schema shall be captured in a versioned JSON Schema
+      artifact under docs/reference/project-model/schemas, with deterministic
+      checks validating the schema artifact before validators migrate from
+      hardcoded shape checks to schema-driven registry validation.
+    rationale: >
+      REQ-0021 requires explicit machine-readable registry schemas, and M000.022A
+      classified the governance registry fields. Creating the first schema
+      contract turns that analysis into a protected baseline artifact while
+      keeping semantic cross-file validation in deterministic tools.
+    consequences:
+      - "docs/reference/project-model/schemas/governance-registry.schema.json becomes the canonical shape contract for governance.registry.yml."
+      - "The schema declares structural constraints, field shapes, ID patterns, and initial controlled-value boundaries."
+      - "Cross-file checks such as ID existence, graph consistency, package script existence, and source traceability remain semantic validator responsibilities."
+      - "The schema carries file-local change-control metadata that is checked against graph.matrix.yml."
 
 
 document_types:

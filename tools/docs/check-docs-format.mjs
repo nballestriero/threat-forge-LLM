@@ -16,6 +16,7 @@
  * - REQ-0007
  * - REQ-0016
  * - REQ-0023
+ * - REQ-0024
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -47,6 +48,10 @@ const MODEL_FILES = {
 
 const CONTRACT_FILES = {
   governanceControlReportSchema: "docs/reference/contracts/governance-control-report.schema.json"
+};
+
+const PROJECT_MODEL_SCHEMA_FILES = {
+  governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json"
 };
 
 const markdownDocuments = [
@@ -213,6 +218,75 @@ function checkGovernanceControlReportSchema(relativePath) {
   }
 }
 
+
+/**
+ * Checks the baseline shape of the Governance Registry JSON Schema.
+ *
+ * This check validates the schema artifact itself before later work migrates
+ * registry validation from hardcoded shape checks to schema-driven validation.
+ *
+ * @param {string} relativePath - Repository-relative JSON Schema file path.
+ * @returns {void}
+ */
+function checkGovernanceRegistrySchema(relativePath) {
+  const schema = readJson(relativePath);
+  if (!isJsonObject(schema, relativePath)) {
+    return;
+  }
+
+  const requiredTopLevelKeys = ["$schema", "$id", "title", "type", "required", "properties", "$defs", "x-change_control"];
+
+  for (const key of requiredTopLevelKeys) {
+    if (!Object.prototype.hasOwnProperty.call(schema, key)) {
+      errors.push(`JSON Schema file ${relativePath} is missing required top-level key: ${key}`);
+    }
+  }
+
+  if (schema.type !== "object") {
+    errors.push(`JSON Schema file ${relativePath} must declare top-level type "object".`);
+  }
+
+  const requiredRegistryKeys = [
+    "schema_version",
+    "change_control",
+    "registry",
+    "taxonomies",
+    "capabilities",
+    "decisions",
+    "document_types",
+    "body_profiles",
+    "node_types",
+    "predicates"
+  ];
+
+  if (!Array.isArray(schema.required)) {
+    errors.push(`JSON Schema file ${relativePath} must declare a top-level required array.`);
+  } else {
+    for (const key of requiredRegistryKeys) {
+      if (!schema.required.includes(key)) {
+        errors.push(`JSON Schema file ${relativePath} required array is missing governance registry key: ${key}`);
+      }
+    }
+  }
+
+  for (const key of requiredRegistryKeys) {
+    if (!schema.properties || !Object.prototype.hasOwnProperty.call(schema.properties, key)) {
+      errors.push(`JSON Schema file ${relativePath} properties object is missing governance registry key: ${key}`);
+    }
+  }
+
+  const changeControl = schema["x-change_control"];
+  if (!changeControl || typeof changeControl !== "object" || Array.isArray(changeControl)) {
+    errors.push(`JSON Schema file ${relativePath} must declare x-change_control metadata.`);
+  } else {
+    for (const key of ["decided_by", "satisfies", "rationale"]) {
+      if (!Object.prototype.hasOwnProperty.call(changeControl, key)) {
+        errors.push(`JSON Schema file ${relativePath} x-change_control is missing key: ${key}`);
+      }
+    }
+  }
+}
+
 /**
  * Checks that a parsed YAML document is a non-array object.
  *
@@ -360,6 +434,7 @@ checkYamlBaseline(MODEL_FILES.matrix, [
 ]);
 
 checkGovernanceControlReportSchema(CONTRACT_FILES.governanceControlReportSchema);
+checkGovernanceRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
 
 if (governance) {
   const bodyProfiles = buildBodyProfileIndex(governance);

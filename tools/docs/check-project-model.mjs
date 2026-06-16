@@ -18,6 +18,7 @@
  * - REQ-0005
  * - REQ-0006
  * - REQ-0022
+ * - REQ-0024
  *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
@@ -49,16 +50,18 @@ const MODEL_FILES = {
   governance: "docs/reference/project-model/governance.registry.yml",
   requirements: "docs/reference/project-model/requirements.registry.yml",
   matrix: "docs/reference/project-model/graph.matrix.yml",
+  governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json",
   packageJson: "package.json"
 };
 
 const GOVERNED_BASELINE_ARTIFACTS = [
   MODEL_FILES.governance,
   MODEL_FILES.requirements,
-  MODEL_FILES.matrix
+  MODEL_FILES.matrix,
+  MODEL_FILES.governanceRegistrySchema
 ];
 
-const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022"]);
+const BASELINE_TRACEABILITY_REQUIREMENTS = new Set(["REQ-0022", "REQ-0024"]);
 
 const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
 const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
@@ -784,6 +787,22 @@ function validatePackageScripts(indexes, packageJson) {
 }
 
 
+
+/**
+ * Reads baseline artifact change-control metadata from YAML or JSON Schema
+ * extension fields.
+ *
+ * @param {object | null | undefined} document - Parsed baseline artifact.
+ * @returns {object | undefined} Change-control object when present.
+ */
+function baselineChangeControl(document) {
+  if (!document || typeof document !== "object" || Array.isArray(document)) {
+    return undefined;
+  }
+
+  return document.change_control ?? document["x-change_control"];
+}
+
 /**
  * Checks that governed baseline artifacts contain file-local change-control
  * markers and that graph.matrix.yml confirms those markers.
@@ -795,7 +814,7 @@ function validatePackageScripts(indexes, packageJson) {
 function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocuments) {
   for (const artifactPath of GOVERNED_BASELINE_ARTIFACTS) {
     const document = baselineDocuments.get(artifactPath);
-    const changeControl = document?.change_control;
+    const changeControl = baselineChangeControl(document);
 
     if (!isObject(changeControl)) {
       errors.push(`Governed baseline artifact ${artifactPath} is missing change_control metadata`);
@@ -869,7 +888,7 @@ function validateBidirectionalBaselineArtifactTraceability(indexes, baselineDocu
     }
 
     const document = baselineDocuments.get(artifactPath);
-    const satisfies = stringArray(document?.change_control?.satisfies);
+    const satisfies = stringArray(baselineChangeControl(document)?.satisfies);
 
     if (!satisfies.includes(requirementId)) {
       errors.push(`graph.matrix.yml says ${requirementId} SPECIFIED_BY ${artifactPath}, but the artifact change_control.satisfies marker does not cite ${requirementId}`);
@@ -1001,9 +1020,10 @@ function validateBidirectionalSourceTraceability(indexes) {
 const governance = readYaml(MODEL_FILES.governance);
 const requirements = readYaml(MODEL_FILES.requirements);
 const matrix = readYaml(MODEL_FILES.matrix);
+const governanceRegistrySchema = readJson(MODEL_FILES.governanceRegistrySchema);
 const packageJson = readJson(MODEL_FILES.packageJson);
 
-if (governance && requirements && matrix && packageJson) {
+if (governance && requirements && matrix && governanceRegistrySchema && packageJson) {
   const indexes = buildIndexes(governance, requirements, matrix);
   validateTaxonomies(indexes);
   validateIds(indexes);
@@ -1013,7 +1033,8 @@ if (governance && requirements && matrix && packageJson) {
   validateBidirectionalBaselineArtifactTraceability(indexes, new Map([
     [MODEL_FILES.governance, governance],
     [MODEL_FILES.requirements, requirements],
-    [MODEL_FILES.matrix, matrix]
+    [MODEL_FILES.matrix, matrix],
+    [MODEL_FILES.governanceRegistrySchema, governanceRegistrySchema]
   ]));
   validateBidirectionalSourceTraceability(indexes);
 }
