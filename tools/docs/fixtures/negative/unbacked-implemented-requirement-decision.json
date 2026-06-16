@@ -1,0 +1,13 @@
+{
+  "id": "unbacked-implemented-requirement-decision",
+  "description": "An accepted implemented requirement loses its accepted decision graph backing.",
+  "validator": "model",
+  "expected_error": "Implemented requirement markdown-format:REQ-0003 has no accepted decision graph backing",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/markdown-format.graph.yml",
+      "replace": "- subject:\n    id: markdown-format:DEC-0007\n    type: Decision\n  predicate: DECIDES\n  object:\n    id: markdown-format:REQ-0003\n    type: Requirement",
+      "with": "- subject:\n    id: markdown-format:DEC-0007\n    type: Decision\n  predicate: DECIDES\n  object:\n    id: markdown-format:REQ-9999\n    type: Requirement"
+    }
+  ]
+}

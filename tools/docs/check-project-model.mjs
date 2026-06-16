@@ -19,6 +19,7 @@
  * - source-traceability:REQ-0005
  * - source-traceability:REQ-0006
  * - source-traceability:REQ-0007
+ * - source-traceability:REQ-0008
  * - graph-traceability:REQ-0022
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0004
@@ -39,6 +40,7 @@
  * - source-traceability:DEC-0005
  * - source-traceability:DEC-0006
  * - source-traceability:DEC-0007
+ * - source-traceability:DEC-0008
  *
  * Related commands:
  * - CMD-PROJECT-MODEL-CHECK
@@ -977,6 +979,65 @@ function validateAcceptedDecisionTraceability(indexes) {
 
     if (!hasOutgoingTraceability) {
       errors.push(`Accepted decision ${decision.id} has no outgoing graph traceability relationship`);
+    }
+  }
+}
+
+
+/**
+ * Validates that accepted requirements marked as implemented have closed graph
+ * evidence: implementation/specification evidence, verification evidence, and
+ * accepted decision backing.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateImplementedRequirementEvidence(indexes) {
+  const implementationEvidencePredicates = new Set(["IMPLEMENTED_BY", "SPECIFIED_BY"]);
+  const decisionBackingPredicates = new Set(["DECIDES", "SUPPORTS"]);
+  const acceptedDecisionIds = new Set(indexes.decisions
+    .filter((decision) => decision?.status === "accepted")
+    .map((decision) => decision.id));
+
+  for (const requirement of indexes.atomicRequirements) {
+    const requirementId = requirement?.id;
+    if (requirement?.status !== "accepted" || requirement?.implementation_status !== "implemented") {
+      continue;
+    }
+
+    const hasImplementationOrSpecificationEvidence = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.type === "Requirement" &&
+        triple?.subject?.id === requirementId &&
+        implementationEvidencePredicates.has(triple?.predicate)
+    );
+
+    if (!hasImplementationOrSpecificationEvidence) {
+      errors.push(`Implemented requirement ${requirementId} has no graph implementation/specification evidence`);
+    }
+
+    const hasVerificationEvidence = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.type === "Requirement" &&
+        triple?.subject?.id === requirementId &&
+        triple?.predicate === "VERIFIED_BY"
+    );
+
+    if (!hasVerificationEvidence) {
+      errors.push(`Implemented requirement ${requirementId} has no VERIFIED_BY graph traceability`);
+    }
+
+    const hasAcceptedDecisionBacking = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.type === "Decision" &&
+        acceptedDecisionIds.has(triple?.subject?.id) &&
+        decisionBackingPredicates.has(triple?.predicate) &&
+        triple?.object?.type === "Requirement" &&
+        triple?.object?.id === requirementId
+    );
+
+    if (!hasAcceptedDecisionBacking) {
+      errors.push(`Implemented requirement ${requirementId} has no accepted decision graph backing`);
     }
   }
 }
@@ -1930,6 +1991,7 @@ if (
   validateRegistryReferences(indexes);
   validateTriples(indexes);
   validateAcceptedDecisionTraceability(indexes);
+  validateImplementedRequirementEvidence(indexes);
   validatePackageScripts(indexes, packageJson);
   const baselineDocuments = new Map([
     [MODEL_FILES.governance, governance],

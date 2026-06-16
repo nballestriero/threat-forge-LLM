@@ -479,3 +479,10 @@ triples:
   object:
     id: GATE-GOVERNANCE-CONTROL-REPORT
     type: Gate
+- subject:
+    id: governance-control:REQ-0012
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-GOVERNANCE-CONTROL-REPORT
+    type: Gate

@@ -94,3 +94,10 @@ triples:
   object:
     id: GATE-PRE-COMMIT
     type: Gate
+- subject:
+    id: documentation-structure:REQ-0001
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-STRUCTURE
+    type: Gate

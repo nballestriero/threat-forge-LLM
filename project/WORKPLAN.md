@@ -141,6 +141,9 @@ Micropasses:
 
 - M000.025A - Decision-backed source traceability. Completed.
   - Scope: require every governed source file to include graph-backed decision traceability in file-level JSDoc, require accepted decisions to have outgoing graph traceability, and add negative fixtures for missing source decision traceability and untraced accepted decisions.
+- M000.025B - Implemented requirement evidence closure. Completed.
+  - Scope: reject accepted implemented requirements unless the graph records implementation/specification evidence, VERIFIED_BY evidence, and accepted decision backing for each requirement.
+  - Added negative fixtures for missing implemented requirement evidence, missing implemented requirement verification, and unbacked implemented requirement decisions.
 
 Expected follow-up scope:
 

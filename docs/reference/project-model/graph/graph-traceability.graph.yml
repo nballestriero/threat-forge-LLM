@@ -248,3 +248,10 @@ triples:
   object:
     id: docs/reference/project-model/graph/backend-architecture.graph.yml
     type: Document
+- subject:
+    id: graph-traceability:REQ-0002
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-PROJECT-MODEL
+    type: Gate

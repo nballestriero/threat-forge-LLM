@@ -1,0 +1,13 @@
+{
+  "id": "missing-implemented-requirement-evidence",
+  "description": "An accepted implemented requirement loses its graph implementation/specification evidence.",
+  "validator": "model",
+  "expected_error": "Implemented requirement graph-traceability:REQ-0002 has no graph implementation/specification evidence",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/graph-traceability.graph.yml",
+      "replace": "- subject:\n    id: graph-traceability:REQ-0002\n    type: Requirement\n  predicate: SPECIFIED_BY\n  object:\n    id: docs/reference/project-model/requirements.registry.yml\n    type: Document",
+      "with": "- subject:\n    id: graph-traceability:REQ-9999\n    type: Requirement\n  predicate: SPECIFIED_BY\n  object:\n    id: docs/reference/project-model/requirements.registry.yml\n    type: Document"
+    }
+  ]
+}

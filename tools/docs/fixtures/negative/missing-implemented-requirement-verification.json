@@ -1,0 +1,13 @@
+{
+  "id": "missing-implemented-requirement-verification",
+  "description": "An accepted implemented requirement loses its VERIFIED_BY graph evidence.",
+  "validator": "model",
+  "expected_error": "Implemented requirement documentation-structure:REQ-0001 has no VERIFIED_BY graph traceability",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/documentation-structure.graph.yml",
+      "replace": "- subject:\n    id: documentation-structure:REQ-0001\n    type: Requirement\n  predicate: VERIFIED_BY\n  object:\n    id: GATE-DOCS-STRUCTURE\n    type: Gate",
+      "with": "- subject:\n    id: documentation-structure:REQ-9999\n    type: Requirement\n  predicate: VERIFIED_BY\n  object:\n    id: GATE-DOCS-STRUCTURE\n    type: Gate"
+    }
+  ]
+}

@@ -273,3 +273,99 @@ requirements:
     - yaml
     - command
     - tool-output
+- id: REQ-0008
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Implemented requirement evidence closure
+  statement: 'The project shall reject accepted requirements marked as implemented unless the graph
+    records implementation or specification evidence, verification evidence, and an accepted decision
+    relationship for the same requirement.
+
+    '
+  rationale: 'Implementation status is a governance claim. The claim is only reliable when the graph
+    records what implements or specifies the requirement, how the requirement is verified, and which
+    accepted decision backs the requirement. This prevents requirements from being marked implemented
+    through prose-only edits or partial registry changes.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: project-model
+  preconditions:
+  - id: PRE-REQ-0008-001
+    statement: Requirements declare status and implementation_status fields in governed part files.
+  - id: PRE-REQ-0008-002
+    statement: The graph matrix records requirement relationships through SPO triples.
+  main_flow:
+  - id: FLOW-REQ-0008-001
+    step: 1
+    actor: Project model validator
+    action: Reads every accepted requirement whose implementation_status is implemented.
+    expected_result: Implemented requirement claims are known from the aggregated project model.
+  - id: FLOW-REQ-0008-002
+    step: 2
+    actor: Project model validator
+    action: Checks that each implemented requirement has implementation or specification evidence in the graph.
+    expected_result: The requirement is tied to a governed source, configuration, schema, or document artifact.
+  - id: FLOW-REQ-0008-003
+    step: 3
+    actor: Project model validator
+    action: Checks that each implemented requirement has VERIFIED_BY graph evidence.
+    expected_result: The requirement is tied to an executable or governed verification boundary.
+  - id: FLOW-REQ-0008-004
+    step: 4
+    actor: Project model validator
+    action: Checks that each implemented requirement is backed by an accepted decision relationship.
+    expected_result: The implementation claim has an explicit governance reason.
+  alternative_flows:
+  - id: ALT-REQ-0008-001
+    title: Implemented requirement lacks implementation or specification evidence
+    trigger: A requirement is accepted and implemented but has no IMPLEMENTED_BY or SPECIFIED_BY graph relationship.
+    steps:
+    - id: FLOW-REQ-0008-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Reports the requirement missing implementation/specification evidence.
+      expected_result: The repository check fails before an unsupported implementation claim can be committed.
+  - id: ALT-REQ-0008-002
+    title: Implemented requirement lacks verification evidence
+    trigger: A requirement is accepted and implemented but has no VERIFIED_BY graph relationship.
+    steps:
+    - id: FLOW-REQ-0008-ALT-002
+      step: 1
+      actor: Project model validator
+      action: Reports the requirement missing verification evidence.
+      expected_result: The repository check fails before an unverified implementation claim can be committed.
+  - id: ALT-REQ-0008-003
+    title: Implemented requirement lacks accepted decision backing
+    trigger: A requirement is accepted and implemented but no accepted decision decides or supports it in the graph.
+    steps:
+    - id: FLOW-REQ-0008-ALT-003
+      step: 1
+      actor: Project model validator
+      action: Reports the requirement missing accepted decision backing.
+      expected_result: The repository check fails before a prose-only implementation claim can be committed.
+  postconditions:
+  - id: POST-REQ-0008-001
+    statement: Every accepted implemented requirement has graph-backed implementation or specification evidence.
+  - id: POST-REQ-0008-002
+    statement: Every accepted implemented requirement has graph-backed verification evidence.
+  - id: POST-REQ-0008-003
+    statement: Every accepted implemented requirement has graph-backed decision evidence.
+  acceptance_criteria:
+  - id: AC-REQ-0008-001
+    statement: The validator rejects an accepted implemented requirement with no IMPLEMENTED_BY or SPECIFIED_BY relationship.
+  - id: AC-REQ-0008-002
+    statement: The validator rejects an accepted implemented requirement with no VERIFIED_BY relationship.
+  - id: AC-REQ-0008-003
+    statement: The validator rejects an accepted implemented requirement with no accepted Decision relationship.
+  - id: AC-REQ-0008-004
+    statement: Negative fixtures prove that each missing evidence class is rejected.
+  verification:
+    method: test
+    required_evidence:
+    - yaml
+    - command
+    - tool-output

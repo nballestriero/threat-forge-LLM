@@ -108,3 +108,17 @@ triples:
   object:
     id: GATE-DOCS-FORMAT
     type: Gate
+- subject:
+    id: markdown-format:DEC-0007
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: markdown-format:REQ-0003
+    type: Requirement
+- subject:
+    id: markdown-format:REQ-0003
+    type: Requirement
+  predicate: VERIFIED_BY
+  object:
+    id: GATE-DOCS-FORMAT
+    type: Gate

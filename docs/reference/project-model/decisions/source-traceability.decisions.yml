@@ -80,3 +80,21 @@ decisions:
   - The project model validator compares source-file decision claims against graph-backed decision relationships.
   - Validation tools are explicitly supported by the source traceability hardening decision so every governed tool source has a deterministic decision anchor.
   - New governed source files must add requirement, tool, command where applicable, and decision traceability before they can pass the repository gate.
+- id: DEC-0008
+  title: Implemented requirements require closed graph evidence
+  status: accepted
+  statement: 'Accepted requirements may be marked implemented only when the graph records evidence,
+    verification, and decision backing for the same requirement.
+
+    '
+  rationale: 'The implementation_status field must not become a manual assertion disconnected from
+    the traceability model. Requiring implementation/specification evidence, VERIFIED_BY evidence,
+    and accepted decision backing makes requirement completion auditable and blocks accidental or
+    unreviewed implementation claims.
+
+    '
+  consequences:
+  - Implemented requirement claims without graph evidence are rejected.
+  - Implemented requirement claims without verification evidence are rejected.
+  - Implemented requirement claims without accepted decision backing are rejected.
+  - The project model validator becomes the deterministic gate for requirement evidence closure.
