@@ -2177,7 +2177,7 @@ requirements:
         statement: "A negative fixture proves that an additional property rejected by the schema fails validation."
 
       - id: "AC-REQ-0025-004"
-        statement: "docs:check runs the schema-driven governance registry validation through docs:check:format."
+        statement: "docs:check runs the schema-driven governance registry validation through the canonical docs:check:format / tools/docs/check-docs-format.mjs schema validation entrypoint."
 
     verification:
       method: "test"
@@ -2537,7 +2537,7 @@ requirements:
         statement: "A negative fixture proves that an additional property rejected by the schema fails validation."
 
       - id: "AC-REQ-0029-004"
-        statement: "docs:check runs the schema-driven requirements registry validation through docs:check:format."
+        statement: "docs:check runs the schema-driven requirements registry validation through the canonical docs:check:format / tools/docs/check-docs-format.mjs schema validation entrypoint."
 
     verification:
       method: "test"
@@ -2814,7 +2814,7 @@ requirements:
         statement: "A negative fixture proves that an additional property rejected by the schema fails validation."
 
       - id: "AC-REQ-0032-004"
-        statement: "docs:check runs the schema-driven graph matrix validation through docs:check:format."
+        statement: "docs:check runs the schema-driven graph matrix validation through the canonical docs:check:format / tools/docs/check-docs-format.mjs schema validation entrypoint."
 
     verification:
       method: "test"
@@ -2823,3 +2823,92 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+
+  - id: "REQ-0033"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Single governed schema validation entrypoint"
+    statement: >
+      Governed artifact JSON Schema validation shall be executed through
+      tools/docs/check-docs-format.mjs and the docs:check:format command as the
+      canonical deterministic entrypoint. Other validators may validate schema
+      traceability, semantic consistency, graph relationships, source-code
+      references, package commands, repository paths, and lifecycle evidence,
+      but they shall not duplicate artifact JSON Schema validation logic.
+    rationale: >
+      Centralizing schema execution avoids divergent diagnostics, hidden schema
+      forks, and drift between format validation and project-model semantic
+      validation. The project model may have many schema artifacts, but their
+      executable application must remain in one deterministic format-validation
+      path.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0033-001"
+        statement: "Governed artifact schemas exist for project-model baseline artifacts."
+
+      - id: "PRE-REQ-0033-002"
+        statement: "tools/docs/check-docs-format.mjs already applies governed project-model schemas."
+
+    main_flow:
+      - id: "FLOW-REQ-0033-001"
+        step: 1
+        actor: "Documentation format validator"
+        action: "Discovers or references the governed schema artifact for each schema-controlled artifact."
+        expected_result: "Schema-controlled artifact shape validation starts from the canonical format validator."
+
+      - id: "FLOW-REQ-0033-002"
+        step: 2
+        actor: "Documentation format validator"
+        action: "Applies the supported JSON Schema subset to the governed artifact."
+        expected_result: "Schema-invalid local artifact shape is rejected by docs:check:format."
+
+      - id: "FLOW-REQ-0033-003"
+        step: 3
+        actor: "Project model validator"
+        action: "Validates schema traceability, graph semantics, entity existence, commands, paths, and source references without reimplementing JSON Schema validation."
+        expected_result: "Semantic validation complements the schema entrypoint without duplicating it."
+
+    alternative_flows:
+      - id: "ALT-REQ-0033-001"
+        title: "New schema-controlled artifact is introduced"
+        trigger: "A governed artifact declares schema_control or a SchemaFile APPLIES_TO relationship is added."
+        steps:
+          - id: "FLOW-REQ-0033-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Extends tools/docs/check-docs-format.mjs as the schema execution entrypoint instead of adding a second schema validator."
+            expected_result: "The new schema is executed through the same deterministic validation path."
+
+    postconditions:
+      - id: "POST-REQ-0033-001"
+        statement: "Governed artifact JSON Schema execution has one canonical deterministic entrypoint."
+
+      - id: "POST-REQ-0033-002"
+        statement: "Semantic project-model validation remains separate from local schema shape validation."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0033-001"
+        statement: "tools/docs/check-docs-format.mjs is documented as the canonical JSON Schema validation entrypoint for governed artifacts."
+
+      - id: "AC-REQ-0033-002"
+        statement: "Existing schema-driven validation requirements reference docs:check:format / tools/docs/check-docs-format.mjs as the canonical schema execution path."
+
+      - id: "AC-REQ-0033-003"
+        statement: "tools/docs/check-project-model.mjs remains responsible for schema traceability and semantic project-model checks, not duplicate JSON Schema execution."
+
+      - id: "AC-REQ-0033-004"
+        statement: "docs:check includes the canonical format validator so schema execution remains part of the aggregate documentation gate."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "registry-entry"
+        - "source-comment"
+        - "yaml"
+        - "command"

@@ -3,9 +3,11 @@
  * @file Governed YAML and Markdown file format validator.
  *
  * Validates baseline file formats for governed project-model YAML files and
- * governed Markdown documentation files. YAML files are checked for parseability
- * and required top-level sections. Markdown files are checked against body
- * profiles registered in the governance registry.
+ * governed Markdown documentation files. This tool is the single canonical
+ * deterministic execution entrypoint for governed artifact JSON Schema
+ * validation. YAML files are checked for parseability, schema-controlled local
+ * shape, and required top-level sections. Markdown files are checked against
+ * body profiles registered in the governance registry.
  *
  * Canonical references:
  * - docs/reference/project-model/governance.registry.yml
@@ -24,6 +26,7 @@
  * - REQ-0030
  * - REQ-0031
  * - REQ-0032
+ * - REQ-0033
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE

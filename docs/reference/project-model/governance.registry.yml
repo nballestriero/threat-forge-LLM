@@ -654,6 +654,28 @@ decisions:
       - "Predicate compatibility, entity existence, package command checks, repository path checks, schema application traceability, baseline artifact checks, and source-file traceability remain semantic validator responsibilities."
 
 
+  - id: "DEC-0024"
+    title: "Governed artifact schema validation has a single execution entrypoint"
+    status: "accepted"
+    statement: >
+      tools/docs/check-docs-format.mjs and docs:check:format are the canonical
+      deterministic execution path for governed artifact JSON Schema validation.
+      Other validators must not duplicate artifact JSON Schema validation logic;
+      they may validate semantic consistency, schema application traceability,
+      graph relationships, source-file references, package commands, repository
+      paths, and lifecycle evidence.
+    rationale: >
+      Governance, requirements, and graph matrix schemas now have executable
+      validation. Without an explicit entrypoint decision, future tools could
+      reimplement schema validation independently and drift from the canonical
+      diagnostics or supported JSON Schema subset.
+    consequences:
+      - "tools/docs/check-docs-format.mjs remains the schema execution boundary for governed artifacts."
+      - "docs:check:format is the command-level schema validation entrypoint."
+      - "tools/docs/check-project-model.mjs remains responsible for semantic and bidirectional traceability checks."
+      - "New schema-controlled artifacts must extend the format validator rather than introduce duplicate schema validators."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

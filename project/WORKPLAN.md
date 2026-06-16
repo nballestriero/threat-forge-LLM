@@ -39,6 +39,7 @@ Status: in progress.
 - M000.023A - Graph matrix schema analysis.
 - M000.023B - Graph matrix explicit schema contract.
 - M000.023C - Graph matrix schema-driven validation.
+- M000.023D - Single schema validation entrypoint governance.
 
 ## Next steps
 
