@@ -10,6 +10,13 @@ change_control:
     deterministic validation can compare file-local change-control metadata with
     graph.matrix.yml relationships.
 
+schema_control:
+  schema: "docs/reference/project-model/schemas/graph-matrix.schema.json"
+  rationale: >
+    The graph matrix declares the canonical schema that validates its structural
+    shape so schema-to-artifact application can be checked bidirectionally
+    against graph.matrix.yml.
+
 matrix:
   id: "project-graph-matrix"
   title: "Project graph matrix"
@@ -165,8 +172,8 @@ nodes:
     description: "Canonical JSON Schema for docs/reference/project-model/requirements.registry.yml."
 
   - id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
-    type: "Document"
-    description: "Planned canonical JSON Schema for docs/reference/project-model/graph.matrix.yml."
+    type: "SchemaFile"
+    description: "Canonical JSON Schema for docs/reference/project-model/graph.matrix.yml."
 
 
   - id: "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md"
@@ -3060,3 +3067,124 @@ triples:
     object:
       id: "GATE-DOCS-FORMAT"
       type: "Gate"
+
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0031"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0022"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0031"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0021"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0026"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0030"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
+      type: "SchemaFile"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schema-design/graph-matrix-schema-analysis.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-structure.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-docs-format.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "IMPLEMENTED_BY"
+    object:
+      id: "tools/docs/check-project-model.mjs"
+      type: "SourceFile"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-STRUCTURE"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0031"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+
+  - subject:
+      id: "docs/reference/project-model/schemas/graph-matrix.schema.json"
+      type: "SchemaFile"
+    predicate: "APPLIES_TO"
+    object:
+      id: "docs/reference/project-model/graph.matrix.yml"
+      type: "Document"

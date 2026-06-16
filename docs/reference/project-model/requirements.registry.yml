@@ -2635,3 +2635,103 @@ requirements:
         - "document"
         - "command"
         - "tool-output"
+
+
+  - id: "REQ-0031"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Graph matrix explicit schema contract"
+    statement: >
+      The project shall provide a canonical machine-readable JSON Schema that
+      defines the structural shape of docs/reference/project-model/graph.matrix.yml
+      and records the boundary between schema validation and semantic graph
+      validation.
+    rationale: >
+      M000.023A classified the graph matrix fields and identified which checks
+      are local shape constraints and which require semantic validation across
+      governance.registry.yml, requirements.registry.yml, package.json,
+      repository paths, schema metadata, and source-file JSDoc. The next
+      governed step is to capture the local graph matrix shape in an explicit
+      schema artifact without duplicating graph vocabulary compatibility rules.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "data"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0031-001"
+        statement: "REQ-0021 requires explicit governed registry schemas."
+
+      - id: "PRE-REQ-0031-002"
+        statement: "REQ-0026 requires schema application traceability between schemas, target artifacts, and graph.matrix.yml."
+
+      - id: "PRE-REQ-0031-003"
+        statement: "REQ-0030 provides the graph matrix field classification and schema-versus-semantic validation boundary."
+
+    main_flow:
+      - id: "FLOW-REQ-0031-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Creates docs/reference/project-model/schemas/graph-matrix.schema.json."
+        expected_result: "The canonical schema artifact exists under the governed schema root."
+
+      - id: "FLOW-REQ-0031-002"
+        step: 2
+        actor: "Documentation structure guard"
+        action: "Registers the graph matrix schema as an allowed and required project-model schema artifact."
+        expected_result: "The repository structure guard protects the schema path."
+
+      - id: "FLOW-REQ-0031-003"
+        step: 3
+        actor: "Documentation format validator"
+        action: "Checks the baseline shape and traceability metadata of the graph matrix schema artifact."
+        expected_result: "Malformed schema artifacts are rejected before schema-driven graph matrix validation is introduced."
+
+      - id: "FLOW-REQ-0031-004"
+        step: 4
+        actor: "Project model validator"
+        action: "Checks bidirectional schema application traceability between the schema, graph matrix, and graph matrix relationships."
+        expected_result: "Schema coverage for the graph matrix is auditable."
+
+    alternative_flows:
+      - id: "ALT-REQ-0031-001"
+        title: "Semantic graph rule cannot be encoded locally"
+        trigger: "A graph matrix constraint depends on registry vocabulary, package scripts, repository paths, baseline artifact metadata, schema application metadata, or source-file JSDoc."
+        steps:
+          - id: "FLOW-REQ-0031-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Leaves the rule in deterministic semantic validation and documents the schema boundary in the schema description."
+            expected_result: "The schema contract remains honest about what it can enforce locally."
+
+    postconditions:
+      - id: "POST-REQ-0031-001"
+        statement: "The graph matrix has a canonical JSON Schema artifact."
+
+      - id: "POST-REQ-0031-002"
+        statement: "The schema application relationship is declared in the schema, graph matrix, and graph matrix SPO triples."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0031-001"
+        statement: "docs/reference/project-model/schemas/graph-matrix.schema.json exists."
+
+      - id: "AC-REQ-0031-002"
+        statement: "The graph matrix schema declares x-change_control and x-applies_to metadata."
+
+      - id: "AC-REQ-0031-003"
+        statement: "docs/reference/project-model/graph.matrix.yml declares schema_control.schema for the graph matrix schema."
+
+      - id: "AC-REQ-0031-004"
+        statement: "graph.matrix.yml contains a SchemaFile APPLIES_TO graph matrix triple."
+
+      - id: "AC-REQ-0031-005"
+        statement: "The structure, format, and project model validators recognize the graph matrix schema artifact as governed."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "command"
+        - "tool-output"

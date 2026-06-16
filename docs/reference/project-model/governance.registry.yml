@@ -612,6 +612,29 @@ decisions:
       - "Repository path checks, command checks, schema application checks, baseline artifact checks, and source-file traceability remain deterministic semantic validator responsibilities."
       - "The future graph matrix schema step must add schema_control to graph.matrix.yml and register graph-matrix.schema.json as an applied SchemaFile."
 
+  - id: "DEC-0022"
+    title: "Graph matrix schema is a canonical JSON Schema baseline"
+    status: "accepted"
+    statement: >
+      The graph matrix schema shall be captured in a versioned JSON Schema
+      artifact under docs/reference/project-model/schemas, with deterministic
+      checks validating the schema artifact and schema application traceability
+      before graph.matrix.yml is validated by schema-driven execution.
+    rationale: >
+      REQ-0030 classified graph matrix fields and established that local YAML
+      shape belongs in JSON Schema while predicate compatibility, entity
+      existence, package command existence, repository path checks, baseline
+      artifact checks, schema application traceability, and source-file
+      traceability remain semantic validator responsibilities. Creating the
+      schema artifact turns that analysis into a protected baseline without
+      duplicating the graph vocabulary inside the schema.
+    consequences:
+      - "docs/reference/project-model/schemas/graph-matrix.schema.json becomes the canonical shape contract for graph.matrix.yml."
+      - "The schema declares structural constraints for matrix metadata, nodes, triples, change_control, and schema_control."
+      - "Predicate and node-type existence are still checked semantically against governance.registry.yml."
+      - "The schema carries file-local change-control metadata and x-applies_to so schema application traceability can be checked bidirectionally."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

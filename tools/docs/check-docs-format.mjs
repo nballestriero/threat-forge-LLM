@@ -22,6 +22,7 @@
  * - REQ-0028
  * - REQ-0029
  * - REQ-0030
+ * - REQ-0031
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -57,7 +58,8 @@ const CONTRACT_FILES = {
 
 const PROJECT_MODEL_SCHEMA_FILES = {
   governanceRegistrySchema: "docs/reference/project-model/schemas/governance-registry.schema.json",
-  requirementsRegistrySchema: "docs/reference/project-model/schemas/requirements-registry.schema.json"
+  requirementsRegistrySchema: "docs/reference/project-model/schemas/requirements-registry.schema.json",
+  graphMatrixSchema: "docs/reference/project-model/schemas/graph-matrix.schema.json"
 };
 
 const markdownDocuments = [
@@ -676,6 +678,14 @@ checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.requirementsRegistryS
   "registry",
   "macro_requirements",
   "requirements"
+]);
+checkProjectModelRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.graphMatrixSchema, "graph matrix", [
+  "schema_version",
+  "change_control",
+  "schema_control",
+  "matrix",
+  "nodes",
+  "triples"
 ]);
 checkProjectModelRegistryAgainstCanonicalSchema(governance, MODEL_FILES.governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
 checkProjectModelRegistryAgainstCanonicalSchema(requirements, MODEL_FILES.requirements, PROJECT_MODEL_SCHEMA_FILES.requirementsRegistrySchema);

@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://threat-forge-llm.local/schemas/project-model/graph-matrix.schema.json",
+  "title": "Graph Matrix Schema",
+  "description": "Canonical shape contract for docs/reference/project-model/graph.matrix.yml after YAML parsing. Semantic graph checks such as predicate compatibility, entity existence, package command existence, repository path existence, schema application traceability, and source-file traceability remain deterministic validator responsibilities.",
+  "type": "object",
+  "additionalProperties": false,
+  "x-change_control": {
+    "decided_by": [
+      "DEC-0022"
+    ],
+    "satisfies": [
+      "REQ-0031"
+    ],
+    "rationale": "This schema is a governed baseline artifact and declares file-local traceability that deterministic validation can compare against graph.matrix.yml relationships."
+  },
+  "x-applies_to": [
+    "docs/reference/project-model/graph.matrix.yml"
+  ],
+  "required": [
+    "schema_version",
+    "change_control",
+    "schema_control",
+    "matrix",
+    "nodes",
+    "triples"
+  ],
+  "properties": {
+    "schema_version": {
+      "$ref": "#/$defs/schemaVersion"
+    },
+    "change_control": {
+      "$ref": "#/$defs/changeControl"
+    },
+    "schema_control": {
+      "$ref": "#/$defs/schemaControl"
+    },
+    "matrix": {
+      "$ref": "#/$defs/matrixMetadata"
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "triples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/triple"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "textBlock": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "type": "string",
+      "enum": [
+        "1.0"
+      ],
+      "description": "Current governed graph matrix schema version. Future versions require explicit governance."
+    },
+    "requirementId": {
+      "type": "string",
+      "pattern": "^REQ-[0-9]{4}$"
+    },
+    "decisionId": {
+      "type": "string",
+      "pattern": "^DEC-[0-9]{4}$"
+    },
+    "nodeTypeId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$",
+      "description": "Node type existence is semantic validation against governance.registry.yml node_types."
+    },
+    "predicateId": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]*$",
+      "description": "Predicate existence and subject/object compatibility are semantic validation against governance.registry.yml predicates."
+    },
+    "entityId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Entity IDs may be governed IDs or repository-relative artifact paths; existence is semantic validation."
+    },
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Repository-relative path. Filesystem existence is semantic validation."
+    },
+    "npmCommand": {
+      "type": "string",
+      "pattern": "^npm run [^\\s]+$",
+      "description": "Current graph command nodes use npm run scripts. Script existence is semantic validation against package.json."
+    },
+    "changeControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decided_by",
+        "satisfies",
+        "rationale"
+      ],
+      "properties": {
+        "decided_by": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/decisionId"
+          },
+          "uniqueItems": true
+        },
+        "satisfies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/requirementId"
+          },
+          "uniqueItems": true
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "schemaControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "rationale"
+      ],
+      "properties": {
+        "schema": {
+          "const": "docs/reference/project-model/schemas/graph-matrix.schema.json"
+        },
+        "rationale": {
+          "$ref": "#/$defs/textBlock"
+        }
+      },
+      "description": "Declares the canonical schema that structurally validates this governed artifact."
+    },
+    "matrixMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "const": "project-graph-matrix"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled by governance.registry.yml taxonomies.registry_status."
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/entityId"
+        },
+        "type": {
+          "$ref": "#/$defs/nodeTypeId"
+        },
+        "description": {
+          "$ref": "#/$defs/textBlock"
+        },
+        "command": {
+          "$ref": "#/$defs/npmCommand"
+        },
+        "path": {
+          "$ref": "#/$defs/repositoryPath"
+        }
+      },
+      "description": "A graph node declared directly by the matrix. Type-specific command/path requirements remain semantic validation."
+    },
+    "tripleEndpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/entityId"
+        },
+        "type": {
+          "$ref": "#/$defs/nodeTypeId"
+        }
+      }
+    },
+    "triple": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "predicate",
+        "object"
+      ],
+      "properties": {
+        "subject": {
+          "$ref": "#/$defs/tripleEndpoint"
+        },
+        "predicate": {
+          "$ref": "#/$defs/predicateId"
+        },
+        "object": {
+          "$ref": "#/$defs/tripleEndpoint"
+        }
+      },
+      "description": "A canonical Subject-Predicate-Object relationship. Predicate existence, type compatibility, duplicate detection, and entity existence remain semantic validation."
+    }
+  }
+}

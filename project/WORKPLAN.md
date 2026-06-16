@@ -37,21 +37,9 @@ Status: in progress.
 - M000.022F - Requirements registry explicit schema contract.
 - M000.022G - Requirements registry schema-driven validation.
 - M000.023A - Graph matrix schema analysis.
+- M000.023B - Graph matrix explicit schema contract.
 
 ## Next steps
-
-### M000.023B - Graph matrix explicit schema contract
-
-Goal: create the canonical JSON Schema contract for docs/reference/project-model/graph.matrix.yml.
-
-Expected scope:
-
-- graph-matrix.schema.json contract artifact
-- x-change_control and x-applies_to metadata
-- graph.matrix.yml schema_control metadata
-- SchemaFile APPLIES_TO Document graph relationship
-- structure/format/model tool registration for the new schema artifact
-- no graph storage, visualization, or runtime product implementation
 
 ### M000.023C - Graph matrix schema-driven validation
 
