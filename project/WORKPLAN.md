@@ -43,7 +43,49 @@ Status: in progress.
 
 ## Next steps
 
-### M000.023 - Protected baseline artifact roots
+### M000.024 - Project model modularization
+
+Goal: split the growing project-model registries by governed capability area while preserving deterministic validation, traceability, and a single logical model.
+
+Status: planned.
+
+Design direction:
+
+- Use canonical composite identifiers in the form `<area_id>:<local_id>` so local sequences can restart inside each governed area.
+- Keep central index files for requirements, graph traceability, and decisions.
+- Move area-specific requirements, graph triples, and decisions into area parts loaded from the indexes.
+- Keep `tools/docs/check-docs-format.mjs` as the single JSON Schema validation entrypoint.
+- Keep `tools/docs/check-project-model.mjs` responsible for semantic aggregation and cross-file validation.
+- Keep `tools/docs/check-docs-structure.mjs` responsible for required files, directories, and repository structure.
+
+Planned micropasses:
+
+- M000.024A - Project model modularization roadmap.
+  - Scope: record the planned split of requirements, graph traceability, and decisions in this workplan.
+  - No schema, loader, graph, or registry migration yet.
+- M000.024B - Project model modularization analysis.
+  - Scope: define area IDs, composite ID rules, index/part boundaries, cross-area relationship ownership, and decision ownership.
+  - No file migration yet.
+- M000.024C - Requirements index and part schema contracts.
+  - Scope: design the future requirements index and requirements part schemas while preserving current validation entrypoint rules.
+  - No full requirements extraction yet.
+- M000.024D - Graph index and part schema contracts.
+  - Scope: design graph index and graph part schemas, including cross-area graph part policy.
+  - No full graph extraction yet.
+- M000.024E - Decisions index and part schema contracts.
+  - Scope: design decision index and decision part schemas, distinguishing global decisions from area decisions.
+  - No full decision extraction yet.
+- M000.024F - Modular project model loader design.
+  - Scope: define how format and semantic validators will load index files and aggregate parts into one logical model.
+  - No broad migration yet.
+- M000.024G - First capability area extraction.
+  - Scope: extract one small capability area, preferably schema validation governance, across requirements, graph triples, and decisions.
+  - Keep compatibility with existing checks.
+- M000.024H - Remaining capability area extraction plan.
+  - Scope: use the first extraction results to plan the remaining area splits and required follow-up gates.
+  - Avoid a single large migration commit.
+
+### M000.025 - Protected baseline artifact roots
 
 Goal: define protected roots for contracts, registry schemas, project-model registries, and future API contracts.
 
@@ -54,7 +96,7 @@ Expected scope:
 - traceability requirements for protected contract/schema changes
 - no manual bypass when protected artifact checks fail
 
-### M000.024 - Governance control report and page negative fixtures
+### M000.026 - Governance control report and page negative fixtures
 
 Goal: add controlled negative coverage for report and page generation.
 
