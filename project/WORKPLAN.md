@@ -29,10 +29,35 @@ Status: in progress.
 - M000.019 - Mandatory governed source-file registration guard.
 - M000.020 - Explicit governed registry schemas requirement.
 - M000.021 - Governed baseline artifact bidirectional traceability.
+- M000.022A - Governance registry schema analysis.
 
 ## Next steps
 
-### M000.022 - Registry schema contracts
+### M000.022B - Requirements registry schema analysis
+
+Goal: classify requirements.registry.yml fields before creating explicit schema artifacts.
+
+Expected scope:
+
+- requirements registry field inventory
+- free text vs controlled value classification
+- requirement lifecycle and verification dataset mapping
+- current hardcoded validator rule inventory
+- schema boundary vs semantic validator boundary
+
+### M000.022C - Graph matrix schema analysis
+
+Goal: classify graph.matrix.yml fields before creating explicit schema artifacts.
+
+Expected scope:
+
+- graph matrix node and triple field inventory
+- controlled node type and predicate mapping
+- repository path and command field policy
+- current hardcoded graph validator rule inventory
+- schema boundary vs semantic validator boundary
+
+### M000.022D - Registry schema contracts
 
 Goal: create explicit machine-readable schema files for governed registries and the graph matrix.
 

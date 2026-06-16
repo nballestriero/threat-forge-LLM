@@ -12,6 +12,7 @@
  *
  * Related requirements:
  * - REQ-0004
+ * - REQ-0023
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -44,6 +45,7 @@ const requiredDirectories = [
   "docs/how-to",
   "docs/reference",
   "docs/reference/project-model",
+  "docs/reference/project-model/schema-design",
   "docs/reference/contracts",
   "docs/reference/architecture",
   "docs/reference/domain-model",
@@ -71,6 +73,7 @@ const requiredFiles = [
   "docs/reference/project-model/governance.registry.yml",
   "docs/reference/project-model/requirements.registry.yml",
   "docs/reference/project-model/graph.matrix.yml",
+  "docs/reference/project-model/schema-design/governance-registry-schema-analysis.md",
   "docs/reference/contracts/README.md",
   "docs/reference/contracts/governance-control-report.contract.md",
   "docs/reference/contracts/governance-control-report.schema.json",
@@ -121,7 +124,8 @@ const allowedProjectModelEntries = new Set([
   "README.md",
   "governance.registry.yml",
   "requirements.registry.yml",
-  "graph.matrix.yml"
+  "graph.matrix.yml",
+  "schema-design"
 ]);
 
 const allowedContractsEntries = new Set([

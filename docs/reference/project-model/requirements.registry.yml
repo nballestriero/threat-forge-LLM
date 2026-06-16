@@ -1909,3 +1909,100 @@ requirements:
         - "command"
         - "tool-output"
 
+  - id: "REQ-0023"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Governance registry schema field classification"
+    statement: >
+      Before creating the explicit governance registry schema, the project shall
+      document the current governance registry field model, classify fields as
+      structural, free text, controlled values, governed IDs, ID references, or
+      semantic validation rules, and inventory the validator rules that are
+      currently hardcoded.
+    rationale: >
+      The governance registry contains the datasets that control capabilities,
+      decisions, document types, body profiles, graph node types, and predicates.
+      Its schema must be designed deliberately instead of copying hidden
+      validator assumptions into a schema file.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "documentation"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0023-001"
+        statement: "REQ-0021 requires explicit governed registry schemas and motivated controlled datasets."
+
+      - id: "PRE-REQ-0023-002"
+        statement: "The governance registry exists and is already consumed by deterministic validators."
+
+    main_flow:
+      - id: "FLOW-REQ-0023-001"
+        step: 1
+        actor: "Maintainer"
+        action: "Inventories the top-level sections and nested fields of governance.registry.yml."
+        expected_result: "The future schema scope is explicit."
+
+      - id: "FLOW-REQ-0023-002"
+        step: 2
+        actor: "Maintainer"
+        action: "Classifies each field as structural, free text, controlled value, governed ID, ID reference, or semantic validation rule."
+        expected_result: "The project can decide what belongs in JSON Schema and what remains in semantic validation."
+
+      - id: "FLOW-REQ-0023-003"
+        step: 3
+        actor: "Maintainer"
+        action: "Maps controlled fields to authoritative datasets or identifies missing datasets that must be introduced."
+        expected_result: "Controlled values are explicit and motivated before becoming binding."
+
+      - id: "FLOW-REQ-0023-004"
+        step: 4
+        actor: "Maintainer"
+        action: "Inventories current hardcoded validator rules related to governance registry shape and semantics."
+        expected_result: "Validator assumptions are visible before schema migration."
+
+    alternative_flows:
+      - id: "ALT-REQ-0023-001"
+        title: "Field cannot be classified yet"
+        trigger: "A governance registry field has unclear ownership between schema, dataset, and semantic validator."
+        steps:
+          - id: "FLOW-REQ-0023-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Records the uncertainty as an open design decision in the analysis document."
+            expected_result: "Unclear fields are not silently encoded into the schema."
+
+    postconditions:
+      - id: "POST-REQ-0023-001"
+        statement: "The governance registry schema design has a field-level analysis artifact."
+
+      - id: "POST-REQ-0023-002"
+        statement: "The project has an explicit list of controlled datasets to add or enrich for the governance registry."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0023-001"
+        statement: "The analysis document lists governance.registry.yml top-level sections and nested field classifications."
+
+      - id: "AC-REQ-0023-002"
+        statement: "The analysis document identifies controlled values and their authoritative datasets or missing dataset decisions."
+
+      - id: "AC-REQ-0023-003"
+        statement: "The analysis document separates future JSON Schema responsibility from semantic validator responsibility."
+
+      - id: "AC-REQ-0023-004"
+        statement: "The analysis document inventories current hardcoded validator rules relevant to the governance registry."
+
+      - id: "AC-REQ-0023-005"
+        statement: "docs:check validates the new analysis document through the structure and Markdown format guards."
+
+    verification:
+      method: "analysis"
+      required_evidence:
+        - "document"
+        - "yaml"
+        - "command"
+        - "tool-output"
+
+

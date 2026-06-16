@@ -394,6 +394,25 @@ decisions:
       - "The initial enforcement covers the project-model registry files and can be extended to contract/schema roots."
 
 
+
+  - id: "DEC-0014"
+    title: "Governance registry schema analysis separates schema shape from semantic validation"
+    status: "accepted"
+    statement: >
+      The governance registry schema design shall classify fields by structural
+      shape, free text, controlled values, governed IDs, ID references, and
+      semantic validation responsibilities before creating the explicit schema.
+    rationale: >
+      Creating the schema directly from current validator code would preserve
+      hidden assumptions. A field-level analysis makes controlled datasets,
+      hardcoded rules, and semantic validator boundaries visible before they
+      become binding schema artifacts.
+    consequences:
+      - "The first registry schema step is a governed analysis document, not an immediate JSON Schema drop-in."
+      - "The analysis documents which current validator rules are schema shape rules and which must remain semantic checks."
+      - "Controlled value datasets must be identified before the governance registry schema becomes binding."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
