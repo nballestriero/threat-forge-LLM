@@ -479,6 +479,24 @@ decisions:
       - "The schema carries file-local change-control metadata that is checked against graph.matrix.yml."
 
 
+  - id: "DEC-0016"
+    title: "Governance registry schema is executed by deterministic validation"
+    status: "accepted"
+    statement: >
+      The documentation format validator shall load and apply the canonical
+      Governance Registry JSON Schema to the parsed governance registry YAML
+      document as part of docs:check.
+    rationale: >
+      A schema artifact that is only registered but not executed does not prevent
+      registry drift. The schema must become validator input so structural
+      changes are checked by the governed contract instead of only by hardcoded
+      checks.
+    consequences:
+      - "docs:check:format validates governance.registry.yml against governance-registry.schema.json."
+      - "A negative fixture proves that schema-rejected fields fail validation."
+      - "Hardcoded semantic checks remain valid for cross-file references and graph consistency."
+
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

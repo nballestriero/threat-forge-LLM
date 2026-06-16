@@ -17,6 +17,7 @@
  * - REQ-0016
  * - REQ-0023
  * - REQ-0024
+ * - REQ-0025
  *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
@@ -228,6 +229,7 @@ function checkGovernanceControlReportSchema(relativePath) {
  * @param {string} relativePath - Repository-relative JSON Schema file path.
  * @returns {void}
  */
+
 function checkGovernanceRegistrySchema(relativePath) {
   const schema = readJson(relativePath);
   if (!isJsonObject(schema, relativePath)) {
@@ -285,6 +287,225 @@ function checkGovernanceRegistrySchema(relativePath) {
       }
     }
   }
+}
+
+/**
+ * Checks whether a parsed value is a non-null object and not an array.
+ *
+ * @param {unknown} value - Parsed value.
+ * @returns {value is Record<string, unknown>} True when the value is an object.
+ */
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+/**
+ * Converts a schema path segment into a human-readable validation path.
+ *
+ * @param {string} basePath - Existing validation path.
+ * @param {string} segment - Object key or array index segment.
+ * @returns {string} Updated path.
+ */
+function childSchemaPath(basePath, segment) {
+  if (/^[0-9]+$/.test(segment)) {
+    return `${basePath}[${segment}]`;
+  }
+
+  return basePath ? `${basePath}.${segment}` : `.${segment}`;
+}
+
+/**
+ * Resolves a local JSON Schema reference against the root schema.
+ *
+ * @param {Record<string, unknown>} rootSchema - Root JSON Schema object.
+ * @param {string} ref - Local reference, for example #/$defs/name.
+ * @returns {unknown | undefined} Resolved schema fragment.
+ */
+function resolveLocalSchemaRef(rootSchema, ref) {
+  if (!ref.startsWith("#/")) {
+    errors.push(`Unsupported JSON Schema reference ${ref}; only local references are supported.`);
+    return undefined;
+  }
+
+  const pathSegments = ref
+    .slice(2)
+    .split("/")
+    .map((segment) => segment.replace(/~1/g, "/").replace(/~0/g, "~"));
+
+  let current = rootSchema;
+  for (const segment of pathSegments) {
+    if (!isPlainObject(current) || !Object.prototype.hasOwnProperty.call(current, segment)) {
+      errors.push(`Cannot resolve JSON Schema reference ${ref}.`);
+      return undefined;
+    }
+    current = current[segment];
+  }
+
+  return current;
+}
+
+/**
+ * Validates a parsed document value against the supported JSON Schema subset.
+ *
+ * This intentionally supports the subset used by the governed registry schemas
+ * before introducing a full JSON Schema runtime dependency. The validator loads
+ * the canonical schema artifact and enforces its structural rules for the
+ * governance registry.
+ *
+ * @param {unknown} value - Parsed document value.
+ * @param {unknown} schema - JSON Schema fragment.
+ * @param {Record<string, unknown>} rootSchema - Root JSON Schema object.
+ * @param {string} documentPath - Repository-relative validated document path.
+ * @param {string} schemaPath - Repository-relative schema path.
+ * @param {string} valuePath - Human-readable path inside the validated document.
+ * @param {Set<string>} seenRefs - Active reference stack used to detect cycles.
+ * @returns {void}
+ */
+function validateValueAgainstSchema(value, schema, rootSchema, documentPath, schemaPath, valuePath = "", seenRefs = new Set()) {
+  if (schema === true || schema === undefined) {
+    return;
+  }
+
+  if (schema === false) {
+    errors.push(`YAML file ${documentPath}${valuePath} is not allowed by ${schemaPath}.`);
+    return;
+  }
+
+  if (!isPlainObject(schema)) {
+    errors.push(`JSON Schema ${schemaPath}${valuePath} must be an object or boolean schema.`);
+    return;
+  }
+
+  if (typeof schema.$ref === "string") {
+    if (seenRefs.has(schema.$ref)) {
+      errors.push(`Circular JSON Schema reference ${schema.$ref} while validating ${documentPath}${valuePath}.`);
+      return;
+    }
+
+    const resolved = resolveLocalSchemaRef(rootSchema, schema.$ref);
+    if (resolved !== undefined) {
+      seenRefs.add(schema.$ref);
+      validateValueAgainstSchema(value, resolved, rootSchema, documentPath, schemaPath, valuePath, seenRefs);
+      seenRefs.delete(schema.$ref);
+    }
+  }
+
+  const label = `${documentPath}${valuePath}`;
+
+  if (typeof schema.const !== "undefined" && value !== schema.const) {
+    errors.push(`YAML file ${label} must equal ${JSON.stringify(schema.const)} according to ${schemaPath}.`);
+  }
+
+  if (Array.isArray(schema.enum) && !schema.enum.includes(value)) {
+    errors.push(`YAML file ${label} must be one of ${schema.enum.map((entry) => JSON.stringify(entry)).join(", ")} according to ${schemaPath}.`);
+  }
+
+  if (typeof schema.type === "string") {
+    const validType =
+      (schema.type === "object" && isPlainObject(value)) ||
+      (schema.type === "array" && Array.isArray(value)) ||
+      (schema.type === "string" && typeof value === "string") ||
+      (schema.type === "number" && typeof value === "number") ||
+      (schema.type === "integer" && Number.isInteger(value)) ||
+      (schema.type === "boolean" && typeof value === "boolean") ||
+      (schema.type === "null" && value === null);
+
+    if (!validType) {
+      errors.push(`YAML file ${label} must be ${schema.type} according to ${schemaPath}.`);
+      return;
+    }
+  }
+
+  if (typeof value === "string") {
+    if (typeof schema.minLength === "number" && value.length < schema.minLength) {
+      errors.push(`YAML file ${label} must have length >= ${schema.minLength} according to ${schemaPath}.`);
+    }
+
+    if (typeof schema.pattern === "string" && !new RegExp(schema.pattern).test(value)) {
+      errors.push(`YAML file ${label} must match pattern ${schema.pattern} according to ${schemaPath}.`);
+    }
+  }
+
+  if (Array.isArray(value)) {
+    if (typeof schema.minItems === "number" && value.length < schema.minItems) {
+      errors.push(`YAML file ${label} must contain at least ${schema.minItems} item(s) according to ${schemaPath}.`);
+    }
+
+    if (schema.uniqueItems === true) {
+      const seen = new Set();
+      for (const item of value) {
+        const fingerprint = JSON.stringify(item);
+        if (seen.has(fingerprint)) {
+          errors.push(`YAML file ${label} must contain unique items according to ${schemaPath}.`);
+          break;
+        }
+        seen.add(fingerprint);
+      }
+    }
+
+    if (typeof schema.items !== "undefined") {
+      value.forEach((item, index) => {
+        validateValueAgainstSchema(item, schema.items, rootSchema, documentPath, schemaPath, childSchemaPath(valuePath, String(index)), new Set(seenRefs));
+      });
+    }
+  }
+
+  if (isPlainObject(value)) {
+    const properties = isPlainObject(schema.properties) ? schema.properties : {};
+    const required = Array.isArray(schema.required) ? schema.required : [];
+
+    if (typeof schema.minProperties === "number" && Object.keys(value).length < schema.minProperties) {
+      errors.push(`YAML file ${label} must contain at least ${schema.minProperties} propertie(s) according to ${schemaPath}.`);
+    }
+
+    for (const requiredKey of required) {
+      if (!Object.prototype.hasOwnProperty.call(value, requiredKey)) {
+        errors.push(`YAML file ${label || documentPath} is missing required property ${requiredKey} according to ${schemaPath}.`);
+      }
+    }
+
+    if (isPlainObject(schema.propertyNames)) {
+      for (const key of Object.keys(value)) {
+        validateValueAgainstSchema(key, schema.propertyNames, rootSchema, documentPath, schemaPath, `${valuePath} property name ${JSON.stringify(key)}`, new Set(seenRefs));
+      }
+    }
+
+    for (const [key, propertyValue] of Object.entries(value)) {
+      if (Object.prototype.hasOwnProperty.call(properties, key)) {
+        validateValueAgainstSchema(propertyValue, properties[key], rootSchema, documentPath, schemaPath, childSchemaPath(valuePath, key), new Set(seenRefs));
+        continue;
+      }
+
+      if (schema.additionalProperties === false) {
+        errors.push(`YAML file ${label || documentPath} does not allow additional property ${key} according to ${schemaPath}.`);
+        continue;
+      }
+
+      if (isPlainObject(schema.additionalProperties)) {
+        validateValueAgainstSchema(propertyValue, schema.additionalProperties, rootSchema, documentPath, schemaPath, childSchemaPath(valuePath, key), new Set(seenRefs));
+      }
+    }
+  }
+}
+
+/**
+ * Validates the Governance Registry YAML document against its canonical schema.
+ *
+ * @param {Record<string, unknown> | null} governance - Parsed governance registry.
+ * @param {string} schemaPath - Repository-relative schema path.
+ * @returns {void}
+ */
+function checkGovernanceRegistryAgainstSchema(governance, schemaPath) {
+  if (!governance) {
+    return;
+  }
+
+  const schema = readJson(schemaPath);
+  if (!isJsonObject(schema, schemaPath)) {
+    return;
+  }
+
+  validateValueAgainstSchema(governance, schema, schema, MODEL_FILES.governance, schemaPath);
 }
 
 /**
@@ -435,6 +656,7 @@ checkYamlBaseline(MODEL_FILES.matrix, [
 
 checkGovernanceControlReportSchema(CONTRACT_FILES.governanceControlReportSchema);
 checkGovernanceRegistrySchema(PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
+checkGovernanceRegistryAgainstSchema(governance, PROJECT_MODEL_SCHEMA_FILES.governanceRegistrySchema);
 
 if (governance) {
   const bodyProfiles = buildBodyProfileIndex(governance);

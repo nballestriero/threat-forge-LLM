@@ -2094,3 +2094,89 @@ requirements:
         - "command"
         - "tool-output"
 
+  - id: "REQ-0025"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+
+    title: "Governance registry schema-driven validation"
+    statement: >
+      The documentation format validator shall load the canonical Governance
+      Registry JSON Schema and apply it to docs/reference/project-model/governance.registry.yml
+      so structural registry drift is rejected by schema-driven validation rather
+      than only by hardcoded shape checks.
+    rationale: >
+      REQ-0024 introduced the schema artifact. The next safety step is proving
+      that deterministic tooling consumes the schema as an executable contract,
+      including rejection of fields that the previous hardcoded top-level checks
+      would not catch.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "operational"
+    scope: "project-model"
+
+    preconditions:
+      - id: "PRE-REQ-0025-001"
+        statement: "The Governance Registry JSON Schema artifact exists."
+
+      - id: "PRE-REQ-0025-002"
+        statement: "The documentation format validator parses governed YAML and JSON files."
+
+    main_flow:
+      - id: "FLOW-REQ-0025-001"
+        step: 1
+        actor: "Documentation format validator"
+        action: "Loads docs/reference/project-model/schemas/governance-registry.schema.json."
+        expected_result: "The canonical schema artifact is available as validator input."
+
+      - id: "FLOW-REQ-0025-002"
+        step: 2
+        actor: "Documentation format validator"
+        action: "Applies the supported JSON Schema subset to the parsed governance registry YAML document."
+        expected_result: "The governance registry is checked against the explicit schema contract."
+
+      - id: "FLOW-REQ-0025-003"
+        step: 3
+        actor: "Negative fixture runner"
+        action: "Mutates the governance registry with a schema-invalid field."
+        expected_result: "The format validator rejects the invalid registry through schema-driven validation."
+
+    alternative_flows:
+      - id: "ALT-REQ-0025-001"
+        title: "Schema contains unsupported feature"
+        trigger: "The canonical schema uses a keyword outside the local supported subset."
+        steps:
+          - id: "FLOW-REQ-0025-ALT-001"
+            step: 1
+            actor: "Maintainer"
+            action: "Either extends the deterministic validator or defers that schema keyword until runtime JSON Schema validation tooling is introduced."
+            expected_result: "The validator remains deterministic and honest about its supported schema subset."
+
+    postconditions:
+      - id: "POST-REQ-0025-001"
+        statement: "The governance registry is validated against its canonical schema by docs:check:format."
+
+      - id: "POST-REQ-0025-002"
+        statement: "Schema-invalid governance registry fields are rejected by a controlled negative fixture."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0025-001"
+        statement: "tools/docs/check-docs-format.mjs reads docs/reference/project-model/schemas/governance-registry.schema.json."
+
+      - id: "AC-REQ-0025-002"
+        statement: "docs:check:format validates docs/reference/project-model/governance.registry.yml against the Governance Registry schema."
+
+      - id: "AC-REQ-0025-003"
+        statement: "A negative fixture proves that an additional property rejected by the schema fails validation."
+
+      - id: "AC-REQ-0025-004"
+        statement: "docs:check runs the schema-driven governance registry validation through docs:check:format."
+
+    verification:
+      method: "test"
+      required_evidence:
+        - "json-schema"
+        - "yaml"
+        - "command"
+        - "tool-output"
+

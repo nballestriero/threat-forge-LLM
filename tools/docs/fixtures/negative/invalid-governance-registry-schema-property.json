@@ -1,0 +1,13 @@
+{
+  "id": "invalid-governance-registry-schema-property",
+  "description": "The governance registry contains a capability field rejected by the canonical Governance Registry schema.",
+  "validator": "format",
+  "expected_error": "does not allow additional property unexpected_schema_field",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/governance.registry.yml",
+      "replace": "    status: \"accepted\"\n\n  - id: \"CAP-GRAPH-IMPORT\"",
+      "with": "    status: \"accepted\"\n    unexpected_schema_field: \"invalid\"\n\n  - id: \"CAP-GRAPH-IMPORT\""
+    }
+  ]
+}

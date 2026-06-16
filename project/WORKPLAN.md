@@ -31,10 +31,11 @@ Status: in progress.
 - M000.021 - Governed baseline artifact bidirectional traceability.
 - M000.022A - Governance registry schema analysis.
 - M000.022B - Governance registry explicit schema contract.
+- M000.022C - Governance registry schema-driven validation.
 
 ## Next steps
 
-### M000.022C - Requirements registry schema analysis
+### M000.022D - Requirements registry schema analysis
 
 Goal: classify requirements.registry.yml fields before creating explicit schema artifacts.
 
@@ -46,7 +47,7 @@ Expected scope:
 - current hardcoded validator rule inventory
 - schema boundary vs semantic validator boundary
 
-### M000.022D - Graph matrix schema analysis
+### M000.022E - Graph matrix schema analysis
 
 Goal: classify graph.matrix.yml fields before creating explicit schema artifacts.
 
@@ -58,7 +59,7 @@ Expected scope:
 - current hardcoded graph validator rule inventory
 - schema boundary vs semantic validator boundary
 
-### M000.022E - Remaining registry schema contracts
+### M000.022F - Remaining registry schema contracts
 
 Goal: create explicit machine-readable schema files for governed registries and the graph matrix.
 
