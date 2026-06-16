@@ -33,6 +33,11 @@
  * - schema-validation:REQ-0042
  * - requirements-governance:REQ-0043
  *
+ * Related decisions:
+ * - markdown-format:DEC-0007
+ * - schema-validation:DEC-0011
+ * - source-traceability:DEC-0007
+ *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
  *

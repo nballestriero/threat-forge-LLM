@@ -18,6 +18,10 @@
  * - governance-control:REQ-0013
  * - governance-control:REQ-0018
  *
+ * Related decisions:
+ * - governance-control:DEC-0010
+ * - source-traceability:DEC-0007
+ *
  * Supports capabilities:
  * - CAP-GOVERNANCE-CONTROL
  *

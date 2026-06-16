@@ -66,3 +66,17 @@ decisions:
   - Command nodes with npm run commands must reference existing package.json scripts.
   - Governed validation scripts in package.json must have matching Command nodes.
   - The project model validator checks package.json command consistency.
+- id: DEC-0007
+  title: Governed source files require decision-backed traceability
+  status: accepted
+  statement: 'No governed source file shall be accepted with only requirement/tool traceability; each governed source file must also cite at least one graph-backed decision related to a requirement or validation tool implemented by that file.
+
+    '
+  rationale: 'The project must not allow functionality to be introduced merely because a source file cites a requirement. A decision-backed check ties code existence to explicit governance intent and prevents arbitrary, stale, or unrelated decision claims in source comments.
+
+    '
+  consequences:
+  - Governed source-file JSDoc comments must include a Related decisions section.
+  - The project model validator compares source-file decision claims against graph-backed decision relationships.
+  - Validation tools are explicitly supported by the source traceability hardening decision so every governed tool source has a deterministic decision anchor.
+  - New governed source files must add requirement, tool, command where applicable, and decision traceability before they can pass the repository gate.

@@ -1,0 +1,13 @@
+{
+  "id": "untraced-accepted-decision",
+  "description": "An accepted decision loses its outgoing graph traceability relationship.",
+  "validator": "model",
+  "expected_error": "Accepted decision global:DEC-0001 has no outgoing graph traceability relationship",
+  "mutations": [
+    {
+      "path": "docs/reference/project-model/graph/cross-area.graph.yml",
+      "replace": "id: global:DEC-0001",
+      "with": "id: global:DEC-9999"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "missing-source-decision-traceability",
+  "description": "A governed source file no longer declares a graph-backed decision in file-level JSDoc.",
+  "validator": "model",
+  "expected_error": "Source file tools/docs/check-docs-structure.mjs has no graph-backed decision traceability in its JSDoc",
+  "mutations": [
+    {
+      "path": "tools/docs/check-docs-structure.mjs",
+      "replace": " * - source-traceability:DEC-0004\n * - source-traceability:DEC-0007\n",
+      "with": ""
+    }
+  ]
+}

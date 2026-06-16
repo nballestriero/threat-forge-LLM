@@ -131,16 +131,23 @@ Planned micropasses:
 - M000.024R - Modularization closure review. Completed.
   - Scope: align schemas, structure guard, format guard, project-model validator, source JSDoc references, and workplan state after complete modular extraction.
 
-### M000.025 - Protected baseline artifact roots
+### M000.025 - Requirement/source/decision traceability hardening
 
-Goal: define protected roots for contracts, registry schemas, project-model registries, and future API contracts.
+Goal: prevent new governed functionality from entering the repository unless every governed source file is cross-checked against requirements, graph relationships, validation tools, and accepted decisions.
 
-Expected scope:
+Status: started.
 
-- protected artifact root registry/policy
-- deterministic detection of protected artifact changes
-- traceability requirements for protected contract/schema changes
-- no manual bypass when protected artifact checks fail
+Micropasses:
+
+- M000.025A - Decision-backed source traceability. Completed.
+  - Scope: require every governed source file to include graph-backed decision traceability in file-level JSDoc, require accepted decisions to have outgoing graph traceability, and add negative fixtures for missing source decision traceability and untraced accepted decisions.
+
+Expected follow-up scope:
+
+- enforce source/tool/package command traceability completeness for future source roots
+- add repository cleanliness and ignored-artifact guards before new runtime functionality
+- harden fixture-to-control traceability so each deterministic control has explicit negative coverage
+- keep protected artifact root detection as a later M000.025 micropass, not as a separate milestone
 
 ### M000.026 - Governance control report and page negative fixtures
 

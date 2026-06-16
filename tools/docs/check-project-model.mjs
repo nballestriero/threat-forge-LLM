@@ -5,9 +5,10 @@
  * Validates the compact governed project model, including controlled
  * taxonomies, requirement implementation lifecycle, governed ID uniqueness, ID format patterns, requirement
  * references, SPO predicate compatibility, command/gate/tool relationships,
- * mandatory registration of governed source files, governed baseline artifact
- * change-control markers, and file-level bidirectional traceability between
- * graph.matrix.yml and source-file JSDoc comments.
+ * mandatory registration of governed source files, decision-backed source
+ * traceability, governed baseline artifact change-control markers, and
+ * file-level bidirectional traceability between graph.matrix.yml and source-file
+ * JSDoc comments.
  *
  * Canonical references:
  * - docs/reference/project-model/governance.registry.yml
@@ -17,6 +18,7 @@
  * Related requirements:
  * - source-traceability:REQ-0005
  * - source-traceability:REQ-0006
+ * - source-traceability:REQ-0007
  * - graph-traceability:REQ-0022
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0004
@@ -32,6 +34,11 @@
  *
  * Provides graph nodes:
  * - TOOL-PROJECT-MODEL-CHECK
+ *
+ * Related decisions:
+ * - source-traceability:DEC-0005
+ * - source-traceability:DEC-0006
+ * - source-traceability:DEC-0007
  *
  * Related commands:
  * - CMD-PROJECT-MODEL-CHECK
@@ -86,6 +93,7 @@ const LOCAL_REQUIREMENT_ID_PATTERN = /^REQ-\d{4}$/;
 const LOCAL_MACRO_REQUIREMENT_ID_PATTERN = /^MR-\d{4}$/;
 const LOCAL_DECISION_ID_PATTERN = /^DEC-\d{4}$/;
 const CANONICAL_REQUIREMENT_REFERENCE_PATTERN = /(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*:)?REQ-\d{4}/g;
+const CANONICAL_DECISION_REFERENCE_PATTERN = /(?:[a-z][a-z0-9]*(?:-[a-z0-9]+)*:)?DEC-\d{4}/g;
 
 const MIGRATED_SCHEMA_VALIDATION_REQUIREMENT_IDS = new Map([
   ["REQ-0023", "schema-validation:REQ-0001"],
@@ -493,11 +501,12 @@ function extractFileJSDoc(content) {
  * Extracts governed references from a JSDoc block.
  *
  * @param {string} jsdoc - File-level JSDoc block.
- * @returns {{ requirements: Set<string>, tools: Set<string>, commands: Set<string>, capabilities: Set<string> }} Parsed references.
+ * @returns {{ requirements: Set<string>, decisions: Set<string>, tools: Set<string>, commands: Set<string>, capabilities: Set<string> }} Parsed references.
  */
 function extractTraceabilityReferences(jsdoc) {
   return {
     requirements: new Set(jsdoc.match(CANONICAL_REQUIREMENT_REFERENCE_PATTERN) ?? []),
+    decisions: new Set(jsdoc.match(CANONICAL_DECISION_REFERENCE_PATTERN) ?? []),
     tools: new Set(jsdoc.match(/\bTOOL-[A-Z0-9-]+\b/g) ?? []),
     commands: new Set(jsdoc.match(/\bCMD-[A-Z0-9-]+\b/g) ?? []),
     capabilities: new Set(jsdoc.match(/\bCAP-[A-Z0-9-]+\b/g) ?? [])
@@ -520,6 +529,7 @@ function checkJSDocCompleteness(sourceFile, jsdoc) {
     MODEL_FILES.requirements,
     MODEL_FILES.matrix,
     "Related requirements:",
+    "Related decisions:",
     "Provides graph nodes:",
     "Failure behavior:"
   ];
@@ -934,6 +944,44 @@ function validateTriples(indexes) {
 }
 
 /**
+ * Validates that accepted decisions are not isolated prose records. Each
+ * accepted decision must have at least one outgoing graph relationship that
+ * records what the decision decides, supports, specifies, explains, supersedes,
+ * conflicts with, or depends on.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateAcceptedDecisionTraceability(indexes) {
+  const traceabilityPredicates = new Set([
+    "DECIDES",
+    "SUPPORTS",
+    "SPECIFIED_BY",
+    "EXPLAINED_BY",
+    "SUPERSEDES",
+    "CONFLICTS_WITH",
+    "DEPENDS_ON"
+  ]);
+
+  for (const decision of indexes.decisions) {
+    if (decision?.status !== "accepted") {
+      continue;
+    }
+
+    const hasOutgoingTraceability = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.type === "Decision" &&
+        triple?.subject?.id === decision.id &&
+        traceabilityPredicates.has(triple?.predicate)
+    );
+
+    if (!hasOutgoingTraceability) {
+      errors.push(`Accepted decision ${decision.id} has no outgoing graph traceability relationship`);
+    }
+  }
+}
+
+/**
  * Extracts npm script names from Command nodes using the "npm run <script>"
  * command format.
  *
@@ -1316,6 +1364,13 @@ function validateBidirectionalSourceTraceability(indexes) {
       checkNoMigratedSchemaValidationLegacyId(requirementId, "Requirement", `Source file ${file} JSDoc`);
     }
 
+    for (const decisionId of refs.decisions) {
+      checkNoMigratedSchemaValidationLegacyId(decisionId, "Decision", `Source file ${file} JSDoc`);
+      if (!indexes.decisionIds.has(decisionId)) {
+        errors.push(`File ${file} JSDoc cites unknown decision ${decisionId}`);
+      }
+    }
+
     for (const requirementId of requirementByFile.get(file) ?? []) {
       if (!refs.requirements.has(requirementId)) {
         errors.push(`Matrix says ${requirementId} IMPLEMENTED_BY ${file}, but file JSDoc does not cite ${requirementId}`);
@@ -1356,6 +1411,34 @@ function validateBidirectionalSourceTraceability(indexes) {
 
       if (!hasMatchingTriple) {
         errors.push(`File ${file} JSDoc cites ${toolId}, but graph.matrix.yml has no matching IMPLEMENTED_BY triple`);
+      }
+    }
+
+    const graphBackedDecisionIds = new Set();
+    const fileRequirements = requirementByFile.get(file) ?? new Set();
+    const fileTools = toolByFile.get(file) ?? new Set();
+
+    for (const triple of indexes.triples) {
+      if (triple?.subject?.type !== "Decision" || !["DECIDES", "SUPPORTS", "DEPENDS_ON"].includes(triple?.predicate)) {
+        continue;
+      }
+
+      const backsRequirement = triple?.object?.type === "Requirement" && fileRequirements.has(triple.object.id);
+      const backsTool = triple?.object?.type === "ValidationTool" && fileTools.has(triple.object.id);
+
+      if (backsRequirement || backsTool) {
+        graphBackedDecisionIds.add(triple.subject.id);
+      }
+    }
+
+    const citedGraphBackedDecisions = [...refs.decisions].filter((decisionId) => graphBackedDecisionIds.has(decisionId));
+    if (citedGraphBackedDecisions.length === 0) {
+      errors.push(`Source file ${file} has no graph-backed decision traceability in its JSDoc`);
+    }
+
+    for (const decisionId of refs.decisions) {
+      if (indexes.decisionIds.has(decisionId) && !graphBackedDecisionIds.has(decisionId)) {
+        errors.push(`File ${file} JSDoc cites decision ${decisionId}, but graph.matrix.yml has no decision relationship to a requirement or validation tool implemented by this file`);
       }
     }
 
@@ -1846,6 +1929,7 @@ if (
   validateIds(indexes);
   validateRegistryReferences(indexes);
   validateTriples(indexes);
+  validateAcceptedDecisionTraceability(indexes);
   validatePackageScripts(indexes, packageJson);
   const baselineDocuments = new Map([
     [MODEL_FILES.governance, governance],

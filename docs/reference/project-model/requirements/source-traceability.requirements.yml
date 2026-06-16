@@ -197,3 +197,79 @@ requirements:
     - command
     - yaml
     - tool-output
+- id: REQ-0007
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Decision-backed source traceability
+  statement: 'The project shall reject governed source files whose file-level traceability is not backed by at least one accepted project decision connected through the graph to a requirement or validation tool implemented by that source file.
+
+    '
+  rationale: 'Requirement-to-source traceability proves what a file implements, but it does not by itself explain why the file or control is allowed to exist. Decision-backed source traceability ensures that governed code is introduced only through explicit governance decisions and that source-file comments cannot cite arbitrary or unrelated decisions.
+
+    '
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0007-001
+    statement: Governed source files declare file-level JSDoc traceability comments.
+  - id: PRE-REQ-0007-002
+    statement: The graph matrix contains decision relationships and IMPLEMENTED_BY relationships for requirements and validation tools.
+  main_flow:
+  - id: FLOW-REQ-0007-001
+    step: 1
+    actor: Project model validator
+    action: Reads decision references declared in each governed source file JSDoc comment.
+    expected_result: Source-local decision claims are available for deterministic comparison.
+  - id: FLOW-REQ-0007-002
+    step: 2
+    actor: Project model validator
+    action: Derives the decisions that back requirements or validation tools implemented by the same source file.
+    expected_result: The graph-backed decision set for the source file is known.
+  - id: FLOW-REQ-0007-003
+    step: 3
+    actor: Project model validator
+    action: Compares source-local decision claims with graph-backed decision relationships.
+    expected_result: Source files without graph-backed decision traceability, or with unrelated decision claims, are rejected.
+  alternative_flows:
+  - id: ALT-REQ-0007-001
+    title: Source file lacks decision traceability
+    trigger: A governed source file has requirement/tool traceability but no graph-backed decision reference in its JSDoc.
+    steps:
+    - id: FLOW-REQ-0007-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Reports the source file that lacks graph-backed decision traceability.
+      expected_result: The repository check fails before ungoverned functionality can be committed.
+  - id: ALT-REQ-0007-002
+    title: Source file cites unrelated decision
+    trigger: A source-file JSDoc comment cites a known decision that does not decide, support, or depend on a requirement or validation tool implemented by that file.
+    steps:
+    - id: FLOW-REQ-0007-ALT-002
+      step: 1
+      actor: Project model validator
+      action: Reports the unrelated source-file decision claim.
+      expected_result: The repository check fails with a decision traceability mismatch.
+  postconditions:
+  - id: POST-REQ-0007-001
+    statement: Every governed source file has at least one graph-backed decision reference.
+  - id: POST-REQ-0007-002
+    statement: Source-file decision references are rejected when they are unknown or unrelated to that file's implemented requirement/tool relationships.
+  acceptance_criteria:
+  - id: AC-REQ-0007-001
+    statement: Each governed source-file JSDoc block contains a Related decisions section.
+  - id: AC-REQ-0007-002
+    statement: Each cited decision exists in the aggregated project model.
+  - id: AC-REQ-0007-003
+    statement: At least one cited decision is connected by the graph to a requirement or validation tool implemented by the same source file.
+  - id: AC-REQ-0007-004
+    statement: A negative fixture proves that removing decision-backed source traceability is rejected.
+  verification:
+    method: test
+    required_evidence:
+    - source-comment
+    - yaml
+    - command
+    - tool-output

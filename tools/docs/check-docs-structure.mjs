@@ -24,6 +24,10 @@
  * - schema-validation:REQ-0042
  * - requirements-governance:REQ-0043
  *
+ * Related decisions:
+ * - source-traceability:DEC-0004
+ * - source-traceability:DEC-0007
+ *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
  *

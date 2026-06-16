@@ -31,6 +31,10 @@
  * Related requirements:
  * - project-handoff:REQ-0020
  *
+ * Related decisions:
+ * - project-handoff:DEC-0011
+ * - source-traceability:DEC-0007
+ *
  * Supports capabilities:
  * - CAP-DOCUMENTATION-GOVERNANCE
  *

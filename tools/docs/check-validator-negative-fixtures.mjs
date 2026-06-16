@@ -16,6 +16,10 @@
  * Related requirements:
  * - requirements-governance:REQ-0008
  *
+ * Related decisions:
+ * - requirements-governance:DEC-0008
+ * - source-traceability:DEC-0007
+ *
  * Supports capabilities:
  * - CAP-REQUIREMENTS-MANAGEMENT
  *
