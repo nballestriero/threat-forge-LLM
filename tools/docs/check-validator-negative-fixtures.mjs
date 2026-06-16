@@ -3,8 +3,9 @@
  * @file Validator negative fixture runner.
  *
  * Executes controlled negative fixtures against deterministic documentation
- * governance validators. Each fixture mutates a temporary repository copy and
- * verifies that the selected validator fails with the expected diagnostic.
+ * governance validators. Fixtures mutate a reusable temporary repository copy,
+ * verify that the selected validator fails with the expected diagnostic, and
+ * then restore the mutated paths before the next fixture runs.
  * Fixtures may replace text in existing files or create controlled temporary
  * files inside the copied repository.
  *
@@ -98,12 +99,16 @@ function copyWorkingTree(sourceRoot, targetRoot) {
  */
 function applyMutations(tempRoot, fixture) {
   let ok = true;
+  const restoreEntries = [];
 
   for (const mutation of fixture.mutations ?? []) {
     const target = absolutePath(tempRoot, mutation.path);
+    const existedBefore = fs.existsSync(target);
+    const previousContent = existedBefore ? fs.readFileSync(target, "utf8") : undefined;
+    restoreEntries.push({ target, existedBefore, previousContent });
 
     if (mutation.create === true) {
-      if (fs.existsSync(target)) {
+      if (existedBefore) {
         errors.push(`${fixture.id}: create mutation target already exists: ${mutation.path}`);
         ok = false;
         continue;
@@ -114,27 +119,40 @@ function applyMutations(tempRoot, fixture) {
       continue;
     }
 
-    let content;
-
-    try {
-      content = fs.readFileSync(target, "utf8");
-    } catch (error) {
-      errors.push(`${fixture.id}: cannot read mutation target ${mutation.path}: ${error.message}`);
+    if (!existedBefore) {
+      errors.push(`${fixture.id}: cannot read mutation target ${mutation.path}: file does not exist`);
       ok = false;
       continue;
     }
 
-    if (!content.includes(mutation.replace)) {
+    if (!previousContent.includes(mutation.replace)) {
       errors.push(`${fixture.id}: mutation target ${mutation.path} does not contain expected text: ${mutation.replace}`);
       ok = false;
       continue;
     }
 
-    const updated = content.replace(mutation.replace, mutation.with);
+    const updated = previousContent.replace(mutation.replace, mutation.with);
     fs.writeFileSync(target, updated, "utf8");
   }
 
-  return ok;
+  return { ok, restoreEntries };
+}
+
+/**
+ * Restores all files mutated by a fixture.
+ *
+ * @param {{ target: string, existedBefore: boolean, previousContent: string | undefined }[]} restoreEntries - Mutation restore state.
+ * @returns {void}
+ */
+function restoreMutations(restoreEntries) {
+  for (const entry of [...restoreEntries].reverse()) {
+    if (entry.existedBefore) {
+      fs.writeFileSync(entry.target, entry.previousContent ?? "", "utf8");
+      continue;
+    }
+
+    fs.rmSync(entry.target, { force: true });
+  }
 }
 
 /**
@@ -194,13 +212,11 @@ function runValidator(tempRoot, fixture) {
  * @param {object} fixture - Parsed fixture.
  * @returns {void}
  */
-function runFixture(fixture) {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "threat-forge-llm-negative-"));
+function runFixture(tempRoot, fixture) {
+  const { ok, restoreEntries } = applyMutations(tempRoot, fixture);
 
   try {
-    copyWorkingTree(root, tempRoot);
-
-    if (!applyMutations(tempRoot, fixture)) {
+    if (!ok) {
       return;
     }
 
@@ -219,7 +235,7 @@ function runFixture(fixture) {
 
     console.log(`Negative fixture passed: ${fixture.id}`);
   } finally {
-    fs.rmSync(tempRoot, { recursive: true, force: true });
+    restoreMutations(restoreEntries);
   }
 }
 
@@ -228,11 +244,19 @@ const fixtureFiles = fs
   .filter((file) => file.endsWith(".json"))
   .sort();
 
-for (const fixtureFile of fixtureFiles) {
-  const fixture = readFixture(path.join(fixturesDirectory, fixtureFile));
-  if (fixture) {
-    runFixture(fixture);
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "threat-forge-llm-negative-"));
+
+try {
+  copyWorkingTree(root, tempRoot);
+
+  for (const fixtureFile of fixtureFiles) {
+    const fixture = readFixture(path.join(fixturesDirectory, fixtureFile));
+    if (fixture) {
+      runFixture(tempRoot, fixture);
+    }
   }
+} finally {
+  fs.rmSync(tempRoot, { recursive: true, force: true });
 }
 
 if (errors.length > 0) {

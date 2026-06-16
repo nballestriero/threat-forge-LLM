@@ -4,12 +4,10 @@ change_control:
   - graph-traceability:DEC-0029
   satisfies:
   - graph-traceability:REQ-0038
-  rationale: This graph part is loaded through the governed graph index as part of the complete modular
-    project-model layout.
+  rationale: This graph part is loaded through the governed graph index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/graph-part.schema.json
-  rationale: The graph part declares the canonical schema that validates modular graph part shape
-    through check-docs-format.mjs.
+  rationale: The graph part declares the canonical schema that validates modular graph part shape through check-docs-format.mjs.
 part:
   area_id: global
   title: Global and cross-area graph part
@@ -79,8 +77,7 @@ nodes:
 - id: CMD-GOVERNANCE-CONTROL-PAGE-CHECK
   type: Command
   command: npm run docs:check:control-page
-  description: Renders the static Governance Control Page in check mode without writing generated
-    artifacts.
+  description: Renders the static Governance Control Page in check mode without writing generated artifacts.
 - id: CMD-GOVERNANCE-CONTROL-PAGE
   type: Command
   command: npm run docs:control:page
@@ -108,8 +105,7 @@ nodes:
 - id: TOOL-GOVERNANCE-CONTROL-PAGE-BUILDER
   type: ValidationTool
   path: tools/docs/generate-governance-control-page.mjs
-  description: Deterministic static Governance Control Page renderer that consumes the Governance
-    Control Report.
+  description: Deterministic static Governance Control Page renderer that consumes the Governance Control Report.
 - id: GATE-PROJECT-HANDOFF-ZIP
   type: Gate
   description: Gate that verifies the repository can produce a policy-compliant handoff ZIP archive.
@@ -145,36 +141,28 @@ nodes:
   description: Field-level design analysis for the explicit graph matrix schema.
 - id: docs/reference/project-model/schema-design/project-model-modularization-analysis.md
   type: Document
-  description: Design analysis for modularizing requirements, graph traceability, and decisions by
-    governed project-model area.
+  description: Design analysis for modularizing requirements, graph traceability, and decisions by governed project-model area.
 - id: docs/reference/project-model/schema-design/project-model-areas-taxonomy-contract.md
   type: Document
-  description: Contract document for the governed project_model_areas taxonomy used by future modular
-    project-model parts.
+  description: Contract document for the governed project_model_areas taxonomy used by future modular project-model parts.
 - id: project_model_areas
   type: Taxonomy
-  description: Controlled taxonomy for future project-model area identifiers used in canonical <area_id>:<local_id>
-    references.
+  description: Controlled taxonomy for future project-model area identifiers used in canonical <area_id>:<local_id> references.
 - id: docs/reference/project-model/schema-design/requirements-index-and-part-schema-contract.md
   type: Document
-  description: Contract document for the future requirements index and area-owned requirements part
-    schema design.
+  description: Contract document for the future requirements index and area-owned requirements part schema design.
 - id: docs/reference/project-model/schema-design/graph-index-and-part-schema-contract.md
   type: Document
-  description: Contract document for the future graph index, area-owned graph parts, and cross-area
-    graph relationship ownership model.
+  description: Contract document for the future graph index, area-owned graph parts, and cross-area graph relationship ownership model.
 - id: docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md
   type: Document
-  description: Contract document for the future governance index, global decisions part, and area-owned
-    decision part schema design.
+  description: Contract document for the future governance index, global decisions part, and area-owned decision part schema design.
 - id: docs/reference/project-model/schema-design/modular-project-model-loader-design.md
   type: Document
-  description: Design document for the future modular project-model loader, part aggregation, canonical
-    ID derivation, and semantic validation boundary.
+  description: Design document for the future modular project-model loader, part aggregation, canonical ID derivation, and semantic validation boundary.
 - id: docs/reference/project-model/schema-design/remaining-area-extraction-plan.md
   type: Document
-  description: Post-pilot plan for extracting the remaining project-model areas in small control-first
-    micropasses.
+  description: Post-pilot plan for extracting the remaining project-model areas in small control-first micropasses.
 - id: docs/reference/project-model/schemas/requirements-part.schema.json
   type: SchemaFile
   description: Canonical JSON Schema for modular requirements part files.
@@ -187,6 +175,84 @@ nodes:
 - id: artifacts/governance-control/report.json
   type: Document
   description: Generated Governance Control Report JSON artifact under the ignored artifacts directory.
+- id: tools/docs/fixtures/negative/duplicate-requirement-id.json
+  type: NegativeFixture
+  description: A requirement id is duplicated inside a modular requirements part.
+- id: tools/docs/fixtures/negative/invalid-cross-area-graph-ownership.json
+  type: NegativeFixture
+  description: A non-global graph part contains a canonical modular requirement owned by another area.
+- id: tools/docs/fixtures/negative/invalid-governance-registry-schema-property.json
+  type: NegativeFixture
+  description: The governance registry contains a capability field rejected by the canonical Governance Registry schema.
+- id: tools/docs/fixtures/negative/invalid-graph-matrix-schema-property.json
+  type: NegativeFixture
+  description: A graph part contains a node field rejected by the canonical Graph Part schema.
+- id: tools/docs/fixtures/negative/invalid-markdown-body-profile.json
+  type: NegativeFixture
+  description: A governed reference Markdown file misses a required body heading.
+- id: tools/docs/fixtures/negative/invalid-modular-local-graph-reference.json
+  type: NegativeFixture
+  description: A graph part references a modular schema-validation requirement by local ID instead of its canonical area-qualified ID.
+- id: tools/docs/fixtures/negative/invalid-project-model-area.json
+  type: NegativeFixture
+  description: The project_model_areas taxonomy contains an invalid area identifier rejected by the project model semantic validator.
+- id: tools/docs/fixtures/negative/invalid-requirements-registry-schema-property.json
+  type: NegativeFixture
+  description: A requirements part contains a requirement field rejected by the canonical Requirements Part schema.
+- id: tools/docs/fixtures/negative/invalid-schema-validation-legacy-reference.json
+  type: NegativeFixture
+  description: A graph part references a removed schema-validation legacy requirement ID instead of the canonical modular ID.
+- id: tools/docs/fixtures/negative/invalid-spo-predicate.json
+  type: NegativeFixture
+  description: A graph part triple uses an unregistered predicate.
+- id: tools/docs/fixtures/negative/invalid-yaml-schema-version.json
+  type: NegativeFixture
+  description: A governed project-model YAML file has an invalid schema_version.
+- id: tools/docs/fixtures/negative/missing-artifact-schema-control.json
+  type: NegativeFixture
+  description: The governance registry no longer declares its canonical schema metadata.
+- id: tools/docs/fixtures/negative/missing-baseline-change-control.json
+  type: NegativeFixture
+  description: missing-baseline-change-control.json
+- id: tools/docs/fixtures/negative/missing-graph-source-target.json
+  type: NegativeFixture
+  description: The graph references a SourceFile endpoint that does not exist in the checkout.
+- id: tools/docs/fixtures/negative/missing-implemented-requirement-evidence.json
+  type: NegativeFixture
+  description: An accepted implemented requirement loses its graph implementation/specification evidence.
+- id: tools/docs/fixtures/negative/missing-implemented-requirement-verification.json
+  type: NegativeFixture
+  description: An accepted implemented requirement loses its VERIFIED_BY graph evidence.
+- id: tools/docs/fixtures/negative/missing-package-command.json
+  type: NegativeFixture
+  description: A Command node references a package.json script that no longer exists.
+- id: tools/docs/fixtures/negative/missing-schema-applies-to.json
+  type: NegativeFixture
+  description: The governance registry schema no longer declares the artifact it applies to.
+- id: tools/docs/fixtures/negative/missing-source-decision-traceability.json
+  type: NegativeFixture
+  description: A governed source file no longer declares a graph-backed decision in file-level JSDoc.
+- id: tools/docs/fixtures/negative/missing-source-traceability.json
+  type: NegativeFixture
+  description: A source file no longer declares the requirement that the matrix says it implements.
+- id: tools/docs/fixtures/negative/missing-validation-tool-path.json
+  type: NegativeFixture
+  description: A ValidationTool node declares an implementation path that does not exist.
+- id: tools/docs/fixtures/negative/unbacked-implemented-requirement-decision.json
+  type: NegativeFixture
+  description: An accepted implemented requirement loses its accepted decision graph backing.
+- id: tools/docs/fixtures/negative/unregistered-negative-fixture.json
+  type: NegativeFixture
+  description: A real repository negative fixture file exists without a NegativeFixture graph node.
+- id: tools/docs/fixtures/negative/unregistered-source-file.json
+  type: NegativeFixture
+  description: A governed source file exists under tools without any IMPLEMENTED_BY graph traceability.
+- id: tools/docs/fixtures/negative/untraced-accepted-decision.json
+  type: NegativeFixture
+  description: An accepted decision loses its outgoing graph traceability relationship.
+- id: tools/docs/fixtures/negative/untraced-package-script.json
+  type: NegativeFixture
+  description: package.json declares an executable script that has no matching graph Command node.
 triples:
 - subject:
     id: global:DEC-0001
@@ -538,55 +604,6 @@ triples:
   object:
     id: tools/docs/check-validator-negative-fixtures.mjs
     type: SourceFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/duplicate-requirement-id.json
-    type: ConfigFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/invalid-spo-predicate.json
-    type: ConfigFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/missing-package-command.json
-    type: ConfigFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/missing-source-traceability.json
-    type: ConfigFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/invalid-markdown-body-profile.json
-    type: ConfigFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/invalid-yaml-schema-version.json
-    type: ConfigFile
-- subject:
-    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
-    type: ValidationTool
-  predicate: VALIDATES
-  object:
-    id: tools/docs/fixtures/negative/unregistered-source-file.json
-    type: ConfigFile
 - subject:
     id: MR-0002
     type: MacroRequirement
@@ -1182,3 +1199,549 @@ triples:
   object:
     id: docs/reference/project-model/graph/backend-architecture.graph.yml
     type: Document
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/duplicate-requirement-id.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/duplicate-requirement-id.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/duplicate-requirement-id.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-cross-area-graph-ownership.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-cross-area-graph-ownership.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-cross-area-graph-ownership.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-governance-registry-schema-property.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-governance-registry-schema-property.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-governance-registry-schema-property.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-graph-matrix-schema-property.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-graph-matrix-schema-property.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-graph-matrix-schema-property.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-markdown-body-profile.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-markdown-body-profile.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-markdown-body-profile.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-modular-local-graph-reference.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-modular-local-graph-reference.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-modular-local-graph-reference.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-project-model-area.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-project-model-area.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-project-model-area.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-requirements-registry-schema-property.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-requirements-registry-schema-property.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-requirements-registry-schema-property.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-schema-validation-legacy-reference.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-schema-validation-legacy-reference.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-schema-validation-legacy-reference.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-spo-predicate.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-spo-predicate.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-spo-predicate.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/invalid-yaml-schema-version.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/invalid-yaml-schema-version.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/invalid-yaml-schema-version.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-artifact-schema-control.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-artifact-schema-control.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-artifact-schema-control.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-baseline-change-control.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-baseline-change-control.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-baseline-change-control.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-graph-source-target.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-graph-source-target.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-graph-source-target.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-implemented-requirement-evidence.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-implemented-requirement-evidence.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-implemented-requirement-evidence.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-implemented-requirement-verification.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-implemented-requirement-verification.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-implemented-requirement-verification.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-package-command.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-package-command.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-package-command.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-schema-applies-to.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-schema-applies-to.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-schema-applies-to.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-source-decision-traceability.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-source-decision-traceability.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-source-decision-traceability.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-source-traceability.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-source-traceability.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-source-traceability.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/missing-validation-tool-path.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/missing-validation-tool-path.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/missing-validation-tool-path.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/unbacked-implemented-requirement-decision.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/unbacked-implemented-requirement-decision.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/unbacked-implemented-requirement-decision.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/unregistered-negative-fixture.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/unregistered-negative-fixture.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/unregistered-negative-fixture.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/unregistered-source-file.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/unregistered-source-file.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/unregistered-source-file.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/untraced-accepted-decision.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/untraced-accepted-decision.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/untraced-accepted-decision.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: TOOL-VALIDATOR-NEGATIVE-FIXTURES
+    type: ValidationTool
+  predicate: VALIDATES
+  object:
+    id: tools/docs/fixtures/negative/untraced-package-script.json
+    type: NegativeFixture
+- subject:
+    id: tools/docs/fixtures/negative/untraced-package-script.json
+    type: NegativeFixture
+  predicate: EXERCISES
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate
+- subject:
+    id: tools/docs/fixtures/negative/untraced-package-script.json
+    type: NegativeFixture
+  predicate: EXPECTS_FAILURE_OF
+  object:
+    id: GATE-DOCS-CHECK
+    type: Gate

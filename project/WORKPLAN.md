@@ -150,10 +150,12 @@ Micropasses:
 - M000.025D1 - Negative fixture traceability contract. Completed.
   - Scope: define NegativeFixture as the target model entity, record fixture-to-control traceability semantics, and explicitly separate real-repository fixture inventory from isolated negative fixture execution workspaces.
   - No enforcement added in this micropasso; D2 will implement the real-repository inventory gate after this boundary is stable.
+- M000.025D2 - Real-repository negative fixture traceability enforcement. Completed.
+  - Scope: discover real files under tools/docs/fixtures/negative, require each one to be represented as a NegativeFixture graph node, require VALIDATES, EXERCISES, and EXPECTS_FAILURE_OF traceability for each fixture, and add a negative fixture for an unregistered real fixture file.
+  - The enforcement is intentionally scoped to the real repository inventory and does not require isolated invalid fixture workspaces to synthesize unrelated fixture catalogue data.
 
 Expected follow-up scope:
 
-- implement real-repository negative fixture inventory enforcement without applying that inventory rule blindly inside isolated fixture workspaces
 - add repository cleanliness and ignored-artifact guards before new runtime functionality
 - add expected diagnostic or expected-control assertions after fixture inventory enforcement is stable
 - keep protected artifact root detection as a later M000.025 micropass, not as a separate milestone

@@ -4,12 +4,10 @@ change_control:
   - requirements-governance:DEC-0028
   satisfies:
   - requirements-governance:REQ-0037
-  rationale: This requirements part is loaded through the governed requirements index as part of the
-    complete modular project-model layout.
+  rationale: This requirements part is loaded through the governed requirements index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/requirements-part.schema.json
-  rationale: The requirements part declares the canonical schema that validates modular requirements
-    part shape through check-docs-format.mjs.
+  rationale: The requirements part declares the canonical schema that validates modular requirements part shape through check-docs-format.mjs.
 part:
   area_id: source-traceability
   title: Source Traceability requirements part
@@ -20,15 +18,10 @@ requirements:
   macro_requirement_id: MR-0001
   capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Bidirectional implementation traceability
-  statement: 'The project shall verify that governed source files are registered in graph.matrix.yml,
-    that implementation relationships declared in graph.matrix.yml are mirrored by traceability references
-    in source-file comments, and that source-file traceability claims are mirrored by graph matrix
-    triples.
+  statement: 'The project shall verify that governed source files are registered in graph.matrix.yml, that implementation relationships declared in graph.matrix.yml are mirrored by traceability references in source-file comments, and that source-file traceability claims are mirrored by graph matrix triples.
 
     '
-  rationale: 'Bidirectional checks prevent unregistered source files from entering the repository,
-    prevent the matrix from claiming implementation that code does not acknowledge, and prevent code
-    comments from claiming governed implementation that the graph matrix does not record.
+  rationale: 'Bidirectional checks prevent unregistered source files from entering the repository, prevent the matrix from claiming implementation that code does not acknowledge, and prevent code comments from claiming governed implementation that the graph matrix does not record.
 
     '
   status: accepted
@@ -46,8 +39,7 @@ requirements:
     step: 1
     actor: Validation tool
     action: Discovers governed source files under controlled source roots.
-    expected_result: Source files that require graph traceability are known even before graph.matrix.yml
-      references them.
+    expected_result: Source files that require graph traceability are known even before graph.matrix.yml references them.
   - id: FLOW-REQ-0005-002
     step: 2
     actor: Validation tool
@@ -66,8 +58,7 @@ requirements:
   alternative_flows:
   - id: ALT-REQ-0005-001
     title: Governed source file is not registered
-    trigger: A source file exists under a governed source root but has no IMPLEMENTED_BY relationship
-      in graph.matrix.yml.
+    trigger: A source file exists under a governed source root but has no IMPLEMENTED_BY relationship in graph.matrix.yml.
     steps:
     - id: FLOW-REQ-0005-ALT-001
       step: 1
@@ -76,8 +67,7 @@ requirements:
       expected_result: The check fails before an untraceable source file can be committed.
   - id: ALT-REQ-0005-002
     title: Matrix references source file without source comment
-    trigger: graph.matrix.yml contains an IMPLEMENTED_BY SourceFile triple but the source file does
-      not cite the requirement.
+    trigger: graph.matrix.yml contains an IMPLEMENTED_BY SourceFile triple but the source file does not cite the requirement.
     steps:
     - id: FLOW-REQ-0005-ALT-002
       step: 1
@@ -86,8 +76,7 @@ requirements:
       expected_result: The check fails with a traceability error.
   - id: ALT-REQ-0005-003
     title: Source comment references requirement without matrix triple
-    trigger: A source file claims it implements a requirement but graph.matrix.yml has no matching
-      IMPLEMENTED_BY triple.
+    trigger: A source file claims it implements a requirement but graph.matrix.yml has no matching IMPLEMENTED_BY triple.
     steps:
     - id: FLOW-REQ-0005-ALT-003
       step: 1
@@ -98,20 +87,16 @@ requirements:
   - id: POST-REQ-0005-001
     statement: Every governed source file is represented by IMPLEMENTED_BY traceability in graph.matrix.yml.
   - id: POST-REQ-0005-002
-    statement: Implementation traceability is consistent between graph.matrix.yml and source-file
-      comments.
+    statement: Implementation traceability is consistent between graph.matrix.yml and source-file comments.
   - id: POST-REQ-0005-003
-    statement: Traceability is enforced at file level before future code-symbol-level traceability
-      is introduced.
+    statement: Traceability is enforced at file level before future code-symbol-level traceability is introduced.
   acceptance_criteria:
   - id: AC-REQ-0005-001
-    statement: Each governed source file under controlled source roots has at least one matching IMPLEMENTED_BY
-      SourceFile triple.
+    statement: Each governed source file under controlled source roots has at least one matching IMPLEMENTED_BY SourceFile triple.
   - id: AC-REQ-0005-002
     statement: Each IMPLEMENTED_BY SourceFile triple points to an existing source file.
   - id: AC-REQ-0005-003
-    statement: Each SourceFile referenced by an IMPLEMENTED_BY requirement triple declares the related
-      requirement in file-level JSDoc.
+    statement: Each SourceFile referenced by an IMPLEMENTED_BY requirement triple declares the related requirement in file-level JSDoc.
   - id: AC-REQ-0005-004
     statement: Each file-level JSDoc requirement claim has a matching IMPLEMENTED_BY triple in graph.matrix.yml.
   - id: AC-REQ-0005-005
@@ -128,12 +113,10 @@ requirements:
   macro_requirement_id: MR-0001
   capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Validation command consistency
-  statement: 'The project shall verify that governed validation Command nodes in graph.matrix.yml
-    are consistent with executable scripts declared in package.json.
+  statement: 'The project shall verify that governed validation Command nodes in graph.matrix.yml are consistent with executable scripts declared in package.json.
 
     '
-  rationale: 'Validation command traceability is only useful if the graph matrix and package manifest
-    agree on the commands that can actually be run.
+  rationale: 'Validation command traceability is only useful if the graph matrix and package manifest agree on the commands that can actually be run.
 
     '
   status: accepted
@@ -277,15 +260,10 @@ requirements:
   macro_requirement_id: MR-0001
   capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Implemented requirement evidence closure
-  statement: 'The project shall reject accepted requirements marked as implemented unless the graph
-    records implementation or specification evidence, verification evidence, and an accepted decision
-    relationship for the same requirement.
+  statement: 'The project shall reject accepted requirements marked as implemented unless the graph records implementation or specification evidence, verification evidence, and an accepted decision relationship for the same requirement.
 
     '
-  rationale: 'Implementation status is a governance claim. The claim is only reliable when the graph
-    records what implements or specifies the requirement, how the requirement is verified, and which
-    accepted decision backs the requirement. This prevents requirements from being marked implemented
-    through prose-only edits or partial registry changes.
+  rationale: 'Implementation status is a governance claim. The claim is only reliable when the graph records what implements or specifies the requirement, how the requirement is verified, and which accepted decision backs the requirement. This prevents requirements from being marked implemented through prose-only edits or partial registry changes.
 
     '
   status: accepted
@@ -373,15 +351,10 @@ requirements:
   macro_requirement_id: MR-0001
   capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Graph target and command existence closure
-  statement: 'The project shall reject graph relationships, graph nodes, and package command declarations
-    that reference missing repository-backed source, schema, config, test, validation-tool, or package
-    script targets.
+  statement: 'The project shall reject graph relationships, graph nodes, and package command declarations that reference missing repository-backed source, schema, config, test, validation-tool, or package script targets.
 
     '
-  rationale: 'Traceability is unsafe if the graph can point at files or commands that do not exist in
-    the checkout. Repository-backed graph targets must be concrete, package scripts must be represented
-    by Command nodes, and ValidationTool nodes must be tied to the exact source file that implements
-    them.
+  rationale: 'Traceability is unsafe if the graph can point at files or commands that do not exist in the checkout. Repository-backed graph targets must be concrete, package scripts must be represented by Command nodes, and ValidationTool nodes must be tied to the exact source file that implements them.
 
     '
   status: accepted
@@ -391,11 +364,9 @@ requirements:
   scope: repository
   preconditions:
   - id: PRE-REQ-0009-001
-    statement: The graph matrix declares repository-backed nodes and SPO endpoints for source, schema,
-      config, test, command, and validation-tool entities.
+    statement: The graph matrix declares repository-backed nodes and SPO endpoints for source, schema, config, test, command, and validation-tool entities.
   - id: PRE-REQ-0009-002
-    statement: package.json declares the executable npm scripts for governed validation and support
-      commands.
+    statement: package.json declares the executable npm scripts for governed validation and support commands.
   main_flow:
   - id: FLOW-REQ-0009-001
     step: 1
@@ -405,26 +376,22 @@ requirements:
   - id: FLOW-REQ-0009-002
     step: 2
     actor: Project model validator
-    action: Verifies that SourceFile, SchemaFile, TestFile, and ConfigFile graph targets resolve to
-      files in the checkout.
+    action: Verifies that SourceFile, SchemaFile, TestFile, and ConfigFile graph targets resolve to files in the checkout.
     expected_result: Stale graph references to missing repository-backed files are rejected.
   - id: FLOW-REQ-0009-003
     step: 3
     actor: Project model validator
-    action: Verifies that ValidationTool nodes declare an existing path and that the graph contains a
-      matching IMPLEMENTED_BY SourceFile relationship for that path.
+    action: Verifies that ValidationTool nodes declare an existing path and that the graph contains a matching IMPLEMENTED_BY SourceFile relationship for that path.
     expected_result: Validation tool declarations cannot drift away from their implementing source file.
   - id: FLOW-REQ-0009-004
     step: 4
     actor: Project model validator
-    action: Verifies that every package.json script has a Command node and every Command node runs an
-      existing package.json script through a ValidationTool relationship.
+    action: Verifies that every package.json script has a Command node and every Command node runs an existing package.json script through a ValidationTool relationship.
     expected_result: Package command declarations and graph command nodes remain bidirectionally aligned.
   alternative_flows:
   - id: ALT-REQ-0009-001
     title: Graph endpoint references missing repository file
-    trigger: A graph triple endpoint or path-backed graph node names a SourceFile, SchemaFile,
-      TestFile, or ConfigFile that does not exist in the checkout.
+    trigger: A graph triple endpoint or path-backed graph node names a SourceFile, SchemaFile, TestFile, or ConfigFile that does not exist in the checkout.
     steps:
     - id: FLOW-REQ-0009-ALT-001
       step: 1
@@ -460,8 +427,7 @@ requirements:
   - id: AC-REQ-0009-001
     statement: The validator rejects graph SourceFile endpoints that point to missing files.
   - id: AC-REQ-0009-002
-    statement: The validator rejects ValidationTool nodes whose declared implementation path is missing
-      or lacks a matching IMPLEMENTED_BY triple.
+    statement: The validator rejects ValidationTool nodes whose declared implementation path is missing or lacks a matching IMPLEMENTED_BY triple.
   - id: AC-REQ-0009-003
     statement: The validator rejects package.json scripts that have no matching Command node.
   - id: AC-REQ-0009-004
@@ -476,18 +442,14 @@ requirements:
   macro_requirement_id: MR-0001
   capability_id: CAP-REQUIREMENTS-MANAGEMENT
   title: Negative fixture traceability contract
-  statement: 'The project shall define negative validator fixtures as governed traceability artifacts
-    before enforcing repository-wide fixture inventory checks.
+  statement: 'The project shall define negative validator fixtures as governed traceability artifacts before enforcing repository-wide fixture inventory checks.
 
     '
-  rationale: 'Negative fixtures protect deterministic controls, but they are executed in intentionally
-    invalid isolated workspaces. The model must distinguish real-repository fixture inventory from
-    fixture execution workspaces before enforcement is added, otherwise negative tests can fail for
-    the wrong reason and stop proving their intended diagnostic class.
+  rationale: 'Negative fixtures protect deterministic controls, but they are executed in intentionally invalid isolated workspaces. The model must distinguish real-repository fixture inventory from fixture execution workspaces before enforcement is added, otherwise negative tests can fail for the wrong reason and stop proving their intended diagnostic class.
 
     '
   status: accepted
-  implementation_status: not_implemented
+  implementation_status: implemented
   priority: must
   type: operational
   scope: project-model
@@ -535,9 +497,78 @@ requirements:
   - id: AC-REQ-0010-003
     statement: The contract states that real-repository fixture inventory enforcement must not be applied blindly inside isolated invalid fixture workspaces.
   - id: AC-REQ-0010-004
-    statement: This requirement remains not_implemented until a later micropasso adds deterministic enforcement and negative coverage.
+    statement: The contract is now followed by deterministic real-repository fixture inventory enforcement while preserving isolated fixture execution boundaries.
   verification:
     method: analysis
     required_evidence:
     - document
     - yaml
+- id: REQ-0011
+  macro_requirement_id: MR-0001
+  capability_id: CAP-REQUIREMENTS-MANAGEMENT
+  title: Real-repository negative fixture inventory enforcement
+  statement: The project-model validator shall reject any real repository negative fixture file that is not represented and traced as a governed NegativeFixture graph entity.
+  rationale: Negative fixtures are safety controls for deterministic validators. A fixture file that exists outside the graph can silently stop protecting a requirement, validator, gate, or command. Real-repository inventory enforcement makes fixture coverage explicit without forcing every isolated invalid workspace to carry extra traceability unrelated to the diagnostic under test.
+  status: accepted
+  implementation_status: implemented
+  priority: must
+  type: operational
+  scope: repository
+  preconditions:
+  - id: PRE-REQ-0011-001
+    statement: Negative fixtures are stored as JSON files under tools/docs/fixtures/negative.
+  - id: PRE-REQ-0011-002
+    statement: The project graph can represent repository-owned fixture files as NegativeFixture nodes.
+  - id: PRE-REQ-0011-003
+    statement: Fixture execution workspaces are temporary mutated copies of the real repository.
+  main_flow:
+  - id: FLOW-REQ-0011-001
+    step: 1
+    actor: Project model validator
+    action: Discovers real negative fixture files under tools/docs/fixtures/negative.
+    expected_result: The validator has a deterministic inventory of fixture files present in the checkout.
+  - id: FLOW-REQ-0011-002
+    step: 2
+    actor: Project model validator
+    action: Requires each discovered fixture file to have a matching NegativeFixture graph node.
+    expected_result: Unregistered fixture files are rejected.
+  - id: FLOW-REQ-0011-003
+    step: 3
+    actor: Project model validator
+    action: Requires each NegativeFixture to have VALIDATES, EXERCISES, and EXPECTS_FAILURE_OF traceability.
+    expected_result: Fixture files are connected to the validator, gate, command, or requirement they protect.
+  - id: FLOW-REQ-0011-004
+    step: 4
+    actor: Negative fixture runner
+    action: Uses the normal model validator result for the fixture that intentionally creates an unregistered fixture file.
+    expected_result: The inventory rule is covered by a negative fixture without masking unrelated fixture diagnostics.
+  alternative_flows:
+  - id: ALT-REQ-0011-001
+    title: A temporary fixture workspace intentionally adds an unregistered fixture
+    trigger: The unregistered-negative-fixture test creates a temporary extra fixture file.
+    steps:
+    - id: FLOW-REQ-0011-ALT-001
+      step: 1
+      actor: Project model validator
+      action: Rejects the temporary repository because the extra fixture has no NegativeFixture graph node.
+      expected_result: The new inventory enforcement has direct negative coverage.
+  postconditions:
+  - id: POST-REQ-0011-001
+    statement: Every real negative fixture file has graph inventory traceability.
+  - id: POST-REQ-0011-002
+    statement: Negative fixture traceability can be tightened later with expected diagnostic/control assertions.
+  acceptance_criteria:
+  - id: AC-REQ-0011-001
+    statement: The validator rejects a tools/docs/fixtures/negative/*.json file that has no NegativeFixture graph node.
+  - id: AC-REQ-0011-002
+    statement: The validator rejects a NegativeFixture graph node whose file path does not exist.
+  - id: AC-REQ-0011-003
+    statement: The validator requires each discovered NegativeFixture to have VALIDATES, EXERCISES, and EXPECTS_FAILURE_OF traceability.
+  - id: AC-REQ-0011-004
+    statement: A dedicated negative fixture proves unregistered real fixture files are rejected.
+  verification:
+    method: test
+    required_evidence:
+    - yaml
+    - command
+    - tool-output

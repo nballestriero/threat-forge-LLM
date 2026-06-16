@@ -4,12 +4,10 @@ change_control:
   - requirements-governance:DEC-0030
   satisfies:
   - requirements-governance:REQ-0039
-  rationale: This decisions part is loaded through the governed decisions index as part of the complete
-    modular project-model layout.
+  rationale: This decisions part is loaded through the governed decisions index as part of the complete modular project-model layout.
 schema_control:
   schema: docs/reference/project-model/schemas/decisions-part.schema.json
-  rationale: The decisions part declares the canonical schema that validates modular decisions part
-    shape through check-docs-format.mjs.
+  rationale: The decisions part declares the canonical schema that validates modular decisions part shape through check-docs-format.mjs.
 part:
   area_id: source-traceability
   title: Source Traceability decisions part
@@ -19,12 +17,10 @@ decisions:
 - id: DEC-0004
   title: Validation commands as graph nodes
   status: accepted
-  statement: 'Commands used to run validation checks are represented as governed graph nodes and linked
-    through SPO triples.
+  statement: 'Commands used to run validation checks are represented as governed graph nodes and linked through SPO triples.
 
     '
-  rationale: 'Command tracking must remain compatible with the canonical SPO model and must not become
-    a parallel free-form verification field.
+  rationale: 'Command tracking must remain compatible with the canonical SPO model and must not become a parallel free-form verification field.
 
     '
   consequences:
@@ -34,32 +30,24 @@ decisions:
 - id: DEC-0005
   title: Bidirectional implementation traceability
   status: accepted
-  statement: 'Governed source files must be discovered by validation and implementation relationships
-    must be consistent in both directions between graph.matrix.yml and source-file comments.
+  statement: 'Governed source files must be discovered by validation and implementation relationships must be consistent in both directions between graph.matrix.yml and source-file comments.
 
     '
-  rationale: 'Traceability degrades if a source file can enter the repository without any requirement
-    link, if the graph matrix claims a source file implements a requirement while the source file
-    does not declare that traceability, or if source comments claim implementation that the matrix
-    does not contain.
+  rationale: 'Traceability degrades if a source file can enter the repository without any requirement link, if the graph matrix claims a source file implements a requirement while the source file does not declare that traceability, or if source comments claim implementation that the matrix does not contain.
 
     '
   consequences:
   - Governed source files under controlled source roots must have IMPLEMENTED_BY graph traceability.
   - IMPLEMENTED_BY triples from requirements to source files must be mirrored by source-file comments.
-  - Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY
-    triples.
-  - The initial validation level is file-level traceability; code-symbol traceability may be added
-    later.
+  - Source-file comments that claim requirement implementation must be mirrored by IMPLEMENTED_BY triples.
+  - The initial validation level is file-level traceability; code-symbol traceability may be added later.
 - id: DEC-0006
   title: Validation commands must match package scripts
   status: accepted
-  statement: 'Command nodes that represent npm validation commands must be consistent with scripts
-    declared in package.json.
+  statement: 'Command nodes that represent npm validation commands must be consistent with scripts declared in package.json.
 
     '
-  rationale: 'The graph matrix must not advertise commands that cannot be executed, and package.json
-    must not silently drift away from governed validation command nodes.
+  rationale: 'The graph matrix must not advertise commands that cannot be executed, and package.json must not silently drift away from governed validation command nodes.
 
     '
   consequences:
@@ -83,14 +71,10 @@ decisions:
 - id: DEC-0008
   title: Implemented requirements require closed graph evidence
   status: accepted
-  statement: 'Accepted requirements may be marked implemented only when the graph records evidence,
-    verification, and decision backing for the same requirement.
+  statement: 'Accepted requirements may be marked implemented only when the graph records evidence, verification, and decision backing for the same requirement.
 
     '
-  rationale: 'The implementation_status field must not become a manual assertion disconnected from
-    the traceability model. Requiring implementation/specification evidence, VERIFIED_BY evidence,
-    and accepted decision backing makes requirement completion auditable and blocks accidental or
-    unreviewed implementation claims.
+  rationale: 'The implementation_status field must not become a manual assertion disconnected from the traceability model. Requiring implementation/specification evidence, VERIFIED_BY evidence, and accepted decision backing makes requirement completion auditable and blocks accidental or unreviewed implementation claims.
 
     '
   consequences:
@@ -101,34 +85,24 @@ decisions:
 - id: DEC-0009
   title: Graph targets and package commands require existence closure
   status: accepted
-  statement: 'Graph relationships must not be allowed to cite missing repository-backed files or
-    unregistered package commands, and ValidationTool nodes must be backed by their concrete source
-    implementation path.
+  statement: 'Graph relationships must not be allowed to cite missing repository-backed files or unregistered package commands, and ValidationTool nodes must be backed by their concrete source implementation path.
 
     '
-  rationale: 'Requirement and decision traceability still gives false confidence if graph endpoints can
-    point at missing files, if a package script can be added without a Command node, or if a
-    ValidationTool node drifts away from the source file that implements it. Existence closure makes
-    traceability concrete rather than symbolic.
+  rationale: 'Requirement and decision traceability still gives false confidence if graph endpoints can point at missing files, if a package script can be added without a Command node, or if a ValidationTool node drifts away from the source file that implements it. Existence closure makes traceability concrete rather than symbolic.
 
     '
   consequences:
   - SourceFile, SchemaFile, TestFile, and ConfigFile graph targets are checked as existing files.
   - ValidationTool nodes must declare an existing source path and a matching IMPLEMENTED_BY relationship.
-  - Every package.json script must have a matching Command node, and every Command node must run a
-    ValidationTool through graph traceability.
+  - Every package.json script must have a matching Command node, and every Command node must run a ValidationTool through graph traceability.
   - Generated artifacts under artifacts/ remain excluded from Git and are not treated as source inputs.
 - id: DEC-0010
   title: Negative fixture traceability requires a real-repository enforcement boundary
   status: accepted
-  statement: 'Negative fixture traceability shall be specified before enforcement, and future enforcement
-    shall distinguish the real repository fixture inventory from isolated invalid fixture workspaces.
+  statement: 'Negative fixture traceability shall be specified before enforcement, and future enforcement shall distinguish the real repository fixture inventory from isolated invalid fixture workspaces.
 
     '
-  rationale: 'A repository-wide fixture inventory rule is valuable only when applied to the real checkout.
-    Applying the same rule inside every negative fixture workspace can mask the intended validation
-    failure and make negative tests prove the wrong behavior. The project therefore records the contract
-    first and defers enforcement until the validator boundary is explicit.
+  rationale: 'A repository-wide fixture inventory rule is valuable only when applied to the real checkout. Applying the same rule inside every negative fixture workspace can mask the intended validation failure and make negative tests prove the wrong behavior. The project therefore records the contract first and defers enforcement until the validator boundary is explicit.
 
     '
   consequences:
@@ -136,3 +110,13 @@ decisions:
   - Future fixture traceability enforcement must run against the real repository inventory, not blindly inside every isolated negative fixture workspace.
   - Existing ConfigFile-based fixture graph references remain transitional until the enforcement micropasso migrates them intentionally.
   - Expected diagnostic or expected-control assertions are deferred until basic fixture inventory enforcement is stable.
+- id: DEC-0011
+  title: Real repository negative fixture inventory is enforced by project model validation
+  status: accepted
+  statement: The project-model validator shall enforce negative fixture inventory and traceability for the real repository checkout, while relying on the existing fixture runner isolation for deliberately invalid temporary workspaces.
+  rationale: This keeps the safety property deterministic without making every negative fixture fail for fixture-inventory reasons before it can exercise its intended validator diagnostic.
+  consequences:
+  - Every real file under tools/docs/fixtures/negative must be represented by a NegativeFixture graph node.
+  - Every NegativeFixture must be connected through VALIDATES, EXERCISES, and EXPECTS_FAILURE_OF traceability.
+  - The first enforcement fixture proves that an extra unregistered fixture file is rejected.
+  - Expected diagnostic/control-level fixture assertions remain a later hardening step.

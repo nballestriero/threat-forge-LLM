@@ -73,10 +73,10 @@ This document only introduces the target contract. It does not require immediate
 
 The intended sequence is:
 
-1. Define this contract and the requirement/decision that governs it.
-2. Add real-repository fixture inventory enforcement only in the main project-model validation context.
-3. Add negative coverage that proves an unregistered real fixture is rejected.
-4. Add expected-diagnostic or expected-control assertions only after the inventory enforcement is stable.
+1. Define this contract and the requirement/decision that governs it. Completed by M000.025D1.
+2. Add real-repository fixture inventory enforcement only in the main project-model validation context. Completed by M000.025D2.
+3. Add negative coverage that proves an unregistered real fixture is rejected. Completed by M000.025D2.
+4. Add expected-diagnostic or expected-control assertions only after the inventory enforcement is stable. Deferred.
 
 ## Non-goals
 

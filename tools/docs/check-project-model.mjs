@@ -21,6 +21,7 @@
  * - source-traceability:REQ-0007
  * - source-traceability:REQ-0008
  * - source-traceability:REQ-0009
+ * - source-traceability:REQ-0011
  * - graph-traceability:REQ-0022
  * - schema-validation:REQ-0002
  * - schema-validation:REQ-0004
@@ -43,6 +44,7 @@
  * - source-traceability:DEC-0007
  * - source-traceability:DEC-0008
  * - source-traceability:DEC-0009
+ * - source-traceability:DEC-0011
  *
  * Related commands:
  * - CMD-PROJECT-MODEL-CHECK
@@ -130,6 +132,7 @@ const MIGRATED_SCHEMA_VALIDATION_DECISION_IDS = new Map([
 
 const GOVERNED_SOURCE_ROOTS = ["tools", "src", "backend", "frontend"];
 const GOVERNED_SOURCE_EXTENSIONS = new Set([".cjs", ".js", ".jsx", ".mjs", ".ts", ".tsx"]);
+const NEGATIVE_FIXTURE_DIRECTORY = "tools/docs/fixtures/negative";
 const SOURCE_DISCOVERY_EXCLUDED_DIRECTORIES = new Set([
   ".git",
   ".vs",
@@ -262,6 +265,28 @@ function discoverGovernedSourceFiles() {
   }
 
   return discovered.sort((left, right) => left.localeCompare(right));
+}
+
+
+/**
+ * Discovers negative validator fixtures in the real repository checkout.
+ *
+ * This inventory is intentionally evaluated only by the project-model validator
+ * when it runs on the actual checkout. The negative fixture runner invokes this
+ * same validator in temporary workspaces, but those workspaces still contain the
+ * real fixture catalogue unless an individual fixture deliberately mutates it.
+ *
+ * @returns {string[]} Repository-relative negative fixture file paths.
+ */
+function discoverNegativeFixtureFiles() {
+  if (!isDirectory(NEGATIVE_FIXTURE_DIRECTORY)) {
+    return [];
+  }
+
+  return fs.readdirSync(absolutePath(NEGATIVE_FIXTURE_DIRECTORY), { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".json"))
+    .map((entry) => `${NEGATIVE_FIXTURE_DIRECTORY}/${entry.name}`)
+    .sort((left, right) => left.localeCompare(right));
 }
 
 /**
@@ -1157,6 +1182,99 @@ function isGeneratedArtifactPath(value) {
  * @param {object} indexes - Entity indexes.
  * @returns {void}
  */
+
+/**
+ * Validates real-repository traceability for negative validator fixtures.
+ *
+ * Every JSON fixture under tools/docs/fixtures/negative is a governed safety
+ * artifact. The real checkout must represent each one as a NegativeFixture node
+ * and connect it to the validator/gate/command or requirement it exercises. The
+ * check is deliberately based on the discovered real fixture directory instead
+ * of being injected into the fixture runner, so ordinary isolated invalid
+ * workspaces are not required to synthesize extra traceability just to test a
+ * different failure mode.
+ *
+ * @param {object} indexes - Entity indexes.
+ * @returns {void}
+ */
+function validateNegativeFixtureTraceability(indexes) {
+  const discoveredFixtureFiles = discoverNegativeFixtureFiles();
+  const negativeFixtureNodes = new Set(indexes.matrixNodes
+    .filter((node) => node?.type === "NegativeFixture")
+    .map((node) => node.id));
+
+  for (const fixtureFile of discoveredFixtureFiles) {
+    if (!negativeFixtureNodes.has(fixtureFile)) {
+      errors.push(`Negative fixture file ${fixtureFile} has no NegativeFixture graph node`);
+      continue;
+    }
+
+    const hasValidatorTrace = indexes.triples.some(
+      (triple) =>
+        ["ValidationTool", "Gate"].includes(triple?.subject?.type) &&
+        triple?.predicate === "VALIDATES" &&
+        triple?.object?.type === "NegativeFixture" &&
+        triple?.object?.id === fixtureFile
+    );
+
+    if (!hasValidatorTrace) {
+      errors.push(`Negative fixture ${fixtureFile} is not VALIDATES-traced from a ValidationTool or Gate`);
+    }
+
+    const hasExercisesTrace = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.type === "NegativeFixture" &&
+        triple?.subject?.id === fixtureFile &&
+        triple?.predicate === "EXERCISES" &&
+        ["Requirement", "Gate", "ValidationTool", "Command"].includes(triple?.object?.type)
+    );
+
+    if (!hasExercisesTrace) {
+      errors.push(`Negative fixture ${fixtureFile} has no EXERCISES traceability`);
+    }
+
+    const hasExpectedFailureTrace = indexes.triples.some(
+      (triple) =>
+        triple?.subject?.type === "NegativeFixture" &&
+        triple?.subject?.id === fixtureFile &&
+        triple?.predicate === "EXPECTS_FAILURE_OF" &&
+        ["ValidationTool", "Gate", "Command"].includes(triple?.object?.type)
+    );
+
+    if (!hasExpectedFailureTrace) {
+      errors.push(`Negative fixture ${fixtureFile} has no EXPECTS_FAILURE_OF traceability`);
+    }
+  }
+
+  for (const node of indexes.matrixNodes.filter((candidate) => candidate?.type === "NegativeFixture")) {
+    if (typeof node?.id !== "string" || !node.id.startsWith(`${NEGATIVE_FIXTURE_DIRECTORY}/`) || !node.id.endsWith(".json")) {
+      errors.push(`NegativeFixture node ${node?.id ?? "<missing>"} must use a tools/docs/fixtures/negative/*.json path id`);
+      continue;
+    }
+
+    if (!isFile(node.id)) {
+      errors.push(`NegativeFixture node path does not exist: ${node.id}`);
+    }
+  }
+
+  for (const [index, triple] of indexes.triples.entries()) {
+    for (const side of ["subject", "object"]) {
+      const endpoint = triple?.[side];
+      if (endpoint?.type !== "NegativeFixture") {
+        continue;
+      }
+
+      if (!negativeFixtureNodes.has(endpoint.id)) {
+        errors.push(`triple[${index}].${side} references unknown NegativeFixture ${endpoint.id}`);
+      }
+
+      if (!isFile(endpoint.id)) {
+        errors.push(`triple[${index}].${side} NegativeFixture path does not exist: ${endpoint.id}`);
+      }
+    }
+  }
+}
+
 function validateGraphPathTargets(indexes) {
   const strictFileTypes = new Set(["SourceFile", "SchemaFile", "TestFile", "ConfigFile"]);
 
@@ -2094,6 +2212,7 @@ if (
   validateImplementedRequirementEvidence(indexes);
   validatePackageScripts(indexes, packageJson);
   validateGraphPathTargets(indexes);
+  validateNegativeFixtureTraceability(indexes);
   const baselineDocuments = new Map([
     [MODEL_FILES.governance, governance],
     [MODEL_FILES.requirements, requirements],

@@ -1,0 +1,13 @@
+{
+  "id": "unregistered-negative-fixture",
+  "description": "A real repository negative fixture file exists without a NegativeFixture graph node.",
+  "validator": "model",
+  "expected_error": "Negative fixture file tools/docs/fixtures/negative/unregistered-real-fixture.json has no NegativeFixture graph node",
+  "mutations": [
+    {
+      "path": "tools/docs/fixtures/negative/unregistered-real-fixture.json",
+      "create": true,
+      "content": "{\n  \"id\": \"unregistered-real-fixture\",\n  \"description\": \"Temporary fixture used to prove real-repository fixture inventory enforcement.\",\n  \"validator\": \"model\",\n  \"expected_error\": \"temporary\",\n  \"mutations\": []\n}\n"
+    }
+  ]
+}
