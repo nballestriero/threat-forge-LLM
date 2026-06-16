@@ -47,6 +47,7 @@ Status: in progress.
 - M000.024E - Requirements index and part schema contracts.
 - M000.024F - Graph index and part schema contracts.
 - M000.024G - Decisions index and part schema contracts.
+- M000.024H - Modular project model loader design.
 
 ## Next steps
 
@@ -91,9 +92,9 @@ Planned micropasses:
 - M000.024G - Decisions index and part schema contracts. Completed.
   - Scope: design decision index and decision part schemas, distinguishing global decisions from area decisions.
   - Added the decisions index and part contract document; no decision extraction or modular loader yet.
-- M000.024H - Modular project model loader design.
+- M000.024H - Modular project model loader design. Completed.
   - Scope: define how format and semantic validators will load index files and aggregate parts into one logical model.
-  - No broad migration yet.
+  - Added the modular project model loader design document; no loader implementation or area extraction yet.
 - M000.024I - First capability area extraction.
   - Scope: extract one small capability area, preferably schema validation governance, across requirements, graph triples, and decisions.
   - Prefer a clean coordinated migration over long-term dual support.

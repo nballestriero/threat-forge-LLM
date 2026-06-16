@@ -857,6 +857,29 @@ decisions:
       - "check-project-model.mjs remains responsible for semantic aggregation, canonical decision identity, duplicate detection, decision references, and graph traceability."
       - "No existing decisions are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
 
+
+  - id: "DEC-0031"
+    title: "Modular project model loading uses governed indexes and one logical aggregate"
+    status: "accepted"
+    statement: >
+      Future modular project-model validators shall load requirements, graph
+      traceability, and decisions through governed central indexes and aggregate
+      declared parts into one logical model before semantic validation.
+    rationale: >
+      The project is splitting large registries by project-model area, but the
+      validation model must remain deterministic and coherent. Loading parts
+      through central indexes prevents ad hoc directory scanning, while building
+      one logical model preserves cross-file traceability, canonical ID
+      uniqueness, predicate compatibility, source traceability, schema
+      application traceability, and command validation.
+    consequences:
+      - "requirements.registry.yml, graph.matrix.yml, and governance.registry.yml remain the future loading boundaries for modular parts."
+      - "Future part files must be declared by their owning index before they participate in the logical project model."
+      - "check-docs-format.mjs remains responsible for JSON Schema validation of index and part files."
+      - "check-project-model.mjs remains responsible for aggregating declared parts, deriving canonical identifiers, and running semantic validation."
+      - "Long-term compatibility with the monolithic project-model layout is not a target because the project is before first release."
+      - "No existing requirements, graph triples, or decisions are migrated by this decision; extraction is reserved for later loader implementation and first-area extraction micropasses."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"
