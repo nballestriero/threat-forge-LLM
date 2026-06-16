@@ -832,6 +832,31 @@ decisions:
       - "check-project-model.mjs remains responsible for semantic aggregation, SPO compatibility, entity existence, command checks, schema traceability, and source traceability."
       - "No existing graph nodes or triples are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
 
+
+  - id: "DEC-0030"
+    title: "Decisions modularization uses governance index and area part contracts"
+    status: "accepted"
+    statement: >
+      Decision records shall evolve toward a central governance index and
+      area-owned decision part files governed by future decisions part schema
+      contracts, while shared vocabularies remain governed through the
+      central governance registry.
+    rationale: >
+      governance.registry.yml is growing as decisions accumulate alongside
+      taxonomies, capabilities, document types, body profiles, node types, and
+      predicates. Splitting requirements and graph traceability without
+      splitting decisions would leave governance decisions as the next
+      monolithic scaling bottleneck. A governance index and decision parts
+      preserve one logical governance model while making decision ownership
+      explicit by project-model area.
+    consequences:
+      - "governance.registry.yml remains the canonical governance loading entrypoint and shared vocabulary registry."
+      - "Future decisions parts use registered project_model_areas values and canonical <area_id>:<local_id> identities for modular decision records."
+      - "The global decisions part owns intentionally cross-cutting decisions and must not become an uncontrolled dumping ground."
+      - "check-docs-format.mjs remains the JSON Schema validation entrypoint for future governance index and decisions part schemas."
+      - "check-project-model.mjs remains responsible for semantic aggregation, canonical decision identity, duplicate detection, decision references, and graph traceability."
+      - "No existing decisions are migrated by this decision; extraction is reserved for later modular loader and area extraction micropasses."
+
 document_types:
   - id: "tutorial"
     diataxis_section: "tutorials"

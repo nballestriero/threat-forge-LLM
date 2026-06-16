@@ -213,6 +213,10 @@ nodes:
     type: "Document"
     description: "Contract document for the future graph index, area-owned graph parts, and cross-area graph relationship ownership model."
 
+  - id: "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md"
+    type: "Document"
+    description: "Contract document for the future governance index, global decisions part, and area-owned decision part schema design."
+
 triples:
   - subject:
       id: "MR-0001"
@@ -3852,6 +3856,110 @@ triples:
 
   - subject:
       id: "REQ-0038"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-CHECK"
+      type: "Gate"
+
+  - subject:
+      id: "MR-0001"
+      type: "MacroRequirement"
+    predicate: "CONTAINS"
+    object:
+      id: "REQ-0039"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "BELONGS_TO_CAPABILITY"
+    object:
+      id: "CAP-DOCUMENTATION-GOVERNANCE"
+      type: "Capability"
+
+  - subject:
+      id: "DEC-0030"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "REQ-0039"
+      type: "Requirement"
+
+  - subject:
+      id: "DEC-0030"
+      type: "Decision"
+    predicate: "DECIDES"
+    object:
+      id: "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0034"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0036"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0037"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "DEPENDS_ON"
+    object:
+      id: "REQ-0038"
+      type: "Requirement"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "SPECIFIED_BY"
+    object:
+      id: "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md"
+      type: "Document"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-STRUCTURE"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-DOCS-FORMAT"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0039"
+      type: "Requirement"
+    predicate: "VERIFIED_BY"
+    object:
+      id: "GATE-PROJECT-MODEL"
+      type: "Gate"
+
+  - subject:
+      id: "REQ-0039"
       type: "Requirement"
     predicate: "VERIFIED_BY"
     object:

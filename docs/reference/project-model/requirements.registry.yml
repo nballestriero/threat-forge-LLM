@@ -3370,3 +3370,87 @@ requirements:
         - "yaml"
         - "command"
         - "tool-output"
+
+  - id: "REQ-0039"
+    macro_requirement_id: "MR-0001"
+    capability_id: "CAP-DOCUMENTATION-GOVERNANCE"
+    title: "Decisions index and part schema contracts"
+    statement: >
+      The project shall define the future decisions index and decision part
+      schema contract before splitting decisions out of the monolithic
+      governance registry into area-owned decision part files.
+    rationale: >
+      Decisions explain why project-model requirements, graph rules, schemas,
+      and validators exist. If requirements and graph traceability are
+      modularized but decisions remain monolithic, the governance registry
+      remains a scaling bottleneck and decision ownership becomes ambiguous.
+      Defining the decisions contract first prevents an ad hoc split that loses
+      traceability or duplicates validation logic.
+    status: "accepted"
+    implementation_status: "implemented"
+    priority: "must"
+    type: "documentation"
+    scope: "project-model"
+    preconditions:
+      - id: "PRE-REQ-0039-001"
+        statement: "REQ-0034 defines the overall project model modularization model."
+      - id: "PRE-REQ-0039-002"
+        statement: "REQ-0036 enforces project_model_areas before modular decisions parts rely broadly on area_id values."
+      - id: "PRE-REQ-0039-003"
+        statement: "REQ-0037 and REQ-0038 define requirements and graph modularization contracts so decision references can stay aligned with future modular identities."
+
+    main_flow:
+      - id: "FLOW-REQ-0039-001"
+        step: 1
+        actor: "Project model maintainer"
+        action: "Defines governance.registry.yml as the future governance index and shared vocabulary entrypoint."
+        expected_result: "The central governance file remains the canonical loading boundary for governance vocabularies and decision part declarations."
+      - id: "FLOW-REQ-0039-002"
+        step: 2
+        actor: "Project model maintainer"
+        action: "Defines global and area-owned decisions part files under docs/reference/project-model/decisions."
+        expected_result: "Future decisions can be split by registered project_model_areas values while preserving a governed global decision boundary."
+      - id: "FLOW-REQ-0039-003"
+        step: 3
+        actor: "Project model maintainer"
+        action: "Defines the validation responsibility split for future governance index and decisions part schemas."
+        expected_result: "Schema validation remains in check-docs-format.mjs and semantic aggregation remains in check-project-model.mjs."
+
+    alternative_flows:
+      - id: "ALT-REQ-0039-001"
+        title: "Decision applies to multiple project-model areas"
+        trigger: "A future decision governs more than one project-model area or establishes repository-wide project-model policy."
+        steps:
+          - id: "FLOW-REQ-0039-ALT-001"
+            step: 1
+            actor: "Project model maintainer"
+            action: "Assigns the decision to the governed global decisions part and references affected areas through explicit graph relationships when needed."
+            expected_result: "Cross-cutting decisions remain explicit without being duplicated across area decision parts."
+
+    postconditions:
+      - id: "POST-REQ-0039-001"
+        statement: "docs/reference/project-model/schema-design/decisions-index-and-part-schema-contract.md defines the future decisions index and part contract."
+      - id: "POST-REQ-0039-002"
+        statement: "No existing decisions are migrated before the modular loader design is defined."
+
+    acceptance_criteria:
+      - id: "AC-REQ-0039-001"
+        statement: "The contract document defines governance.registry.yml as the future governance index and shared vocabulary entrypoint."
+      - id: "AC-REQ-0039-002"
+        statement: "The contract document defines the future decisions part path pattern and global decisions part policy."
+      - id: "AC-REQ-0039-003"
+        statement: "The contract document states that canonical modular decision identity uses <area_id>:<local_id>."
+      - id: "AC-REQ-0039-004"
+        statement: "The contract document preserves check-docs-format.mjs as the schema validation entrypoint."
+      - id: "AC-REQ-0039-005"
+        statement: "The contract document preserves check-project-model.mjs as the semantic aggregation and cross-file validation tool."
+      - id: "AC-REQ-0039-006"
+        statement: "The workplan keeps modular loader design before decision extraction."
+
+    verification:
+      method: "inspection"
+      required_evidence:
+        - "document"
+        - "yaml"
+        - "command"
+        - "tool-output"
