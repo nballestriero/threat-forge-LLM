@@ -1150,3 +1150,60 @@ triples:
   object:
     id: docs/reference/project-model/graph/requirements-governance.graph.yml
     type: Document
+
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0040
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0048
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0049
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/requirements-governance.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/requirements-governance.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph/requirements-governance.graph.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0050
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph.matrix.yml
+    type: Document

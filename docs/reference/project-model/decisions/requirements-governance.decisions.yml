@@ -281,3 +281,16 @@ decisions:
   - Specialized child requirement headers shall keep only the local child id, type, parent_requirement_id, parent_relation_type, lifecycle metadata, and detail_document reference needed to anchor the child to its functional parent.
   - SPO-style relationships to user stories, components, commands, source files, gates, evidence, tests, controls, and other artifacts belong in the graph model, not as free-form registry body content.
   - Schema changes, validators, generated page changes, and bulk migration of existing requirement body fields are deferred to later micropasses.
+
+- id: DEC-0040
+  title: Graph matrix serializes the canonical graph model
+  status: accepted
+  statement: The project shall treat graph.matrix.yml and modular graph part files as the current physical serialization and loading boundary of the canonical graph model, while the graph model remains the conceptual source of truth for governed SPO relationships.
+  rationale: 'The phrase graph matrix names the current YAML artifact, but the governed concept is broader: a canonical relationship model connecting requirements, decisions, detail documents, components, source files, commands, gates, evidence, tests, controls, and future project artifacts. Keeping the matrix as a separate conceptual layer would encourage duplicate relationship fields in registries or generated pages. Treating it as graph model serialization preserves current tooling while clarifying that canonical relationships belong in one SPO graph model.'
+  consequences:
+  - graph.matrix.yml and area-owned graph part files remain the current file and loading boundary for graph data.
+  - The project may continue using graph matrix file names until a separate governed rename or schema migration is explicitly planned.
+  - Governed semantic links such as implements, requires component, verifies, specified by, implemented by, depends on, and related requirement relationships belong in graph triples rather than duplicated registry body fields.
+  - Compact requirement records and requirement detail documents may contain navigational pointers or explanatory prose, but they must not become parallel canonical stores of graph relationships.
+  - Generated requirements pages, governance control reports, static pages, future protected UIs, CLI tools, and APIs should consume relationship data from the graph model.
+  - Future schema, validator, page, API, file rename, or relationship migration changes are deferred to later micropasses.

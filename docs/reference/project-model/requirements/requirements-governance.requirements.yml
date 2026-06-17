@@ -1016,3 +1016,82 @@ requirements:
     - yaml
     - registry-entry
     - document
+
+- id: REQ-0050
+  macro_requirement_id: MR-0001
+  title: Graph model canonical SPO relationship layer
+  statement: The project shall treat graph.matrix.yml and modular graph part files as the physical serialization of the canonical graph model, not as a separate model or matrix concept that duplicates governed relationship data.
+  rationale: Requirements, requirement detail documents, decisions, source files, commands, evidence, components, user stories, gates, tests, and controls need one canonical relationship layer. Duplicating the same semantic links in registries, detail documents, generated pages, or report-specific fields would create drift and make deterministic validation harder. The current graph matrix can remain the file and loading boundary while the conceptual model is named and governed as the graph model.
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: functional
+  preconditions:
+  - id: PRE-REQ-0050-001
+    statement: REQ-0048 defines mandatory requirement detail documents and compact registry records.
+  - id: PRE-REQ-0050-002
+    statement: REQ-0049 defines that semantic SPO-style links for requirements belong in the graph model.
+  - id: PRE-REQ-0050-003
+    statement: The current project model already loads graph.matrix.yml and area-owned graph part files.
+  main_flow:
+  - id: FLOW-REQ-0050-001
+    step: 1
+    actor: Maintainer
+    action: Defines the graph model as the canonical layer for governed Subject-Predicate-Object relationships.
+    expected_result: Relationship semantics are discussed and designed as graph model semantics instead of as registry-specific fields.
+  - id: FLOW-REQ-0050-002
+    step: 2
+    actor: Maintainer
+    action: Treats graph.matrix.yml and modular graph part files as the current physical serialization and loading boundary for the graph model.
+    expected_result: Existing file names and validators can remain stable while the conceptual boundary becomes explicit.
+  - id: FLOW-REQ-0050-003
+    step: 3
+    actor: Maintainer
+    action: Keeps canonical relationship facts out of compact registries and requirement detail documents when those facts belong in graph triples.
+    expected_result: Registries remain compact, detail documents remain readable, and graph relationships remain queryable and deterministically validatable.
+  - id: FLOW-REQ-0050-004
+    step: 4
+    actor: Maintainer
+    action: Generates review pages, control reports, and future APIs from the graph model rather than from duplicated relationship fields.
+    expected_result: Downstream views consume one relationship source of truth.
+  alternative_flows:
+  - id: ALT-REQ-0050-001
+    title: A registry needs a navigational pointer
+    trigger: A compact registry needs a minimal reference for navigation, loading, or user review.
+    steps:
+    - id: FLOW-REQ-0050-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Adds only the minimal pointer needed for navigation and keeps canonical semantic relationships in the graph model.
+      expected_result: The registry does not become a second source of truth for SPO relationships.
+  - id: ALT-REQ-0050-002
+    title: A detail document mentions a relationship in prose
+    trigger: A requirement detail document needs to explain why a requirement relates to a component, control, source, command, evidence, or test.
+    steps:
+    - id: FLOW-REQ-0050-ALT-002
+      step: 1
+      actor: Maintainer
+      action: Allows explanatory prose while requiring the canonical relationship fact to exist as a graph triple when it is governed and machine-checkable.
+      expected_result: The body remains readable without replacing graph traceability.
+  postconditions:
+  - id: POST-REQ-0050-001
+    statement: graph.matrix.yml is understood as the current serialization of the graph model.
+  - id: POST-REQ-0050-002
+    statement: Governed SPO relationships have one canonical source of truth in the graph model.
+  - id: POST-REQ-0050-003
+    statement: Compact registries and requirement detail documents do not duplicate canonical graph relationships.
+  acceptance_criteria:
+  - id: AC-REQ-0050-001
+    statement: The requirements governance decision records that graph.matrix.yml and modular graph part files are the current physical serialization of the graph model.
+  - id: AC-REQ-0050-002
+    statement: The requirements governance decision records that governed SPO relationships belong in the graph model instead of duplicated registry fields.
+  - id: AC-REQ-0050-003
+    statement: The requirements governance decision records that generated pages, reports, and future APIs should read canonical relationships from the graph model.
+  - id: AC-REQ-0050-004
+    statement: File renames, schema changes, validator changes, and relationship migrations remain separate future micropasses.
+  verification:
+    method: inspection
+    required_evidence:
+    - yaml
+    - registry-entry
+    - document
