@@ -878,3 +878,141 @@ requirements:
     - yaml
     - registry-entry
     - document
+
+- id: REQ-0048
+  macro_requirement_id: MR-0001
+  title: Mandatory requirement detail documents and compact registry records
+  statement: Every governed requirement shall have a mandatory structured requirement detail document, and the requirements registry shall become a compact index that keeps identity, classification, status, title, and a required detail_document reference instead of long requirement body fields.
+  rationale: Requirement records currently mix identity metadata with narrative body content such as statement, rationale, preconditions, flows, acceptance criteria, and verification. That makes the registry hard to review, hard to diff, and hard to evolve into type-specific requirement formats. Mandatory detail documents let the registry stay small while preserving rich Markdown requirement bodies with English section headings, Gherkin acceptance criteria, security notes, verification notes, and Mermaid diagrams.
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: functional
+  preconditions:
+  - id: PRE-REQ-0048-001
+    statement: REQ-0046 defines functional and specialized requirement identity rules.
+  - id: PRE-REQ-0048-002
+    statement: REQ-0047 defines the controlled specialized requirement relationship taxonomy baseline.
+  main_flow:
+  - id: FLOW-REQ-0048-001
+    step: 1
+    actor: Maintainer
+    action: Defines requirement detail documents as mandatory for every governed requirement.
+    expected_result: No governed requirement is valid without a structured Markdown detail document.
+  - id: FLOW-REQ-0048-002
+    step: 2
+    actor: Maintainer
+    action: Keeps the requirements registry as a compact index of authored metadata and a required detail_document reference.
+    expected_result: Long body fields move out of the registry instead of being duplicated across YAML and Markdown.
+  - id: FLOW-REQ-0048-003
+    step: 3
+    actor: Maintainer
+    action: Defines the requirement detail document as the canonical home for Description, Rationale, Preconditions, Main Flow, Alternative Flows, Postconditions, Acceptance Criteria, Security Constraints and Notes, Verification, and Mermaid diagrams.
+    expected_result: Rich requirement text is governed by a structured Markdown body profile instead of registry-specific nested YAML fields.
+  - id: FLOW-REQ-0048-004
+    step: 4
+    actor: Maintainer
+    action: Uses English section headings in requirement detail documents, including Description rather than localized headings.
+    expected_result: Requirement detail documents remain consistent with the English project corpus and future body-profile validators.
+  alternative_flows:
+  - id: ALT-REQ-0048-001
+    title: Existing requirements still contain long registry fields
+    trigger: The project has not yet migrated existing requirement body fields into detail documents.
+    steps:
+    - id: FLOW-REQ-0048-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Treats the compact registry and mandatory detail document model as an accepted target model until a later migration implements schema, validator, and data changes.
+      expected_result: The decision is recorded without attempting a risky bulk migration in the same micropasso.
+  postconditions:
+  - id: POST-REQ-0048-001
+    statement: Every governed requirement has a future mandatory detail_document reference.
+  - id: POST-REQ-0048-002
+    statement: The requirements registry target model excludes long body fields from individual requirement records.
+  - id: POST-REQ-0048-003
+    statement: Requirement detail document headings are governed in English.
+  acceptance_criteria:
+  - id: AC-REQ-0048-001
+    statement: The requirements governance decision records that requirement detail documents are mandatory, not optional.
+  - id: AC-REQ-0048-002
+    statement: The requirements governance decision records that statement, rationale, implementation_rationale, preconditions, main_flow, alternative_flows, postconditions, acceptance_criteria, and verification shall move out of compact requirement records.
+  - id: AC-REQ-0048-003
+    statement: The requirements governance decision records that Description is the English heading for the description section.
+  - id: AC-REQ-0048-004
+    statement: Future schema and validator implementation remains a separate micropasso.
+  verification:
+    method: inspection
+    required_evidence:
+    - yaml
+    - registry-entry
+    - document
+
+- id: REQ-0049
+  macro_requirement_id: MR-0001
+  title: Specialized child requirement header and detail schema model
+  statement: Specialized child requirements shall use a minimal authored header that points to the parent functional requirement and the mandatory detail document, while their full body content lives in the requirement detail document and their verifiable relationships live in the graph model.
+  rationale: Specialized requirements add constraints, hardening, mitigations, controls, schemas, tooling expectations, verification expectations, operational process, or quality expectations to a functional parent. Their registry header should therefore identify the local child requirement, classify its type, point to the parent requirement through a governed relationship type, and point to the detail document, without duplicating the parent body or embedding long narrative sections in YAML.
+  status: accepted
+  implementation_status: not_implemented
+  priority: must
+  type: functional
+  preconditions:
+  - id: PRE-REQ-0049-001
+    statement: REQ-0046 defines specialized requirement identity as parent functional identity plus local specialized id.
+  - id: PRE-REQ-0049-002
+    statement: REQ-0047 defines the controlled requirement_relation_type taxonomy.
+  - id: PRE-REQ-0049-003
+    statement: REQ-0048 requires every governed requirement to have a structured requirement detail document.
+  main_flow:
+  - id: FLOW-REQ-0049-001
+    step: 1
+    actor: Maintainer
+    action: Defines the functional requirement header as the minimal authored record for macro-owned requirements.
+    expected_result: Functional headers retain only id, type, macro_requirement_id, area_id, title, status, implementation_status, priority, and detail_document after migration.
+  - id: FLOW-REQ-0049-002
+    step: 2
+    actor: Maintainer
+    action: Defines the specialized child requirement header as the minimal authored record that links to its parent and detail document.
+    expected_result: Specialized headers contain local id, type, parent_requirement_id, parent_relation_type, title, status, implementation_status, priority, and detail_document after migration.
+  - id: FLOW-REQ-0049-003
+    step: 3
+    actor: Maintainer
+    action: Keeps parent, component, verification, evidence, source, user-story, and other semantic links in governed graph triples rather than narrative registry fields.
+    expected_result: The registry header remains compact while graph traceability stays queryable and deterministic.
+  - id: FLOW-REQ-0049-004
+    step: 4
+    actor: Maintainer
+    action: Defines type-specific requirement detail body profiles before enforcing specialized child requirement schemas.
+    expected_result: Functional, security-control, governance-control, structural, schema, tooling, verification, operational, and quality details can have appropriate sections without bloating the registry.
+  alternative_flows:
+  - id: ALT-REQ-0049-001
+    title: Specialized child needs area filtering
+    trigger: A specialized child requirement must be discoverable through area-based review pages or reports.
+    steps:
+    - id: FLOW-REQ-0049-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Derives or validates any area classification against the parent functional requirement rather than using area_id as part of identity.
+      expected_result: Area-based filtering remains possible without making area_id part of the child identifier.
+  postconditions:
+  - id: POST-REQ-0049-001
+    statement: Functional and specialized requirement headers have distinct future schema targets.
+  - id: POST-REQ-0049-002
+    statement: Specialized child requirement records point to parent_requirement_id and parent_relation_type.
+  - id: POST-REQ-0049-003
+    statement: Requirement graph triples remain the canonical location for semantic links to components, user stories, evidence, commands, source files, gates, and other project artifacts.
+  acceptance_criteria:
+  - id: AC-REQ-0049-001
+    statement: The requirements governance decision records the future minimal functional requirement header fields.
+  - id: AC-REQ-0049-002
+    statement: The requirements governance decision records the future minimal specialized child requirement header fields.
+  - id: AC-REQ-0049-003
+    statement: The requirements governance decision records that child body content belongs in detail documents, not the registry header.
+  - id: AC-REQ-0049-004
+    statement: The requirements governance decision records that semantic SPO-style links belong in the graph model.
+  verification:
+    method: inspection
+    required_evidence:
+    - yaml
+    - registry-entry
+    - document

@@ -266,3 +266,18 @@ decisions:
   - Existing requirements remain type functional until manual review deliberately reclassifies or splits them.
   - Schema fields, validator rules, graph predicates, and derived specialized identifiers are deferred to later implementation micropasses.
   - New relationship values must be introduced through the governed registry, decision, and graph traceability flow instead of ad hoc requirement fields.
+
+- id: DEC-0039
+  title: Requirement records require structured detail documents
+  status: accepted
+  statement: Every governed requirement shall have a mandatory structured requirement detail document, the requirements registry shall become a compact index that references that document, and specialized child requirements shall use a minimal header that points to the parent functional requirement and the detail document.
+  rationale: The previous requirement records embedded rich body content directly in YAML, including statement, rationale, implementation rationale, preconditions, flows, postconditions, acceptance criteria, and verification. That shape is useful during bootstrapping but does not scale for governed requirement review, type-specific sections, Gherkin scenarios, Mermaid diagrams, or graph-based traceability. Mandatory detail documents keep the body readable and profile-validatable, while compact headers and graph triples keep identity and traceability deterministic.
+  consequences:
+  - detail_document becomes a mandatory target field for every governed requirement in the future compact registry schema.
+  - Requirement detail documents become the canonical home for requirement body sections, including Description, Rationale, Preconditions, Main Flow, Alternative Flows, Postconditions, Acceptance Criteria, Security Constraints and Notes, Verification, and Mermaid diagrams.
+  - Requirement detail document headings use English names, including Description instead of localized alternatives.
+  - Long registry fields such as statement, rationale, implementation_rationale, preconditions, main_flow, alternative_flows, postconditions, acceptance_criteria, and verification are transitional and shall be migrated out of compact requirement records.
+  - Functional requirement headers shall keep only the minimal metadata needed to identify, classify, govern, prioritize, and link to the mandatory detail document.
+  - Specialized child requirement headers shall keep only the local child id, type, parent_requirement_id, parent_relation_type, lifecycle metadata, and detail_document reference needed to anchor the child to its functional parent.
+  - SPO-style relationships to user stories, components, commands, source files, gates, evidence, tests, controls, and other artifacts belong in the graph model, not as free-form registry body content.
+  - Schema changes, validators, generated page changes, and bulk migration of existing requirement body fields are deferred to later micropasses.
