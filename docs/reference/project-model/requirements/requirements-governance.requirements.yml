@@ -815,3 +815,66 @@ requirements:
     - yaml
     - registry-entry
     - document
+
+- id: REQ-0047
+  macro_requirement_id: MR-0001
+  title: Controlled requirement relationship taxonomy baseline
+  statement: The project shall introduce a governed requirement_relation_type taxonomy for the specialized requirement relationship values REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR before those relationships are used for enforced specialized requirement records.
+  rationale: Specialized requirement records need a controlled relationship vocabulary before maintainers start converting functional requirements into security, governance, schema, tooling, verification, operational, or quality child requirements. Introducing the vocabulary as a small baseline keeps the next manual analysis grounded while avoiding premature schema or validator enforcement.
+  status: accepted
+  implementation_status: partially_implemented
+  priority: must
+  type: functional
+  preconditions:
+  - id: PRE-REQ-0047-001
+    statement: REQ-0046 defines the functional and specialized requirement identity model.
+  - id: PRE-REQ-0047-002
+    statement: The requirement_type taxonomy exists and all current requirements have been normalized to type functional for manual review.
+  main_flow:
+  - id: FLOW-REQ-0047-001
+    step: 1
+    actor: Maintainer
+    action: Adds requirement_relation_type to the governed taxonomy registry.
+    expected_result: The relationship vocabulary has a canonical registry location before specialized requirement enforcement is introduced.
+  - id: FLOW-REQ-0047-002
+    step: 2
+    actor: Maintainer
+    action: Defines REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR with id, function, and description.
+    expected_result: Each specialized relationship has a stable meaning for manual review and future validators.
+  - id: FLOW-REQ-0047-003
+    step: 3
+    actor: Maintainer
+    action: Keeps specialized relationship enforcement separate from the taxonomy baseline.
+    expected_result: Existing requirements remain functional while the maintainer continues manual classification analysis.
+  alternative_flows:
+  - id: ALT-REQ-0047-001
+    title: A new specialized relationship is proposed
+    trigger: Manual review identifies a relationship that is not covered by the baseline vocabulary.
+    steps:
+    - id: FLOW-REQ-0047-ALT-001
+      step: 1
+      actor: Maintainer
+      action: Adds the new relationship through a governed taxonomy update with decision and graph traceability.
+      expected_result: The vocabulary remains explicit and reviewed instead of growing ad hoc inside requirement records.
+  postconditions:
+  - id: POST-REQ-0047-001
+    statement: taxonomies.requirement_relation_type exists in governance.registry.yml.
+  - id: POST-REQ-0047-002
+    statement: The taxonomy defines REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR.
+  - id: POST-REQ-0047-003
+    statement: Future schema and semantic validation of specialized requirements remains a separate micropasso.
+  acceptance_criteria:
+  - id: AC-REQ-0047-001
+    statement: governance.registry.yml declares taxonomies.requirement_relation_type with exactly the governed baseline relationship values.
+  - id: AC-REQ-0047-002
+    statement: Each requirement_relation_type entry declares id, function, and description.
+  - id: AC-REQ-0047-003
+    statement: The graph model contains a Taxonomy node for requirement_relation_type and traces the accepted decision to the taxonomy.
+  - id: AC-REQ-0047-004
+    statement: No existing requirement is migrated to a specialized local id or specialized type in this baseline step.
+  verification:
+    method: inspection
+    required_evidence:
+    - yaml
+    - registry-entry
+    - document

@@ -123,6 +123,22 @@ taxonomies:
   - id: quality
     function: defines non-functional quality expectations
     description: Specialized requirement for robustness, readability, maintainability, determinism, or similar qualities anchored to a functional requirement.
+  requirement_relation_type:
+  - id: REFINES
+    function: details a broader functional requirement into a more specific child requirement
+    description: Specialized relationship showing that the child requirement narrows or elaborates the parent functional requirement without changing the parent intent.
+  - id: HARDENS
+    function: adds security or governance hardening to a functional requirement
+    description: Specialized relationship showing that the child requirement strengthens the parent requirement with protective controls or stricter expectations.
+  - id: CONSTRAINS
+    function: limits what an implementation may do while satisfying a functional requirement
+    description: Specialized relationship showing that the child requirement restricts behavior, scope, data shape, process, or implementation choices for the parent requirement.
+  - id: MITIGATES
+    function: addresses a risk, failure mode, or abuse path linked to a functional requirement
+    description: Specialized relationship showing that the child requirement reduces a documented risk or failure condition associated with the parent requirement.
+  - id: IMPLEMENTS_CONTROL_FOR
+    function: implements a concrete control for a functional requirement
+    description: Specialized relationship showing that the child requirement defines an enforceable control, verification, or governance mechanism for the parent requirement.
   verification_method:
   - id: inspection
     description: Verified by human or deterministic inspection.

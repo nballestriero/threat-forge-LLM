@@ -29,6 +29,9 @@ nodes:
   type: ValidationTool
   path: tools/docs/generate-requirements-page.mjs
   description: Deterministic static requirements review page renderer.
+- id: requirement_relation_type
+  type: Taxonomy
+  description: Controlled taxonomy for specialized requirement-to-requirement relationship values.
 triples:
 - subject:
     id: MR-0001
@@ -969,3 +972,74 @@ triples:
   object:
     id: docs/reference/project-model/graph/requirements-governance.graph.yml
     type: Document
+
+- subject:
+    id: MR-0001
+    type: MacroRequirement
+  predicate: CONTAINS
+  object:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0038
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+- subject:
+    id: requirements-governance:DEC-0038
+    type: Decision
+  predicate: DECIDES
+  object:
+    id: requirement_relation_type
+    type: Taxonomy
+- subject:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+  predicate: DEPENDS_ON
+  object:
+    id: requirements-governance:REQ-0046
+    type: Requirement
+- subject:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/requirements/requirements-governance.requirements.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/decisions/requirements-governance.decisions.yml
+    type: Document
+- subject:
+    id: requirements-governance:REQ-0047
+    type: Requirement
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/graph/requirements-governance.graph.yml
+    type: Document
+- subject:
+    id: requirement_relation_type
+    type: Taxonomy
+  predicate: SPECIFIED_BY
+  object:
+    id: docs/reference/project-model/governance.registry.yml
+    type: Document
+- subject:
+    id: GATE-DOCS-FORMAT
+    type: Gate
+  predicate: VALIDATES
+  object:
+    id: requirement_relation_type
+    type: Taxonomy

@@ -254,3 +254,15 @@ decisions:
   - Functional requirement derived identity is computed from macro_requirement_id and the local REQ-xxxx id, for example MR-0001REQ-0001.
   - Specialized requirement derived identity is computed from the parent functional derived identity plus the local specialized id, for example MR-0001REQ-0001SEC-0001.
   - Schema, validator, graph, and requirements-page enforcement are deferred to a later implementation micropasso.
+
+- id: DEC-0038
+  title: Specialized requirement relationships use a controlled taxonomy
+  status: accepted
+  statement: Specialized requirement relationships shall be governed through the requirement_relation_type taxonomy before requirement records use or enforce REFINES, HARDENS, CONSTRAINS, MITIGATES, or IMPLEMENTS_CONTROL_FOR.
+  rationale: The project needs relationship names that are stable enough for manual analysis, generated review pages, future schemas, and semantic validators. Keeping the taxonomy separate from immediate enforcement lets maintainers continue reviewing existing functional requirements without introducing speculative specialized child records.
+  consequences:
+  - requirement_relation_type becomes the controlled vocabulary for specialized requirement-to-requirement relationships.
+  - REFINES, HARDENS, CONSTRAINS, MITIGATES, and IMPLEMENTS_CONTROL_FOR are introduced as governed taxonomy values with id, function, and description.
+  - Existing requirements remain type functional until manual review deliberately reclassifies or splits them.
+  - Schema fields, validator rules, graph predicates, and derived specialized identifiers are deferred to later implementation micropasses.
+  - New relationship values must be introduced through the governed registry, decision, and graph traceability flow instead of ad hoc requirement fields.
