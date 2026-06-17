@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0001-001
     statement: REQ-0021 requires explicit governed registry schemas and motivated controlled datasets.
@@ -98,7 +98,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0002-001
     statement: REQ-0021 requires explicit governed registry schemas.
@@ -165,7 +165,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0003-001
     statement: The Governance Registry JSON Schema artifact exists.
@@ -230,7 +230,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0004-001
     statement: The governance registry schema artifact exists.
@@ -293,7 +293,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0005-001
     statement: REQ-0021 requires explicit governed registry schemas.
@@ -360,7 +360,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0006-001
     statement: REQ-0021 requires explicit governed registry schemas.
@@ -434,7 +434,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0007-001
     statement: The Requirements Registry JSON Schema artifact exists.
@@ -501,7 +501,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0008-001
     statement: The graph matrix exists as a governed project-model artifact.
@@ -565,7 +565,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0009-001
     statement: REQ-0021 requires explicit governed registry schemas.
@@ -639,7 +639,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0010-001
     statement: The Graph Matrix JSON Schema artifact exists.
@@ -706,7 +706,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0011-001
     statement: Governed artifact schemas exist for project-model baseline artifacts.
@@ -772,7 +772,7 @@ requirements:
   status: accepted
   implementation_status: not_implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0021-001
     statement: The project has governed registries for governance, requirements, and graph relationships.
@@ -849,7 +849,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0041-001
     statement: The project_model_areas taxonomy is governed and semantically enforced.
@@ -915,7 +915,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0042-001
     statement: M000.024I extracted the schema-validation area across requirements, decisions, and graph parts.

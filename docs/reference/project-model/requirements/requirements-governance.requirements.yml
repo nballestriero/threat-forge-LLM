@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0008-001
     statement: The repository provides deterministic documentation governance validators.
@@ -103,7 +103,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0034-001
     statement: The governance, requirements, and graph matrix registries are schema-controlled baseline artifacts.
@@ -178,7 +178,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0035-001
     statement: REQ-0034 defines project-model modularization by governed area and canonical <area_id>:<local_id> identifiers.
@@ -253,7 +253,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0036-001
     statement: REQ-0035 introduces project_model_areas as a governed taxonomy contract.
@@ -321,7 +321,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0037-001
     statement: REQ-0034 defines the overall project model modularization model.
@@ -388,7 +388,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0039-001
     statement: REQ-0034 defines the overall project model modularization model.
@@ -459,7 +459,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0040-001
     statement: REQ-0034 defines the overall project model modularization direction.
@@ -526,7 +526,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0043-001
     statement: The schema-validation area has already been extracted into modular parts.
@@ -595,7 +595,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0044-001
     statement: Requirements are loaded through the governed modular requirements index and area-owned requirements parts.
@@ -664,7 +664,7 @@ requirements:
   status: accepted
   implementation_status: partially_implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0045-001
     statement: Requirements are loaded through area-owned requirements part files.
@@ -731,9 +731,9 @@ requirements:
   statement: The project shall define requirement type and requirement relationship taxonomies that separate functional requirements from specialized child requirements, keep area_id as a non-identifying micro-classification field, and derive globally unique requirement identifiers from macro requirement, parent functional requirement, and local specialized requirement identifiers.
   rationale: Requirement records should stay small while still allowing security, governance, schema, tooling, verification, operational, and quality concerns to be modeled without turning Markdown design notes into hidden requirements. Functional requirements can attach directly to macro requirements and controlled areas, while specialized requirements must be anchored to a functional requirement so their purpose and impact are traceable. area_id remains useful for filtering and organization but must not participate in identity, because requirement identity should be stable across reclassification.
   status: accepted
-  implementation_status: not_implemented
+  implementation_status: partially_implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0046-001
     statement: REQ-0045 removes derived classification fields from atomic requirement records and keeps area_id as a controlled classification field.

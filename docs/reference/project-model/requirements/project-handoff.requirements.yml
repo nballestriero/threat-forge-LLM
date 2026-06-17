@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0020-001
     statement: The project is available as a local repository checkout.

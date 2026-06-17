@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0003-001
     statement: Governed Markdown documents exist in the documentation corpus.
@@ -76,7 +76,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0007-001
     statement: The repository contains governed YAML project-model files.

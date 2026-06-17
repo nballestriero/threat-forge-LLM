@@ -218,6 +218,10 @@
         "description": {
           "$ref": "#/$defs/textBlock"
         },
+        "function": {
+          "$ref": "#/$defs/textBlock",
+          "description": "Optional purpose/function text for taxonomies whose governed values need an explicit behavioral role."
+        },
         "rationale": {
           "$ref": "#/$defs/textBlock"
         },

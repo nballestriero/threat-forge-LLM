@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0005-001
     statement: The graph matrix contains IMPLEMENTED_BY relationships involving source files.
@@ -119,7 +119,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0006-001
     statement: The repository declares validation commands as Command nodes in graph.matrix.yml.
@@ -188,7 +188,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0007-001
     statement: Governed source files declare file-level JSDoc traceability comments.
@@ -262,7 +262,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0008-001
     statement: Requirements declare status and implementation_status fields in governed part files.
@@ -351,7 +351,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0009-001
     statement: The graph matrix declares repository-backed nodes and SPO endpoints for source, schema, config, test, command, and validation-tool entities.
@@ -440,7 +440,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0010-001
     statement: Negative fixtures are stored under tools/docs/fixtures/negative in the real repository.
@@ -499,7 +499,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0011-001
     statement: Negative fixtures are stored as JSON files under tools/docs/fixtures/negative.
@@ -566,7 +566,7 @@ requirements:
   status: accepted
   implementation_status: not_implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0012-001
     statement: The repository uses docs:check as the pre-commit validation gate.
@@ -636,7 +636,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0013-001
     statement: The repository is inside a Git working tree.
@@ -705,7 +705,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0014-001
     statement: repo:check:clean is available as the canonical post-commit/pre-push cleanliness command.
@@ -765,7 +765,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0015-001
     statement: repo:check:clean is available as the canonical post-commit/pre-push cleanliness command.
@@ -850,7 +850,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0016-001
     statement: The repository uses artifacts/ for generated local outputs that are excluded from Git.

@@ -97,15 +97,32 @@ taxonomies:
     description: Explicitly excluded for now.
   requirement_type:
   - id: functional
-    description: Observable product behavior.
-  - id: non-functional
-    description: Quality attribute or constraint.
-  - id: documentation
-    description: Documentation corpus or documentation governance requirement.
-  - id: data
-    description: Data structure, registry, matrix, or graph model requirement.
+    function: defines what the system or governed project model must do
+    description: Requirement that describes observable behavior, governed model behavior, or expected project capability. Existing requirements start as functional until manual review reclassifies them.
+  - id: security-control
+    function: hardens a functional requirement with a security measure or constraint
+    description: Specialized requirement that adds security expectations and must be anchored to a functional requirement before enforcement.
+  - id: governance-control
+    function: controls project, documentation, or traceability governance
+    description: Specialized requirement that adds governance rules or control expectations and must be anchored to a functional requirement before enforcement.
+  - id: structural
+    function: constrains repository, file, directory, or modularization structure
+    description: Specialized requirement that defines structural boundaries or organization rules for governed artifacts.
+  - id: schema
+    function: defines required data shape, fields, or schema-backed contracts
+    description: Specialized requirement for JSON Schema, YAML, registry, matrix, or graph shape constraints.
+  - id: tooling
+    function: defines deterministic tool, command, validator, or generated artifact behavior
+    description: Specialized requirement for executable project tooling and command behavior.
+  - id: verification
+    function: defines evidence, test, control, gate, or negative fixture expectations
+    description: Specialized requirement for proving that governed behavior is checked and traceable.
   - id: operational
-    description: Tooling, workflow, validation, or repository operation requirement.
+    function: defines human workflow or process expectations
+    description: Specialized requirement for maintained operational procedures that are not purely executable tool behavior.
+  - id: quality
+    function: defines non-functional quality expectations
+    description: Specialized requirement for robustness, readability, maintainability, determinism, or similar qualities anchored to a functional requirement.
   verification_method:
   - id: inspection
     description: Verified by human or deterministic inspection.

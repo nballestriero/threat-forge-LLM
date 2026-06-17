@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0012-001
     statement: The repository has governed documentation, requirements, decisions, commands, tools, gates, and graph relationships.
@@ -143,7 +143,7 @@ requirements:
   status: accepted
   implementation_status: not_implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0014-001
     statement: The governance control report contract is defined.
@@ -249,7 +249,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0016-001
     statement: The governance control report contract requirement is accepted.
@@ -311,7 +311,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0017-001
     statement: The Governance Control Report JSON Schema contract exists.
@@ -387,7 +387,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0018-001
     statement: The Governance Control Report builder exists.
@@ -460,7 +460,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0019-001
     statement: The Governance Control Report builder exists.

@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: not_implemented
   priority: must
-  type: non-functional
+  type: functional
   preconditions:
   - id: PRE-REQ-0009-001
     statement: Runtime backend implementation has not yet started.
@@ -79,7 +79,7 @@ requirements:
   status: accepted
   implementation_status: not_implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0010-001
     statement: A runtime backend source tree exists.
@@ -139,7 +139,7 @@ requirements:
   status: accepted
   implementation_status: not_implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0011-001
     statement: A public backend API is introduced.

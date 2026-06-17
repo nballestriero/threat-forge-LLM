@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0001-001
     statement: The repository contains a docs directory.
@@ -84,7 +84,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0004-001
     statement: The repository contains the governed documentation corpus.

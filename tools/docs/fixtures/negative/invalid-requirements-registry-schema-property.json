@@ -6,8 +6,8 @@
   "mutations": [
     {
       "path": "docs/reference/project-model/requirements/markdown-format.requirements.yml",
-      "replace": "  type: documentation\n  preconditions:",
-      "with": "  type: documentation\n  unexpected_schema_field: invalid\n  preconditions:"
+      "replace": "  type: functional\n  preconditions:",
+      "with": "  type: functional\n  unexpected_schema_field: invalid\n  preconditions:"
     }
   ]
 }

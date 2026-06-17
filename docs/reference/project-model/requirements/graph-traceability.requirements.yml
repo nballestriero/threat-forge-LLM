@@ -26,7 +26,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: data
+  type: functional
   preconditions:
   - id: PRE-REQ-0002-001
     statement: The project has governed entities that require traceability.
@@ -76,7 +76,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: operational
+  type: functional
   preconditions:
   - id: PRE-REQ-0022-001
     statement: The project model registry, requirements registry, and graph matrix exist as governed baseline artifacts.
@@ -148,7 +148,7 @@ requirements:
   status: accepted
   implementation_status: implemented
   priority: must
-  type: documentation
+  type: functional
   preconditions:
   - id: PRE-REQ-0038-001
     statement: REQ-0034 defines the overall project model modularization model.
